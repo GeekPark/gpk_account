@@ -22,7 +22,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
@@ -54,8 +54,8 @@ group :development do
 
   gem 'quiet_assets'
 
-  # Code analyzer
-  gem 'rubocop', require: false
+  # Code analyzer TODO upgrade when rubocop release next version
+  gem 'rubocop', git: 'git@github.com:bbatsov/rubocop.git', branch: 'master', require: false
   gem 'overcommit', require: false
 end
 

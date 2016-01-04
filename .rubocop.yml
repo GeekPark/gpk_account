@@ -4,9 +4,10 @@ AllCops:
   Exclude:
     - config/initializers/forbidden_yaml.rb
     - !ruby/regexp /(vendor|bundle|bin|db)\/.*/
-  RunRailsCops: true
   DisplayCopNames: true
   DisplayStyleGuide: true
+  Rails:
+    Enabled: true
 
 Metrics/AbcSize:
   Max: 15

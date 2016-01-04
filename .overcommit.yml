@@ -16,14 +16,26 @@
 # Uncomment the following lines to make the configuration take effect.
 
 PreCommit:
- RuboCop:
-   enabled: true
-   on_warn: fail # Treat all warnings as failures
+  ALL:
+    required: false
+    on_warn: fail # Treat all warnings as failures
+    quiet: true
 
-#  TrailingWhitespace:
-#    exclude:
-#      - '**/db/structure.sql' # Ignore trailing whitespace in generated files
-#
+  BundleCheck:
+    enabled: true
+
+  RuboCop:
+    enabled: true
+    command: ['bundle', 'exec', 'rubocop']
+
+  YamlSyntax:
+    enabled: true
+
+CommitMsg:
+  ALL:
+    on_warn: fail # Treat all warnings as failures
+    quiet: true
+
 #PostCheckout:
 #  ALL: # Special hook name that customizes all hooks of this type
 #    quiet: true # Change all post-checkout hooks to only display output on failure
