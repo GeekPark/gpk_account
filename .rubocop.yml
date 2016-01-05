@@ -6,8 +6,9 @@ AllCops:
     - !ruby/regexp /(vendor|bundle|bin|db)\/.*/
   DisplayCopNames: true
   DisplayStyleGuide: true
-  Rails:
-    Enabled: true
+
+Rails:
+  Enabled: true
 
 Metrics/AbcSize:
   Max: 15

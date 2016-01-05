@@ -33,9 +33,13 @@ gem 'bcrypt', '~> 3.1.7'
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
-  # test
+  # Test
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails'
+
+  # Guard
+  gem 'guard-rspec', require: false
+  gem 'terminal-notifier-guard' # This need terminal-notifier, brew install it
 end
 
 group :development do
@@ -55,7 +59,7 @@ group :development do
   gem 'quiet_assets'
 
   # Code analyzer TODO upgrade when rubocop release next version
-  gem 'rubocop', git: 'git@github.com:bbatsov/rubocop.git', branch: 'master', require: false
+  gem 'rubocop', git: 'https://github.com/bbatsov/rubocop.git', branch: 'master', require: false
   gem 'overcommit', require: false
 end
 
