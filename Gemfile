@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.5'
+gem 'rails', '~> 4.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
 # Use SCSS for stylesheets
@@ -59,7 +59,7 @@ group :development do
   gem 'quiet_assets'
 
   # Code analyzer TODO upgrade when rubocop release next version
-  gem 'rubocop', git: 'https://github.com/bbatsov/rubocop.git', branch: 'master', require: false
+  gem 'rubocop', branch: 'master', require: false
   gem 'overcommit', require: false
 end
 
