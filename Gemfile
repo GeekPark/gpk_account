@@ -36,6 +36,7 @@ group :development, :test do
   # Test
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
 
   # Guard
   gem 'guard-rspec', require: false
