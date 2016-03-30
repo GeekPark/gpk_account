@@ -5,7 +5,7 @@ class FixUserHasSecurePasswordAndDeleteWechatId < ActiveRecord::Migration
   end
 
   def down
-    add_column :users, :wechat_id, :string, unique: true
+    add_column    :users, :wechat_id, :string, unique: true
     rename_column :users, :password_digest, :encrypted_password
   end
 end
