@@ -58,11 +58,10 @@ group :development do
 
   gem 'quiet_assets'
 
-  # Code analyzer TODO upgrade when rubocop release next version
-  gem 'rubocop', branch: 'master', require: false
+  gem 'rubocop', require: false
   gem 'overcommit', require: false
 end
 
 group :test do
-  gem 'codecov', require: false
+  gem 'codeclimate-test-reporter', require: false
 end

@@ -28,7 +28,7 @@ Metrics/MethodLength:
   Max: 15
 
 Metrics/PerceivedComplexity:
-  Max: 10 # TODO: Lower to 7
+  Max: 10
 
 Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
