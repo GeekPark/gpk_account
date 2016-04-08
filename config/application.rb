@@ -39,6 +39,7 @@ module GpkAccount
     config.generators do |g|
       g.helper false
       g.assets false
+      g.template_engine nil
       g.test_framework :rspec,
         fixtures: true,
         view_specs: false,
