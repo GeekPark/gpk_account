@@ -12,12 +12,12 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'POST #create' do
     it 'failed with wrong password' do
-      post :create, account_name: user.email, password: '123456'
+      post :create, loginname: user.email, password: '123456'
       expect(warden.user).to be_nil
     end
 
     it 'success with correct password' do
-      post :create, account_name: user.email, password: 'password'
+      post :create, loginname: user.email, password: 'password'
       expect(warden.user).to eq(user)
     end
   end
