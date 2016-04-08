@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2'
@@ -23,6 +23,9 @@ gem 'dotenv-rails', require: 'dotenv/rails-now'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
+
+# Use warden for user authenticate
+gem 'warden'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

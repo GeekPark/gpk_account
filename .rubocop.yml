@@ -4,6 +4,7 @@ AllCops:
   Exclude:
     - config/initializers/forbidden_yaml.rb
     - !ruby/regexp /(vendor|bundle|bin|db)\/.*/
+    - spec/support/warden.rb
   DisplayCopNames: true
   DisplayStyleGuide: true
 

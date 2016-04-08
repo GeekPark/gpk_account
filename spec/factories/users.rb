@@ -8,7 +8,7 @@ FactoryGirl.define do
       after(:create) { |user| create(:wechat_authorization, user: user) }
     end
 
-    trait :with_webo_authorization do
+    trait :with_weibo_authorization do
       after(:create) { |user| create(:weibo_authorization, user: user) }
     end
 
@@ -27,5 +27,8 @@ FactoryGirl.define do
     trait :with_username do
       sequence(:username) { |n| "user#{n}" }
     end
+
+    factory :full_user, traits: [:with_email, :with_mobile, :with_password, :with_username,
+                                 :with_wechat_authorization, :with_weibo_authorization]
   end
 end
