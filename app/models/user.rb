@@ -7,7 +7,20 @@ class User < ActiveRecord::Base
   validates_absence_of :password, message: 'please set the email or mobile first',
                                   if: ->(user) { user.email.blank? && user.mobile.blank? }
 
-  def self.find_by_email_or_mobile(param)
-    find_by('email = ? OR mobile = ?', param, param) if param
+  class << self
+    def find_by_email_or_mobile(param)
+      find_by('email = ? OR mobile = ?', param, param) if param
+    end
+
+    def create_with_omniauth(auth)
+      ActiveRecord::Base.transaction do
+        user = User.new(nickname: auth['info']['nickname'])
+        user.save(validate: false)
+        user.authorizations.create!(provider: auth['provider'], uid: auth['uid'])
+        user
+      end
+    rescue ActiveRecord::RecordInvalid
+      nil
+    end
   end
 end
