@@ -24,11 +24,11 @@ FactoryGirl.define do
       password 'password'
     end
 
-    trait :with_username do
-      sequence(:username) { |n| "user#{n}" }
+    trait :with_nickname do
+      sequence(:nickname) { |n| "user#{n}" }
     end
 
-    factory :full_user, traits: [:with_email, :with_mobile, :with_password, :with_username,
+    factory :full_user, traits: [:with_email, :with_mobile, :with_password, :with_nickname,
                                  :with_wechat_authorization, :with_weibo_authorization]
   end
 end

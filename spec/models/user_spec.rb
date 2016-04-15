@@ -23,4 +23,20 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe 'create_with_omniauth' do
+    let!(:user) { User.create_with_omniauth mock_wechat_auth }
+
+    it 'should create a user' do
+      expect(User.count).to eq(1)
+      expect(user).to be_valid
+      expect(user.authorizations.count).to eq(1)
+      expect(user.nickname).to eq('mockuser')
+    end
+
+    it 'should fail to create user when authorization validation failed' do
+      expect(User.create_with_omniauth(mock_wechat_auth)).to be_nil
+      expect(User.count).to eq(1)
+    end
+  end
 end

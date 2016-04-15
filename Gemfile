@@ -33,6 +33,9 @@ gem 'warden'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Omniauth
+gem 'omniauth-geekpark', '0.2.0'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
