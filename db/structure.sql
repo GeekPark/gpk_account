@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.1
--- Dumped by pg_dump version 9.5.1
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -97,7 +97,7 @@ CREATE TABLE users (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     email character varying,
     password_digest character varying DEFAULT ''::character varying NOT NULL,
-    username character varying,
+    nickname character varying,
     mobile character varying,
     remember_created_at timestamp without time zone,
     city integer,
@@ -162,10 +162,10 @@ CREATE UNIQUE INDEX index_users_on_mobile ON users USING btree (mobile);
 
 
 --
--- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_nickname; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_users_on_username ON users USING btree (username);
+CREATE INDEX index_users_on_nickname ON users USING btree (nickname);
 
 
 --
@@ -186,4 +186,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151217093303');
 INSERT INTO schema_migrations (version) VALUES ('20160309051216');
 
 INSERT INTO schema_migrations (version) VALUES ('20160328062125');
+
+INSERT INTO schema_migrations (version) VALUES ('20160414181524');
 

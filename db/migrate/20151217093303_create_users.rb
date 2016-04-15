@@ -8,7 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :encrypted_password, null: false, default: ""
 
       ## User other keys
-      t.string :username,  unique: true
+      t.string :username
       t.string :mobile,    unique: true
       t.string :wechat_id, unique: true
 
