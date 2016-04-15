@@ -1,5 +1,5 @@
 Rails.application.config.middleware.insert_after ActionDispatch::Flash, Warden::Manager do |manager|
-  manager.default_strategies :password
+  manager.default_strategies :password, :omniauth
   manager.failure_app = ->(env) { SessionsController.action(:new).call(env) }
 end
 
@@ -15,7 +15,20 @@ Warden::Strategies.add(:password) do
   end
 
   def authenticate!
-    u = User.find_by_email_or_mobile(params['loginname'])
-    u.try(:authenticate, params['password']) ? success!(u) : fail!('Invalid account name or password')
+    user = User.find_by_email_or_mobile(params['loginname'])
+    user.try(:authenticate, params['password']) ? success!(user) : fail!('Invalid account name or password')
+  end
+end
+
+Warden::Strategies.add(:omniauth) do
+  def valid?
+    request.env['omniauth.auth']
+  end
+
+  def authenticate!
+    auth = request.env['omniauth.auth']
+    authorization = Authorization.find_by_provider_and_uid(auth['provider'], auth['uid'])
+    user = authorization.try(:user) || User.create_with_omniauth(auth)
+    success!(user)
   end
 end

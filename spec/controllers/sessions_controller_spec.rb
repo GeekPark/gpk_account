@@ -11,14 +11,36 @@ RSpec.describe SessionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    it 'failed with wrong password' do
-      post :create, loginname: user.email, password: '123456'
-      expect(warden.user).to be_nil
+    context 'user login with password' do
+      it 'failed with wrong password' do
+        post :create, loginname: user.email, password: '123456'
+        expect(warden.user).to be_nil
+      end
+
+      it 'failed no warden strategies fetched' do
+        post :create
+        expect(warden.user).to be_nil
+      end
+
+      it 'success with correct password' do
+        post :create, loginname: user.email, password: 'password'
+        expect(warden.user).to eq(user)
+      end
     end
 
-    it 'success with correct password' do
-      post :create, loginname: user.email, password: 'password'
-      expect(warden.user).to eq(user)
+    context 'user login with omniauth' do
+      before { request.env['omniauth.auth'] = mock_wechat_auth }
+
+      it 'should successfully create a user when user first login' do
+        expect { post :create, provider: :wechat }.to change { User.count }.by(1)
+      end
+
+      it 'should login without create user when user exsit' do
+        user = User.create_with_omniauth(mock_wechat_auth)
+        expect { post :create, provider: :wechat }.to change { User.count }.by(0)
+
+        expect(warden.user).to eq(user)
+      end
     end
   end
 
