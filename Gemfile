@@ -41,6 +41,7 @@ gem 'omniauth-geekpark', '0.2.0'
 
 # API
 gem 'active_model_serializers', '~> 0.9.5'
+gem 'doorkeeper'
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
