@@ -27,6 +27,9 @@ gem 'bcrypt', '~> 3.1.7'
 # Use warden for user authenticate
 gem 'warden'
 
+# Captcha
+gem 'rucaptcha'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
