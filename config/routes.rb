@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  use_doorkeeper
   # User sessions controller
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
@@ -6,4 +7,6 @@ Rails.application.routes.draw do
 
   # Omniauth
   match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  # Captcha
+  mount RuCaptcha::Engine => '/rucaptcha'
 end

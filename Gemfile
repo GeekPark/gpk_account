@@ -27,6 +27,9 @@ gem 'bcrypt', '~> 3.1.7'
 # Use warden for user authenticate
 gem 'warden'
 
+# Captcha
+gem 'rucaptcha'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -35,6 +38,10 @@ gem 'warden'
 
 # Omniauth
 gem 'omniauth-geekpark', '0.2.0'
+
+# API
+gem 'active_model_serializers', '~> 0.9.5'
+gem 'doorkeeper'
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
