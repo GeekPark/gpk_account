@@ -49,5 +49,9 @@ module GpkAccount
         request_specs: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
+
+    config.browserify_rails.commandline_options =
+      '-t [ babelify --presets [ es2015 react stage-0 ]
+      --plugins [ syntax-async-functions ] ]'
   end
 end
