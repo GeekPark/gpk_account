@@ -86,7 +86,7 @@ ALTER SEQUENCE authorizations_id_seq OWNED BY authorizations.id;
 
 CREATE TABLE oauth_access_grants (
     id integer NOT NULL,
-    resource_owner_id integer NOT NULL,
+    resource_owner_id uuid NOT NULL,
     application_id integer NOT NULL,
     token character varying NOT NULL,
     expires_in integer NOT NULL,
@@ -122,7 +122,7 @@ ALTER SEQUENCE oauth_access_grants_id_seq OWNED BY oauth_access_grants.id;
 
 CREATE TABLE oauth_access_tokens (
     id integer NOT NULL,
-    resource_owner_id integer,
+    resource_owner_id uuid,
     application_id integer,
     token character varying NOT NULL,
     refresh_token character varying,
