@@ -39,6 +39,7 @@ ratings:
   - "**.module"
   - "**.php"
   - "**.py"
+  - "**.json"
 exclude_paths:
 - config/
 - db/
