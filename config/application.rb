@@ -49,5 +49,7 @@ module GpkAccount
         request_specs: false
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
+
+    config.browserify_rails.commandline_options = '-t [ babelify --extensions .jsx]'
   end
 end

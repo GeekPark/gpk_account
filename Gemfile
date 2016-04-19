@@ -43,6 +43,10 @@ gem 'omniauth-geekpark', '0.2.0'
 gem 'active_model_serializers', '~> 0.9.5'
 gem 'doorkeeper'
 
+# front-end
+gem 'browserify-rails'
+gem 'react-rails'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
