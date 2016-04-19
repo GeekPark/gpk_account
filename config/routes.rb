@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   use_doorkeeper
+  root 'sessions#new'
+
   # User sessions controller
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'

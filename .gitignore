@@ -19,3 +19,5 @@
 dump.rdb
 
 .env
+
+browserify-cache.json
