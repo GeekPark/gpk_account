@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>登陆 | 极客公园</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
-  <%= yield %>
+<body class="<%= controller_name%>-<%= action_name%>">
+  <div class="page-wrapper">
+    <%= yield %>
+  </div>
 </body>
 </html>
