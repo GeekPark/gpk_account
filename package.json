@@ -4,6 +4,7 @@
   "description": "[![Build Status](https://travis-ci.org/GeekPark/gpk_account.svg?branch=master)](https://travis-ci.org/GeekPark/gpk_account) [![Code Climate](https://codeclimate.com/github/GeekPark/gpk_account/badges/gpa.svg)](https://codeclimate.com/github/GeekPark/gpk_account) [![Test Coverage](https://codeclimate.com/github/GeekPark/gpk_account/badges/coverage.svg)](https://codeclimate.com/github/GeekPark/gpk_account/coverage) [![Issue Count](https://codeclimate.com/github/GeekPark/gpk_account/badges/issue_count.svg)](https://codeclimate.com/github/GeekPark/gpk_account)",
   "main": "index.js",
   "scripts": {
+    "start": "browser-sync start -p '127.0.0.1:3000' --no-notify --no-open -f 'app/assets/**/*.js' 'app/assets/**/*.jsx' 'app/assets/**/*.scss' 'app/view/**/*.html'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint app/assets/javascripts/ --ext .js,.jsx"
   },
@@ -21,6 +22,7 @@
     "browserify": "^13.0.0",
     "browserify-incremental": "^3.1.1",
     "react": "^15.0.1",
+    "react-dom": "^15.0.1",
     "react-router": "^2.3.0"
   },
   "devDependencies": {

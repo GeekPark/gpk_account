@@ -1,0 +1,22 @@
+@import 'normalize';
+@import 'variable';
+@import 'common';
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html {
+  font-size: 10px;
+}
+body {
+  font-size: 14px;
+  font-family: 'Helvetica Neue', 'Helvetica','Hiragino Sans GB', 'PingHei', 'PingFang SC', 'STHeitiSC-Light', 'Microsoft YaHei','Lantinghei SC', 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #222;
+}
+
+.sessions-new {
+  @import 'sessions/new';
+}
