@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  outline: none;
 }
 
 .tac {
@@ -98,7 +99,7 @@ input[type=password] {
   cursor: pointer;
 
   &:hover {
-    background-color: lighten($color-blue, 3%);
+    background-color: lighten($color-blue, 5%);
   }
 
   &.btn-large {
