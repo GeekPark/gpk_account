@@ -10,7 +10,7 @@ class Header extends React.Component {
           <div className="slogan">创新者的大本营</div>
         </div>
         <div className="switch-button">
-          <Link to="login" activeClassName="active">登陆</Link>
+          <Link to="login" activeClassName="active">登录</Link>
           <Link to="signup" activeClassName="active">注册</Link>
         </div>
       </div>

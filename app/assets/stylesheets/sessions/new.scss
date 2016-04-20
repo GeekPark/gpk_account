@@ -39,7 +39,7 @@
     color: #fff;
 
     .slogan {
-      margin: 20px;
+      margin: 15px;
       letter-spacing: 2px;
       opacity: 1;
       font-size: 1.4rem;
@@ -66,7 +66,8 @@
       color: #777;
 
       &.active {
-        color: #222;
+        color: #7d7d7d;
+        font-weight: 600;
       }
 
       &:hover {
@@ -74,7 +75,7 @@
       }
     }
 
-    .login::after {
+    a:first-child::after {
       position: absolute;
       right: -0.5px;
       top: 25%;
@@ -85,12 +86,12 @@
       background-color: #eee;
     }
 
-    &:hover .login::after {
+    &:hover a:first-child::after {
       display: none;
     }
   }
 
-  .login-form {
+  .form-wrapper {
     width: 250px;
     margin-left: auto;
     margin-right: auto;
