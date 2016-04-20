@@ -6,6 +6,27 @@
   text-align: center;
 }
 
+.dib-middle {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+  -webkit-user-select: none;
+}
+
+input[type=checkbox] {
+  margin-right: 5px;
+  position: relative;
+  top: -1px;
+  outline: none;
+
+  &:focus {
+    border: none;
+  }
+}
+
 input[type=text],
 input[type=password] {
   outline: none;
@@ -33,7 +54,6 @@ input[type=password] {
   border-radius: 2px;
   color: #fff;
   letter-spacing: 2px;
-  transition: all .3s;
   cursor: pointer;
 
   &:hover {
@@ -53,5 +73,39 @@ input[type=password] {
     background-color: lighten($color-blue, 20%);
     border-color: lighten($color-blue, 10%);
     cursor: wait;
+  }
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.space-around {
+  display: flex;
+  justify-content: space-around;
+}
+
+.iconfont.social-icon {
+  display: inline-block;
+  font-size: 20px;
+  color: $color-dark;
+  background-color: #efefef;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  border-radius: 50%;
+
+  &:hover {
+    color: #fff;
+
+    &.icon-weibo {
+      background-color: #f3122b;
+    }
+
+    &.icon-wechat {
+      background-color: #17b64c;
+    }
   }
 }

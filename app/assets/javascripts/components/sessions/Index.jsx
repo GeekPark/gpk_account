@@ -12,7 +12,7 @@ class Session extends React.Component {
         <Route path="/" component={Wrapper}>
           <IndexRoute component={Login} />
           <Route path="login" component={Login} />
-          <Route path="register" component={Register} />
+          <Route path="signup" component={Register} />
         </Route>
       </Router>
     );

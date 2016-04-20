@@ -1,6 +1,7 @@
 @import 'normalize';
-@import 'variable';
-@import 'common';
+@import 'share/variable';
+@import 'share/common';
+@import 'share/icon';
 
 a {
   text-decoration: none;
