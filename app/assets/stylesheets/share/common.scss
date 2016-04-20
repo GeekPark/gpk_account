@@ -1,0 +1,153 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+.tac {
+  text-align: center;
+}
+
+.tar {
+  text-align: right;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.dib-middle {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+  -webkit-user-select: none;
+}
+
+input[type=checkbox] {
+  margin-right: 5px;
+  position: relative;
+  top: -1px;
+  outline: none;
+
+  &:focus {
+    border: none;
+  }
+}
+
+$input-height: 45px;
+
+input[type=text],
+input[type=password] {
+  outline: none;
+  border: 1px solid #dedede;
+  padding: 0 8px;
+  transition: all 0.3s;
+  height: $input-height;
+  font-size: 1.5rem;
+  width: 100%;
+  -webkit-appearance: none;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  color: #aeaeae;
+
+  &:focus {
+    border-color: #aaa;
+    color: #333;
+  }
+}
+
+.form-group {
+  position: relative;
+  .form-side {
+    right: 1px;
+    position: absolute;
+    top: 1px;
+    height: $input-height - 2px;
+    font-size: 1.3rem;
+    padding: 0 15px;
+    color: #aeaeae;
+    cursor: pointer;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    transition: all .3s;
+
+    &:hover {
+      background-color: #f5f5f5;
+      color: #333;
+    }
+  }
+}
+
+input[type=password] {
+  letter-spacing: 2px;
+}
+
+.btn {
+  background: $color-blue;
+  border: 1px solid darken($color-blue, 3%);
+  border-bottom-width: 2px;
+  border-radius: 2px;
+  color: #fff;
+  letter-spacing: 2px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten($color-blue, 5%);
+  }
+
+  &.btn-large {
+    line-height: $input-height - 10px;
+    width: 100%;
+  }
+
+  &.btn-inline {
+    padding: 5px 25px;
+  }
+
+  &.is-inactive {
+    background-color: lighten($color-blue, 20%);
+    border-color: lighten($color-blue, 10%);
+    cursor: wait;
+  }
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.space-around {
+  display: flex;
+  justify-content: space-around;
+}
+
+.iconfont.social-icon {
+  display: inline-block;
+  font-size: 20px;
+  color: $color-dark;
+  background-color: #efefef;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+  border-radius: 50%;
+
+  &:hover {
+    color: #fff;
+
+    &.icon-weibo {
+      background-color: #f3122b;
+    }
+
+    &.icon-wechat {
+      background-color: #17b64c;
+    }
+  }
+}

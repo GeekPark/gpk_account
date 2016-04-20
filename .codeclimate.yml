@@ -40,6 +40,7 @@ ratings:
   - "**.php"
   - "**.py"
   - "**.json"
+  - "**.scss"
 exclude_paths:
 - config/
 - db/
