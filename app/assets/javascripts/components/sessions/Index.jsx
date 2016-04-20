@@ -5,6 +5,7 @@ import Transition from '../Transition';
 import Wrapper from './Wrapper';
 import Login from './Login';
 import Register from './Register';
+import ResetPassword from './ResetPassword';
 
 const T = props => (
   <Transition {...props}>
@@ -22,6 +23,7 @@ class Session extends React.Component {
           <IndexRoute component={Login} />
           <Route path="login" component={Login} />
           <Route path="signup" component={Register} />
+          <Route path="reset" component={ResetPassword} />
         </Route>
       </Router>
     );

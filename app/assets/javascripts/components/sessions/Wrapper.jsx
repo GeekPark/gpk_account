@@ -17,7 +17,7 @@ class Wrapper extends React.Component {
 
 Wrapper.propTypes = {
   children: PropTypes.element.isRequired,
-  style: PropTypes.object.isRequired,
+  style: PropTypes.object,
 };
 
 export default Wrapper;

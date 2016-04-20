@@ -40,7 +40,7 @@ input[type=checkbox] {
   }
 }
 
-$input-height: 40px;
+$input-height: 45px;
 
 input[type=text],
 input[type=password] {
@@ -103,7 +103,7 @@ input[type=password] {
   }
 
   &.btn-large {
-    line-height: 2;
+    line-height: $input-height - 10px;
     width: 100%;
   }
 

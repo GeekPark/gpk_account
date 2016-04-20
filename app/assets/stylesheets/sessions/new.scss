@@ -14,7 +14,7 @@
 }
 
 .extra-info {
-  margin: 5px 0;
+  margin: 8px 0;
   font-size: 1.3rem;
 }
 
@@ -64,10 +64,12 @@
 
   .switch-button {
     margin: 10px 0;
+    display: flex;
     a {
       position: relative;
       display: inline-block;
-      padding: 8px 48px;
+      line-height: 40px;
+      width: 50%;
       color: #777;
 
       &.active {
@@ -97,7 +99,7 @@
   }
 
   .form-wrapper {
-    width: 250px;
+    width: 280px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -132,5 +134,20 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
+  }
+}
+
+.form-reset {
+  .form-title {
+    font-size: 2rem;
+    color: #222;
+    margin: 0;
+  }
+
+  .form-desc {
+    margin: 0;
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 20px;
   }
 }
