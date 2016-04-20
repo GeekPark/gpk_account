@@ -6,8 +6,10 @@ class Wrapper extends React.Component {
   render() {
     return (
       <div className="page-container">
-        <Header />
-        {this.props.children}
+        <div className="page-container-style" style={this.props.style}>
+          <Header />
+          {this.props.children}
+        </div>
       </div>
     );
   }
@@ -15,6 +17,7 @@ class Wrapper extends React.Component {
 
 Wrapper.propTypes = {
   children: PropTypes.element.isRequired,
+  style: PropTypes.object.isRequired,
 };
 
 export default Wrapper;
