@@ -9,7 +9,8 @@ Doorkeeper.configure do
   end
 
   resource_owner_from_credentials do
-    user = User.find_by_email_or_mobile(params['loginname'])
+    env['warden'].custom_failure!
+    user = User.find_by_email_or_mobile(params['username'])
     user.try(:authenticate, params['password'])
   end
 
