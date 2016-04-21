@@ -121,3 +121,7 @@ en:
           applications: 'Applications'
       application:
         title: 'OAuth authorization required'
+    scopes:
+      public: 'Access your public data'
+      write: 'Update your information'
+      admin: 'Change your preferences'
