@@ -10,4 +10,11 @@ class UsersController < ApplicationController
 
   def create
   end
+
+  def send_verify_code
+  end
+
+  def check_exist
+    render json: { exist: User.find_by_email_or_mobile(params[:loginname]).present? }
+  end
 end
