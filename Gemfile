@@ -53,6 +53,11 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails'
 
+  # Front-end tests
+  gem 'coffee-rails'
+  gem 'teaspoon-mocha'
+  gem 'guard-teaspoon'
+
   # Guard
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard' # This need terminal-notifier, brew install it
@@ -76,6 +81,8 @@ group :development do
 
   gem 'rubocop', require: false
   gem 'overcommit', require: false
+
+  gem 'guard-livereload', require: false
 end
 
 group :test do

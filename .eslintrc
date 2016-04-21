@@ -1,5 +1,8 @@
 {
   "extends": "airbnb",
+  "env": {
+    "mocha": true,
+  },
   "rules": {
     "react/prefer-stateless-function": 0,
     "max-len": 0,
@@ -7,5 +10,10 @@
     "no-script-url": 0,
     "no-alert": 0,
     "no-console": 0,
+  },
+  "globals": {
+    "expect": 0,
+    "assert": 0,
+    "should": 0,
   }
 }
