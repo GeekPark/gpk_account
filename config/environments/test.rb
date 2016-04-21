@@ -37,6 +37,9 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Through javascript test file by browserify rails
+  config.browserify_rails.paths << -> (p) { p.start_with?(Rails.root.join('spec/javascripts').to_s) }
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

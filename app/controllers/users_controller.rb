@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   def new
-    render 'shared/session'
+    render text: '', layout: true
   end
 
   def show
