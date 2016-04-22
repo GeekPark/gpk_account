@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   def new
-    render text: '', layout: true
   end
 
   def show

@@ -43,20 +43,12 @@ gem 'omniauth-geekpark', '0.2.0'
 gem 'active_model_serializers', '~> 0.9.5'
 gem 'doorkeeper'
 
-# front-end
-gem 'browserify-rails'
-
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
   # Test
   gem 'rspec-rails', '~> 3.0'
   gem 'factory_girl_rails'
-
-  # Front-end tests
-  gem 'coffee-rails'
-  gem 'teaspoon-mocha'
-  gem 'guard-teaspoon'
 
   # Guard
   gem 'guard-rspec', require: false
@@ -81,8 +73,6 @@ group :development do
 
   gem 'rubocop', require: false
   gem 'overcommit', require: false
-
-  gem 'guard-livereload', require: false
 end
 
 group :test do
