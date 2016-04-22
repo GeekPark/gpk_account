@@ -1,19 +1,19 @@
 import React, { PropTypes } from 'react';
 
-import Header from './Header.jsx';
+import Header from './Header';
+import Modal from '../Modal';
 
-class Wrapper extends React.Component {
-  render() {
-    return (
-      <div className="page-container">
-        <div className="page-container-style" style={this.props.style}>
-          <Header />
-          {this.props.children}
-        </div>
+const Wrapper = ({ children, style }) => (
+  <div>
+    <div className="page-container">
+      <div className="page-container-style" style={style}>
+        <Header />
+        {children}
       </div>
-    );
-  }
-}
+    </div>
+    <Modal />
+  </div>
+);
 
 Wrapper.propTypes = {
   children: PropTypes.element.isRequired,

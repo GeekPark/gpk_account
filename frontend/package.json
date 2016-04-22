@@ -6,6 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --inline --hot",
     "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "eslint src/ --ext .js,.jsx",
     "g": "npm run clean && NODE_ENV=production webpack -p --config webpack.config.prod.babel.js",
     "clean": "rm -f ../public/static/*"
