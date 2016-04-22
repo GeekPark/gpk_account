@@ -1,6 +1,8 @@
 import path from 'path';
 import webpack from 'webpack';
 
+const ISDEV = process.env.NODE_ENV !== 'production';
+
 const config = {
   context: __dirname,
   entry: {
@@ -20,13 +22,14 @@ const config = {
   module: {
     loaders: [
       { test: /\.(png|jpg)$/, loader: 'url-loader?mimetype=image/png' },
-      { test: /\.jsx?$/, loader: 'babel!webpack-module-hot-accept', exclude: /node_modules/ },
+      { test: /\.jsx?$/, loader: ISDEV ? 'babel!webpack-module-hot-accept' : 'babel', exclude: /node_modules/ },
     ],
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env.API_URL': JSON.stringify(process.env.API_URL),
-      ISDEV: JSON.stringify(process.env.NODE_ENV !== 'production'),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      ISDEV: JSON.stringify(ISDEV),
     }),
   ],
   externals: {
