@@ -50,9 +50,8 @@ module GpkAccount
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
 
-    config.browserify_rails.commandline_options = [
-      '-t babelify',
-      '--extension=".jsx"'
-    ]
+    config.webpack = {
+      asset_manifest: {}
+    }
   end
 end

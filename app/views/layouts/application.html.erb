@@ -9,7 +9,8 @@
 </head>
 <body class="<%= controller_name%>-<%= action_name%>">
   <div class="page-wrapper">
-    <div id="component-session"></div>
+    <%= yield %>
   </div>
+  <%= webpack_javascript_include_tag 'sessions' %>
 </body>
 </html>
