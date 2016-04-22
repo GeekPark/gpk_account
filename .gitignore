@@ -21,3 +21,5 @@ dump.rdb
 .env
 
 node_modules/
+
+/public/static
