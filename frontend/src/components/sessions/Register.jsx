@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import SocialLogin from './SocialLogin';
 import PasswordInput from './PasswordInput';
+
+import { isNotEmpty, isPhoneNumber } from '../../share/validator';
+import { openModal } from '../../actions';
 
 class Register extends React.Component {
   constructor() {
     super();
     this.state = {
       isEmail: false,
+      showValidate: true,
     };
 
     this.toggleType = () => {
@@ -14,7 +18,10 @@ class Register extends React.Component {
       this.refs.firstInput.focus();
     };
 
-    this.getCode = () => 'getCode';
+    this.getCode = () => {
+      const v = this.refs.firstInput.value;
+      if (isNotEmpty(v) && isPhoneNumber(v)) this.props.dispatch(openModal('ValidatorIMG'));
+    };
   }
   render() {
     const { isEmail } = this.state;
@@ -39,5 +46,9 @@ class Register extends React.Component {
     );
   }
 }
+
+Register.propTypes = {
+  dispatch: PropTypes.func,
+};
 
 export default Register;
