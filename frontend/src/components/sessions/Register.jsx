@@ -7,6 +7,7 @@ class Register extends React.Component {
     super();
     this.state = {
       isEmail: false,
+      showValidate: true,
     };
 
     this.toggleType = () => {
