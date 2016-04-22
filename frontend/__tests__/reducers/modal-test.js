@@ -7,7 +7,7 @@ import modal from '../../src/reducers/modal';
 describe('modal reducer', () => {
   const before = {
     isOpen: false,
-    children: null,
+    modalName: null,
   };
 
   deepFreeze(before);
@@ -15,17 +15,17 @@ describe('modal reducer', () => {
   it('open modal', () => {
     const after = {
       isOpen: true,
-      children: 2,
+      modalName: 2,
     };
 
     expect(
-      modal(before, { type: 'OPEN_MODAL', children: 2 })
+      modal(before, { type: 'OPEN_MODAL', modalName: 2 })
     ).toEqual(after);
   });
 
   it('close modal', () => {
     expect(modal(before, { type: 'CLOSE_MODAL' })).toEqual({
-      isOpen: false, children: null,
+      isOpen: false, modalName: null,
     });
   });
 });

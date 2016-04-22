@@ -22,7 +22,7 @@ const config = {
   module: {
     loaders: [
       { test: /\.(png|jpg)$/, loader: 'url-loader?mimetype=image/png' },
-      { test: /\.jsx?$/, loader: ISDEV ? 'babel!webpack-module-hot-accept' : 'babel', exclude: /node_modules/ },
+      { test: /\.jsx?$/, loader: ISDEV ? 'react-hot!babel' : 'babel', exclude: /node_modules/ },
     ],
   },
   plugins: [
