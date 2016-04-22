@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/flypiggy/rucaptcha.git
+  revision: b849860146b13252cda76a43e613c5c9691c926a
+  specs:
+    rucaptcha (0.4.0)
+      posix-spawn (>= 0.3.0)
+
 GEM
   remote: https://gems.ruby-china.org/
   specs:
@@ -233,8 +240,6 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.7.5)
-    rucaptcha (0.4.0)
-      posix-spawn (>= 0.3.0)
     sass (3.4.22)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -300,7 +305,7 @@ DEPENDENCIES
   rails (~> 4.2)
   rspec-rails (~> 3.0)
   rubocop
-  rucaptcha
+  rucaptcha!
   sass-rails (~> 5.0)
   spring
   terminal-notifier-guard

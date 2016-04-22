@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   # User signup
   get 'signup', to: 'users#new'
   post 'signup', to: 'users#create'
+  get 'check_exist', to: 'users#check_exist'
+  get 'send_verify_code', to: 'users#send_verify_code'
 
   resource 'user', path: 'my', except: [:edit, :destroy] do
   end
