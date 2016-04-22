@@ -1,5 +1,3 @@
-require 'socket'
-
 module ApplicationHelper
   def webpack_javascript_include_tag(name)
     if Rails.configuration.webpack[:manifest]
@@ -17,12 +15,10 @@ module ApplicationHelper
       "#{Rails.configuration.cdn}/static/#{asset_name}"
     elsif asset_name.present?
       "/static/#{asset_name}"
+    elsif request.port == 8080
+      "/static/#{name}.js"
     else
-      "//#{local_ip}:8080/static/#{name}.js"
+      "//localhost:8080/static/#{name}.js"
     end
-  end
-
-  def local_ip
-    Socket.getaddrinfo(Socket.gethostname, 'echo', Socket::AF_INET)[0][3]
   end
 end

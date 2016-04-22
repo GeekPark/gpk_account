@@ -20,7 +20,7 @@ const config = {
   module: {
     loaders: [
       { test: /\.(png|jpg)$/, loader: 'url-loader?mimetype=image/png' },
-      { test: /\.jsx?$/, loaders: ['babel', 'webpack-module-hot-accept'] },
+      { test: /\.jsx?$/, loader: 'babel!webpack-module-hot-accept', exclude: /node_modules/ },
     ],
   },
   plugins: [
