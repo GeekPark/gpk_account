@@ -28,7 +28,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'warden'
 
 # Captcha
-gem 'rucaptcha'
+gem 'rucaptcha', git: 'https://github.com/flypiggy/rucaptcha.git'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

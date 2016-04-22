@@ -11,11 +11,11 @@ end
 
 Warden::Strategies.add(:password) do
   def valid?
-    params['loginname'] && params['password']
+    params['login_name'] && params['password']
   end
 
   def authenticate!
-    user = User.find_by_email_or_mobile(params['loginname'])
+    user = User.find_by_email_or_mobile(params['login_name'])
     user.try(:authenticate, params['password']) ? success!(user) : fail!('Invalid account name or password')
   end
 end
