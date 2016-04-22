@@ -6,7 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server --inline --hot",
     "test": "jest",
-    "lint": "eslint app/assets/javascripts/ --ext .js,.jsx"
+    "lint": "eslint app/assets/javascripts/ --ext .js,.jsx",
+    "g": "npm run clean && NODE_ENV=production webpack -p --config webpack.config.prod.babel.js",
+    "clean": "rm -f ../public/static/*"
   },
   "repository": {
     "type": "git",
@@ -43,6 +45,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1",
+    "webpack-manifest-plugin": "^1.0.0",
     "webpack-module-hot-accept": "^1.0.4"
   }
 }
