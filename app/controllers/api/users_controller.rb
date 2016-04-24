@@ -17,10 +17,4 @@ class Api::UsersController < Api::BaseController
   def user_params
     params.permit(:nickname, :city, :company, :title, :bio)
   end
-
-  def default_serializer_options
-    {
-      root: false
-    }
-  end
 end

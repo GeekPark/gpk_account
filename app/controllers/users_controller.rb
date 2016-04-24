@@ -9,6 +9,13 @@ class UsersController < ApplicationController
   end
 
   def create
+    if verify_code?
+      user = User.create!(user_create_params)
+      warden.set_user(user)
+      render json: user
+    else
+      render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
+    end
   end
 
   def send_verify_code
@@ -31,8 +38,16 @@ class UsersController < ApplicationController
   end
 
   def send_register_code
+    Rails.cache.fetch "verify_code:#{login_name}", expires_in: 30.minutes do
+      rand(100_000..999_999).to_s
+    end
     # Mocked
-    render json: { success: 'sended' }
+    render json: { success: 'Sended' }
+  end
+
+  def verify_code?
+    code = Rails.cache.fetch "verify_code:#{login_name}"
+    code.present? && code == params[:verify_code]
   end
 
   def login_name
