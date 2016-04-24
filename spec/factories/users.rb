@@ -30,5 +30,6 @@ FactoryGirl.define do
 
     factory :full_user, traits: [:with_email, :with_mobile, :with_password, :with_nickname,
                                  :with_wechat_authorization, :with_weibo_authorization]
+    factory :basic_user, traits: [:with_email, :with_password]
   end
 end
