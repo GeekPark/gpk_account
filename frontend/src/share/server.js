@@ -9,3 +9,14 @@ export function validateCaptcha({ str, user }) {
     },
   });
 }
+
+export function createUser({ verify_code, user }) {
+  return $.ajax({
+    url: '/signup',
+    method: 'POST',
+    data: {
+      verify_code,
+      user,
+    },
+  });
+}

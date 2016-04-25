@@ -17,7 +17,7 @@ class PasswordInput extends React.Component {
   render() {
     return (
       <div className={`form-group ${this.props.className}`}>
-        <input type={this.state.inputType} placeholder={this.props.placeholder} ref="input" />
+        <input type={this.state.inputType} placeholder={this.props.placeholder} ref="input" onChange={this.props.onChange} />
         <div className="form-side" onClick={this.toggleType}>
           <i className={`iconfont icon-eye ${this.state.inputType === 'text' ? 'active' : ''}`}></i>
         </div>
@@ -29,6 +29,7 @@ class PasswordInput extends React.Component {
 PasswordInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
   className: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default PasswordInput;

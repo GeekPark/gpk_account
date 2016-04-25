@@ -13,8 +13,8 @@ describe('verifyCode reducer', () => {
 
   deepFreeze(before);
 
-  it('first send', () => {
-    const after = {
+  it('first send validate code', () => {
+    const afterSend = {
       isFirst: false,
       pending: true,
       countdown: 60,
@@ -22,11 +22,11 @@ describe('verifyCode reducer', () => {
 
     expect(
       verifyCode(before, { type: 'SEND_VERIFY_CODE' })
-    ).toEqual(after);
+    ).toEqual(afterSend);
   });
 
-  it('reset countdown', () => {
-    const after = {
+  it('reset countdown when 60s later', () => {
+    const afterReset = {
       isFirst: false,
       pending: false,
       countdown: 0,
@@ -34,6 +34,6 @@ describe('verifyCode reducer', () => {
 
     expect(
       verifyCode(before, { type: 'RESET_VERIFY_CODE' })
-    ).toEqual(after);
+    ).toEqual(afterReset);
   });
 });

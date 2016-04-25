@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import ValidatorIMG from './modals/ValidatorIMG';
 import Default from './modals/Default';
-import { closeModal, sendVerifyCode } from '../actions';
+import { closeModal, sendVerifyCode, validateUser } from '../actions';
 
 const components = {
   ValidatorIMG,
@@ -44,6 +44,7 @@ const mapStateToProps = state => ({ ...state });
 const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(closeModal()),
   sendVerifyCode: () => dispatch(sendVerifyCode()),
+  validateUser: () => dispatch(validateUser()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);
