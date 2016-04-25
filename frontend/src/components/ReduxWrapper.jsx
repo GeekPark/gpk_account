@@ -9,11 +9,9 @@ const store = createStore(reducers, {},
 );
 
 const ReduxWrapper = props => (
-  <div>
-    <Provider store={store}>
-      {props.children}
-    </Provider>
-  </div>
+  <Provider store={store}>
+    {props.children}
+  </Provider>
 );
 
 ReduxWrapper.propTypes = {
