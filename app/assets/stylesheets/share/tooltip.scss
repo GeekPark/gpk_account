@@ -4,41 +4,65 @@
   .tooltip-message {
     position: absolute;
     display: inline-block;
-    right: -15px;
-    top: 50%;
+    top: -15px;
+    left: 0;
     background-color: #fff;
     padding: 5px 10px;
     border-radius: 3px;
     -webkit-user-select: none;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
     transition: all .2s;
-    transform: scaleX(0) translate(100%, -50%);
+    transform: scaleY(0) translate(0, -100%);
     transform-origin: right;
 
     &.show {
-      transform: scaleX(1) translate(100%, -50%);
+      transform: scaleY(1) translate(0, -100%);
     }
 
     &::before {
       content: '';
       display: block;
       position: absolute;
-      left: -8px;
-      top: 50%;
-      transform: translateY(-50%);
+      left: 10px;
+      bottom: -7px;
       width: 0;
       height: 0;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      border-right: 8px solid #fff;
+      border: 8px solid transparent;
+      border-top-color: #fff;
     }
 
     &.status-error {
-      background-color: #F76262;
+      background-color: $color-red;
       color: #fff;
 
       &::before {
-        border-right-color: #F76262;
+        border-top-color: $color-red;
+      }
+    }
+  }
+
+  &.direction-right {
+    .tooltip-message {
+      left: auto;
+      right: -15px;
+      top: 50%;
+      bottom: auto;
+      transform: scaleX(0) translate(100%, -50%);
+
+      &.show {
+        transform: scaleX(1) translate(100%, -50%);
+      }
+
+      &::before {
+        border-color: transparent;
+        border-right-color: #fff;
+        left: -16px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      &.status-error::before {
+        border-right-color: $color-red;
       }
     }
   }

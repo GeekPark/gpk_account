@@ -5,7 +5,7 @@ class Tooltip extends React.Component {
     const { children, className, info } = this.props;
     const { msg, type, isShow } = info;
     return (
-      <div className={`tooltip-wrapper ${className}`}>
+      <div className={`tooltip-wrapper direction-right ${className}`}>
         {children}
         <span className={`tooltip-message status-${type} ${isShow ? 'show' : ''}`}>
           {msg}

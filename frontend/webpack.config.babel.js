@@ -15,7 +15,7 @@ const config = {
   },
   resolve: {
     root: [
-      path.join(__dirname, 'src/'),
+      path.resolve('./src'),
     ],
     extensions: ['', '.js', '.jsx'],
   },
