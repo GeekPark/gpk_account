@@ -6,7 +6,7 @@ import PasswordInput from './PasswordInput';
 import Tooltip from '../Tooltip';
 
 import { isNotEmpty, isPhoneNumber, isEmail as isValidateEmail } from '../../share/validator';
-import { openModal } from '../../actions';
+import { openModal, updateUser } from '../../actions';
 
 const overlayStyle = {
   overlay: { backgroundColor: 'rgba(37, 37, 37, 0.7)' },
@@ -42,6 +42,7 @@ class Register extends React.Component {
 
       if (!isNotEmpty(v)) {
         err(`${type}不能为空`);
+        dom.focus();
         return;
       }
 
@@ -49,8 +50,13 @@ class Register extends React.Component {
         (isEmail && !isValidateEmail(v)) || (!isEmail && !isPhoneNumber(v))
       ) {
         err(`${type}格式不对`);
+        dom.focus();
         return;
       } else {
+        this.props.dispatch(updateUser({
+          isEmail: this.state.isEmail,
+          id: v,
+        }));
         this.props.dispatch(openModal('ValidatorIMG', overlayStyle));
       }
     };

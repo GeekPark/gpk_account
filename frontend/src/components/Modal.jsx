@@ -28,7 +28,7 @@ class Modal extends React.Component {
     const style = deepAssign(defaultStyles, modalStyle);
     return (
       <ReactModal isOpen={isOpen} style={style} className={`modal-${modalName}`}>
-        <Comp onClose={this.props.onClose} />
+        <Comp {...this.props} />
       </ReactModal>
     );
   }
@@ -36,6 +36,7 @@ class Modal extends React.Component {
 
 Modal.propTypes = {
   modal: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

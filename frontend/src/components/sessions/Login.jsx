@@ -7,8 +7,8 @@ class Login extends React.Component {
   render() {
     return (
       <div className="form-wrapper">
-        <input type="text" placeholder="手机号码/邮箱" autoFocus />
-        <input type="password" placeholder="密码" />
+        <input type="text" placeholder="手机号码/邮箱" autoFocus className="mb-input" />
+        <input type="password" placeholder="密码" className="mb-input" />
         <button className="btn btn-large">立即登录</button>
         <div className="space-between extra-info">
           <div className="rember-me">
