@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import ReduxThunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose } from 'redux';
 
 import reducers from 'reducers/index';
 
-const store = createStore(reducers, {},
+const store = createStore(reducers, {}, compose(
+  applyMiddleware(ReduxThunk),
   window.devToolsExtension ? window.devToolsExtension() : undefined
-);
+));
 
 const ReduxWrapper = props => (
   <Provider store={store}>
