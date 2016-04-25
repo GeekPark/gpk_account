@@ -1,6 +1,5 @@
 import { UPDATE_USER } from '../actions';
 
-// type: phone|email|weibo|weixin
 const before = {
   isEmail: false,
   id: '',
