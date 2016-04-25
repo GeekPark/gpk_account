@@ -54,7 +54,7 @@ input[type=password] {
   -webkit-appearance: none;
   border-radius: 2px;
   color: #aeaeae;
-  line-height: 1;
+  line-height: $input-height;
 
   &:focus {
     border-color: #aaa;

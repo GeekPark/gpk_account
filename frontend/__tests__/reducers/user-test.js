@@ -8,6 +8,7 @@ describe('user reducer', () => {
   const before = {
     isEmail: false,
     id: '',
+    isValidated: false,
   };
 
   deepFreeze(before);
@@ -16,13 +17,23 @@ describe('user reducer', () => {
     const after = {
       isEmail: true,
       id: 'test@geekpark.net',
+      isValidated: false,
     };
 
     expect(
       user(before, { type: 'UPDATE_USER', user: {
         isEmail: true,
         id: 'test@geekpark.net',
+        isValidated: false,
       } })
+    ).toEqual(after);
+  });
+
+  it('set validated', () => {
+    const after = { ...before, isValidated: true };
+
+    expect(
+      user(before, { type: 'VALIDATE_USER' })
     ).toEqual(after);
   });
 });

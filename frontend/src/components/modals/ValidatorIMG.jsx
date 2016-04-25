@@ -36,6 +36,8 @@ class ValidatorIMG extends React.Component {
       validateCaptcha({ str: v, user })
         .done(() => {
           this.props.onClose();
+          this.props.sendVerifyCode();
+          this.props.validateUser();
         })
         .fail(() => {
           this.showErr();
@@ -74,8 +76,10 @@ class ValidatorIMG extends React.Component {
 }
 
 ValidatorIMG.propTypes = {
-  onClose: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+  sendVerifyCode: PropTypes.func.isRequired,
+  validateUser: PropTypes.func.isRequired,
 };
 
 export default ValidatorIMG;
