@@ -5,6 +5,10 @@ import PasswordInput from './PasswordInput';
 import { isNotEmpty, isPhoneNumber } from '../../share/validator';
 import { openModal } from '../../actions';
 
+const overlayStyle = {
+  overlay: { backgroundColor: 'rgba(37, 37, 37, 0.7)' },
+};
+
 class Register extends React.Component {
   constructor() {
     super();
@@ -20,6 +24,7 @@ class Register extends React.Component {
 
     this.getCode = () => {
       const v = this.refs.firstInput.value;
+      this.props.dispatch(openModal('ValidatorIMG', overlayStyle)); // for dev
       if (isNotEmpty(v) && isPhoneNumber(v)) this.props.dispatch(openModal('ValidatorIMG'));
     };
   }
