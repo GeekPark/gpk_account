@@ -3,6 +3,37 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   let(:user) { create(:basic_user) }
 
+  describe '#show' do
+    context 'user not login' do
+      it 'should return 401' do
+        get :show, format: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'should redirect to login_url' do
+        get :show, format: :html
+        expect(response).to redirect_to(login_url)
+      end
+    end
+
+    context 'user logged in' do
+      before { warden.set_user(user) }
+
+      it 'shoud return user info after user login' do
+        get :show, format: :json
+        expect(response).to be_success
+        expect(JSON.parse(response.body)['email']).to eq(user.email)
+      end
+
+      it 'should success' do
+        get :show, format: :html
+        expect(response).to be_success
+        expect(response).to render_template(:show)
+        expect(assigns(:user)).to eq(user)
+      end
+    end
+  end
+
   describe '#create' do
     before do
       @basic_user = attributes_for(:basic_user)

@@ -9,6 +9,15 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def require_login
+    unless current_user
+      respond_to do |format|
+        format.html { redirect_to login_url, alert: 'Need Login' }
+        format.json { render json: { errors: ['Need login'] }, status: :unauthorized }
+      end
+    end
+  end
+
   def current_user
     warden.user
   end

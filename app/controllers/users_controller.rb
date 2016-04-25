@@ -1,8 +1,15 @@
 class UsersController < ApplicationController
+  before_action :require_login, only: [:show, :update]
+
   def new
   end
 
   def show
+    @user = current_user
+    respond_to do |format|
+      format.html
+      format.json { render json: @user }
+    end
   end
 
   def update
@@ -38,9 +45,10 @@ class UsersController < ApplicationController
   end
 
   def send_register_code
-    Rails.cache.fetch "verify_code:#{login_name}", expires_in: 30.minutes do
+    code = Rails.cache.fetch "verify_code:#{login_name}", expires_in: 30.minutes do
       rand(100_000..999_999).to_s
     end
+    logger.debug code
     # Mocked
     render json: { success: 'Sended' }
   end
