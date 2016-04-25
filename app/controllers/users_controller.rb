@@ -13,6 +13,8 @@ class UsersController < ApplicationController
   end
 
   def update
+    current_user.update!(user_update_params)
+    render json: current_user
   end
 
   def create
@@ -42,6 +44,10 @@ class UsersController < ApplicationController
 
   def user_create_params
     params.require(:user).permit(:email, :mobile, :password)
+  end
+
+  def user_update_params
+    params.require(:user).permit(:nickname, :city, :company, :title, :avatar, :bio)
   end
 
   def send_register_code
