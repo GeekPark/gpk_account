@@ -7,12 +7,16 @@ import Wrapper from './Wrapper';
 import Login from './Login';
 import Register from './Register';
 import ResetPassword from './ResetPassword';
+import Modal from '../Modal';
 
 const T = props => (
   <ReduxWrapper>
-    <Transition {...props}>
-      <Wrapper children={props.children} />
-    </Transition>
+    <div>
+      <Transition {...props}>
+        <Wrapper children={props.children} />
+      </Transition>
+      <Modal />
+    </div>
   </ReduxWrapper>
 );
 

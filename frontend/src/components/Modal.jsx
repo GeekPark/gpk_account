@@ -1,33 +1,45 @@
 import React, { PropTypes } from 'react';
 import ReactModal from 'react-modal';
+import deepAssign from 'deep-assign';
+import { connect } from 'react-redux';
 
 import ValidatorIMG from './modals/ValidatorIMG';
 import Default from './modals/Default';
+import { closeModal } from '../actions';
 
 const components = {
   ValidatorIMG,
   Default,
 };
 
+const defaultStyles = {
+  overlay: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+  },
+};
 
 class Modal extends React.Component {
   render() {
-    const { isOpen, modalName } = this.props;
+    const { isOpen, modalName, modalStyle } = this.props.modal;
     const Comp = components[modalName];
-    console.log(this.props);
+    const style = deepAssign(defaultStyles, modalStyle);
     return (
-      <div>
-        <ReactModal isOpen={isOpen}>
-          <Comp />
-        </ReactModal>
-      </div>
+      <ReactModal isOpen={isOpen} style={style} className={`modal-${modalName}`}>
+        <Comp onClose={this.props.onClose} />
+      </ReactModal>
     );
   }
 }
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  modalName: PropTypes.string.isRequired,
+  modal: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
-export default Modal;
+const mapStateToProps = state => ({ ...state });
+const mapDispatchToProps = dispatch => ({ onClose: () => dispatch(closeModal()) });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Modal);

@@ -1,7 +1,9 @@
 @import 'normalize';
 @import 'share/variable';
+@import 'share/mixin';
 @import 'share/common';
 @import 'share/icon';
+@import 'modals/common';
 
 a {
   text-decoration: none;
@@ -21,4 +23,8 @@ body {
 .sessions-new,
 .users-new {
   @import 'sessions/new';
+}
+
+.users-new {
+  @import 'modals/validator';
 }
