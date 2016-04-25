@@ -25,16 +25,14 @@ T.propTypes = { children: PropTypes.element.isRequired };
 class Session extends React.Component {
   render() {
     return (
-      <div>
-        <Router history={browserHistory}>
-          <Route path="/" component={T}>
-            <IndexRoute component={Login} />
-            <Route path="login" component={Login} />
-            <Route path="signup" component={Register} />
-            <Route path="reset" component={ResetPassword} />
-          </Route>
-        </Router>
-      </div>
+      <Router history={browserHistory}>
+        <Route path="/" component={T}>
+          <IndexRoute component={Login} />
+          <Route path="login" component={Login} />
+          <Route path="signup" component={Register} />
+          <Route path="reset" component={ResetPassword} />
+        </Route>
+      </Router>
     );
   }
 }

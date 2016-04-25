@@ -6,6 +6,10 @@
   position: relative;
 }
 
+.mb-input {
+  margin-bottom: 15px;
+}
+
 .link {
   color: $color-blue;
   &:hover {
@@ -35,7 +39,6 @@
     text-align: center;
     padding-bottom: 30px;
     border-radius: 3px;
-    overflow: hidden;
   }
 
   .logo-wrapper {

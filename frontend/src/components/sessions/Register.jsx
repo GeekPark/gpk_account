@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
+import { partial, cloneDeep } from 'lodash';
+
 import SocialLogin from './SocialLogin';
 import PasswordInput from './PasswordInput';
+import Tooltip from '../Tooltip';
 
-import { isNotEmpty, isPhoneNumber } from '../../share/validator';
+import { isNotEmpty, isPhoneNumber, isEmail as isValidateEmail } from '../../share/validator';
 import { openModal } from '../../actions';
 
 const overlayStyle = {
@@ -15,31 +18,84 @@ class Register extends React.Component {
     this.state = {
       isEmail: false,
       showValidate: true,
+      tooltips: {
+        firstInput: {
+          isShow: false,
+          type: 'error',
+          msg: '',
+        },
+      },
     };
 
     this.toggleType = () => {
       this.setState({ isEmail: !this.state.isEmail });
+      this.clearAllTip();
       this.refs.firstInput.focus();
     };
 
     this.getCode = () => {
-      const v = this.refs.firstInput.value;
-      this.props.dispatch(openModal('ValidatorIMG', overlayStyle)); // for dev
-      if (isNotEmpty(v) && isPhoneNumber(v)) this.props.dispatch(openModal('ValidatorIMG'));
+      const dom = this.refs.firstInput;
+      const v = dom.value;
+      const { isEmail } = this.state;
+      const err = partial(this.postErr.bind(this), 'firstInput');
+      const type = this.state.isEmail ? '邮箱' : '手机号';
+
+      if (!isNotEmpty(v)) {
+        err(`${type}不能为空`);
+        return;
+      }
+
+      if (
+        (isEmail && !isValidateEmail(v)) || (!isEmail && !isPhoneNumber(v))
+      ) {
+        err(`${type}格式不对`);
+        return;
+      } else {
+        this.props.dispatch(openModal('ValidatorIMG', overlayStyle));
+      }
     };
+
+    this.clearTip = tipName => this.hideTip.bind(this, tipName);
   }
+
+  postErr(tipName, msg) {
+    const newTips = cloneDeep(this.state.tooltips);
+    newTips[tipName] = { ...newTips[tipName], type: 'error', msg, isShow: true };
+    this.setState({ tooltips: newTips });
+  }
+
+  hideTip(tipName) {
+    const newTips = cloneDeep(this.state.tooltips);
+    newTips[tipName].isShow = false;
+    this.setState({ tooltips: newTips });
+  }
+
+  clearAllTip() {
+    const newTips = cloneDeep(this.state.tooltips);
+    Object.keys(newTips).forEach(x => {
+      newTips[x].isShow = false;
+    });
+
+    this.setState({ tooltips: newTips });
+  }
+
   render() {
-    const { isEmail } = this.state;
+    const { isEmail, tooltips } = this.state;
     return (
       <div className="form-wrapper">
-        <input type="text" autoFocus placeholder={isEmail ? '请输入邮箱地址' : '手机号码（仅支持中国大陆）'} ref="firstInput" />
-        <div className="form-group">
+        <Tooltip info={tooltips.firstInput} className="mb-input">
+          <input type="text" autoFocus ref="firstInput"
+            placeholder={isEmail ? '请输入邮箱地址' : '手机号码（仅支持中国大陆）'}
+            onChange={this.clearTip('firstInput')}
+          />
+        </Tooltip>
+        <div className="form-group mb-input">
           <input type="text" placeholder={isEmail ? '邮箱验证码' : '手机验证码'} />
           <div className="form-side" onClick={this.getCode}>
             获取验证码
           </div>
         </div>
-        <PasswordInput placeholder="密码" />
+        <PasswordInput placeholder="密码" className="mb-input" />
         <button className="btn btn-large">立即注册</button>
         <div className="tar extra-info">
           <a className="link" href="javascript:;" onClick={this.toggleType} >
