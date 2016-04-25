@@ -1,13 +1,30 @@
 import React, { PropTypes } from 'react';
 
-const PasswordInput = props => (
-  <div className={`form-group ${props.className}`}>
-    <input type="text" placeholder={props.placeholder} />
-    <div className="form-side">
-      <i className="iconfont icon-eye"></i>
-    </div>
-  </div>
-);
+class PasswordInput extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      inputType: 'password',
+    };
+
+    this.toggleType = () => {
+      this.setState({ inputType: this.state.inputType === 'password' ? 'text' : 'password' });
+      this.refs.input.focus();
+    };
+  }
+
+  render() {
+    return (
+      <div className={`form-group ${this.props.className}`}>
+        <input type={this.state.inputType} placeholder={this.props.placeholder} ref="input" />
+        <div className="form-side" onClick={this.toggleType}>
+          <i className={`iconfont icon-eye ${this.state.inputType === 'text' ? 'active' : ''}`}></i>
+        </div>
+      </div>
+    );
+  }
+}
 
 PasswordInput.propTypes = {
   placeholder: PropTypes.string.isRequired,

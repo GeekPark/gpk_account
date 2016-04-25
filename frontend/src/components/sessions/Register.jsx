@@ -34,6 +34,7 @@ class Register extends React.Component {
     };
 
     this.getCode = () => {
+      if (this.props.verify_code.pending) return;
       const dom = this.refs.firstInput;
       const v = dom.value;
       const { isEmail } = this.state;
@@ -87,6 +88,10 @@ class Register extends React.Component {
 
   render() {
     const { isEmail, tooltips } = this.state;
+    const { verify_code } = this.props;
+    let verifyButtonText = '获取验证码';
+    if (verify_code.pending) verifyButtonText = `${verify_code.countdown}s`;
+    if (!verify_code.pending && !verify_code.isFirst) verifyButtonText = '重新获取';
     return (
       <div className="form-wrapper">
         <Tooltip info={tooltips.firstInput} className="mb-input">
@@ -98,7 +103,7 @@ class Register extends React.Component {
         <div className="form-group mb-input">
           <input type="text" placeholder={isEmail ? '邮箱验证码' : '手机验证码'} />
           <div className="form-side" onClick={this.getCode}>
-            获取验证码
+            {verifyButtonText}
           </div>
         </div>
         <PasswordInput placeholder="密码" className="mb-input" />
@@ -116,6 +121,7 @@ class Register extends React.Component {
 
 Register.propTypes = {
   dispatch: PropTypes.func,
+  verify_code: PropTypes.object,
 };
 
 export default Register;
