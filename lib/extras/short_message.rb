@@ -28,10 +28,7 @@ module ShortMessage
     yield(config)
   end
 
-  def send_verify_code(mobile)
-    code = Rails.cache.fetch "verify_code:#{mobile}", expires_in: 30.minutes do
-      rand(100_000..999_999).to_s
-    end
+  def send_verify_code(mobile, code)
     send_sms(mobile, code, 1_343_527)
   end
 
@@ -43,6 +40,7 @@ module ShortMessage
       result['code'] == 0
     else
       Rails.logger.debug code
+      true
     end
   end
 end

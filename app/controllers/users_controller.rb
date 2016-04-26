@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   def send_verify_code
     user = current_user || User.new(user_create_params)
     if verify_rucaptcha?(user) && user.valid?
-      send_register_code
+      send_code(login_name)
     else
       render json: { errors: user.errors.full_messages }, status: :not_acceptable
     end
@@ -50,13 +50,14 @@ class UsersController < ApplicationController
     params.require(:user).permit(:nickname, :city, :company, :title, :avatar, :bio)
   end
 
-  def send_register_code
-    code = Rails.cache.fetch "verify_code:#{login_name}", expires_in: 30.minutes do
-      rand(100_000..999_999).to_s
+  def send_code(receiver)
+    message_service = MessageService.new(receiver)
+    sended = message_service.send(:send_verify_code)
+    if sended
+      render json: { success: 'Sended' }
+    else
+      render json: { errors: ['Send failed'] }, status: :not_acceptable
     end
-    logger.debug code
-    # Mocked
-    render json: { success: 'Sended' }
   end
 
   def verify_code?
