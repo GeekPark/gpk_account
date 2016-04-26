@@ -33,6 +33,9 @@ gem 'rucaptcha'
 # SMS
 gem 'china_sms'
 
+# Asynchronous processing
+gem 'sucker_punch'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
