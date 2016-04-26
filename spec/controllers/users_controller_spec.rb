@@ -5,14 +5,12 @@ RSpec.describe UsersController, type: :controller do
 
   describe '#show' do
     context 'user not login' do
-      it 'should return 401' do
-        get :show, format: :json
-        expect(response).to have_http_status(:unauthorized)
+      it_behaves_like 'return 401 without login' do
+        let(:subject) { get :show, format: :json }
       end
 
-      it 'should redirect to login_url' do
-        get :show, format: :html
-        expect(response).to redirect_to(login_url)
+      it_behaves_like 'redirect_to login_url' do
+        let(:subject) { get :show }
       end
     end
 
@@ -30,6 +28,26 @@ RSpec.describe UsersController, type: :controller do
         expect(response).to be_success
         expect(response).to render_template(:show)
         expect(assigns(:user)).to eq(user)
+      end
+    end
+  end
+
+  describe '#update' do
+    let(:user_attr) { attributes_for(:user, :with_nickname) }
+
+    context 'user not login' do
+      it_behaves_like 'return 401 without login' do
+        let(:subject) { patch :update, user: user_attr, format: :json }
+      end
+    end
+
+    context 'user logged in' do
+      before { warden.set_user(user) }
+
+      it 'should success and return user info' do
+        patch :update, user: user_attr, format: :json
+        expect(response).to be_success
+        expect(JSON.parse(response.body)['nickname']).to eq(user_attr[:nickname])
       end
     end
   end
