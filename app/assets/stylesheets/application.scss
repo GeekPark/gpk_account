@@ -21,6 +21,10 @@ body {
   color: #222;
 }
 
+.page-header {
+  @import 'page/header';
+}
+
 .sessions-new,
 .users-new {
   @import 'sessions/new';
