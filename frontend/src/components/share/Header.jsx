@@ -4,9 +4,9 @@ class Header extends React.Component {
   render() {
     return (
       <div className="page-header">
-        <a href="http://geekpark.net" className="dib-middle logo"></a>
+        <a href="http://geekpark.net" className="dib-middle logo hover-link"></a>
         <div className="dib-middle split"></div>
-        <a href="/" className="dib-middle account-home">账号中心</a>
+        <a href="/" className="dib-middle account-home hover-link">账号中心</a>
       </div>
     );
   }

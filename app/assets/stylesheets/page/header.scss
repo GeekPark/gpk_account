@@ -25,3 +25,11 @@
   margin: 0 20px;
   background-color: #fff;
 }
+
+.hover-link {
+  transition: all .3s;
+}
+
+.hover-link:hover {
+  opacity: .8;
+}
