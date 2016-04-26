@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Tooltip from '../Tooltip';
 
 import { validateCaptcha } from '../../share/server';
+import { parseErr } from '../../share/utils';
 
 class ValidatorIMG extends React.Component {
   constructor(props) {
@@ -39,16 +40,26 @@ class ValidatorIMG extends React.Component {
           this.props.sendVerifyCode();
           this.props.validateUser();
         })
-        .fail(() => {
-          this.showErr();
+        .fail(xhr => {
+          const errStr = parseErr(xhr.responseText);
+          if (errStr) {
+            this.showErr(errStr[0]);
+          }
+          this.random();
         });
     };
 
     this.clearTip = () => this.setState({ tipInfo: { ...this.state.tipInfo, isShow: false } });
   }
 
-  showErr() {
-    this.setState({ tipInfo: { ...this.state.tipInfo, isShow: true } });
+  componentDidMount() {
+    this.refs.form.addEventListener('submit', e => {
+      e.preventDefault();
+    });
+  }
+
+  showErr(msg) {
+    this.setState({ tipInfo: { ...this.state.tipInfo, isShow: true, msg } });
   }
 
   render() {
@@ -59,17 +70,19 @@ class ValidatorIMG extends React.Component {
           请输入下面的图形验证码
         </div>
         <i className="iconfont icon-close modal-close" onClick={this.props.onClose}></i>
-        <div className="form-group mb-input">
-          <Tooltip info={tipInfo}>
-            <div>
-              <input type="text" placeholder="图形验证码" maxLength="4" autoFocus ref="input" onChange={this.clearTip} />
-              <div className="form-side">
-                <img src={`/rucaptcha?${this.state.random}`} alt="验证码" onClick={this.random} />
+        <form ref="form">
+          <div className="form-group mb-input">
+            <Tooltip info={tipInfo}>
+              <div>
+                <input type="text" placeholder="图形验证码" maxLength="4" autoFocus ref="input" onChange={this.clearTip} />
+                <div className="form-side">
+                  <img src={`/rucaptcha?${this.state.random}`} alt="验证码" onClick={this.random} />
+                </div>
               </div>
-            </div>
-          </Tooltip>
-        </div>
-        <button className="btn btn-large" onClick={this.validate}>提交</button>
+            </Tooltip>
+          </div>
+          <button className="btn btn-large" onClick={this.validate}>提交</button>
+        </form>
       </div>
     );
   }
