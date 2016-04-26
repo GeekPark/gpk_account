@@ -4,11 +4,13 @@ import deepAssign from 'deep-assign';
 import { connect } from 'react-redux';
 
 import ValidatorIMG from './modals/ValidatorIMG';
+import WechatLogin from './modals/WechatLogin';
 import Default from './modals/Default';
 import { closeModal, sendVerifyCode, validateUser } from '../actions';
 
 const components = {
   ValidatorIMG,
+  WechatLogin,
   Default,
 };
 
@@ -26,6 +28,7 @@ class Modal extends React.Component {
     const { isOpen, modalName, modalStyle } = this.props.modal;
     const Comp = components[modalName];
     const style = deepAssign(defaultStyles, modalStyle);
+    console.log(modalName);
     return (
       <ReactModal isOpen={isOpen} style={style} className={`modal-${modalName}`}>
         <Comp {...this.props} />

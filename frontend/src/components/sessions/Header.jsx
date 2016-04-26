@@ -7,7 +7,6 @@ class Header extends React.Component {
       <div className="header-wrapper">
         <div className="logo-wrapper">
           <a href="//www.geekpark.net" className="logo"></a>
-          <div className="slogan">创新者的大本营</div>
         </div>
         <div className="form-wrapper switch-button">
           <Link to="login" activeClassName="active">登录</Link>
