@@ -4,11 +4,13 @@ import deepAssign from 'deep-assign';
 import { connect } from 'react-redux';
 
 import ValidatorIMG from './modals/ValidatorIMG';
+import WechatLogin from './modals/WechatLogin';
 import Default from './modals/Default';
 import { closeModal, sendVerifyCode, validateUser } from '../actions';
 
 const components = {
   ValidatorIMG,
+  WechatLogin,
   Default,
 };
 

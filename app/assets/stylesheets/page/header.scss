@@ -1,0 +1,35 @@
+& {
+  line-height: 50px;
+  background-color: $color-black;
+  color: #fff;
+  padding: 0 15px;
+}
+
+.logo {
+  background: url('bar_logo_white.png') center center no-repeat;
+  background-size: contain;
+  // 1361x125
+  height: 20px;
+  width: 20px * 1361px / 125px;
+}
+
+.account-home {
+  font-size: 2rem;
+}
+
+.split {
+  content: '';
+  @extend .dib-middle;
+  height: 20px;
+  width: 1px;
+  margin: 0 20px;
+  background-color: #fff;
+}
+
+.hover-link {
+  transition: all .3s;
+}
+
+.hover-link:hover {
+  opacity: .8;
+}

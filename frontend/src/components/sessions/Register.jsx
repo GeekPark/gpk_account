@@ -1,37 +1,35 @@
 import React, { PropTypes } from 'react';
-import cloneDeep from 'lodash/cloneDeep';
 
 import SocialLogin from './SocialLogin';
 import PasswordInput from './PasswordInput';
-import Tooltip from '../Tooltip';
 
 import { isEmpty, isPhoneNumber, isEmail as isValidateEmail } from '../../share/validator';
 import { openModal, updateUser } from '../../actions';
 import { createUser } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
+import Tooltip from '../Tooltip';
+import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
+
 const overlayStyle = {
   overlay: { backgroundColor: 'rgba(37, 37, 37, 0.7)' },
 };
 
-const defaultTip = {
-  isShow: false,
-  type: 'error',
-  msg: '',
-};
+const TOOLTIPS = ['firstInput', 'verifyCode', 'password'];
 
 class Register extends React.Component {
   constructor() {
     super();
     this.state = {
+      ...initState(TOOLTIPS),
       isEmail: false,
       showValidate: true,
-      tooltips: {
-        firstInput: { ...defaultTip },
-        verifyCode: { ...defaultTip },
-        password: { ...defaultTip },
-      },
     };
+
+    this.postErr = postErr.bind(this);
+    this.clearAllTip = clearAllTip.bind(this);
+    this.hideTip = hideTip.bind(this);
+    this.clearTip = tipName => this.hideTip.bind(this, tipName);
 
     this.toggleType = () => {
       this.setState({ isEmail: !this.state.isEmail });
@@ -51,8 +49,6 @@ class Register extends React.Component {
       this.clearAllTip();
     };
 
-    this.clearTip = tipName => this.hideTip.bind(this, tipName);
-
     this.submit = () => {
       if (!this.check()) return;
       const user = { password: this.getPwd() };
@@ -65,7 +61,7 @@ class Register extends React.Component {
       }).done(d => {
         console.info(d);
         alert('注册成功');
-      }).error(xhr => {
+      }).fail(xhr => {
         const errStr = parseErr(xhr.responseText);
         if (errStr) {
           this.postErr('verifyCode', errStr[0]);
@@ -80,28 +76,6 @@ class Register extends React.Component {
 
   typeStr() {
     return this.state.isEmail ? '邮箱' : '手机号';
-  }
-
-  postErr(tipName, msg) {
-    this.clearAllTip();
-    const newTips = cloneDeep(this.state.tooltips);
-    newTips[tipName] = { ...newTips[tipName], type: 'error', msg, isShow: true };
-    this.setState({ tooltips: newTips });
-  }
-
-  hideTip(tipName) {
-    const newTips = cloneDeep(this.state.tooltips);
-    newTips[tipName].isShow = false;
-    this.setState({ tooltips: newTips });
-  }
-
-  clearAllTip() {
-    const newTips = cloneDeep(this.state.tooltips);
-    Object.keys(newTips).forEach(x => {
-      newTips[x].isShow = false;
-    });
-
-    this.setState({ tooltips: newTips });
   }
 
   clearInput() {
@@ -153,13 +127,13 @@ class Register extends React.Component {
     const { isEmail, tooltips } = this.state;
     const { verify_code } = this.props;
     let verifyButtonText = '获取验证码';
-    if (verify_code.pending) verifyButtonText = `${verify_code.countdown}s`;
+    if (verify_code.pending) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
     if (!verify_code.pending && !verify_code.isFirst) verifyButtonText = '重新获取';
     return (
       <div className="form-wrapper">
         <Tooltip info={tooltips.firstInput} className="mb-input">
           <input type="text" autoFocus ref="firstInput"
-            placeholder={isEmail ? '请输入邮箱地址' : '手机号码（仅支持中国大陆）'}
+            placeholder={isEmail ? '邮箱' : '手机号码（仅支持中国大陆）'}
             maxLength={isEmail ? '100' : '11'}
             onChange={this.clearTip('firstInput')}
           />
@@ -187,7 +161,7 @@ class Register extends React.Component {
             { isEmail ? '使用手机注册' : '使用邮箱注册' }
           </a>
         </div>
-        <SocialLogin />
+        <SocialLogin {...this.props} />
       </div>
     );
   }

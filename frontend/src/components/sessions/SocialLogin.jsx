@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { openModal } from '../../actions';
 
 class SocialLogin extends React.Component {
+  constructor() {
+    super();
+
+    this.wechat = () => {
+      this.props.dispatch(openModal('WechatLogin'));
+    };
+  }
+
   render() {
     return (
       <div className="social-login">
@@ -10,16 +19,17 @@ class SocialLogin extends React.Component {
           </span>
         </div>
         <div className="space-around social-button">
-          <a href="javascript:;">
+          <a href="javascript:;" onClick={this.weibo}>
             <i className="iconfont icon-weibo social-icon"></i>
-          </a>
-          <a href="javascript:;">
-            <i className="iconfont icon-wechat social-icon"></i>
           </a>
         </div>
       </div>
     );
   }
 }
+
+SocialLogin.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default SocialLogin;

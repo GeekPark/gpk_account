@@ -10,8 +10,8 @@ export const RESET_VERIFY_CODE = 'RESET_VERIFY_CODE';
 export const UPDATE_COUNTDOWN = 'UPDATE_COUNTDOWN';
 
 // actionCreators
-export function openModal(modalName, modalStyle, cb) {
-  return { type: OPEN_MODAL, modalName, modalStyle, cb };
+export function openModal(modalName, modalStyle) {
+  return { type: OPEN_MODAL, modalName, modalStyle };
 }
 
 export function closeModal() {

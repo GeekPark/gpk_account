@@ -4,6 +4,9 @@ class UsersController < ApplicationController
   def new
   end
 
+  def welcome
+  end
+
   def show
     @user = current_user
     respond_to do |format|

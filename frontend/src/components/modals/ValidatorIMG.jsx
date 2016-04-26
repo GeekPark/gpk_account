@@ -26,7 +26,7 @@ class ValidatorIMG extends React.Component {
       const v = this.refs.input.value;
 
       if (v.length !== 4) {
-        this.showErr();
+        this.showErr('请输入4位数验证码');
         return;
       }
 

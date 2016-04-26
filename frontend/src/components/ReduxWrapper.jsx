@@ -7,7 +7,7 @@ import reducers from 'reducers/index';
 
 const store = createStore(reducers, {}, compose(
   applyMiddleware(ReduxThunk),
-  window.devToolsExtension ? window.devToolsExtension() : undefined
+  window.devToolsExtension ? window.devToolsExtension() : f => f
 ));
 
 const ReduxWrapper = props => (

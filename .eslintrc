@@ -21,5 +21,6 @@
     "expect": 0,
     "assert": 0,
     "should": 0,
+    "WxLogin": 0,
   }
 }
