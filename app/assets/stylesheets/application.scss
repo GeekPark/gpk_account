@@ -21,10 +21,17 @@ body {
   color: #222;
 }
 
+// common scss, all page include
 .page-header {
-  @import 'page/header';
+  @import 'components/header';
 }
 
+.message-wrapper {
+  @import 'components/message';
+}
+
+
+// page only scss
 .sessions-new,
 .users-new {
   @import 'sessions/new';

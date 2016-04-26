@@ -8,6 +8,7 @@ import Login from './Login';
 import Register from './Register';
 import ResetPassword from './ResetPassword';
 import Modal from '../Modal';
+import Message from '../share/Message';
 
 const T = props => (
   <ReduxWrapper>
@@ -16,6 +17,7 @@ const T = props => (
         <Wrapper children={props.children} />
       </Transition>
       <Modal />
+      <Message />
     </div>
   </ReduxWrapper>
 );
