@@ -8,6 +8,12 @@ RSpec.describe SessionsController, type: :controller do
       get :new
       expect(response).to have_http_status(:success)
     end
+
+    it 'redirect to root_url user already login' do
+      warden.set_user(user)
+      get :new
+      expect(response).to redirect_to(root_url)
+    end
   end
 
   describe 'POST #create' do
@@ -25,6 +31,7 @@ RSpec.describe SessionsController, type: :controller do
       it 'success with correct password' do
         post :create, login_name: user.email, password: 'password'
         expect(warden.user).to eq(user)
+        expect(response).to redirect_to(root_url)
       end
     end
 

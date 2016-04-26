@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   let(:user) { create(:basic_user) }
 
-  describe '#show' do
+  describe 'GET #show' do
     context 'user not login' do
       it_behaves_like 'return 401 without login' do
         let(:subject) { get :show, format: :json }
@@ -32,7 +32,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe '#update' do
+  describe 'PATCH #update' do
     let(:user_attr) { attributes_for(:user, :with_nickname) }
 
     context 'user not login' do
@@ -52,7 +52,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe '#create' do
+  describe 'POST #create' do
     before do
       @basic_user = attributes_for(:basic_user)
       email = @basic_user[:email]
@@ -84,13 +84,19 @@ RSpec.describe UsersController, type: :controller do
       it 'return user when created' do
         post :create, user: @basic_user, verify_code: @code
         expect(response).to be_success
-        expect(JSON.parse(response.body)['email']).to eq(@basic_user[:email])
+        expect(JSON.parse(response.body)['user']['email']).to eq(@basic_user[:email])
         expect(warden.user.email).to eq(@basic_user[:email])
+      end
+
+      it 'return callback_url when created' do
+        post :create, user: @basic_user, verify_code: @code
+        expect(response).to be_success
+        expect(JSON.parse(response.body)['callback_url']).to eq(root_url)
       end
     end
   end
 
-  describe '#check_exist' do
+  describe 'GET #check_exist' do
     it 'should return false user not exist' do
       get 'check_exist', user: attributes_for(:user, :with_email)
       expect(response.body).to eq({ exist: false }.to_json)
@@ -102,7 +108,7 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe '#send_verify_code' do
+  describe 'GET #send_verify_code' do
     context 'captcha incorrect' do
       it 'should return error' do
         get 'send_verify_code', user: attributes_for(:user, :with_email)
