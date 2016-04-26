@@ -30,6 +30,9 @@ gem 'warden'
 # Captcha
 gem 'rucaptcha'
 
+# SMS
+gem 'china_sms'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
