@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def callback_url
+    session[:callback_url] || root_url
+  end
+
   def current_user
     warden.user
   end

@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     if verify_code?
       user = User.create!(user_create_params)
       warden.set_user(user)
-      render json: user
+      render json: { user: user, callback_url: callback_url }
     else
       render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
     end
