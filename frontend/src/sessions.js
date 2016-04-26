@@ -1,8 +1,12 @@
-import $ from 'jquery';
 import React from 'react';
-import { render } from 'react-dom';
+import { render } from './share/utils';
+
 import Session from './components/sessions/Index';
+import User from './components/users/Index';
+import Welcome from './components/welcome/Index';
 
 $(() => {
-  render(<Session />, $('#component-session').get(0));
+  render(<Session />, document.querySelector('#component-session'));
+  render(<User />, document.querySelector('#component-user'));
+  render(<Welcome />, document.querySelector('#component-welcome'));
 });

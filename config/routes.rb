@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'users#edit'
+  root 'users#show'
 
   use_doorkeeper
   # User sessions controller
@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#create'
   get 'check_exist', to: 'users#check_exist'
   get 'send_verify_code', to: 'users#send_verify_code'
+
+  # User signup success
+  get 'welcome', to: 'users#welcome'
 
   resource 'user', path: 'my', except: [:edit, :destroy] do
   end

@@ -28,7 +28,6 @@ class Modal extends React.Component {
     const { isOpen, modalName, modalStyle } = this.props.modal;
     const Comp = components[modalName];
     const style = deepAssign(defaultStyles, modalStyle);
-    console.log(modalName);
     return (
       <ReactModal isOpen={isOpen} style={style} className={`modal-${modalName}`}>
         <Comp {...this.props} />
