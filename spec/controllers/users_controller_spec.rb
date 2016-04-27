@@ -127,12 +127,6 @@ RSpec.describe UsersController, type: :controller do
         allow_any_instance_of(UsersController).to receive(:verify_rucaptcha?).and_return(true)
       end
 
-      it 'should return error when user exist' do
-        get 'send_verify_code', user: { email: user.email }
-        expect(response).to have_http_status(:not_acceptable)
-        expect(JSON.parse(response.body)['errors']).to include('Email has already been taken')
-      end
-
       it 'should return success after send' do
         get 'send_verify_code', user: attributes_for(:user, :with_email)
         expect(response).to have_http_status(:success)
