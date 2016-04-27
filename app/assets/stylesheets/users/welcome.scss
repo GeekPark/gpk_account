@@ -1,0 +1,58 @@
+.mb-input {
+  margin-bottom: 15px;
+}
+
+.page-header {
+  position: fixed;
+  width: 100%;
+}
+
+.page-container {
+  max-width: 80vw;
+  margin: 0 auto;
+  height: 100vh;
+  @include flexCenter;
+  padding-bottom: 20px;
+}
+
+.success-tip {
+  @include flexCenter;
+  font-size: 2.5rem;
+  width: 100%;
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 20px;
+}
+
+.icon-success {
+  @include flexCenter;
+  background-color: $color-green;
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 3.5rem;
+  margin-right: 10px;
+  position: relative;
+  top: -1px;
+}
+
+.welcome-desc {
+  color: #4A4A4A;
+  font-size: 1.5rem;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.go-setting {
+  color: $color-blue;
+  margin-top: 10px;
+}
+
+.user-info {
+  @include flexCenter;
+}
+
+.info-wrapper {
+  margin-left: 40px;
+  margin-top: 30px;
+}

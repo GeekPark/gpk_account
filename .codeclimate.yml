@@ -10,6 +10,8 @@ engines:
     enabled: true
     exclude_paths:
     - spec/
+    - frontend/__tests__/
+    - frontend/src/components/
     config:
       languages:
       - ruby
@@ -35,6 +37,7 @@ ratings:
   - "**.css"
   - "**.inc"
   - "**.js"
+  - "**.jsx"
   - "**.module"
   - "**.php"
   - "**.py"
