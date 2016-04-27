@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   validates :mobile, uniqueness: true, allow_nil: true
   validates :email, uniqueness: true, allow_nil: true
 
+  mount_uploader :avatar, AvatarUploader
+
   class << self
     def find_by_email_or_mobile(param)
       find_by('email = ? OR mobile = ?', param, param) if param
