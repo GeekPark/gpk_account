@@ -16,7 +16,7 @@ Warden::Strategies.add(:password) do
 
   def authenticate!
     user = User.find_by_email_or_mobile(params['login_name'])
-    user.try(:authenticate, params['password']) ? success!(user) : fail!('Invalid account name or password')
+    user.try(:authenticate, params['password']) ? success!(user) : fail!(params['login_name'])
   end
 end
 
