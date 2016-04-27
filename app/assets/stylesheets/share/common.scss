@@ -29,6 +29,10 @@
   -webkit-user-select: none;
 }
 
+.hidden {
+  display: none;
+}
+
 input[type=checkbox] {
   margin-right: 5px;
   position: relative;

@@ -12,6 +12,8 @@ export const UPDATE_COUNTDOWN = 'UPDATE_COUNTDOWN';
 export const SHOW_MESSAGE = 'SHOW_MESSAGE';
 export const CLOSE_MESSAGE = 'CLOSE_MESSAGE';
 
+export const SET_STORE = 'SET_STORE';
+
 // actionCreators
 export function openModal(modalName, modalStyle) {
   return { type: OPEN_MODAL, modalName, modalStyle };
@@ -61,4 +63,9 @@ export function showMessage({ type, msg }) {
       dispatch({ type: CLOSE_MESSAGE });
     }, 1000 * 5);
   };
+}
+
+// server store
+export function setStore(data) {
+  return { type: SET_STORE, data };
 }

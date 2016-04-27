@@ -9,6 +9,7 @@ import Register from './Register';
 import ResetPassword from './ResetPassword';
 import Modal from '../Modal';
 import Message from '../share/Message';
+import ServerStore from '../share/ServerStore';
 
 const T = props => (
   <ReduxWrapper>
@@ -18,17 +19,21 @@ const T = props => (
       </Transition>
       <Modal />
       <Message />
+      <ServerStore server={props.route.server} />
     </div>
   </ReduxWrapper>
 );
 
-T.propTypes = { children: PropTypes.element.isRequired };
+T.propTypes = {
+  route: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
+};
 
 class Session extends React.Component {
   render() {
     return (
       <Router history={browserHistory}>
-        <Route path="/" component={T}>
+        <Route path="/" component={T} {...this.props}>
           <IndexRoute component={Login} />
           <Route path="login" component={Login} />
           <Route path="signup" component={Register} />
@@ -38,5 +43,14 @@ class Session extends React.Component {
     );
   }
 }
+
+Session.propTypes = {
+  server: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.number,
+    PropTypes.bool,
+  ]),
+};
 
 export default Session;

@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import SocialLogin from './SocialLogin';
 
 import { isEmpty } from '../../share/validator';
-import { login } from '../../share/server';
+import { getCSRFToken } from '../../share/utils';
 
 import Tooltip from '../Tooltip';
 import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
@@ -25,17 +25,8 @@ class Login extends React.Component {
     this.clearTip = tipName => this.hideTip.bind(this, tipName);
 
 
-    this.submit = () => {
-      if (!this.check()) return;
-
-      login({
-        id: this.refs.loginName.value,
-        password: this.refs.password.value,
-      }).done(d => {
-        console.info(d);
-      }).fail(xhr => {
-        console.error(xhr);
-      });
+    this.submit = e => {
+      if (!this.check()) e.preventDefault();
     };
   }
 
@@ -55,12 +46,13 @@ class Login extends React.Component {
   render() {
     const { tooltips } = this.state;
     return (
-      <div className="form-wrapper">
+      <form className="form-wrapper" action="/login" method="POST">
+        <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
         <Tooltip info={tooltips.loginName} className="mb-input">
-          <input type="text" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginName')} />
+          <input type="text" name="login_name" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginName')} />
         </Tooltip>
         <Tooltip info={tooltips.password} className="mb-input">
-          <input type="password" placeholder="密码" ref="password" />
+          <input type="password" placeholder="密码" ref="password" name="password" />
         </Tooltip>
         <button className="btn btn-large" onClick={this.submit}>立即登录</button>
         <div className="space-between extra-info">
@@ -71,7 +63,7 @@ class Login extends React.Component {
           <Link className="link" to="reset">忘记密码？</Link>
         </div>
         <SocialLogin {...this.props} />
-      </div>
+      </form>
     );
   }
 }
