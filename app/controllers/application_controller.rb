@@ -18,8 +18,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def callback_url
-    session[:callback_url] || root_url
+  def callback_url(custom_url = nil)
+    session[:callback_url] || custom_url || root_url
   end
 
   def current_user

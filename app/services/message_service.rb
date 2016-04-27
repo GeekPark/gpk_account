@@ -6,9 +6,9 @@ class MessageService
   def send(type)
     case @receiver
     when /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
-      ShortMessage.public_send(type, @receiver, generate_verify_code)
-    when /\A\d{11}\z/
       UserMailer.public_send(type, @receiver, generate_verify_code).deliver_later
+    when /\A\d{11}\z/
+      ShortMessage.public_send(type, @receiver, generate_verify_code)
     else
       false
     end
