@@ -49,6 +49,11 @@ RSpec.describe UsersController, type: :controller do
         expect(response).to be_success
         expect(JSON.parse(response.body)['nickname']).to eq(user_attr[:nickname])
       end
+
+      it 'can update avatar' do
+        patch :update, user: attributes_for(:user, :with_avatar), format: :json
+        expect(JSON.parse(response.body)['avatar_url']).not_to be_nil
+      end
     end
   end
 

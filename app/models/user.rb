@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   validates :mobile, uniqueness: true, allow_nil: true
   validates :email, uniqueness: true, allow_nil: true
 
+  mount_uploader :avatar, AvatarUploader
+
   class << self
     def find_by_email_or_mobile(param)
       find_by('email = ? OR mobile = ?', param, param) if param
@@ -16,7 +18,7 @@ class User < ActiveRecord::Base
 
     def create_with_omniauth(auth)
       ActiveRecord::Base.transaction do
-        user = User.new(nickname: auth['info']['nickname'])
+        user = User.new(nickname: auth['info']['nickname'], remote_avatar_url: auth['info']['avatar'])
         user.save(validate: false)
         user.authorizations.create!(provider: auth['provider'], uid: auth['uid'])
         user

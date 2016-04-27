@@ -23,4 +23,5 @@ dump.rdb
 node_modules/
 
 /public/static
+/public/uploads
 frontend/coverage/

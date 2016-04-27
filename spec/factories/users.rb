@@ -24,6 +24,10 @@ FactoryGirl.define do
       password 'password'
     end
 
+    trait :with_avatar do
+      avatar { Rack::Test::UploadedFile.new(Rails.root.join('app', 'assets', 'images', 'logo.png')) }
+    end
+
     trait :with_nickname do
       sequence(:nickname) { |n| "user#{n}" }
     end
