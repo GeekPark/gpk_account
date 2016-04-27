@@ -6,8 +6,15 @@ class User < ActiveRecord::Base
                      on: :create, if: ->(user) { user.email.blank? }
   validates_absence_of :password, message: 'please set the email or mobile first',
                                   if: ->(user) { user.email.blank? && user.mobile.blank? }
-  validates :mobile, uniqueness: true, allow_nil: true
-  validates :email, uniqueness: true, allow_nil: true
+  validates :mobile, uniqueness: true,
+            format: { with: /\A\d{11}\z/, message: 'only 11 numbers china mobile' },
+            allow_nil: true
+  validates :email, uniqueness: { case_sensitive: false },
+            format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ },
+            allow_nil: true
+  validates :nickname, length: { in: 2..20 }, allow_nil: true
+  validates :password, length: { in: 6..20 }, allow_nil: true
+  validates :city, format: { with: /\A\d{6}\z/ }, allow_nil: true
 
   mount_uploader :avatar, AvatarUploader
 
