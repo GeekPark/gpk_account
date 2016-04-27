@@ -34,7 +34,6 @@ body {
   @import 'components/upload_avatar';
 }
 
-
 // page only scss
 .sessions-new,
 .users-new {
@@ -46,6 +45,6 @@ body {
   @import 'modals/validator';
 }
 
-.users-welcome {
+.page-welcome {
   @import 'users/welcome';
 }

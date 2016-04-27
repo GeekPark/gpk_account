@@ -7,19 +7,19 @@
   width: 100%;
 }
 
-.page-container {
+.page-welcome-container {
   max-width: 80vw;
   margin: 0 auto;
   height: 100vh;
   @include flexCenter;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
 }
 
 .success-tip {
   @include flexCenter;
   font-size: 2.5rem;
   width: 100%;
-  border-bottom: 1px solid #efefef;
+  border-bottom: 1px solid #d2d2d2;
   padding-bottom: 20px;
 }
 
@@ -55,4 +55,5 @@
 .info-wrapper {
   margin-left: 40px;
   margin-top: 30px;
+  width: 260px;
 }

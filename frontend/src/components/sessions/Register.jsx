@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 
 import SocialLogin from './SocialLogin';
 import PasswordInput from './PasswordInput';
@@ -10,6 +11,7 @@ import { parseErr } from '../../share/utils';
 
 import Tooltip from '../Tooltip';
 import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
+import Welcome from '../welcome/Index';
 
 const overlayStyle = {
   overlay: { backgroundColor: 'rgba(37, 37, 37, 0.7)' },
@@ -59,8 +61,9 @@ class Register extends React.Component {
         verify_code: this.refs.verifyCode.value,
         user,
       }).done(d => {
-        console.info(d);
-        alert('注册成功');
+        const dom = document.querySelector('#component-session');
+        ReactDOM.unmountComponentAtNode(dom);
+        ReactDOM.render(<Welcome data={d} />, dom);
       }).fail(xhr => {
         const errStr = parseErr(xhr.responseText);
         if (errStr) {
