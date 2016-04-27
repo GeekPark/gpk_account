@@ -1,14 +1,15 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:show, :update]
+  before_action :require_login, only: [:show, :update, :welcome]
 
   def new
   end
 
   def welcome
+    @user = UserPublicSerializer.new(current_user).to_json
   end
 
   def show
-    @user = current_user
+    @user = UserSerializer.new(current_user).to_json
     respond_to do |format|
       format.html
       format.json { render json: @user }
@@ -24,7 +25,7 @@ class UsersController < ApplicationController
     if verify_code?
       user = User.create!(user_create_params)
       warden.set_user(user)
-      render json: { user: user, callback_url: callback_url }
+      render json: { user: user, callback_url: callback_url(welcome_url) }
     else
       render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
     end

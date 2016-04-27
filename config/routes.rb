@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'users#show'
 
-  use_doorkeeper
+  use_doorkeeper scope: 'oauth2'
   # User sessions controller
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resource 'user', only: [:show, :update]
+    namespace :v1 do
+      resource 'user', only: [:show, :update]
+    end
   end
 
   # Omniauth

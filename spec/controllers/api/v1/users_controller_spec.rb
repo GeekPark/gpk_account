@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::UsersController, type: :controller do
+RSpec.describe Api::V1::UsersController, type: :controller do
   let(:user) { create(:full_user) }
   let(:public_token) { create(:public_access_token, resource_owner_id: user.id) }
   let(:write_token) { create(:write_access_token, resource_owner_id: user.id) }
@@ -12,7 +12,7 @@ RSpec.describe Api::UsersController, type: :controller do
     end
 
     it 'returns user info' do
-      get :show, format: :json, access_token: public_token.token
+      get :show, format: :json, access_token: write_token.token
       expect(response).to be_success
       expect(JSON.parse(response.body)['id']).to eq(user.id)
     end

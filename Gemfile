@@ -16,7 +16,7 @@ gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.0'
+# gem 'jbuilder', '~> 2.0'
 
 # Use dotenv for envs
 gem 'dotenv-rails', require: 'dotenv/rails-now'
@@ -46,6 +46,7 @@ gem 'sucker_punch'
 gem 'omniauth-geekpark', '0.2.0'
 
 # API
+gem 'rails-api'
 gem 'active_model_serializers', '~> 0.9.5'
 gem 'doorkeeper'
 
