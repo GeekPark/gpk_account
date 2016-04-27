@@ -20,7 +20,9 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resource 'user', only: [:show, :update]
+    namespace :v1 do
+      resource 'user', only: [:show, :update]
+    end
   end
 
   # Omniauth
