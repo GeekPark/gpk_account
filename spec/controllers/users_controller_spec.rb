@@ -3,18 +3,6 @@ require 'rails_helper'
 RSpec.describe UsersController, type: :controller do
   let(:user) { create(:basic_user) }
 
-  describe 'GET #welcome' do
-    it_behaves_like 'redirect_to login_url' do
-      let(:subject) { get :welcome }
-    end
-
-    it 'should assgins user a json' do
-      warden.set_user(user)
-      get :welcome
-      expect(JSON.parse(assigns(:user))['id']).to eq(user.id)
-    end
-  end
-
   describe 'GET #show' do
     context 'user not login' do
       it_behaves_like 'return 401 without login' do
@@ -103,7 +91,7 @@ RSpec.describe UsersController, type: :controller do
       it 'return callback_url when created' do
         post :create, user: @basic_user, verify_code: @code
         expect(response).to be_success
-        expect(JSON.parse(response.body)['callback_url']).to eq(welcome_url)
+        expect(JSON.parse(response.body)['callback_url']).to eq(root_url)
       end
     end
   end
