@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
 
     def create_with_omniauth(auth)
       ActiveRecord::Base.transaction do
-        user = User.new(nickname: auth['info']['nickname'])
+        user = User.new(nickname: auth['info']['nickname'], remote_avatar_url: auth['info']['avatar'])
         user.save(validate: false)
         user.authorizations.create!(provider: auth['provider'], uid: auth['uid'])
         user
