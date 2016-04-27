@@ -1,18 +1,21 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Header from './Header';
+import Header from '../share/Header';
+import LeftMenu from './LeftMenu';
 
 const Wrapper = props => (
   <div>
-    <div className="page-container">
-      <div className="page-container-style" style={props.style}>
-        <Header />
+    <Header />
+    <div className="user-wrapper">
+      <LeftMenu />
+      <div className="user-maininfo">
         {React.cloneElement(props.children, { ...props })}
       </div>
     </div>
   </div>
 );
+
 
 Wrapper.propTypes = {
   children: PropTypes.element.isRequired,
@@ -20,5 +23,4 @@ Wrapper.propTypes = {
 };
 
 const mapStateToProps = state => ({ ...state });
-
 export default connect(mapStateToProps)(Wrapper);
