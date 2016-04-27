@@ -12,7 +12,7 @@
   margin: 0 auto;
   height: 100vh;
   @include flexCenter;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
 }
 
 .success-tip {
@@ -55,4 +55,5 @@
 .info-wrapper {
   margin-left: 40px;
   margin-top: 30px;
+  width: 260px;
 }
