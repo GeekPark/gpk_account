@@ -32,3 +32,11 @@ export function initWechatLogin() {
     href: '',
   });
 }
+
+export function updateUser(data) {
+  return $.ajax({
+    url: '/my',
+    method: 'PATCH',
+    data,
+  });
+}

@@ -12,16 +12,16 @@ export function parseErr(str) {
   return err;
 }
 
-export function render(Comp, dom) {
+export function render(Comp, dom, initProps = {}) {
   if (dom) {
-    let props;
+    let props = initProps;
     try {
       const propsStr = dom.getAttribute('data-server');
       const server = propsStr && JSON.parse(propsStr);
-      props = { server };
+      props = { ...props, server };
+      dom.removeAttribute('data-server');
     } catch (err) {
-      props = {};
-      console.error('server store parse error: ', err);
+      console.error('react server data parse error: ', err);
     }
     r(React.createElement(Comp, props), dom);
   }
