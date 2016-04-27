@@ -1,16 +1,20 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-// import { showMessage } from '../../actions';
+import { showMessage, setStore } from '../../actions';
 
 class Message extends React.Component {
   componentWillMount() {
-    // const server = this.props.server;
-    // let msg;
-    // if (typeof server === 'object' && Array.isArray(server.errors)) {
-    //   msg = server.errors[0];
-    // }
-    //
-    // if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
+    const { server, dispatch } = this.props;
+    let msg;
+    if (typeof server === 'object' && server !== null && Array.isArray(server.errors)) {
+      msg = server.errors[0];
+    }
+
+    // dispaly first error message from server side, then delete server errors
+    if (msg) {
+      dispatch(showMessage({ type: 'error', msg }));
+      dispatch(setStore({ ...server, errors: [] }));
+    }
   }
   render() {
     const { message } = this.props;
@@ -28,6 +32,8 @@ class Message extends React.Component {
 
 Message.propTypes = {
   message: PropTypes.object.isRequired,
+  server: PropTypes.any,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({ ...state });

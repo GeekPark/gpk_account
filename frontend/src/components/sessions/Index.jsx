@@ -14,12 +14,12 @@ import ServerStore from '../share/ServerStore';
 const T = props => (
   <ReduxWrapper>
     <div>
+      <ServerStore server={props.route.server} />
       <Transition {...props}>
         <Wrapper children={props.children} />
       </Transition>
       <Modal />
       <Message />
-      <ServerStore server={props.route.server} />
     </div>
   </ReduxWrapper>
 );
