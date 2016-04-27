@@ -15,7 +15,7 @@ class SocialLogin extends React.Component {
       <div className="social-login">
         <div className="section-title">
           <span>
-            通过第三方账号登录
+            通过第三方帐号登录
           </span>
         </div>
         <div className="space-around social-button">

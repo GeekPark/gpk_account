@@ -9,11 +9,11 @@ class WechatLogin extends React.Component {
     return (
       <div>
         <div className="modal-title">
-          微信登陆
+          微信登录
         </div>
         <i className="iconfont icon-close modal-close" onClick={this.props.onClose}></i>
         <div id="wechatQR" className="wechatqr-wrapper"></div>
-        <p className="tac">请在微信中扫码登陆</p>
+        <p className="tac">请在微信中扫码登录</p>
       </div>
     );
   }

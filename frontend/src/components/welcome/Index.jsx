@@ -69,7 +69,7 @@ class Welcome extends React.Component {
                 </Tooltip>
                 <button className="btn btn-large" onClick={this.submit}>提交</button>
                 <div className="tar go-setting">
-                  <a href={callback_url}>跳过，稍后去账号中心设置</a>
+                  <a href={callback_url}>跳过，稍后去帐号中心设置</a>
                 </div>
               </div>
             </div>
