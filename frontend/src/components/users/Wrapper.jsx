@@ -8,8 +8,10 @@ const Wrapper = props => (
   <div>
     <Header />
     <div className="user-wrapper">
-      <LeftMenu />
-      <div className="user-maininfo">
+      <div className="left-menu-wrapper">
+        <LeftMenu />
+      </div>
+      <div className="main-panel-wrapper">
         {React.cloneElement(props.children, { ...props })}
       </div>
     </div>

@@ -20,7 +20,7 @@ class Message extends React.Component {
     const { message } = this.props;
     const { isShow, msgType, msg } = message;
     return (
-      <div className={`message-wrapper ${isShow ? 'show' : ''} status-${msgType}`}>
+      <div className={`component-wrapper ${isShow ? 'show' : ''} status-${msgType}`}>
         <i className={`iconfont icon-${msgType}`}></i>
         <div className="message-content">
           {msg}

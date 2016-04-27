@@ -1,9 +1,15 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+
+import Avatar from '../share/Avatar';
 
 class LeftMenu extends React.Component {
   render() {
     return (
-      <div><h1>LeftMenu</h1></div>
+      <div className="left-menu">
+        <section className="section">
+          <Avatar editable needhover />
+        </section>
+      </div>
     );
   }
 }

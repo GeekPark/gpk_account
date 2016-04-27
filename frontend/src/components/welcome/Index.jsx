@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import ReduxWrapper from '../ReduxWrapper';
 import Header from '../share/Header';
-import UploadAvatar from '../share/UploadAvatar';
+import Avatar from '../share/Avatar';
 import Message from '../share/Message';
 
 import Tooltip from '../Tooltip';
@@ -46,9 +46,9 @@ class Welcome extends React.Component {
   render() {
     const { callback_url } = this.props.data;
     return (
-      <div className="page-welcome">
+      <div className="component-welcome">
         <Header />
-        <div className="page-welcome-container tac">
+        <div className="component-welcome-container tac">
           <div className="w100p">
             <div className="success-tip">
               <i className="iconfont icon-success"></i>
@@ -61,7 +61,7 @@ class Welcome extends React.Component {
             </div>
             <div className="user-info">
               <div className="avatar-wrapper">
-                <UploadAvatar ref="avatar" />
+                <Avatar ref="avatar" editable />
               </div>
               <div className="info-wrapper">
                 <Tooltip info={this.state.tooltips.nickname} className="mb-input">

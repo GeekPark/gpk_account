@@ -22,16 +22,20 @@ body {
 }
 
 // common scss, all page include
-.page-header {
+.component-header {
   @import 'components/header';
 }
 
-.message-wrapper {
+.component-wrapper {
   @import 'components/message';
 }
 
-.upload-avatar {
-  @import 'components/upload_avatar';
+.component-avatar {
+  @import 'components/avatar';
+}
+
+.component-welcome {
+  @import 'components/welcome';
 }
 
 // page only scss
@@ -45,6 +49,6 @@ body {
   @import 'modals/validator';
 }
 
-.page-welcome {
-  @import 'users/welcome';
+.users-show {
+  @import 'users/show';
 }

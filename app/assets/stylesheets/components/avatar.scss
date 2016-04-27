@@ -25,6 +25,17 @@ img {
   padding: 2px 0 4px;
 }
 
+&.needhover {
+  .button-tip {
+    display: none;
+  }
+
+  &:hover .button-tip {
+    display: block;
+  }
+}
+
+
 input[type=file] {
   position: absolute;
   top: 0;
