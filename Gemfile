@@ -50,6 +50,7 @@ gem 'omniauth-geekpark', '0.2.0'
 gem 'rails-api'
 gem 'active_model_serializers', '~> 0.9.5'
 gem 'doorkeeper'
+gem 'china_city'
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console

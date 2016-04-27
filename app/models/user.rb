@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
             allow_nil: true
   validates :nickname, length: { in: 2..20 }, allow_nil: true
   validates :password, length: { in: 6..20 }, allow_nil: true
+  validates :city, format: { with: /\A\d{6}\z/ }, allow_nil: true
 
   mount_uploader :avatar, AvatarUploader
 
