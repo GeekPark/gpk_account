@@ -3,7 +3,7 @@ import { SHOW_MESSAGE, CLOSE_MESSAGE } from '../actions';
 const defaultState = {
   isShow: false,
   msgType: 'success',
-  msg: '恭喜您，登录成功，请您前往用户设置中心进行帐号完善！',
+  msg: '',
 };
 
 export default function message(state = defaultState, action) {

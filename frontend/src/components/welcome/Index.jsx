@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import ReduxWrapper from '../ReduxWrapper';
 import Header from '../share/Header';
-import UploadAvatar from '../share/UploadAvatar';
+import Avatar from '../share/Avatar';
 import Message from '../share/Message';
 
 import Tooltip from '../Tooltip';
@@ -35,9 +35,11 @@ class Welcome extends React.Component {
         user: {
           nickname: nickname.value,
         },
-      }).done(d => {
-        console.log(d);
+      }).done(() => {
         this.props.dispatch(showMessage({ type: 'success', msg: '更新成功, 自动跳转中...' }));
+        setTimeout(() => {
+          window.location.href = this.props.data.callback_url;
+        }, 3000);
       }).fail(xhr => {
         console.error(xhr);
       });
@@ -45,10 +47,11 @@ class Welcome extends React.Component {
   }
   render() {
     const { callback_url } = this.props.data;
+    const { dispatch } = this.props;
     return (
-      <div className="page-welcome">
+      <div className="component-welcome">
         <Header />
-        <div className="page-welcome-container tac">
+        <div className="component-welcome-container tac">
           <div className="w100p">
             <div className="success-tip">
               <i className="iconfont icon-success"></i>
@@ -61,7 +64,7 @@ class Welcome extends React.Component {
             </div>
             <div className="user-info">
               <div className="avatar-wrapper">
-                <UploadAvatar ref="avatar" />
+                <Avatar ref="avatar" editable dispatch={dispatch} />
               </div>
               <div className="info-wrapper">
                 <Tooltip info={this.state.tooltips.nickname} className="mb-input">

@@ -40,3 +40,14 @@ export function updateUser(data) {
     data,
   });
 }
+
+export function uploadAvatar(data) {
+  return $.ajax({
+    url: '/my',
+    method: 'PATCH',
+    catch: false,
+    processData: false,
+    contentType: false,
+    data,
+  });
+}
