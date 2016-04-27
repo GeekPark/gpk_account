@@ -30,6 +30,10 @@ body {
   @import 'components/message';
 }
 
+.upload-avatar {
+  @import 'components/upload_avatar';
+}
+
 
 // page only scss
 .sessions-new,
@@ -40,4 +44,8 @@ body {
 
 .users-new {
   @import 'modals/validator';
+}
+
+.users-welcome {
+  @import 'users/welcome';
 }
