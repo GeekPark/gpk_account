@@ -9,7 +9,7 @@ const Wrapper = props => (
     <Header />
     <div className="user-wrapper">
       <div className="left-menu-wrapper">
-        <LeftMenu />
+        <LeftMenu {...props} />
       </div>
       <div className="main-panel-wrapper">
         {React.cloneElement(props.children, { ...props })}
@@ -24,5 +24,8 @@ Wrapper.propTypes = {
   style: PropTypes.object,
 };
 
-const mapStateToProps = state => ({ ...state });
+const mapStateToProps = state => {
+  const { server } = state;
+  return { server };
+};
 export default connect(mapStateToProps)(Wrapper);

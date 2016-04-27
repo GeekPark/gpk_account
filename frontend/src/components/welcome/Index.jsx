@@ -35,9 +35,11 @@ class Welcome extends React.Component {
         user: {
           nickname: nickname.value,
         },
-      }).done(d => {
-        console.log(d);
+      }).done(() => {
         this.props.dispatch(showMessage({ type: 'success', msg: '更新成功, 自动跳转中...' }));
+        setTimeout(() => {
+          window.location.href = this.props.data.callback_url;
+        }, 3000);
       }).fail(xhr => {
         console.error(xhr);
       });
@@ -45,6 +47,7 @@ class Welcome extends React.Component {
   }
   render() {
     const { callback_url } = this.props.data;
+    const { dispatch } = this.props;
     return (
       <div className="component-welcome">
         <Header />
@@ -61,7 +64,7 @@ class Welcome extends React.Component {
             </div>
             <div className="user-info">
               <div className="avatar-wrapper">
-                <Avatar ref="avatar" editable />
+                <Avatar ref="avatar" editable dispatch={dispatch} />
               </div>
               <div className="info-wrapper">
                 <Tooltip info={this.state.tooltips.nickname} className="mb-input">
