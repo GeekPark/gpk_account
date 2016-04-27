@@ -1,0 +1,45 @@
+& {
+  left: 50%;
+  top: 10vh;
+  max-width: 60vw;
+  position: fixed;
+  padding: 15px 40px;
+  border-radius: 2px;
+  background-color: $color-green;
+  color: #fff;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
+  border: 1px solid rgba(255, 255, 255, .3);
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  transition: transform .3s;
+  transform: scaleY(0) rotate(-15deg) translate(-50%, -20px);
+  transform-origin: top;
+}
+
+&.show {
+  transform: scaleY(1) rotate(0) translate(-50%, 0);
+}
+
+.iconfont {
+  @include flexCenter;
+  font-size: 4rem;
+  background-color: #fff;
+  color: $color-green;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+
+  &.icon-error {
+    font-size: 2.5rem;
+  }
+}
+
+&.status-error {
+  background-color: $color-red;
+
+  .iconfont {
+    color: $color-red;
+  }
+}

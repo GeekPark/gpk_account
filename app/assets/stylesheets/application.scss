@@ -21,10 +21,21 @@ body {
   color: #222;
 }
 
+// common scss, all page include
 .page-header {
-  @import 'page/header';
+  @import 'components/header';
 }
 
+.message-wrapper {
+  @import 'components/message';
+}
+
+.upload-avatar {
+  @import 'components/upload_avatar';
+}
+
+
+// page only scss
 .sessions-new,
 .users-new {
   @import 'sessions/new';
@@ -33,4 +44,8 @@ body {
 
 .users-new {
   @import 'modals/validator';
+}
+
+.users-welcome {
+  @import 'users/welcome';
 }

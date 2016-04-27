@@ -22,6 +22,9 @@ class SocialLogin extends React.Component {
           <a href="javascript:;" onClick={this.weibo}>
             <i className="iconfont icon-weibo social-icon"></i>
           </a>
+          <a href="javascript:;" onClick={this.wechat}>
+            <i className="iconfont icon-wechat social-icon"></i>
+          </a>
         </div>
       </div>
     );
