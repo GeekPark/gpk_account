@@ -41,7 +41,7 @@ class Avatar extends React.Component {
             <div className="button-tip">上传头像</div>
           </div>
         }
-        <img ref="img" src={src} alt="avatar" />
+        <img ref="img" src={src || defaultIMG} alt="avatar" />
       </div>
     );
   }

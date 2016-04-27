@@ -51,6 +51,8 @@ input[type=checkbox] {
 $input-height: 45px;
 
 input[type=text],
+input[type=date],
+textarea,
 input[type=password] {
   outline: none;
   border: 1px solid #dedede;

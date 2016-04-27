@@ -5,7 +5,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = UserSerializer.new(current_user).to_json
+    @user = UserSerializer.new(current_user)
+    @data = { user: @user, city: ChinaCity.list }.to_json
     respond_to do |format|
       format.html
       format.json { render json: @user }

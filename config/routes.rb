@@ -29,4 +29,6 @@ Rails.application.routes.draw do
   match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   # Captcha
   mount RuCaptcha::Engine => '/rucaptcha'
+  # City select
+  mount ChinaCity::Engine => '/china_city'
 end
