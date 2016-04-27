@@ -1,7 +1,8 @@
 class SessionsController < ApplicationController
   def new
     redirect_to root_url if current_user
-    @error = { errors: [warden.message] }.to_json if warden.message.present?
+    warden.message.present? &&
+      @error = { errors: ['invalid username or password'], login_name: warden.message }.to_json
   end
 
   def create
