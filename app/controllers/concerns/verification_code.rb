@@ -30,14 +30,4 @@ module VerificationCode
   def login_name
     params[:user][:email] || params[:user][:mobile]
   end
-
-  def require_user_exist
-    @user = User.find_by_email_or_mobile(login_name)
-    render json: { errors: ['User not found'] }, status: :not_found unless @user
-  end
-
-  def require_user_not_exist
-    @user = User.find_by_email_or_mobile(login_name)
-    render json: { errors: ['Email or mobile has already been taken'] }, status: :not_acceptable if @user
-  end
 end

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   include VerificationCode
-  before_action :require_login, only: [:show, :update, :welcome]
+  before_action :require_login, only: [:show, :update]
 
   def new
   end
@@ -23,6 +23,17 @@ class UsersController < ApplicationController
       user = User.create!(user_create_params)
       warden.set_user(user)
       render json: { user: UserSerializer.new(current_user), callback_url: callback_url }
+    else
+      render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
+    end
+  end
+
+  def reset_password
+    user = User.find_by_email_or_mobile(login_name)
+    (render json: { errors: ['User not found'] }, status: :not_found) && return unless user
+    if verify_code?
+      user.update!(password: params[:user][:password])
+      render json: { user: user, callback_url: callback_url(login_url) }
     else
       render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
     end
