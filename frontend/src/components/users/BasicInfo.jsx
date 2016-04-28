@@ -41,7 +41,7 @@ class BasicInfo extends React.Component {
         </div>
         <div className="form-item">
           <label htmlFor="location">地区</label>
-          <ChinaCity list={server.city} />
+          <ChinaCity list={server.city} selected="110105" />
         </div>
         <div className="form-item">
           <label htmlFor="company" defaultValue={company}>公司</label>
