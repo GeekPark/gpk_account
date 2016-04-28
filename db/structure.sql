@@ -43,6 +43,18 @@ COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UU
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: gender; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE gender AS ENUM (
+    'male',
+    'female',
+    'not_sure',
+    'prefer_not_to_disclose'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -213,7 +225,10 @@ CREATE TABLE users (
     avatar character varying,
     bio text,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    gender gender DEFAULT 'not_sure'::gender,
+    birthday date,
+    realname character varying
 );
 
 
@@ -377,4 +392,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160328062125');
 INSERT INTO schema_migrations (version) VALUES ('20160414181524');
 
 INSERT INTO schema_migrations (version) VALUES ('20160418083916');
+
+INSERT INTO schema_migrations (version) VALUES ('20160428055301');
 
