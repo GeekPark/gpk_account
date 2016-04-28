@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_login, only: [:show, :update]
-
+  before_action :verify_rucaptcha!, only: :send_verify_code
   def new
   end
 
@@ -28,11 +28,23 @@ class UsersController < ApplicationController
   end
 
   def send_verify_code
-    user = current_user || User.new(user_create_params)
-    if verify_rucaptcha?(user) && user.valid?
-      send_code(login_name)
+    message_service = MessageService.new(login_name)
+    if message_service.send_verify_code
+      render json: { success: 'Sended' }
     else
-      render json: { errors: user.errors.full_messages }, status: :not_acceptable
+      render json: { errors: ['Send failed'] }, status: :not_acceptable
+    end
+  end
+
+  def reset_password
+    user = User.find_by_email_or_mobile(login_name)
+    (render json: { errors: ['User not found'] }, status: :not_found) && return unless user
+    if verify_code?
+      user.update!(password: params[:user][:password])
+      warden.set_user(user)
+      render json: { user: user, callback_url: callback_url }
+    else
+      render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
     end
   end
 
@@ -48,24 +60,5 @@ class UsersController < ApplicationController
 
   def user_update_params
     params.require(:user).permit(:nickname, :city, :company, :title, :avatar, :bio)
-  end
-
-  def send_code(receiver)
-    message_service = MessageService.new(receiver)
-    sended = message_service.send(:send_verify_code)
-    if sended
-      render json: { success: 'Sended' }
-    else
-      render json: { errors: ['Send failed'] }, status: :not_acceptable
-    end
-  end
-
-  def verify_code?
-    code = Rails.cache.fetch "verify_code:#{login_name}"
-    code.present? && code == params[:verify_code]
-  end
-
-  def login_name
-    params[:user][:email] || params[:user][:mobile]
   end
 end

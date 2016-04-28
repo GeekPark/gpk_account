@@ -26,6 +26,20 @@ class ApplicationController < ActionController::Base
     warden.user
   end
 
+  def verify_rucaptcha!
+    verify_rucaptcha? ||
+      (render json: { errors: ['Captcha invalid!'] }, status: :not_acceptable) && return
+  end
+
+  def verify_code?(key = login_name)
+    code = Rails.cache.fetch "verify_code:#{key}"
+    code.present? && code == params[:verify_code]
+  end
+
+  def login_name
+    params[:user][:email] || params[:user][:mobile]
+  end
+
   def warden
     request.env['warden']
   end
