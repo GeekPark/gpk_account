@@ -1,5 +1,10 @@
 FactoryGirl.define do
   factory :user do
+    sequence(:nickname) { |n| "user#{n}" }
+    title 'director'
+    birthday 30.years.ago
+    city 440_300
+
     trait :without_validation do
       to_create { |instance| instance.save(validate: false) }
     end
@@ -28,11 +33,7 @@ FactoryGirl.define do
       avatar { Rack::Test::UploadedFile.new(Rails.root.join('app', 'assets', 'images', 'logo.png')) }
     end
 
-    trait :with_nickname do
-      sequence(:nickname) { |n| "user#{n}" }
-    end
-
-    factory :full_user, traits: [:with_email, :with_mobile, :with_password, :with_nickname,
+    factory :full_user, traits: [:with_email, :with_mobile, :with_password,
                                  :with_wechat_authorization, :with_weibo_authorization]
     factory :basic_user, traits: [:with_email, :with_password]
   end

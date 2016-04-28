@@ -24,6 +24,18 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'user#authencitate' do
+    it 'should failed when password is blank' do
+      user = create(:user, :with_email)
+      expect(user.authenticate('')).to be_nil
+    end
+
+    it 'should success' do
+      user = create(:basic_user)
+      expect(user.authenticate('password')).to eq(user)
+    end
+  end
+
   describe 'create_with_omniauth' do
     let!(:user) { User.create_with_omniauth mock_wechat_auth }
 

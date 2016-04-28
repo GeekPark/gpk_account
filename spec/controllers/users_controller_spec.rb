@@ -33,7 +33,7 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:user_attr) { attributes_for(:user, :with_nickname) }
+    let(:user_attr) { attributes_for(:user) }
 
     context 'user not login' do
       it_behaves_like 'return 401 without login' do
