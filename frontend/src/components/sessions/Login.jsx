@@ -60,7 +60,7 @@ class Login extends React.Component {
             <input type="checkbox" id="rember-me-check" />
             <label htmlFor="rember-me-check" className="cursor-pointer">记住我</label>
           </div>
-          <Link className="link" to="reset">忘记密码？</Link>
+          <Link className="link" to="reset_password">忘记密码？</Link>
         </div>
         <SocialLogin {...this.props} />
       </form>

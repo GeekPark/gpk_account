@@ -35,7 +35,7 @@ const Session = props => (
       <IndexRoute component={Login} />
       <Route path="login" component={Login} />
       <Route path="signup" component={Register} />
-      <Route path="reset" component={ResetPassword} />
+      <Route path="reset_password" component={ResetPassword} />
     </Route>
   </Router>
 );

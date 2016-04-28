@@ -4,13 +4,14 @@ import ReactDOM from 'react-dom';
 import SocialLogin from './SocialLogin';
 import PasswordInput from './PasswordInput';
 
-import { isEmpty, isPhoneNumber, isEmail as isValidateEmail } from '../../share/validator';
-import { openModal, updateUser } from '../../actions';
+import { isEmpty, isPhoneNumber, isEmail as isValidEmail, isValidPassword } from '../../share/validator';
+import { openModal, updateUser, showMessage, resetVerify } from '../../actions';
 import { createUser } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
 import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
+
 import Welcome from '../welcome/Index';
 
 const overlayStyle = {
@@ -20,8 +21,8 @@ const overlayStyle = {
 const TOOLTIPS = ['firstInput', 'verifyCode', 'password'];
 
 class Register extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       ...initState(TOOLTIPS),
       isEmail: false,
@@ -33,15 +34,18 @@ class Register extends React.Component {
     this.hideTip = hideTip.bind(this);
     this.clearTip = tipName => this.hideTip.bind(this, tipName);
 
+    this.isPendingVerify = () => this.props.verify_code.countdown > 0;
+
     this.toggleType = () => {
       this.setState({ isEmail: !this.state.isEmail });
       this.clearAllTip();
       this.clearInput();
+      this.props.dispatch(resetVerify());
       this.refs.firstInput.focus();
     };
 
     this.getCode = () => {
-      if (this.props.verify_code.pending) return;
+      if (this.isPendingVerify()) return;
       if (!this.isValidFirstInput()) return;
       this.props.dispatch(updateUser({
         isEmail: this.state.isEmail,
@@ -67,7 +71,7 @@ class Register extends React.Component {
       }).fail(xhr => {
         const errStr = parseErr(xhr.responseText);
         if (errStr) {
-          this.postErr('verifyCode', errStr[0]);
+          this.props.dispatch(showMessage({ type: 'error', msg: errStr }));
         }
       });
     };
@@ -97,7 +101,7 @@ class Register extends React.Component {
       firstInput.focus();
       return false;
     }
-    if ((isEmail && !isValidateEmail(v)) || (!isEmail && !isPhoneNumber(v))) {
+    if ((isEmail && !isValidEmail(v)) || (!isEmail && !isPhoneNumber(v))) {
       this.postErr('firstInput', `${typeStr}格式不对`);
       firstInput.focus();
       return false;
@@ -110,7 +114,7 @@ class Register extends React.Component {
     const typeStr = this.typeStr();
     if (!this.isValidFirstInput()) return false;
     if (!this.props.user.isValidated) {
-      this.getCode();
+      this.postErr('verifyCode', '请获取验证码并输入');
       return false;
     }
     if (isEmpty(verifyCode.value)) {
@@ -123,6 +127,11 @@ class Register extends React.Component {
       this.refs.password.refs.input.focus();
       return false;
     }
+    if (!isValidPassword(this.getPwd())) {
+      this.postErr('password', '密码长度必须在 6-20 位');
+      this.refs.password.refs.input.focus();
+      return false;
+    }
     return true;
   }
 
@@ -130,8 +139,8 @@ class Register extends React.Component {
     const { isEmail, tooltips } = this.state;
     const { verify_code } = this.props;
     let verifyButtonText = '获取验证码';
-    if (verify_code.pending) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
-    if (!verify_code.pending && !verify_code.isFirst) verifyButtonText = '重新获取';
+    if (this.isPendingVerify()) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
+    else if (!verify_code.isFirst) verifyButtonText = '重新发送';
     return (
       <div className="form-wrapper">
         <Tooltip info={tooltips.firstInput} className="mb-input">

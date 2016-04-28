@@ -44,7 +44,7 @@ class BasicInfo extends React.Component {
       })
       .fail(xhr => {
         const msg = parseErr(xhr.responseText);
-        this.props.dispatch(showMessage({ type: 'error', msg }));
+        if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
       });
   }
 

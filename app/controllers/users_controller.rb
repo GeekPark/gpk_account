@@ -83,7 +83,7 @@ class UsersController < ApplicationController
   end
 
   def get_city_list(id)
-    return ChinaCity.list if id.nil?
+    return [ChinaCity.list, nil, nil] if id.nil?
     [
       ChinaCity.list,
       ChinaCity.list("#{id / 1000}000"),

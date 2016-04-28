@@ -4,7 +4,7 @@ import { render as r } from 'react-dom';
 export function parseErr(str) {
   let err;
   try {
-    err = JSON.parse(str).errors;
+    err = JSON.parse(str).errors[0];
   } catch (e) {
     console.error(e);
     err = false;

@@ -6,5 +6,5 @@ require "#{Rails.root}/lib/extras/short_message"
 #
 #   # Turn on the debug_mode will really send sms.
 #   # Do not do this in test env
-#   config.debug_mode = false
+#   config.debug_mode = true
 # end

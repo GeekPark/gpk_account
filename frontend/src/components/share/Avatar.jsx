@@ -21,7 +21,6 @@ class Avatar extends React.Component {
           .done(user => {
             const { server } = this.props;
             this.props.dispatch(showMessage({ type: 'success', msg: '头像更新成功' }));
-            if (!server) return;
             this.props.dispatch(setStore({ ...server, user }));
           })
           .fail(xhr => {
