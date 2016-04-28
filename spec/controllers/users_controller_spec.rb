@@ -23,6 +23,13 @@ RSpec.describe UsersController, type: :controller do
         expect(JSON.parse(response.body)['user']['email']).to eq(user.email)
       end
 
+      it 'should return user authorizations' do
+        create(:weibo_authorization, user_id: user.id)
+        get :show, format: :json
+        expect(response).to be_success
+        expect(JSON.parse(response.body)['authorizations'].first['provider']).to eq('weibo')
+      end
+
       it 'should success' do
         get :show, format: :html
         expect(response).to be_success
