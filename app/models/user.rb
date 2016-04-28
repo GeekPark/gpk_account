@@ -16,6 +16,13 @@ class User < ActiveRecord::Base
   validates :password, length: { in: 6..20 }, allow_nil: true
   validates :city, format: { with: /\A\d{6}\z/ }, allow_nil: true
 
+  enum gender: {
+    male:                   'male',
+    female:                 'female',
+    not_sure:               'not_sure',
+    prefer_not_to_disclose: 'prefer_not_to_disclose'
+  }
+
   mount_uploader :avatar, AvatarUploader
 
   class << self
@@ -33,5 +40,11 @@ class User < ActiveRecord::Base
     rescue ActiveRecord::RecordInvalid
       nil
     end
+  end
+
+  def authenticate(password)
+    super(password)
+  rescue BCrypt::Errors::InvalidHash
+    nil
   end
 end
