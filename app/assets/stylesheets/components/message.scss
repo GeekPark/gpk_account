@@ -15,6 +15,7 @@
   transition: transform .3s;
   transform: scaleY(0) rotate(-15deg) translate(-50%, -20px);
   transform-origin: top;
+  z-index: 100;
 }
 
 &.show {

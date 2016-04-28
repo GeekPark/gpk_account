@@ -5,10 +5,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = UserSerializer.new(current_user).to_json
+    user = UserSerializer.new(current_user)
+    @data = { user: user, city: get_city_list(user.city) }.to_json
     respond_to do |format|
       format.html
-      format.json { render json: @user }
+      format.json { render json: @data }
     end
   end
 
@@ -60,5 +61,33 @@ class UsersController < ApplicationController
 
   def user_update_params
     params.require(:user).permit(:nickname, :city, :company, :title, :avatar, :bio)
+  end
+
+  def send_code(receiver)
+    message_service = MessageService.new(receiver)
+    sended = message_service.send(:send_verify_code)
+    if sended
+      render json: { success: 'Sended' }
+    else
+      render json: { errors: ['Send failed'] }, status: :not_acceptable
+    end
+  end
+
+  def verify_code?
+    code = Rails.cache.fetch "verify_code:#{login_name}"
+    code.present? && code == params[:verify_code]
+  end
+
+  def login_name
+    params[:user][:email] || params[:user][:mobile]
+  end
+
+  def get_city_list(id)
+    return ChinaCity.list if id.nil?
+    [
+      ChinaCity.list,
+      ChinaCity.list("#{id / 1000}000"),
+      ChinaCity.list("#{id / 100}00")
+    ]
   end
 end

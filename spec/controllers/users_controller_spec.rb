@@ -20,14 +20,14 @@ RSpec.describe UsersController, type: :controller do
       it 'shoud return user info after user login' do
         get :show, format: :json
         expect(response).to be_success
-        expect(JSON.parse(response.body)['email']).to eq(user.email)
+        expect(JSON.parse(response.body)['user']['email']).to eq(user.email)
       end
 
       it 'should success' do
         get :show, format: :html
         expect(response).to be_success
         expect(response).to render_template(:show)
-        expect(JSON.parse(assigns(:user))['id']).to eq(user.id)
+        expect(JSON.parse(assigns(:data))['user']['id']).to eq(user.id)
       end
     end
   end
