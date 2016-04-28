@@ -1,11 +1,12 @@
 import React, { PropTypes } from 'react';
+import ChinaCity from 'react-china-city';
+
 import Avatar from '../share/Avatar';
-import ChinaCity from '../share/ChinaCity';
 
 class BasicInfo extends React.Component {
   render() {
     const { server, dispatch } = this.props;
-    const { avatar_url, nickname, bio, company } = server.user;
+    const { avatar_url, nickname, bio, company, city } = server.user;
     const year = new Date().getFullYear();
     return (
       <section className="section basic-info">
@@ -41,7 +42,7 @@ class BasicInfo extends React.Component {
         </div>
         <div className="form-item">
           <label htmlFor="location">地区</label>
-          <ChinaCity list={server.city} selected="110105" />
+          <ChinaCity list={server.city} selected={city} />
         </div>
         <div className="form-item">
           <label htmlFor="company" defaultValue={company}>公司</label>
