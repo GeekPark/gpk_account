@@ -15,15 +15,17 @@ module Api
     def generate_captcha
       hex = SecureRandom.hex
       captcha = RuCaptcha::Captcha.random_chars
-      Rails.cache.write "captcha_key:#{hex}",captcha,expired_in: 10.minutes
+      Rails.cache.write "captcha_key:#{hex}", captcha, expired_in: 10.minutes
       response.headers['captcha_key'] = hex
       send_data RuCaptcha::Captcha.create(captcha)
     end
+
     private
 
     def current_user
       User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
     end
+
     def captcha_validate?
       params[:captcha_key].present? && params[:captcha].present? \
         && Rails.cache.read("captcha_key:#{params[:captcha_key]}") == params[:captcha]
