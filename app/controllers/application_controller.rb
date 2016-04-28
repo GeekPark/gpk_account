@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
-  private
+  protected
 
   def require_login
     unless current_user
@@ -23,7 +23,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    warden.user
+    warden.user || user_from_cookie
+  end
+
+  def user_from_cookie
+    warden.authenticate(:cookie) if cookies['remember_token']
   end
 
   def verify_rucaptcha!
