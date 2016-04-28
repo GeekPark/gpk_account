@@ -6,7 +6,7 @@ import SocialLogin from './SocialLogin';
 import { isEmpty } from '../../share/validator';
 import { getCSRFToken } from '../../share/utils';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../share/Tooltip';
 import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
 
 const TOOLTIPS = ['loginName', 'password'];

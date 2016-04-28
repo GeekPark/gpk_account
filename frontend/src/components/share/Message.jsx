@@ -1,8 +1,15 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { showMessage, setStore } from '../../actions';
+import { showMessage, setStore, clearMessage } from '../../actions';
 
 class Message extends React.Component {
+  constructor() {
+    super();
+
+    this.clear = () => {
+      this.props.dispatch(clearMessage());
+    };
+  }
   componentWillMount() {
     const { server, dispatch } = this.props;
     let msg;
@@ -20,7 +27,7 @@ class Message extends React.Component {
     const { message } = this.props;
     const { isShow, msgType, msg } = message;
     return (
-      <div className={`component-wrapper ${isShow ? 'show' : ''} status-${msgType}`}>
+      <div className={`component-wrapper ${isShow ? 'show' : ''} status-${msgType}`} onClick={this.clear}>
         <i className={`iconfont icon-${msgType}`}></i>
         <div className="message-content">
           {msg}

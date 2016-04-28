@@ -55,12 +55,14 @@ export function sendVerifyCode() {
 // message
 const showMessagePart = ({ msgType, msg }) => ({ type: SHOW_MESSAGE, msgType, msg });
 
+export const clearMessage = () => ({ type: CLOSE_MESSAGE });
+
 export function showMessage({ type, msg }) {
   return dispatch => {
     dispatch(showMessagePart({ msgType: type, msg }));
 
     setTimeout(() => {
-      dispatch({ type: CLOSE_MESSAGE });
+      dispatch(clearMessage());
     }, 1000 * 5);
   };
 }

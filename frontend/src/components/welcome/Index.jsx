@@ -6,7 +6,7 @@ import Header from '../share/Header';
 import Avatar from '../share/Avatar';
 import Message from '../share/Message';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../share/Tooltip';
 import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
 
 import { showMessage } from '../../actions';
@@ -47,7 +47,6 @@ class Welcome extends React.Component {
   }
   render() {
     const { callback_url } = this.props.data;
-    const { dispatch } = this.props;
     return (
       <div className="component-welcome">
         <Header />
@@ -64,7 +63,7 @@ class Welcome extends React.Component {
             </div>
             <div className="user-info">
               <div className="avatar-wrapper">
-                <Avatar ref="avatar" editable dispatch={dispatch} />
+                <Avatar editable />
               </div>
               <div className="info-wrapper">
                 <Tooltip info={this.state.tooltips.nickname} className="mb-input">

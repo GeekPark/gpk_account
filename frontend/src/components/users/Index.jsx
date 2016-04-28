@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 
 import ReduxWrapper from '../ReduxWrapper';
-import Transition from '../Transition';
+import Transition from '../share/Transition';
 import Message from '../share/Message';
 import ServerStore from '../share/ServerStore';
 

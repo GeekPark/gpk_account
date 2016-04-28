@@ -9,7 +9,7 @@ import { openModal, updateUser } from '../../actions';
 import { createUser } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../share/Tooltip';
 import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
 import Welcome from '../welcome/Index';
 

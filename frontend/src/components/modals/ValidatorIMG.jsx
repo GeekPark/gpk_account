@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Tooltip from '../Tooltip';
+import Tooltip from '../share/Tooltip';
 
 import { validateCaptcha } from '../../share/server';
 import { parseErr } from '../../share/utils';

@@ -30,3 +30,10 @@ export function render(Comp, dom, initProps = {}) {
 export function getCSRFToken() {
   return document.querySelector('meta[name=csrf-token]').content;
 }
+
+export function tryKey(obj, ...keys) {
+  return keys.reduce((pre, current) => {
+    if (pre) return pre[current];
+    else return undefined;
+  }, obj);
+}
