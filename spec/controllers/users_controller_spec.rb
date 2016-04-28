@@ -127,7 +127,7 @@ RSpec.describe UsersController, type: :controller do
     it 'return user and callback when success' do
       post :reset_password, user: @params, verify_code: @code
       expect(JSON.parse(response.body)['user']['email']).to eq(user.email)
-      expect(JSON.parse(response.body)['callback_url']).to eq(login_url)
+      expect(JSON.parse(response.body)['callback_url']).to eq(root_url)
     end
   end
 

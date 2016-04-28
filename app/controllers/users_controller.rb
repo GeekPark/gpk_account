@@ -1,7 +1,6 @@
 class UsersController < ApplicationController
-  include VerificationCode
   before_action :require_login, only: [:show, :update]
-
+  before_action :verify_rucaptcha!, only: :send_verify_code
   def new
   end
 
@@ -28,12 +27,22 @@ class UsersController < ApplicationController
     end
   end
 
+  def send_verify_code
+    message_service = MessageService.new(login_name)
+    if message_service.send_verify_code
+      render json: { success: 'Sended' }
+    else
+      render json: { errors: ['Send failed'] }, status: :not_acceptable
+    end
+  end
+
   def reset_password
     user = User.find_by_email_or_mobile(login_name)
     (render json: { errors: ['User not found'] }, status: :not_found) && return unless user
     if verify_code?
       user.update!(password: params[:user][:password])
-      render json: { user: user, callback_url: callback_url(login_url) }
+      warden.set_user(user)
+      render json: { user: user, callback_url: callback_url }
     else
       render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
     end
