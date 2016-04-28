@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   get 'check_exist', to: 'users#check_exist'
   get 'send_verify_code', to: 'users#send_verify_code'
 
+  # User reset password
+  post 'reset_password', to: 'users#reset_password'
+
   resource 'user', path: 'my', except: [:edit, :destroy] do
   end
 

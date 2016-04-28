@@ -101,6 +101,36 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe 'GET #reset_password' do
+    before do
+      email = user.email
+      @params = { email: email, password: 'new_password' }
+      allow_any_instance_of(UsersController).to receive(:verify_rucaptcha?).and_return(true)
+      get 'send_verify_code', user: { email: email }
+      @code = Rails.cache.fetch "verify_code:#{email}"
+    end
+
+    after do
+      Rails.cache.clear
+    end
+
+    it 'verify code invalid' do
+      post :reset_password, user: @params, verify_code: '111111'
+      expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
+    end
+
+    it 'return error when user not found' do
+      post :reset_password, user: { email: 'ex@am.ple' }, verify_code: @code
+      expect(JSON.parse(response.body)['errors']).to include('User not found')
+    end
+
+    it 'return user and callback when success' do
+      post :reset_password, user: @params, verify_code: @code
+      expect(JSON.parse(response.body)['user']['email']).to eq(user.email)
+      expect(JSON.parse(response.body)['callback_url']).to eq(login_url)
+    end
+  end
+
   describe 'GET #check_exist' do
     it 'should return false user not exist' do
       get 'check_exist', user: attributes_for(:user, :with_email)
@@ -125,12 +155,6 @@ RSpec.describe UsersController, type: :controller do
     context 'captcha correct' do
       before do
         allow_any_instance_of(UsersController).to receive(:verify_rucaptcha?).and_return(true)
-      end
-
-      it 'should return error when user exist' do
-        get 'send_verify_code', user: { email: user.email }
-        expect(response).to have_http_status(:not_acceptable)
-        expect(JSON.parse(response.body)['errors']).to include('Email has already been taken')
       end
 
       it 'should return success after send' do
