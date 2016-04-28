@@ -31,10 +31,13 @@ class Avatar extends React.Component {
     };
   }
   render() {
-    const { server, editable, needhover, src } = this.props;
+    const { size, server, editable, needhover, src } = this.props;
 
     return (
-      <div className={`component-avatar ${editable ? 'editable' : ''} ${needhover ? 'needhover' : ''}`}>
+      <div
+        style={{ width: size, height: size }}
+        className={`component-avatar ${editable ? 'editable' : ''} ${needhover ? 'needhover' : ''}`}
+      >
         {
           !editable ? null :
           <div>
@@ -59,6 +62,7 @@ Avatar.propTypes = {
   src: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
   server: PropTypes.any,
+  size: PropTypes.number,
 };
 
 const mapStateToProps = state => {
