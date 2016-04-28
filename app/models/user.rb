@@ -47,4 +47,15 @@ class User < ActiveRecord::Base
   rescue BCrypt::Errors::InvalidHash
     nil
   end
+
+  def generate_remember_token
+    loop do
+      self.remember_token = SecureRandom.urlsafe_base64
+      break unless User.exists?(remember_token: remember_token)
+    end
+    self.remember_token_created_at = Time.current
+
+    save
+    remember_token
+  end
 end

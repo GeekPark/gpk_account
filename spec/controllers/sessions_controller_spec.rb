@@ -3,6 +3,15 @@ require 'rails_helper'
 RSpec.describe SessionsController, type: :controller do
   let(:user) { create(:full_user) }
 
+  describe 'current_user' do
+    it 'returns user from cookie' do
+      request.cookies['remember_token'] = user.generate_remember_token
+      get :new
+      expect(warden.user).to eq(user)
+      expect(response).to redirect_to(root_url)
+    end
+  end
+
   describe 'GET #new' do
     it 'returns http success' do
       get :new
@@ -33,6 +42,11 @@ RSpec.describe SessionsController, type: :controller do
         expect(warden.user).to eq(user)
         expect(response).to redirect_to(root_url)
       end
+
+      it 'will set remember_token if remember_me' do
+        post :create, login_name: user.email, password: 'password', remember_me: true
+        expect(request.cookies['remember_token']).to eq(user.remember_token)
+      end
     end
 
     context 'user login with omniauth' do
@@ -53,10 +67,17 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     it 'returns http success' do
-      warden.set_user user
+      warden.set_user(user)
       expect(warden.user).to eq(user)
-      get :destroy
+      delete :destroy
       expect(warden.user).to be_nil
+    end
+
+    it "empty the user's remember_token" do
+      user.generate_remember_token
+      warden.set_user(user)
+      delete :destroy
+      expect(user.remember_token).to be_nil
     end
   end
 end

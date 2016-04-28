@@ -228,7 +228,9 @@ CREATE TABLE users (
     updated_at timestamp without time zone NOT NULL,
     gender gender DEFAULT 'not_sure'::gender,
     birthday date,
-    realname character varying
+    realname character varying,
+    remember_token character varying,
+    remember_token_created_at timestamp without time zone
 );
 
 
@@ -371,6 +373,13 @@ CREATE INDEX index_users_on_nickname ON users USING btree (nickname);
 
 
 --
+-- Name: index_users_on_remember_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_remember_token ON users USING btree (remember_token);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -394,4 +403,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160414181524');
 INSERT INTO schema_migrations (version) VALUES ('20160418083916');
 
 INSERT INTO schema_migrations (version) VALUES ('20160428055301');
+
+INSERT INTO schema_migrations (version) VALUES ('20160428101641');
 
