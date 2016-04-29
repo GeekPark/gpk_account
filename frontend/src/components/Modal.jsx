@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import ValidatorIMG from './modals/ValidatorIMG';
 import WechatLogin from './modals/WechatLogin';
 import Default from './modals/Default';
-import { closeModal, sendVerifyCode, validateUser } from '../actions';
+import { closeModal, sendVerifyCode, validateUser, showMessage } from '../actions';
 
 const components = {
   ValidatorIMG,
@@ -47,6 +47,7 @@ const mapDispatchToProps = dispatch => ({
   onClose: () => dispatch(closeModal()),
   sendVerifyCode: () => dispatch(sendVerifyCode()),
   validateUser: () => dispatch(validateUser()),
+  showMessage: param => dispatch(showMessage(param)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

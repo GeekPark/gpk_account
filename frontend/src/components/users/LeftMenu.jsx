@@ -4,13 +4,13 @@ import Avatar from '../share/Avatar';
 
 class LeftMenu extends React.Component {
   render() {
-    const { server, dispatch } = this.props;
-    const { avatar_url, nickname } = server.user;
+    const { server } = this.props;
+    const { nickname } = server.user;
     return (
       <div className="left-menu">
         <section className="section basic-userinfo">
           <div className="avatar-wrapper">
-            <Avatar editable needhover src={avatar_url} dispatch={dispatch} />
+            <Avatar editable needhover />
           </div>
           <div className="nickname">
             {nickname}

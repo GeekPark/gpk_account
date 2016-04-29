@@ -7,7 +7,6 @@ import verifyCode from '../../src/reducers/verify_code';
 describe('verifyCode reducer', () => {
   const before = {
     isFirst: true,
-    pending: false,
     countdown: 0,
   };
 
@@ -16,7 +15,6 @@ describe('verifyCode reducer', () => {
   it('first send validate code', () => {
     const afterSend = {
       isFirst: false,
-      pending: true,
       countdown: 60,
     };
 
@@ -27,13 +25,27 @@ describe('verifyCode reducer', () => {
 
   it('reset countdown when 60s later', () => {
     const afterReset = {
-      isFirst: false,
-      pending: false,
+      isFirst: true,
       countdown: 0,
+    };
+    const beforeReset = {
+      isFirst: false,
+      countdown: 20,
     };
 
     expect(
-      verifyCode(before, { type: 'RESET_VERIFY_CODE' })
+      verifyCode(beforeReset, { type: 'RESET_VERIFY_CODE' })
     ).toEqual(afterReset);
+  });
+
+  it('countdown', () => {
+    const after = {
+      isFirst: true,
+      countdown: 20,
+    };
+
+    expect(
+      verifyCode(before, { type: 'UPDATE_COUNTDOWN', countdown: 20 })
+    ).toEqual(after);
   });
 });

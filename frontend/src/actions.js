@@ -34,8 +34,11 @@ export function validateUser() {
 
 // verifyCode
 const resendVerifyCode = () => ({ type: SEND_VERIFY_CODE });
-const resetVerfiyCode = () => ({ type: RESET_VERIFY_CODE });
 const updateCountdown = s => ({ type: UPDATE_COUNTDOWN, countdown: s });
+
+export function resetVerify() {
+  return { type: RESET_VERIFY_CODE };
+}
 
 export function sendVerifyCode() {
   return dispatch => {
@@ -43,10 +46,7 @@ export function sendVerifyCode() {
 
     let counter = 1;
     const id = window.setInterval(() => {
-      if (counter === 60) {
-        dispatch(resetVerfiyCode());
-        window.clearInterval(id);
-      }
+      if (counter === 60) window.clearInterval(id);
       dispatch(updateCountdown((60 - counter++)));
     }, 1000);
   };
@@ -55,12 +55,14 @@ export function sendVerifyCode() {
 // message
 const showMessagePart = ({ msgType, msg }) => ({ type: SHOW_MESSAGE, msgType, msg });
 
+export const clearMessage = () => ({ type: CLOSE_MESSAGE });
+
 export function showMessage({ type, msg }) {
   return dispatch => {
     dispatch(showMessagePart({ msgType: type, msg }));
 
     setTimeout(() => {
-      dispatch({ type: CLOSE_MESSAGE });
+      dispatch(clearMessage());
     }, 1000 * 5);
   };
 }

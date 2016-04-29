@@ -6,11 +6,13 @@ import Header from '../share/Header';
 import Avatar from '../share/Avatar';
 import Message from '../share/Message';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../share/Tooltip';
 import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
 
 import { showMessage } from '../../actions';
 import { updateUser } from '../../share/server';
+import { parseErr } from '../../share/utils';
+import { isValidNickname, isEmpty } from '../../share/validator';
 
 class Welcome extends React.Component {
   constructor() {
@@ -26,8 +28,13 @@ class Welcome extends React.Component {
 
     this.submit = () => {
       const { nickname } = this.refs;
-      if (nickname.value.length === 0) {
+      if (isEmpty(nickname.value)) {
         this.postErr('nickname', '昵称不能为空');
+        return;
+      }
+
+      if (!isValidNickname(nickname.value)) {
+        this.postErr('nickname', '昵称必须在 2-20 个字符喔');
         return;
       }
 
@@ -41,13 +48,13 @@ class Welcome extends React.Component {
           window.location.href = this.props.data.callback_url;
         }, 3000);
       }).fail(xhr => {
-        console.error(xhr);
+        const msg = parseErr(xhr);
+        if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
       });
     };
   }
   render() {
     const { callback_url } = this.props.data;
-    const { dispatch } = this.props;
     return (
       <div className="component-welcome">
         <Header />
@@ -64,7 +71,7 @@ class Welcome extends React.Component {
             </div>
             <div className="user-info">
               <div className="avatar-wrapper">
-                <Avatar ref="avatar" editable dispatch={dispatch} />
+                <Avatar editable />
               </div>
               <div className="info-wrapper">
                 <Tooltip info={this.state.tooltips.nickname} className="mb-input">

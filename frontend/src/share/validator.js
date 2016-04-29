@@ -1,3 +1,5 @@
+const limitStr = (str, min, max) => str && str.length >= min && str.length <= max;
+
 export function isPhoneNumber(str) {
   return /^1\d{10}/.test(str);
 }
@@ -13,4 +15,12 @@ export function isEmail(str) {
 
 export function isEmpty(str) {
   return !isNotEmpty(str);
+}
+
+export function isValidNickname(str) {
+  return limitStr(str, 2, 20);
+}
+
+export function isValidPassword(str) {
+  return limitStr(str, 6, 20);
 }

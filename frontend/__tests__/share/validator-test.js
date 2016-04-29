@@ -1,6 +1,6 @@
 jest.unmock('../../src/share/validator');
 
-import { isPhoneNumber, isEmpty, isNotEmpty, isEmail } from '../../src/share/validator';
+import { isPhoneNumber, isEmpty, isNotEmpty, isEmail, isValidNickname, isValidPassword } from '../../src/share/validator';
 
 describe('validator', () => {
   it('should validate isPhoneNumber', () => {
@@ -29,5 +29,19 @@ describe('validator', () => {
     expect(isEmpty('')).toEqual(true);
     expect(isEmpty()).toEqual(true);
     expect(isEmpty('123')).toEqual(false);
+  });
+
+  it('isValidNickname', () => {
+    expect(isValidNickname('123')).toEqual(true);
+    expect(isValidNickname('1')).toEqual(false);
+    expect(isValidNickname('12')).toEqual(true);
+    expect(isValidNickname('1112312312312312312311231231231232')).toEqual(false);
+  });
+
+  it('isValidPassword', () => {
+    expect(isValidPassword('123')).toEqual(false);
+    expect(isValidPassword('1asdfasdf')).toEqual(true);
+    expect(isValidPassword('123456')).toEqual(true);
+    expect(isValidPassword('1112312312312312312311231231231232')).toEqual(false);
   });
 });

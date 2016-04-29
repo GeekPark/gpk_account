@@ -8,7 +8,7 @@ class MessageService
     when /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/
       UserMailer.send_verify_code(@receiver, generate_verify_code).deliver_later
     when /\A\d{11}\z/
-      ShortMessage.send_verify_code(type, @receiver, generate_verify_code)
+      ShortMessage.send_verify_code(@receiver, generate_verify_code)
     else
       false
     end

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Tooltip from '../Tooltip';
+import Tooltip from '../share/Tooltip';
 
 import { validateCaptcha } from '../../share/server';
 import { parseErr } from '../../share/utils';
@@ -42,9 +42,7 @@ class ValidatorIMG extends React.Component {
         })
         .fail(xhr => {
           const errStr = parseErr(xhr.responseText);
-          if (errStr) {
-            this.showErr(errStr[0]);
-          }
+          if (errStr) this.props.showMessage({ type: 'error', msg: errStr });
           this.random();
         });
     };
@@ -93,6 +91,7 @@ ValidatorIMG.propTypes = {
   onClose: PropTypes.func.isRequired,
   sendVerifyCode: PropTypes.func.isRequired,
   validateUser: PropTypes.func.isRequired,
+  showMessage: PropTypes.func.isRequired,
 };
 
 export default ValidatorIMG;

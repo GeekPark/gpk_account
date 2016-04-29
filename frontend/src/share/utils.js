@@ -4,7 +4,7 @@ import { render as r } from 'react-dom';
 export function parseErr(str) {
   let err;
   try {
-    err = JSON.parse(str).errors;
+    err = JSON.parse(str).errors[0];
   } catch (e) {
     console.error(e);
     err = false;
@@ -29,4 +29,11 @@ export function render(Comp, dom, initProps = {}) {
 
 export function getCSRFToken() {
   return document.querySelector('meta[name=csrf-token]').content;
+}
+
+export function tryKey(obj, ...keys) {
+  return keys.reduce((pre, current) => {
+    if (pre) return pre[current];
+    else return undefined;
+  }, obj);
 }

@@ -3,7 +3,7 @@ import PasswordInput from './PasswordInput';
 
 const Step0 = (props) => (
   <div>
-    <input type="text" placeholder="手机号码/邮箱" />
+    <input type="text" placeholder="手机号码/邮箱" className="mb-input" />
     <button className="btn btn-large" onClick={props.goStep}>获取验证码</button>
   </div>
 );

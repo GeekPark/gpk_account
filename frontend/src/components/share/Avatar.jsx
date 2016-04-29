@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
+import { tryKey } from '../../share/utils';
 import { uploadAvatar } from '../../share/server';
-import { showMessage } from '../../actions';
+import { showMessage, setStore } from '../../actions';
 
 const defaultIMG = require('./default.png');
 
@@ -16,13 +18,10 @@ class Avatar extends React.Component {
         const f = new FormData();
         f.append('user[avatar]', files[0]);
         uploadAvatar(f)
-          .done(() => {
-            const reader = new FileReader();
-            reader.onload = ee => {
-              this.refs.img.src = ee.target.result;
-            };
-            reader.readAsDataURL(files[0]);
+          .done(user => {
+            const { server } = this.props;
             this.props.dispatch(showMessage({ type: 'success', msg: '头像更新成功' }));
+            this.props.dispatch(setStore({ ...server, user }));
           })
           .fail(xhr => {
             console.error(xhr);
@@ -31,9 +30,13 @@ class Avatar extends React.Component {
     };
   }
   render() {
-    const { editable, needhover, src } = this.props;
+    const { size, server, editable, needhover, src } = this.props;
+
     return (
-      <div className={`component-avatar ${editable ? 'editable' : ''} ${needhover ? 'needhover' : ''}`}>
+      <div
+        style={{ width: size, height: size }}
+        className={`component-avatar ${editable ? 'editable' : ''} ${needhover ? 'needhover' : ''}`}
+      >
         {
           !editable ? null :
           <div>
@@ -41,7 +44,7 @@ class Avatar extends React.Component {
             <div className="button-tip">上传头像</div>
           </div>
         }
-        <img ref="img" src={src || defaultIMG} alt="avatar" />
+        <img ref="img" src={src || tryKey(server, 'user', 'avatar_url') || defaultIMG } alt="avatar" />
       </div>
     );
   }
@@ -50,7 +53,6 @@ class Avatar extends React.Component {
 Avatar.defaultProps = {
   needhover: false,
   editable: false,
-  src: defaultIMG,
 };
 
 Avatar.propTypes = {
@@ -58,6 +60,13 @@ Avatar.propTypes = {
   needhover: PropTypes.bool,
   src: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  server: PropTypes.any,
+  size: PropTypes.number,
 };
 
-export default Avatar;
+const mapStateToProps = state => {
+  const { server } = state;
+  return { server };
+};
+
+export default connect(mapStateToProps)(Avatar);
