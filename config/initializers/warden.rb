@@ -13,8 +13,10 @@ Warden::Manager.serialize_from_session do |id|
   User.find(id)
 end
 
-Warden::Manager.before_logout scope: :user do |user, _auth, _opts|
-  user.update_attribute :remember_token, nil
+Warden::Manager.before_logout do |user, auth, _opts|
+  user.update_attribute :remember_token, nil if user.remember_token
+  auth.cookies.delete(:remember_token)
+  auth.cookies.delete(:remember_user)
 end
 
 Warden::Strategies.add(:password) do
@@ -33,7 +35,8 @@ Warden::Strategies.add(:password) do
   end
 
   def store_cookie(user)
-    cookies['remember_token'] = user.generate_remember_token
+    cookies[:remember_user] = user.id
+    cookies[:remember_token] = user.generate_remember_token
   end
 end
 
@@ -52,16 +55,17 @@ end
 
 Warden::Strategies.add(:cookie) do
   def valid?
-    cookies['remember_token']
+    cookies[:remember_token].present? && cookies[:remember_user].present?
   end
 
   def authenticate!
-    user = User.find_by_remember_token(cookies['remember_token'])
+    user = User.find_by_id_and_remember_token(cookies[:remember_user], cookies[:remember_token])
     if user && user.remember_token_created_at > 30.days.ago
       success!(user)
     else
-      cookies['remember_token'] = nil
-      fail!('Could not log in')
+      cookies.delete(:remember_token)
+      cookies.delete(:remember_user)
+      fail!
     end
   end
 end

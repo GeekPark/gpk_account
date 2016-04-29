@@ -5,7 +5,8 @@ RSpec.describe SessionsController, type: :controller do
 
   describe 'current_user' do
     it 'returns user from cookie' do
-      request.cookies['remember_token'] = user.generate_remember_token
+      request.cookies[:remember_token] = user.generate_remember_token
+      request.cookies[:remember_user] = user.id
       get :new
       expect(warden.user).to eq(user)
       expect(response).to redirect_to(root_url)
