@@ -17,6 +17,7 @@ class Tooltip extends React.Component {
 
     this.isTooltip = true;
   }
+
   render() {
     const { children, className } = this.props;
     const { msg, isShow } = this.state;

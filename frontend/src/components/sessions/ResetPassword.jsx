@@ -1,8 +1,8 @@
 import React from 'react';
 // import PasswordInput from './PasswordInput';
-//
-// import Captcha from '../share/Captcha';
-//
+
+import Captcha from '../share/Captcha';
+
 // const Step0 = (props) => (
 //   <div>
 //     <input type="text" placeholder="手机号码/邮箱" className="mb-input" />
@@ -26,45 +26,28 @@ import React from 'react';
 //   </div>
 // );
 //
-// class ResetPassword extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       step: 0,
-//     };
-//
-//     this.goStep = () => this.setState({ step: 1 });
-//
-//     this.testRef = () => {
-//       console.log(this.refs.captcha.getValue());
-//       // debugger;
-//     };
-//   }
-//   render() {
-//     const { step } = this.state;
-//     return (
-//       <div className="form-wrapper form-reset">
-//         <div className="form-title">
-//           重设密码
-//         </div>
-//         <button className="btn large" onClick={this.testRef}>test</button>
-//         <p className="form-desc">
-//           验证码将会发送至你的注册邮箱或手机
-//         </p>
-//         <div>
-//           <input type="text" placeholder="手机号码/邮箱" className="mb-input" />
-//           <Captcha className="mb-input" ref="captcha" />
-//           <button className="btn btn-large">获取验证码</button>
-//         </div>
-//
-//         {
-//           // step === 0 ? <Step0 goStep={this.goStep} /> : <Step1 />
-//         }
-//       </div>
-//     );
-//   }
-// }
-//
-const ResetPassword = () => (<div></div>);
+class ResetPassword extends React.Component {
+  constructor() {
+    super();
+    this.goStep = () => this.setState({ step: 1 });
+  }
+  render() {
+    return (
+      <div className="form-wrapper form-reset">
+        <div className="form-title">
+          重设密码
+        </div>
+        <p className="form-desc">
+          验证码将会发送至你的注册邮箱或手机
+        </p>
+        <div>
+          <input type="text" placeholder="手机号码/邮箱" className="mb-input" />
+          <Captcha className="mb-input" ref="captcha" />
+          <button className="btn btn-large">下一步</button>
+        </div>
+      </div>
+    );
+  }
+}
 
 export default ResetPassword;

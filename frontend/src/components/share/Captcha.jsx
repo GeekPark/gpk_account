@@ -23,6 +23,10 @@ class Captcha extends React.Component {
         this.refs.tooltip.postErr('验证码不能为空');
         return false;
       }
+      if (v.length !== 4) {
+        this.refs.tooltip.postErr('请输入4位数验证码');
+        return false;
+      }
       return v;
     };
   }
@@ -31,9 +35,9 @@ class Captcha extends React.Component {
     return (
       <div className={`form-group ${this.props.className}`}>
         <Tooltip ref="tooltip">
-          <input type="text" placeholder="图形验证码" maxLength="4" autoFocus ref="input" onChange={this.clearTip} />
+          <input type="text" autoFocus={this.props.autofocus} placeholder="图形验证码" maxLength="4" ref="input" onChange={this.clearTip} />
         </Tooltip>
-        <div className="form-side">
+        <div className="form-side p0">
           <img src={`/rucaptcha?${this.state.random}`} alt="验证码" onClick={this.random} />
         </div>
       </div>
@@ -41,8 +45,13 @@ class Captcha extends React.Component {
   }
 }
 
+Captcha.defaultProps = {
+  autofocus: false,
+};
+
 Captcha.propTypes = {
   className: PropTypes.string,
+  autofocus: PropTypes.bool,
 };
 
 export default Captcha;

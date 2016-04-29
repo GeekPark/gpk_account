@@ -17,7 +17,7 @@ class Welcome extends React.Component {
   constructor() {
     super();
 
-    this.clearTip = () => this.refs.tooltip.clear();
+    this.clearTip = () => this.refs.nicknameTip.clear();
 
     this.submit = () => {
       const { nickname } = this.refs;
@@ -68,7 +68,7 @@ class Welcome extends React.Component {
               </div>
               <div className="info-wrapper">
                 <Tooltip ref="nicknameTip" className="mb-input">
-                  <input type="text" placeholder="请输入你的昵称" onChange={this.clearTip('nickname')} ref="nickname" />
+                  <input type="text" placeholder="请输入你的昵称" onChange={this.clearTip} ref="nickname" />
                 </Tooltip>
                 <button className="btn btn-large" onClick={this.submit}>提交</button>
                 <div className="tar go-setting">

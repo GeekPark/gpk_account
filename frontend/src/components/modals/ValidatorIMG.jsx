@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import Tooltip from '../share/Tooltip';
+
+import Captcha from '../share/Captcha';
 
 import { validateCaptcha } from '../../share/server';
 import { parseErr } from '../../share/utils';
@@ -8,22 +9,9 @@ class ValidatorIMG extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      random: Math.random(),
-    };
-
-    this.random = () => {
-      this.setState({ random: Math.random() });
-      this.refs.input.focus();
-    };
-
-    this.validate = () => {
-      const v = this.refs.input.value;
-
-      if (v.length !== 4) {
-        this.showErr('请输入4位数验证码');
-        return;
-      }
+    this.submit = () => {
+      const v = this.refs.captcha.getValue();
+      if (!v) return;
 
       const user = {};
       const key = props.user.isEmail ? 'email' : 'mobile';
@@ -38,21 +26,16 @@ class ValidatorIMG extends React.Component {
         .fail(xhr => {
           const errStr = parseErr(xhr.responseText);
           if (errStr) this.props.showMessage({ type: 'error', msg: errStr });
-          this.random();
+          this.refs.captcha.random();
         });
     };
-
-    this.clearTip = () => this.refs.inputTip.clear();
   }
 
   componentDidMount() {
     this.refs.form.addEventListener('submit', e => {
       e.preventDefault();
+      this.submit();
     });
-  }
-
-  showErr(msg) {
-    this.refs.inputTip.postErr(msg);
   }
 
   render() {
@@ -63,17 +46,8 @@ class ValidatorIMG extends React.Component {
         </div>
         <i className="iconfont icon-close modal-close" onClick={this.props.onClose}></i>
         <form ref="form">
-          <div className="form-group mb-input">
-            <Tooltip ref="inputTip">
-              <div>
-                <input type="text" placeholder="图形验证码" maxLength="4" autoFocus ref="input" onChange={this.clearTip} />
-                <div className="form-side">
-                  <img src={`/rucaptcha?${this.state.random}`} alt="验证码" onClick={this.random} />
-                </div>
-              </div>
-            </Tooltip>
-          </div>
-          <button className="btn btn-large" onClick={this.validate}>提交</button>
+          <Captcha className="mb-input" ref="captcha" />
+          <button className="btn btn-large" onClick={this.submit}>提交</button>
         </form>
       </div>
     );
