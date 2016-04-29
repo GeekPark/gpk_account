@@ -37,7 +37,10 @@ class BasicInfo extends React.Component {
   }
 
   sendInfo() {
-    const data = $('form#basic-info').serializeArray();
+    const data = $('form#basic-info').serializeArray().map(x => {
+      if (x.name === 'user[city]' && +x.value === 0) return {};
+      else return x;
+    });
     updateUser(data)
       .done(() => {
         this.props.dispatch(showMessage({ type: 'success', msg: '个人信息更新成功' }));
