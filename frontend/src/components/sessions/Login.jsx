@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import SocialLogin from './SocialLogin';
 
-import { isEmpty } from '../../share/validator';
+import { isEmpty, isPhoneNumber, isEmail, isValidPassword } from '../../share/validator';
 import { getCSRFToken } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
@@ -36,8 +36,16 @@ class Login extends React.Component {
       this.postErr('loginName', '用户名不能为空');
       return false;
     }
+    if (!isPhoneNumber(loginName.value) && !isEmail(loginName.value)) {
+      this.postErr('loginName', '用户名必须为邮箱或手机号');
+      return false;
+    }
     if (isEmpty(password.value)) {
       this.postErr('password', '密码不能为空');
+      return false;
+    }
+    if (!isValidPassword(password.value)) {
+      this.postErr('password', '密码格式不对');
       return false;
     }
     return true;
@@ -52,12 +60,12 @@ class Login extends React.Component {
           <input type="text" name="login_name" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginName')} />
         </Tooltip>
         <Tooltip info={tooltips.password} className="mb-input">
-          <input type="password" placeholder="密码" ref="password" name="password" />
+          <input type="password" placeholder="密码" ref="password" name="password" onChange={this.clearTip('password')} />
         </Tooltip>
         <button className="btn btn-large" onClick={this.submit}>立即登录</button>
         <div className="space-between extra-info">
           <div className="rember-me">
-            <input type="checkbox" id="rember-me-check" />
+            <input type="checkbox" id="rember-me-check" name="remember_me" />
             <label htmlFor="rember-me-check" className="cursor-pointer">记住我</label>
           </div>
           <Link className="link" to="reset_password">忘记密码？</Link>
