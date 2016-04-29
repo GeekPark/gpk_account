@@ -10,7 +10,7 @@ class LeftMenu extends React.Component {
       <div className="left-menu">
         <section className="section basic-userinfo">
           <div className="avatar-wrapper">
-            <Avatar editable needhover />
+            <Avatar />
           </div>
           <div className="nickname">
             {nickname}
