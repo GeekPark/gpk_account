@@ -57,11 +57,17 @@ const showMessagePart = ({ msgType, msg }) => ({ type: SHOW_MESSAGE, msgType, ms
 
 export const clearMessage = () => ({ type: CLOSE_MESSAGE });
 
+let timeoutID;
+
 export function showMessage({ type, msg }) {
   return dispatch => {
-    dispatch(showMessagePart({ msgType: type, msg }));
-
+    clearTimeout(timeoutID);
+    dispatch(clearMessage());
     setTimeout(() => {
+      dispatch(showMessagePart({ msgType: type, msg }));
+    }, 300);
+
+    timeoutID = setTimeout(() => {
       dispatch(clearMessage());
     }, 1000 * 5);
   };

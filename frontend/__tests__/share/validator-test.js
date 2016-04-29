@@ -1,6 +1,8 @@
 jest.unmock('../../src/share/validator');
 
-import { isPhoneNumber, isEmpty, isNotEmpty, isEmail, isValidNickname, isValidPassword } from '../../src/share/validator';
+import {
+  isPhoneNumber, isEmpty, isNotEmpty, isEmail, isValidNickname, isValidPassword, isValidID,
+} from '../../src/share/validator';
 
 describe('validator', () => {
   it('should validate isPhoneNumber', () => {
@@ -8,6 +10,7 @@ describe('validator', () => {
     expect(isPhoneNumber('abc')).toEqual(false);
     expect(isPhoneNumber('')).toEqual(false);
     expect(isPhoneNumber('15210001111')).toEqual(true);
+    expect(isPhoneNumber('15210001111123')).toEqual(false);
   });
 
   it('validate isNotEmpty', () => {
@@ -43,5 +46,12 @@ describe('validator', () => {
     expect(isValidPassword('1asdfasdf')).toEqual(true);
     expect(isValidPassword('123456')).toEqual(true);
     expect(isValidPassword('1112312312312312312311231231231232')).toEqual(false);
+  });
+
+  it('isValidID', () => {
+    expect(isValidID('123')).toEqual(false);
+    expect(isValidID('mail@geekpark.net')).toEqual(true);
+    expect(isValidID('15210000000')).toEqual(true);
+    expect(isValidID('1112312312312312312311231231231232')).toEqual(false);
   });
 });

@@ -50,7 +50,7 @@ class BasicInfo extends React.Component {
 
   render() {
     const { server } = this.props;
-    const { nickname, bio, company, city } = server.user;
+    const { nickname, realname, bio, company, city, birthday, title, gender } = server.user;
     const year = new Date().getFullYear();
     return (
       <form className="section basic-info" id="basic-info">
@@ -72,31 +72,31 @@ class BasicInfo extends React.Component {
         </div>
         <div className="form-item">
           <label htmlFor="realname">真实姓名</label>
-          <input type="text" defaultValue="..." name="user[realname]" />
+          <input type="text" defaultValue={realname} name="user[realname]" />
         </div>
         <div className="form-item">
           <label htmlFor="sex">性别</label>
-          <select name="user[sex]">
-            <option value="其他" checked>其他</option>
-            <option value="男">男</option>
-            <option value="女">女</option>
+          <select name="user[gender]" defaultValue={gender}>
+            <option value="not_sure" checked>其他</option>
+            <option value="male">男</option>
+            <option value="female">女</option>
           </select>
         </div>
         <div className="form-item">
           <label htmlFor="birthday">出生日期</label>
-          <input type="date" defaultValue={`${year - 25}-01-01`} name="user[birthday]" />
+          <input type="date" defaultValue={birthday || `${year - 25}-01-01`} name="user[birthday]" />
         </div>
         <div className="form-item">
           <label htmlFor="location">地区</label>
           <ChinaCity list={server.city} selected={city} />
         </div>
         <div className="form-item">
-          <label htmlFor="company" defaultValue={company}>公司</label>
-          <input type="text" name="user[company]" />
+          <label htmlFor="company">公司</label>
+          <input type="text" name="user[company]" defaultValue={company} />
         </div>
         <div className="form-item">
           <label htmlFor="position">职位</label>
-          <input type="text" name="user[position]" />
+          <input type="text" name="user[title]" defaultValue={title} />
         </div>
         <div className="form-item">
           <label htmlFor="bio">简介</label>

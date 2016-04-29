@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    warden.authenticate
+    warden.authenticate!
     redirect_to callback_url
   end
 

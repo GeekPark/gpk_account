@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   end
 
   def user_update_params
-    params.require(:user).permit(:nickname, :city, :company, :title, :avatar, :bio)
+    params.require(:user).permit(:nickname, :city, :company, :title, :avatar, :bio, :realname, :gender, :birthday)
   end
 
   def send_code(receiver)

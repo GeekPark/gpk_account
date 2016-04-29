@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import SocialLogin from './SocialLogin';
 
-import { isEmpty, isPhoneNumber, isEmail, isValidPassword } from '../../share/validator';
+import { isEmpty, isValidID, isValidPassword } from '../../share/validator';
 import { getCSRFToken } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
@@ -36,7 +36,7 @@ class Login extends React.Component {
       this.postErr('loginName', '用户名不能为空');
       return false;
     }
-    if (!isPhoneNumber(loginName.value) && !isEmail(loginName.value)) {
+    if (!isValidID(loginName.value)) {
       this.postErr('loginName', '用户名必须为邮箱或手机号');
       return false;
     }
