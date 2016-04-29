@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_from_cookie
-    warden.authenticate(:cookie) if cookies['remember_token']
+    warden.authenticate(:cookie) if cookies[:remember_user]
   end
 
   def verify_rucaptcha!

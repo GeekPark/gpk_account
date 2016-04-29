@@ -49,10 +49,7 @@ class User < ActiveRecord::Base
   end
 
   def generate_remember_token
-    loop do
-      self.remember_token = SecureRandom.urlsafe_base64
-      break unless User.exists?(remember_token: remember_token)
-    end
+    self.remember_token = SecureRandom.urlsafe_base64
     self.remember_token_created_at = Time.current
 
     save

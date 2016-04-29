@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  before_action :require_login, only: :destroy
+
   def new
     redirect_to root_url if current_user
     warden.message.present? &&
