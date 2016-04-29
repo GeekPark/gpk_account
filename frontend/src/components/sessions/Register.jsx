@@ -10,7 +10,6 @@ import { createUser } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
-import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
 
 import Welcome from '../welcome/Index';
 
@@ -18,23 +17,23 @@ const overlayStyle = {
   overlay: { backgroundColor: 'rgba(37, 37, 37, 0.7)' },
 };
 
-const TOOLTIPS = ['firstInput', 'verifyCode', 'password'];
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ...initState(TOOLTIPS),
       isEmail: false,
       showValidate: true,
     };
 
-    this.postErr = postErr.bind(this);
-    this.clearAllTip = clearAllTip.bind(this);
-    this.hideTip = hideTip.bind(this);
-    this.clearTip = tipName => this.hideTip.bind(this, tipName);
-
     this.isPendingVerify = () => this.props.verify_code.countdown > 0;
+
+    this.clearAllTip = () => {
+      Object.keys(this.refs).forEach(x => {
+        if (this.refs[x].isTooltip) this.refs[x].clear();
+      });
+    };
+    this.clearTip = tipName => () => this.refs[tipName].clear();
 
     this.toggleType = () => {
       this.setState({ isEmail: !this.state.isEmail });
@@ -97,12 +96,12 @@ class Register extends React.Component {
     const v = firstInput.value;
     const typeStr = this.typeStr();
     if (isEmpty(v)) {
-      this.postErr('firstInput', `${typeStr}不能为空`);
+      this.refs.firstInputTip.postErr(`${typeStr}不能为空`);
       firstInput.focus();
       return false;
     }
     if ((isEmail && !isValidEmail(v)) || (!isEmail && !isPhoneNumber(v))) {
-      this.postErr('firstInput', `${typeStr}格式不对`);
+      this.refs.firstInputTip.postErr(`${typeStr}格式不对`);
       firstInput.focus();
       return false;
     }
@@ -114,21 +113,21 @@ class Register extends React.Component {
     const typeStr = this.typeStr();
     if (!this.isValidFirstInput()) return false;
     if (!this.props.user.isValidated) {
-      this.postErr('verifyCode', '请获取验证码并输入');
+      this.refs.verifyCodeTip.postErr('请获取验证码并输入');
       return false;
     }
     if (isEmpty(verifyCode.value)) {
-      this.postErr('verifyCode', `请填写${typeStr}收到的验证码`);
+      this.refs.verifyCodeTip.postErr(`请填写${typeStr}收到的验证码`);
       verifyCode.focus();
       return false;
     }
     if (isEmpty(this.getPwd())) {
-      this.postErr('password', '请输入密码');
+      this.refs.passwordTip.postErr('请输入密码');
       this.refs.password.refs.input.focus();
       return false;
     }
     if (!isValidPassword(this.getPwd())) {
-      this.postErr('password', '密码长度必须在 6-20 位');
+      this.refs.passwordTip.postErr('密码长度必须在 6-20 位');
       this.refs.password.refs.input.focus();
       return false;
     }
@@ -136,25 +135,24 @@ class Register extends React.Component {
   }
 
   render() {
-    const { isEmail, tooltips } = this.state;
+    const { isEmail } = this.state;
     const { verify_code } = this.props;
     let verifyButtonText = '获取验证码';
     if (this.isPendingVerify()) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
     else if (!verify_code.isFirst) verifyButtonText = '重新发送';
+
     return (
       <div className="form-wrapper">
-        <Tooltip info={tooltips.firstInput} className="mb-input">
+        <Tooltip className="mb-input" ref="firstInputTip">
           <input type="text" autoFocus ref="firstInput"
             placeholder={isEmail ? '邮箱' : '手机号码（仅支持中国大陆）'}
             maxLength={isEmail ? '100' : '11'}
-            onChange={this.clearTip('firstInput')}
+            onChange={this.clearTip('firstInputTip')}
           />
         </Tooltip>
-        <Tooltip
-          info={tooltips.verifyCode} className="form-group mb-input"
-        >
+        <Tooltip className="form-group mb-input" ref="verifyCodeTip">
           <div>
-            <input type="text" ref="verifyCode" onChange={this.clearTip('verifyCode')}
+            <input type="text" ref="verifyCode" onChange={this.clearTip('verifyCodeTip')}
               placeholder={isEmail ? '邮箱验证码' : '手机验证码'} maxLength="6"
             />
             <div className="form-side" onClick={this.getCode}>
@@ -162,10 +160,8 @@ class Register extends React.Component {
             </div>
           </div>
         </Tooltip>
-        <Tooltip
-          info={tooltips.password} className="mb-input"
-        >
-          <PasswordInput placeholder="密码" ref="password" onChange={this.clearTip('password')} />
+        <Tooltip className="mb-input" ref="passwordTip">
+          <PasswordInput placeholder="密码" ref="password" onChange={this.clearTip('passwordTip')} />
         </Tooltip>
         <button className="btn btn-large" onClick={this.submit}>立即注册</button>
         <div className="tar extra-info">

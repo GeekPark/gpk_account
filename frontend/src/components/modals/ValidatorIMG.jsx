@@ -10,11 +10,6 @@ class ValidatorIMG extends React.Component {
 
     this.state = {
       random: Math.random(),
-      tipInfo: {
-        isShow: false,
-        msg: '验证码不正确',
-        type: 'error',
-      },
     };
 
     this.random = () => {
@@ -47,7 +42,7 @@ class ValidatorIMG extends React.Component {
         });
     };
 
-    this.clearTip = () => this.setState({ tipInfo: { ...this.state.tipInfo, isShow: false } });
+    this.clearTip = () => this.refs.inputTip.clear();
   }
 
   componentDidMount() {
@@ -57,11 +52,10 @@ class ValidatorIMG extends React.Component {
   }
 
   showErr(msg) {
-    this.setState({ tipInfo: { ...this.state.tipInfo, isShow: true, msg } });
+    this.refs.inputTip.postErr(msg);
   }
 
   render() {
-    const { tipInfo } = this.state;
     return (
       <div>
         <div className="modal-title">
@@ -70,7 +64,7 @@ class ValidatorIMG extends React.Component {
         <i className="iconfont icon-close modal-close" onClick={this.props.onClose}></i>
         <form ref="form">
           <div className="form-group mb-input">
-            <Tooltip info={tipInfo}>
+            <Tooltip ref="inputTip">
               <div>
                 <input type="text" placeholder="图形验证码" maxLength="4" autoFocus ref="input" onChange={this.clearTip} />
                 <div className="form-side">

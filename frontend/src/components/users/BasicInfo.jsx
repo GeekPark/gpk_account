@@ -3,32 +3,21 @@ import ChinaCity from 'react-china-city';
 
 import Avatar from '../share/Avatar';
 import Tooltip from '../share/Tooltip';
-import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
 
 import { showMessage } from '../../actions';
 import { updateUser } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
-const TOOLTIPS = ['nickname'];
-
 class BasicInfo extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      ...initState(TOOLTIPS),
-    };
-
-    this.postErr = postErr.bind(this);
-    this.clearAllTip = clearAllTip.bind(this);
-    this.hideTip = hideTip.bind(this);
-    this.clearTip = tipName => this.hideTip.bind(this, tipName);
-
+    this.clearTip = tipName => () => this.refs[tipName].clear();
 
     this.submit = e => {
       e.preventDefault();
       if ($('input[name="user[nickname]"]').val().length === 0) {
-        this.postErr('nickname', '昵称是必填项喔');
+        this.refs.nicknameTip.postErr('昵称是必填项喔');
         return;
       }
 
@@ -69,8 +58,8 @@ class BasicInfo extends React.Component {
         </div>
         <div className="form-item">
           <label htmlFor="nickname">昵称*</label>
-          <Tooltip info={this.state.tooltips.nickname}>
-            <input type="text" defaultValue={nickname} name="user[nickname]" onChange={this.clearTip('nickname')} />
+          <Tooltip ref="nicknameTip">
+            <input type="text" defaultValue={nickname} name="user[nickname]" onChange={this.clearTip('nicknameTip')} />
           </Tooltip>
         </div>
         <div className="form-item">

@@ -7,7 +7,6 @@ import Avatar from '../share/Avatar';
 import Message from '../share/Message';
 
 import Tooltip from '../share/Tooltip';
-import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
 
 import { showMessage } from '../../actions';
 import { updateUser } from '../../share/server';
@@ -18,23 +17,17 @@ class Welcome extends React.Component {
   constructor() {
     super();
 
-    this.state = { ...initState(['nickname']) };
-
-    this.postErr = postErr.bind(this);
-    this.hideTip = hideTip.bind(this);
-    this.clearAllTip = clearAllTip.bind(this);
-    this.clearTip = tipName => this.hideTip.bind(this, tipName);
-
+    this.clearTip = () => this.refs.tooltip.clear();
 
     this.submit = () => {
       const { nickname } = this.refs;
       if (isEmpty(nickname.value)) {
-        this.postErr('nickname', '昵称不能为空');
+        this.refs.nicknameTip.postErr('昵称不能为空');
         return;
       }
 
       if (!isValidNickname(nickname.value)) {
-        this.postErr('nickname', '昵称必须在 2-20 个字符喔');
+        this.refs.nicknameTip.postErr('昵称必须在 2-20 个字符喔');
         return;
       }
 
@@ -74,7 +67,7 @@ class Welcome extends React.Component {
                 <Avatar editable />
               </div>
               <div className="info-wrapper">
-                <Tooltip info={this.state.tooltips.nickname} className="mb-input">
+                <Tooltip ref="nicknameTip" className="mb-input">
                   <input type="text" placeholder="请输入你的昵称" onChange={this.clearTip('nickname')} ref="nickname" />
                 </Tooltip>
                 <button className="btn btn-large" onClick={this.submit}>提交</button>
