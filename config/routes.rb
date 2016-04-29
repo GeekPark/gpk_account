@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get 'settings/account', to: 'users#show'
     match 'settings/update_password', via: [:patch, :put]
     get 'settings/authorizations', to: 'users#show'
+    delete 'auth/:provider/unbind', to: 'settings#unbind_auth'
   end
 
   namespace :api do

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
   let(:user) { create(:full_user) }
+  let(:basic_user) { create(:basic_user) }
 
   describe 'current_user' do
     it 'returns user from cookie' do
@@ -62,6 +63,24 @@ RSpec.describe SessionsController, type: :controller do
         expect { post :create, provider: :wechat }.to change { User.count }.by(0)
 
         expect(warden.user).to eq(user)
+      end
+    end
+
+    context 'bind auth if omniauth request and user already logged in' do
+      before do
+        request.env['omniauth.auth'] = mock_wechat_auth
+        warden.set_user basic_user
+      end
+
+      it 'should create an authorization' do
+        expect { post :create }.to change { basic_user.authorizations.count }.by(1)
+        expect(JSON.parse(response.body)['user']).to eq(UserSerializer.new(basic_user).to_json)
+      end
+
+      it 'should return error if uid is exist' do
+        post :create
+        post :create
+        expect(JSON.parse(response.body)['errors']).to include('Uid has already been taken')
       end
     end
   end
