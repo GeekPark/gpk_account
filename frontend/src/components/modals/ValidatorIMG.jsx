@@ -47,7 +47,7 @@ class ValidatorIMG extends React.Component {
         <i className="iconfont icon-close modal-close" onClick={this.props.onClose}></i>
         <form ref="form">
           <Captcha className="mb-input" ref="captcha" />
-          <button className="btn btn-large" onClick={this.submit}>提交</button>
+          <button className="btn btn-large">提交</button>
         </form>
       </div>
     );

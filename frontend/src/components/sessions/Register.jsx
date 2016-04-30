@@ -10,13 +10,13 @@ import { createUser } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
+import VerifyCode from '../share/VerifyCode';
 
 import Welcome from '../welcome/Index';
 
 const overlayStyle = {
   overlay: { backgroundColor: 'rgba(37, 37, 37, 0.7)' },
 };
-
 
 class Register extends React.Component {
   constructor(props) {
@@ -25,8 +25,6 @@ class Register extends React.Component {
       isEmail: false,
       showValidate: true,
     };
-
-    this.isPendingVerify = () => this.props.verify_code.countdown > 0;
 
     this.clearAllTip = () => {
       Object.keys(this.refs).forEach(x => {
@@ -44,7 +42,7 @@ class Register extends React.Component {
     };
 
     this.getCode = () => {
-      if (this.isPendingVerify()) return;
+      if (this.isPending()) return;
       if (!this.isValidFirstInput()) return;
       this.props.dispatch(updateUser({
         isEmail: this.state.isEmail,
@@ -61,7 +59,7 @@ class Register extends React.Component {
       user[key] = this.props.user.id;
 
       createUser({
-        verify_code: this.refs.verifyCode.value,
+        verify_code: this.refs.verifyCode.getValue(),
         user,
       }).done(d => {
         const dom = document.querySelector('#component-session');
@@ -78,6 +76,14 @@ class Register extends React.Component {
 
   getPwd() {
     return this.refs.password.refs.input.value;
+  }
+
+  getVerifyCodeInstance() {
+    return this.refs.verifyCode.refs.wrappedInstance;
+  }
+
+  isPending() {
+    return this.getVerifyCodeInstance().isPending();
   }
 
   typeStr() {
@@ -109,18 +115,12 @@ class Register extends React.Component {
   }
 
   check() {
-    const { verifyCode } = this.refs;
-    const typeStr = this.typeStr();
     if (!this.isValidFirstInput()) return false;
     if (!this.props.user.isValidated) {
-      this.refs.verifyCodeTip.postErr('请获取验证码并输入');
+      this.getVerifyCodeInstance().postErr('请获取验证码并输入');
       return false;
     }
-    if (isEmpty(verifyCode.value)) {
-      this.refs.verifyCodeTip.postErr(`请填写${typeStr}收到的验证码`);
-      verifyCode.focus();
-      return false;
-    }
+    if (!this.getVerifyCodeInstance().getValue()) return false;
     if (isEmpty(this.getPwd())) {
       this.refs.passwordTip.postErr('请输入密码');
       this.refs.password.refs.input.focus();
@@ -136,10 +136,6 @@ class Register extends React.Component {
 
   render() {
     const { isEmail } = this.state;
-    const { verify_code } = this.props;
-    let verifyButtonText = '获取验证码';
-    if (this.isPendingVerify()) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
-    else if (!verify_code.isFirst) verifyButtonText = '重新发送';
 
     return (
       <div className="form-wrapper">
@@ -150,16 +146,7 @@ class Register extends React.Component {
             onChange={this.clearTip('firstInputTip')}
           />
         </Tooltip>
-        <Tooltip className="form-group mb-input" ref="verifyCodeTip">
-          <div>
-            <input type="text" ref="verifyCode" onChange={this.clearTip('verifyCodeTip')}
-              placeholder={isEmail ? '邮箱验证码' : '手机验证码'} maxLength="6"
-            />
-            <div className="form-side" onClick={this.getCode}>
-              {verifyButtonText}
-            </div>
-          </div>
-        </Tooltip>
+        <VerifyCode ref="verifyCode" onGetCode={this.getCode} isEmail={isEmail} />
         <Tooltip className="mb-input" ref="passwordTip">
           <PasswordInput placeholder="密码" ref="password" onChange={this.clearTip('passwordTip')} />
         </Tooltip>
@@ -177,7 +164,6 @@ class Register extends React.Component {
 
 Register.propTypes = {
   dispatch: PropTypes.func,
-  verify_code: PropTypes.object,
   user: PropTypes.object,
 };
 

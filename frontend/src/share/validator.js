@@ -28,3 +28,7 @@ export function isValidPassword(str) {
 export function isValidID(str) {
   return (isPhoneNumber(str) || isEmail(str));
 }
+
+export function isValidVerifyCode(str) {
+  return /^\d{6}$/.test(str);
+}
