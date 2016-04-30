@@ -10,12 +10,13 @@ $margin: 25px;
 
 .user-wrapper {
   margin-top: $margin;
-  max-width: 1200px;
-  margin-left: $margin;
-  margin-right: $margin;
+  max-width: $container-w;
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
+  flex-wrap: wrap;
 
-  @include mediaMax(768px) {
+  @include mediaMax($container-w + 30px) {
     max-width: 95vw;
     margin-left: 15px;
     margin-right: 15px;
@@ -32,9 +33,22 @@ $margin: 25px;
   }
 }
 
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
 .left-menu-wrapper {
   width: 30%;
-  padding-right: $margin;
+  margin-bottom: $margin;
+
+  @include mediaMin($mobile-w) {
+    padding-right: $margin;
+  }
+
+  @include mediaMax($mobile-w) {
+    width: 100%;
+  }
 
   .component-avatar {
     width: 80px;
@@ -44,16 +58,23 @@ $margin: 25px;
   .section.basic-userinfo {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
 
     .nickname {
       font-size: 1.8rem;
-      margin-left: 10px;
+      margin: 10px;
     }
   }
 }
 
 .main-panel-wrapper {
   width: 100% - 30%;
+
+  @include mediaMax($mobile-w) {
+    width: 100%;
+  }
+
   .component-avatar {
     width: 100px;
     height: 100px;
@@ -75,11 +96,12 @@ textarea,
 }
 
 select {
-  margin-right: 10px;
+  margin: 5px 10px;
 }
 
 .form-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 15px;
   label {

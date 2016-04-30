@@ -1,7 +1,7 @@
 jest.unmock('../../src/share/validator');
 
 import {
-  isPhoneNumber, isEmpty, isNotEmpty, isEmail, isValidNickname, isValidPassword, isValidID,
+  isPhoneNumber, isEmpty, isNotEmpty, isEmail, isValidNickname, isValidPassword, isValidID, isValidVerifyCode,
 } from '../../src/share/validator';
 
 describe('validator', () => {
@@ -53,5 +53,12 @@ describe('validator', () => {
     expect(isValidID('mail@geekpark.net')).toEqual(true);
     expect(isValidID('15210000000')).toEqual(true);
     expect(isValidID('1112312312312312312311231231231232')).toEqual(false);
+  });
+
+  it('isValidVerifyCode', () => {
+    expect(isValidVerifyCode('123432')).toEqual(true);
+    expect(isValidVerifyCode('1a3432')).toEqual(false);
+    expect(isValidVerifyCode('1234321')).toEqual(false);
+    expect(isValidVerifyCode('')).toEqual(false);
   });
 });

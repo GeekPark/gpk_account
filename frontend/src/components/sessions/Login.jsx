@@ -7,60 +7,48 @@ import { isEmpty, isValidID, isValidPassword } from '../../share/validator';
 import { getCSRFToken } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
-import { initState, postErr, clearAllTip, hideTip } from '../../share/tooltip';
-
-const TOOLTIPS = ['loginName', 'password'];
 
 class Login extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-      ...initState(TOOLTIPS),
-    };
-
-    this.postErr = postErr.bind(this);
-    this.clearAllTip = clearAllTip.bind(this);
-    this.hideTip = hideTip.bind(this);
-    this.clearTip = tipName => this.hideTip.bind(this, tipName);
-
-
     this.submit = e => {
       if (!this.check()) e.preventDefault();
     };
+
+    this.clearTip = tipName => () => this.refs[tipName].clear();
   }
 
   check() {
-    const { loginName, password } = this.refs;
+    const { loginName, password, loginNameTip, passwordTip } = this.refs;
     if (isEmpty(loginName.value)) {
-      this.postErr('loginName', '用户名不能为空');
+      loginNameTip.postErr('用户名不能为空');
       return false;
     }
     if (!isValidID(loginName.value)) {
-      this.postErr('loginName', '用户名必须为邮箱或手机号');
+      loginNameTip.postErr('用户名必须为邮箱或手机号');
       return false;
     }
     if (isEmpty(password.value)) {
-      this.postErr('password', '密码不能为空');
+      passwordTip.postErr('密码不能为空');
       return false;
     }
     if (!isValidPassword(password.value)) {
-      this.postErr('password', '密码格式不对');
+      passwordTip.postErr('密码格式不对');
       return false;
     }
     return true;
   }
 
   render() {
-    const { tooltips } = this.state;
     return (
       <form className="form-wrapper" action="/login" method="POST">
         <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
-        <Tooltip info={tooltips.loginName} className="mb-input">
-          <input type="text" name="login_name" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginName')} />
+        <Tooltip className="mb-input" ref="loginNameTip">
+          <input type="text" name="login_name" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginNameTip')} />
         </Tooltip>
-        <Tooltip info={tooltips.password} className="mb-input">
-          <input type="password" placeholder="密码" ref="password" name="password" onChange={this.clearTip('password')} />
+        <Tooltip className="mb-input" ref="passwordTip">
+          <input type="password" placeholder="密码" ref="password" name="password" onChange={this.clearTip('passwordTip')} />
         </Tooltip>
         <button className="btn btn-large" onClick={this.submit}>立即登录</button>
         <div className="space-between extra-info">
