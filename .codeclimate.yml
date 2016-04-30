@@ -10,8 +10,7 @@ engines:
     enabled: true
     exclude_paths:
     - spec/
-    - frontend/__tests__/
-    - frontend/src/components/
+    - frontend/
     config:
       languages:
       - ruby

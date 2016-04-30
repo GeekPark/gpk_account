@@ -8,10 +8,6 @@ class VerifyCode extends React.Component {
   constructor() {
     super();
 
-    this.state = {
-
-    };
-
     this.getValue = () => {
       const v = this.refs.input.value;
       const tip = this.refs.tip;
@@ -23,16 +19,21 @@ class VerifyCode extends React.Component {
         tip.postErr('校验码必须为6位数数字');
         return false;
       }
-      return true;
+      return v;
     };
 
     this.isPending = () => this.props.verify_code.countdown > 0;
     this.clearTip = () => this.refs.tip.clear();
     this.postErr = msg => this.refs.tip.postErr(msg);
+
+    this.getCode = () => {
+      if (this.isPending()) return;
+      this.props.onGetCode();
+    };
   }
 
   typeStr() {
-    return this.state.isEmail ? '邮箱' : '手机号';
+    return this.props.isEmail ? '邮箱' : '手机号';
   }
 
   render() {
@@ -41,13 +42,15 @@ class VerifyCode extends React.Component {
     if (this.isPending()) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
     else if (!verify_code.isFirst) verifyButtonText = '重新发送';
 
+    const placeholder = this.props.isEmail ? '邮箱校验码' : '手机校验码';
+
     return (
       <Tooltip className="form-group mb-input" ref="tip">
         <div>
           <input type="text" ref="input" onChange={this.clearTip}
-            placeholder={this.props.isEmail ? '邮箱校验码' : '手机校验码'} maxLength="6"
+            placeholder={placeholder} maxLength="6"
           />
-        <div className="form-side" onClick={this.props.onGetCode}>
+        <div className="form-side" onClick={this.getCode}>
             {verifyButtonText}
           </div>
         </div>
@@ -55,6 +58,7 @@ class VerifyCode extends React.Component {
     );
   }
 }
+
 
 // access to redux, for know the pending status(verify_code)
 // onGetCode for click getCodeBtn callback
