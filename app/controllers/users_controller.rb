@@ -73,15 +73,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def verify_code?
-    code = Rails.cache.fetch "verify_code:#{login_name}"
-    code.present? && code == params[:verify_code]
-  end
-
-  def login_name
-    params[:user][:email] || params[:user][:mobile]
-  end
-
   def get_city_list(id)
     return [ChinaCity.list, nil, nil] if id.nil?
     [
