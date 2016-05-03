@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Router, Route, hashHistory } from 'react-router';
+import { Router, Route, hashHistory, IndexRoute } from 'react-router';
 
 import ReduxWrapper from '../ReduxWrapper';
 import Message from '../share/Message';
@@ -8,8 +8,10 @@ import ServerStore from '../share/ServerStore';
 import Wrapper from './Wrapper';
 
 import BasicInfo from './BasicInfo';
-import Security from './Security';
 import Third from './Third';
+
+import SecurityIndex from './security/Index';
+import SecurityEmail from './security/Email';
 
 const T = props => (
   <ReduxWrapper>
@@ -30,7 +32,10 @@ const User = props => (
   <Router history={hashHistory}>
     <Route component={T} {...props}>
       <Route path="/" component={BasicInfo} />
-      <Route path="security" component={Security} />
+      <Route path="security">
+        <IndexRoute component={SecurityIndex} />
+        <Route path="email" component={SecurityEmail} />
+      </Route>
       <Route path="third" component={Third} />
     </Route>
   </Router>
