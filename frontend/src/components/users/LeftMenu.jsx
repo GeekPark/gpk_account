@@ -9,7 +9,7 @@ class LeftMenu extends React.Component {
     const { nickname } = server.user;
     return (
       <div className="left-menu">
-        <section className="section basic-userinfo mb-bottom">
+        <section className="section basic-userinfo mb-bottom padding">
           <div className="avatar-wrapper">
             <Avatar />
           </div>

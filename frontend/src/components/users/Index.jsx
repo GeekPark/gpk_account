@@ -12,13 +12,14 @@ import Third from './Third';
 
 import SecurityIndex from './security/Index';
 import SecurityEmail from './security/Email';
+import EmailBind from './security/EmailBind';
 
 const T = props => (
   <ReduxWrapper>
     <div>
       <ServerStore server={props.route.server} />
       <Message />
-      <Wrapper children={props.children} {...props} />
+      <Wrapper children={props.children} />
     </div>
   </ReduxWrapper>
 );
@@ -34,6 +35,7 @@ const User = props => (
       <Route path="/" component={BasicInfo} />
       <Route path="security">
         <IndexRoute component={SecurityIndex} />
+        <Route path="email/bind" component={EmailBind} />
         <Route path="email" component={SecurityEmail} />
       </Route>
       <Route path="third" component={Third} />

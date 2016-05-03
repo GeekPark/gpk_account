@@ -8,6 +8,10 @@ $margin: 25px;
   padding: 10px 20px;
 }
 
+.mb-input {
+  margin-bottom: 10px;
+}
+
 .mb-bottom {
   margin-bottom: $margin;
 }
@@ -30,7 +34,9 @@ $margin: 25px;
 .section {
   background-color: #fff;
   transition: all .3s;
-  
+  padding-top: 10px;
+  padding-bottom: 10px;
+
   &:hover {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
   }
@@ -38,7 +44,6 @@ $margin: 25px;
 
 .section-title {
   font-size: 1.8rem;
-  margin-bottom: 10px;
 }
 
 .left-menu-wrapper {
@@ -176,6 +181,25 @@ select {
   }
 }
 
+.section-desc {
+  @extend .padding;
+  padding-top: 0;
+  color: #aeaeae;
+}
+
 .section-content.center {
   @include flexCenter;
+  padding-bottom: 30px;
+}
+
+.email-panel .container {
+  width: 300px;
+
+  input {
+    width: 100%;
+  }
+
+  .form-side {
+    height: 40px - 2px;
+  }
 }

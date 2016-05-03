@@ -7,6 +7,7 @@ import LeftMenu from './LeftMenu';
 const permitProps = props => ({
   server: props.server,
   dispatch: props.dispatch,
+  verify_code: props.verify_code,
 });
 
 const Wrapper = props => (
@@ -30,7 +31,7 @@ Wrapper.propTypes = {
 };
 
 const mapStateToProps = state => {
-  const { server } = state;
-  return { server };
+  const { server, verify_code } = state;
+  return { server, verify_code };
 };
 export default connect(mapStateToProps)(Wrapper);

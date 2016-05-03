@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 const permitProps = props => ({
   server: props.server,
   dispatch: props.dispatch,
+  verify_code: props.verify_code,
 });
 
 const Wrapper = props => (
@@ -24,10 +25,10 @@ Wrapper.defaultProps = {
 Wrapper.propTypes = {
   title: PropTypes.string,
   desc: PropTypes.string,
-  children: PropTypes.element,
   className: PropTypes.string,
   isCenter: PropTypes.bool,
   needPadding: PropTypes.bool,
+  children: PropTypes.element,
 };
 
 export default Wrapper;
