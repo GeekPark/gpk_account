@@ -8,12 +8,31 @@ class SessionsController < ApplicationController
   end
 
   def create
-    warden.authenticate!
-    redirect_to callback_url
+    if auth_params && current_user
+      bind_auth
+    else
+      warden.authenticate!
+      redirect_to callback_url
+    end
   end
 
   def destroy
     warden.logout
     redirect_to login_url
+  end
+
+  private
+
+  def bind_auth
+    auth = current_user.authorizations.build(auth_params)
+    if auth.save
+      render json: { user: UserSerializer.new(current_user).to_json }
+    else
+      render json: { errors: auth.errors.full_messages }, status: :not_accepted
+    end
+  end
+
+  def auth_params
+    request.env['omniauth.auth']&.symbolize_keys&.extract!(:provider, :uid)
   end
 end

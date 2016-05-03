@@ -20,6 +20,11 @@ Rails.application.routes.draw do
   resource 'user', path: 'my', except: [:edit, :destroy] do
   end
 
+  # User settings
+  get 'settings', to: 'users#show'
+  match 'settings/update_password', via: [:patch, :put]
+  delete 'auth/:provider/unbind', to: 'settings#unbind_auth'
+
   namespace :api do
     namespace :v1 do
       resource 'user', only: [:show, :update]
