@@ -4,8 +4,8 @@ const { func } = PropTypes;
 import Captcha from '../../share/Captcha';
 import Tooltip from '../../share/Tooltip';
 
-import { isValidID, isEmpty } from '../../../share/validator';
-import { validateCaptcha } from '../../../share/server';
+import { isValidID, isEmpty, isEmail as isValidEmail } from '../../../share/validator';
+import * as SERVER from '../../../share/server';
 import { parseErr } from '../../../share/utils';
 import { showMessage, sendVerifyCode } from '../../../actions';
 
@@ -18,17 +18,26 @@ class SendVerify extends React.Component {
       const captchaValue = this.refs.captcha.getValue();
       const id = this.getID();
       if (!id || !captchaValue) return;
+      const isEmail = isValidEmail(id);
+      const user = isEmail ? { email: id } : { mobile: id };
 
-      validateCaptcha({ str: captchaValue, user: { email: id } })
-        .done(() => {
-          this.props.goPanel('new');
-          this.props.changeLoginName(id);
-          this.props.dispatch(sendVerifyCode());
-        })
-        .fail(xhr => {
-          const msg = parseErr(xhr.responseText);
-          this.props.dispatch(showMessage({ type: 'error', msg }));
-          this.refs.captcha.random();
+      SERVER.checkExist(id)
+        .then(() => {
+          this.refs.idTip.postErr('用户不存在');
+          this.refs.id.focus();
+        }, () => {
+          // catch meaning the user was exist!
+          SERVER.sendVerify({ str: captchaValue, user, isEmail })
+            .done(() => {
+              this.props.goPanel('new');
+              this.props.changeLoginName(id);
+              this.props.dispatch(sendVerifyCode());
+            })
+            .fail(xhr => {
+              const msg = parseErr(xhr.responseText);
+              this.props.dispatch(showMessage({ type: 'error', msg }));
+              this.refs.captcha.random();
+            });
         });
     };
   }

@@ -7,7 +7,7 @@ class EmailBind extends React.Component {
   constructor() {
     super();
 
-    this.onGetCode = () => {};
+    this.onGetCode = f => f;
   }
   render() {
     const { verify_code } = this.props;

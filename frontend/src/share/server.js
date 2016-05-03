@@ -1,8 +1,10 @@
 import $ from 'jquery';
+import { parseErr } from './utils';
 
-export function validateCaptcha({ str, user }) {
+export function sendVerify({ str, user, isEmail }) {
   return $.ajax({
-    url: '/send_verify_code',
+    url: isEmail ? '/verify_email' : '/verify_mobile',
+    method: 'POST',
     data: {
       _rucaptcha: str,
       user,
@@ -65,10 +67,21 @@ export function resetPassword({ verify_code, user }) {
 }
 
 export function checkExist(id) {
-  return $.ajax({
-    url: 'check_exist',
-    data: {
-      user: { email: id },
-    },
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: 'check_exist',
+      data: {
+        user: { email: id },
+      },
+    }).done(d => {
+      if (d.exist) {
+        rej('用户已存在');
+      } else {
+        res(d);
+      }
+    }).fail(xhr => {
+      const msg = parseErr(xhr);
+      if (msg) rej(msg);
+    });
   });
 }

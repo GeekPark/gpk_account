@@ -42,9 +42,13 @@ class Register extends React.Component {
     };
 
     this.getCode = () => {
-      this.checkExist()
+      const v = this.refs.firstInput.value;
+      if (!this.isValidFirstInput()) return;
+      checkExist(v)
         .then(this.getCodeLogic)
-        .catch(err => console.error(err));
+        .catch(msg => {
+          this.refs.firstInputTip.postErr(msg);
+        });
     };
 
     this.getCodeLogic = () => {
@@ -75,28 +79,6 @@ class Register extends React.Component {
         if (errStr) {
           this.props.dispatch(showMessage({ type: 'error', msg: errStr }));
         }
-      });
-    };
-
-    this.checkExist = () => {
-      const v = this.refs.firstInput.value;
-      if (!this.isValidFirstInput()) return Promise.reject();
-      return new Promise((res, rej) => {
-        checkExist(v)
-          .done(d => {
-            if (d.exist) {
-              const msg = `${this.typeStr()}已存在`;
-              this.refs.firstInputTip.postErr(msg);
-              rej(msg);
-            } else {
-              res();
-            }
-          })
-          .error(xhr => {
-            const msg = parseErr(xhr);
-            if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
-            rej(msg);
-          });
       });
     };
   }
