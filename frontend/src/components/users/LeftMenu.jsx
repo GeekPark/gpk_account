@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
 import Avatar from '../share/Avatar';
 
@@ -17,9 +18,9 @@ class LeftMenu extends React.Component {
           </div>
         </section>
         <section className="section menu-items no-padding">
-          <a href="javascript:;">基本资料</a>
-          <a className="active" href="javascript:;">账户安全</a>
-          <a href="javascript:;">第三方账号</a>
+          <Link to="/" activeClassName="active">基本资料</Link>
+          <Link to="security" activeClassName="active">账户安全</Link>
+          <Link to="third" activeClassName="active">第三方账号</Link>
         </section>
       </div>
     );

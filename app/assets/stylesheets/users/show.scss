@@ -1,5 +1,5 @@
 & {
-  background-color: #efefef;
+background-color: #efefef;
   padding-top: $header-h;
 }
 
@@ -140,5 +140,42 @@ select {
   margin-bottom: 15px;
   label {
     width: 100px;
+  }
+}
+
+.section.security .section-title {
+  margin-bottom: 0;
+}
+
+.form-button-group {
+  border-top: 1px solid #efefef;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 50px;
+  @extend .padding;
+
+  .label-text {
+    display: inline-block;
+    width: 100px;
+  }
+
+  .form-button {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    color: $color-blue;
+    border: 1px solid $color-blue;
+    border-radius: 3px;
+    padding: 3px 8px;
+    background-color: #fff;
+    transition: all .3s;
+
+    &:hover {
+      background-color: $color-blue;
+      color: #fff;
+    }
   }
 }

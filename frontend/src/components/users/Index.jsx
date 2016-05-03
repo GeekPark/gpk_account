@@ -1,23 +1,22 @@
 import React, { PropTypes } from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import { Router, Route, hashHistory } from 'react-router';
 
 import ReduxWrapper from '../ReduxWrapper';
-import Transition from '../share/Transition';
 import Message from '../share/Message';
 import ServerStore from '../share/ServerStore';
 
 import Wrapper from './Wrapper';
 
 import BasicInfo from './BasicInfo';
+import Security from './Security';
+import Third from './Third';
 
 const T = props => (
   <ReduxWrapper>
     <div>
       <ServerStore server={props.route.server} />
       <Message />
-      <Transition {...props}>
-        <Wrapper children={props.children} />
-      </Transition>
+      <Wrapper children={props.children} {...props} />
     </div>
   </ReduxWrapper>
 );
@@ -28,9 +27,11 @@ T.propTypes = {
 };
 
 const User = props => (
-  <Router history={browserHistory}>
-    <Route path="/" component={T} {...props}>
-      <IndexRoute component={BasicInfo} />
+  <Router history={hashHistory}>
+    <Route component={T} {...props}>
+      <Route path="/" component={BasicInfo} />
+      <Route path="security" component={Security} />
+      <Route path="third" component={Third} />
     </Route>
   </Router>
 );
