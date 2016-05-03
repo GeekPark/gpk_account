@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import Captcha from '../share/Captcha';
 
-import { validateCaptcha } from '../../share/server';
+import { sendVerify } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
 class ValidatorIMG extends React.Component {
@@ -13,11 +13,9 @@ class ValidatorIMG extends React.Component {
       const v = this.refs.captcha.getValue();
       if (!v) return;
 
-      const user = {};
-      const key = props.user.isEmail ? 'email' : 'mobile';
-      user[key] = props.user.id;
+      const user = props.user.isEmail ? { email: props.user.id } : { mobile: props.user.id };
 
-      validateCaptcha({ str: v, user })
+      sendVerify({ str: v, user, isEmail: props.user.isEmail })
         .done(() => {
           this.props.onClose();
           this.props.sendVerifyCode();

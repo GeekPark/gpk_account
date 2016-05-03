@@ -6,7 +6,7 @@ import PasswordInput from './PasswordInput';
 
 import { isEmpty, isPhoneNumber, isEmail as isValidEmail } from '../../share/validator';
 import { openModal, updateUser, showMessage, resetVerify } from '../../actions';
-import { createUser } from '../../share/server';
+import { createUser, checkExist } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
@@ -42,7 +42,16 @@ class Register extends React.Component {
     };
 
     this.getCode = () => {
+      const v = this.refs.firstInput.value;
       if (!this.isValidFirstInput()) return;
+      checkExist(v)
+        .then(this.getCodeLogic)
+        .catch(msg => {
+          this.refs.firstInputTip.postErr(msg);
+        });
+    };
+
+    this.getCodeLogic = () => {
       this.getVerifyCodeInstance().clearTip();
       this.props.dispatch(updateUser({
         isEmail: this.state.isEmail,

@@ -1,11 +1,19 @@
 & {
-  background-color: #efefef;
+background-color: #efefef;
   padding-top: $header-h;
 }
 
 $margin: 25px;
 .padding {
   padding: 10px 20px;
+}
+
+.mb-input {
+  margin-bottom: 10px;
+}
+
+.mb-bottom {
+  margin-bottom: $margin;
 }
 
 .user-wrapper {
@@ -26,7 +34,8 @@ $margin: 25px;
 .section {
   background-color: #fff;
   transition: all .3s;
-  @extend .padding;
+  padding-top: 10px;
+  padding-bottom: 10px;
 
   &:hover {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
@@ -35,7 +44,6 @@ $margin: 25px;
 
 .section-title {
   font-size: 1.8rem;
-  margin-bottom: 10px;
 }
 
 .left-menu-wrapper {
@@ -59,11 +67,38 @@ $margin: 25px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: center;
+
+    @include mediaMax($mobile-w) {
+      justify-content: center;
+    }
 
     .nickname {
       font-size: 1.8rem;
       margin: 10px;
+    }
+  }
+
+  .section.menu-items {
+    a {
+      @extend .padding;
+      color: #9B9B9B;
+      display: block;
+      font-size: 1.6rem;
+      transition: all .3s;
+      background-color: #fff;
+
+      &.active,
+      &:hover {
+        color: #222;
+      }
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #E9E4EA;
+      }
     }
   }
 }
@@ -106,5 +141,65 @@ select {
   margin-bottom: 15px;
   label {
     width: 100px;
+  }
+}
+
+.section.security .section-title {
+  margin-bottom: 0;
+}
+
+.form-button-group {
+  border-top: 1px solid #efefef;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 50px;
+  @extend .padding;
+
+  .label-text {
+    display: inline-block;
+    width: 100px;
+  }
+
+  .form-button {
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    width: 100px;
+    color: $color-blue;
+    border: 1px solid $color-blue;
+    border-radius: 3px;
+    padding: 3px 8px;
+    background-color: #fff;
+    transition: all .3s;
+
+    &:hover {
+      background-color: $color-blue;
+      color: #fff;
+    }
+  }
+}
+
+.section-desc {
+  @extend .padding;
+  padding-top: 0;
+  color: #aeaeae;
+}
+
+.section-content.center {
+  @include flexCenter;
+  padding-bottom: 30px;
+}
+
+.email-panel .container {
+  width: 300px;
+
+  input {
+    width: 100%;
+  }
+
+  .form-side {
+    height: 40px - 2px;
   }
 }
