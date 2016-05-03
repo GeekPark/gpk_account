@@ -25,19 +25,19 @@ class SendVerify extends React.Component {
         .then(() => {
           this.refs.idTip.postErr('用户不存在');
           this.refs.id.focus();
-        }, () => {
+        }).catch(() => {
           // catch meaning the user was exist!
           SERVER.sendVerify({ str: captchaValue, user, isEmail })
-            .done(() => {
-              this.props.goPanel('new');
-              this.props.changeLoginName(id);
-              this.props.dispatch(sendVerifyCode());
-            })
-            .fail(xhr => {
-              const msg = parseErr(xhr.responseText);
-              this.props.dispatch(showMessage({ type: 'error', msg }));
-              this.refs.captcha.random();
-            });
+          .done(() => {
+            this.props.goPanel('new');
+            this.props.changeLoginName(id);
+            this.props.dispatch(sendVerifyCode());
+          })
+          .fail(xhr => {
+            const msg = parseErr(xhr.responseText);
+            this.props.dispatch(showMessage({ type: 'error', msg }));
+            this.refs.captcha.random();
+          });
         });
     };
   }

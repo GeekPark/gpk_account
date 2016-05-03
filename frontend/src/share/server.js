@@ -66,6 +66,8 @@ export function resetPassword({ verify_code, user }) {
   });
 }
 
+// resolve when user DOESN'T EXIST
+// reject when user EXIST
 export function checkExist(id) {
   return new Promise((res, rej) => {
     $.ajax({
