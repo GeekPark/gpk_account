@@ -11,7 +11,9 @@ Rails.application.routes.draw do
   get 'signup', to: 'users#new'
   post 'signup', to: 'users#create'
   get 'check_exist', to: 'users#check_exist'
-  get 'send_verify_code', to: 'users#send_verify_code'
+
+  post 'verify_mobile', to: 'users#verify_mobile'
+  post 'verify_email', to: 'users#verify_email'
 
   # User reset password
   get 'reset_password', to: 'users#new'

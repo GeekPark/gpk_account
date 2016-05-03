@@ -68,9 +68,8 @@ RSpec.describe UsersController, type: :controller do
     before do
       @basic_user = attributes_for(:basic_user)
       email = @basic_user[:email]
-      allow_any_instance_of(UsersController).to receive(:verify_rucaptcha?).and_return(true)
-      get 'send_verify_code', user: { email: email }
-      @code = Rails.cache.fetch "verify_code:#{email}"
+      @code = rand(100_000..999_999).to_s
+      Rails.cache.write("verify_code:#{email}", @code)
     end
 
     after do
@@ -80,7 +79,7 @@ RSpec.describe UsersController, type: :controller do
     context 'verify code incorrect' do
       it 'should return error' do
         post :create, user: @basic_user, verify_code: '1111111'
-        expect(response).to have_http_status(:not_acceptable)
+        expect(response).to have_http_status(422)
         expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
       end
     end
@@ -89,7 +88,7 @@ RSpec.describe UsersController, type: :controller do
       it 'validate user params' do
         User.create(@basic_user)
         post :create, user: @basic_user, verify_code: @code
-        expect(response).to have_http_status(:not_acceptable)
+        expect(response).to have_http_status(422)
         expect(JSON.parse(response.body)['errors']).to include('Email has already been taken')
       end
 
@@ -112,9 +111,8 @@ RSpec.describe UsersController, type: :controller do
     before do
       email = user.email
       @params = { email: email, password: 'new_password' }
-      allow_any_instance_of(UsersController).to receive(:verify_rucaptcha?).and_return(true)
-      get 'send_verify_code', user: { email: email }
-      @code = Rails.cache.fetch "verify_code:#{email}"
+      @code = rand(100_000..999_999).to_s
+      Rails.cache.write("verify_code:#{email}", @code)
     end
 
     after do
@@ -150,25 +148,15 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'GET #send_verify_code' do
-    context 'captcha incorrect' do
-      it 'should return error' do
-        get 'send_verify_code', user: attributes_for(:user, :with_email)
-        expect(response).to have_http_status(:not_acceptable)
-        expect(JSON.parse(response.body)['errors']).to include('Captcha invalid!')
-      end
+  describe 'POST #verify_mobile' do
+    it_behaves_like 'send verify code' do
+      let(:subject) { post 'verify_mobile', user: attributes_for(:user, :with_mobile) }
     end
+  end
 
-    context 'captcha correct' do
-      before do
-        allow_any_instance_of(UsersController).to receive(:verify_rucaptcha?).and_return(true)
-      end
-
-      it 'should return success after send' do
-        get 'send_verify_code', user: attributes_for(:user, :with_email)
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['success']).to include('Sended')
-      end
+  describe 'POST #verify_email' do
+    it_behaves_like 'send verify code' do
+      let(:subject) { post 'verify_email', user: attributes_for(:user, :with_email) }
     end
   end
 end

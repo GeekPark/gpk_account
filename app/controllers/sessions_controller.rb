@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   def new
     redirect_to root_url if current_user
     warden.message.present? &&
-      @error = { errors: ['invalid username or password'], login_name: warden.message }.to_json
+      @data = { errors: ['invalid username or password'], login_name: warden.message }.to_json
   end
 
   def create
@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
     if auth.save
       render json: { user: UserSerializer.new(current_user).to_json }
     else
-      render json: { errors: auth.errors.full_messages }, status: :not_accepted
+      render json: { errors: auth.errors.full_messages }, status: 422
     end
   end
 
