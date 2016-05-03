@@ -30,16 +30,6 @@ class ApplicationController < ActionController::Base
     warden.authenticate(:cookie) if cookies[:remember_user]
   end
 
-  def verify_rucaptcha!
-    verify_rucaptcha? ||
-      (render json: { errors: ['Captcha invalid!'] }, status: :not_acceptable) && return
-  end
-
-  def verify_code?(key = login_name)
-    code = Rails.cache.fetch "verify_code:#{key}"
-    code.present? && code == params[:verify_code]
-  end
-
   def login_name
     params[:user][:email] || params[:user][:mobile]
   end
@@ -49,6 +39,6 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_error(invalid)
-    render status: :not_acceptable, json: { errors: invalid.record.errors.full_messages }
+    render json: { errors: invalid.record.errors.full_messages }, status: 422
   end
 end

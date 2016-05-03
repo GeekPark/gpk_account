@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
+  include Verifiable
   before_action :require_login, only: [:show, :update]
-  before_action :verify_rucaptcha!, only: :send_verify_code
+  before_action :verify_rucaptcha!, only: [:verify_mobile, :verify_email]
+
   def new
   end
 
@@ -15,7 +17,7 @@ class UsersController < ApplicationController
 
   def update
     current_user.update!(user_update_params)
-    render json: current_user
+    render json: current_user, serializer: UserSerializer
   end
 
   def create
@@ -24,28 +26,19 @@ class UsersController < ApplicationController
       warden.set_user(user)
       render json: { user: UserSerializer.new(current_user), callback_url: callback_url }
     else
-      render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
-    end
-  end
-
-  def send_verify_code
-    message_service = MessageService.new(login_name)
-    if message_service.send_verify_code
-      render json: { success: 'Sended' }
-    else
-      render json: { errors: ['Send failed'] }, status: :not_acceptable
+      render json: { errors: ['Verify code invalid'] }, status: 422
     end
   end
 
   def reset_password
     user = User.find_by_email_or_mobile(login_name)
-    (render json: { errors: ['User not found'] }, status: :not_found) && return unless user
+    (render json: { errors: ['User not found'] }, status: 404) && return unless user
     if verify_code?
       user.update!(password: params[:user][:password])
       warden.set_user(user)
       render json: { user: user, callback_url: callback_url }
     else
-      render json: { errors: ['Verify code invalid'] }, status: :not_acceptable
+      render json: { errors: ['Verify code invalid'] }, status: 422
     end
   end
 
@@ -63,23 +56,23 @@ class UsersController < ApplicationController
     params.require(:user).permit(:nickname, :city, :company, :title, :avatar, :bio, :realname, :gender, :birthday)
   end
 
-  def send_code(receiver)
-    message_service = MessageService.new(receiver)
-    sended = message_service.send(:send_verify_code)
-    if sended
-      render json: { success: 'Sended' }
-    else
-      render json: { errors: ['Send failed'] }, status: :not_acceptable
+  def verify_rucaptcha!
+    @user = User.find_by_email_or_mobile(login_name) || User.new(user_create_params)
+    unless verify_rucaptcha?(@user) && @user.valid?
+      render json: { errors: @user.errors.full_messages }, status: 422
+      return
+    end
+  end
+
+  def generate_verify_code(key)
+    Rails.cache.fetch "verify_code:#{key}", expires_in: 30.minutes do
+      rand(100_000..999_999).to_s
     end
   end
 
   def verify_code?
     code = Rails.cache.fetch "verify_code:#{login_name}"
     code.present? && code == params[:verify_code]
-  end
-
-  def login_name
-    params[:user][:email] || params[:user][:mobile]
   end
 
   def get_city_list(id)
