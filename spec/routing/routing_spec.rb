@@ -44,17 +44,13 @@ RSpec.describe 'routing test', type: :routing do
   end
 
   describe 'settings' do
-    it 'route to users#show when get /settings/account' do
-      expect(get: 'settings/account').to route_to('users#show')
+    it 'route to users#show when get /settings' do
+      expect(get: 'settings').to route_to('users#show')
     end
 
     it 'route to settings#update_password when put or patch /settings/update_password' do
       expect(put: 'settings/update_password').to route_to('settings#update_password')
       expect(patch: 'settings/update_password').to route_to('settings#update_password')
-    end
-
-    it 'route to users#show when get /settings/authorizations' do
-      expect(get: 'settings/authorizations').to route_to('users#show')
     end
   end
 end
