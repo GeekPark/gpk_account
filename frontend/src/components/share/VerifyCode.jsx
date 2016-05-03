@@ -4,6 +4,10 @@ import Tooltip from './Tooltip';
 
 import { isEmpty, isValidVerifyCode } from '../../share/validator';
 
+// NOTE: this component wrap by redux connect
+// You should get ref by below code (eg: <VerifyCode ref="verifyCode">)
+// this.refs.verifyCode.refs.wrappedInstance;
+
 class VerifyCode extends React.Component {
   constructor() {
     super();
@@ -50,7 +54,7 @@ class VerifyCode extends React.Component {
           <input type="text" ref="input" onChange={this.clearTip}
             placeholder={placeholder} maxLength="6"
           />
-        <div className="form-side" onClick={this.getCode}>
+          <div className="form-side" onClick={this.getCode}>
             {verifyButtonText}
           </div>
         </div>
