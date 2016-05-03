@@ -16,7 +16,7 @@ class EmailBind extends React.Component {
       <Main title="绑定邮箱" isCenter needPadding className="email-panel" desc="绑定后即可使用邮箱+密码进行登录">
         <div className="container">
           <input className="mb-input" type="text" placeholder="邮箱" />
-          <VerifyCode onGetCode={this.onGetCode} verify_code={verify_code} />
+          <VerifyCode onGetCode={this.onGetCode} verify_code={verify_code} isEmail />
           <button className="btn btn-large">提交</button>
         </div>
       </Main>

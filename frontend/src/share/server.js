@@ -63,3 +63,12 @@ export function resetPassword({ verify_code, user }) {
     },
   });
 }
+
+export function checkExist(id) {
+  return $.ajax({
+    url: 'check_exist',
+    data: {
+      user: { email: id },
+    },
+  });
+}

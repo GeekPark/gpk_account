@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import { render } from './share/utils';
 
 import Session from './components/sessions/Index';

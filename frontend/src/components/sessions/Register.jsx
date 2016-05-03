@@ -6,7 +6,7 @@ import PasswordInput from './PasswordInput';
 
 import { isEmpty, isPhoneNumber, isEmail as isValidEmail } from '../../share/validator';
 import { openModal, updateUser, showMessage, resetVerify } from '../../actions';
-import { createUser } from '../../share/server';
+import { createUser, checkExist } from '../../share/server';
 import { parseErr } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
@@ -42,7 +42,12 @@ class Register extends React.Component {
     };
 
     this.getCode = () => {
-      if (!this.isValidFirstInput()) return;
+      this.checkExist()
+        .then(this.getCodeLogic)
+        .catch(err => console.error(err));
+    };
+
+    this.getCodeLogic = () => {
       this.getVerifyCodeInstance().clearTip();
       this.props.dispatch(updateUser({
         isEmail: this.state.isEmail,
@@ -70,6 +75,28 @@ class Register extends React.Component {
         if (errStr) {
           this.props.dispatch(showMessage({ type: 'error', msg: errStr }));
         }
+      });
+    };
+
+    this.checkExist = () => {
+      const v = this.refs.firstInput.value;
+      if (!this.isValidFirstInput()) return Promise.reject();
+      return new Promise((res, rej) => {
+        checkExist(v)
+          .done(d => {
+            if (d.exist) {
+              const msg = `${this.typeStr()}已存在`;
+              this.refs.firstInputTip.postErr(msg);
+              rej(msg);
+            } else {
+              res();
+            }
+          })
+          .error(xhr => {
+            const msg = parseErr(xhr);
+            if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
+            rej(msg);
+          });
       });
     };
   }
