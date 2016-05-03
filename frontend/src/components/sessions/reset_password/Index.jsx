@@ -10,6 +10,7 @@ class ResetPassword extends React.Component {
 
     this.state = {
       hash: props.location.hash,
+      loginName: '',
     };
 
     this.goPanel = panelName => {
@@ -17,6 +18,8 @@ class ResetPassword extends React.Component {
       if (panelName === 'new') newHash = 'new';
       this.setState({ hash: newHash });
     };
+
+    this.changeLoginName = loginName => this.setState({ loginName });
   }
   render() {
     const hash = this.state.hash;
@@ -30,7 +33,9 @@ class ResetPassword extends React.Component {
         <p className="form-desc">
           验证码将会发送至你的注册邮箱或手机
         </p>
-        <Component {...this.props} goPanel={this.goPanel} />
+        <Component {...this.props} goPanel={this.goPanel}
+          changeLoginName={this.changeLoginName} loginName={this.state.loginName}
+        />
       </div>
     );
   }

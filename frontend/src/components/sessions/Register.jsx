@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import SocialLogin from './SocialLogin';
 import PasswordInput from './PasswordInput';
 
-import { isEmpty, isPhoneNumber, isEmail as isValidEmail, isValidPassword } from '../../share/validator';
+import { isEmpty, isPhoneNumber, isEmail as isValidEmail } from '../../share/validator';
 import { openModal, updateUser, showMessage, resetVerify } from '../../actions';
 import { createUser } from '../../share/server';
 import { parseErr } from '../../share/utils';
@@ -42,8 +42,8 @@ class Register extends React.Component {
     };
 
     this.getCode = () => {
-      if (this.isPending()) return;
       if (!this.isValidFirstInput()) return;
+      this.getVerifyCodeInstance().clearTip();
       this.props.dispatch(updateUser({
         isEmail: this.state.isEmail,
         id: this.refs.firstInput.value,
@@ -59,7 +59,7 @@ class Register extends React.Component {
       user[key] = this.props.user.id;
 
       createUser({
-        verify_code: this.refs.verifyCode.getValue(),
+        verify_code: this.getVerifyCodeInstance().getValue(),
         user,
       }).done(d => {
         const dom = document.querySelector('#component-session');
@@ -75,15 +75,11 @@ class Register extends React.Component {
   }
 
   getPwd() {
-    return this.refs.password.refs.input.value;
+    return this.refs.password.getValue();
   }
 
   getVerifyCodeInstance() {
     return this.refs.verifyCode.refs.wrappedInstance;
-  }
-
-  isPending() {
-    return this.getVerifyCodeInstance().isPending();
   }
 
   typeStr() {
@@ -121,16 +117,7 @@ class Register extends React.Component {
       return false;
     }
     if (!this.getVerifyCodeInstance().getValue()) return false;
-    if (isEmpty(this.getPwd())) {
-      this.refs.passwordTip.postErr('请输入密码');
-      this.refs.password.refs.input.focus();
-      return false;
-    }
-    if (!isValidPassword(this.getPwd())) {
-      this.refs.passwordTip.postErr('密码长度必须在 6-20 位');
-      this.refs.password.refs.input.focus();
-      return false;
-    }
+    if (this.getPwd() === false) return false;
     return true;
   }
 
@@ -147,9 +134,7 @@ class Register extends React.Component {
           />
         </Tooltip>
         <VerifyCode ref="verifyCode" onGetCode={this.getCode} isEmail={isEmail} />
-        <Tooltip className="mb-input" ref="passwordTip">
-          <PasswordInput placeholder="密码" ref="password" onChange={this.clearTip('passwordTip')} />
-        </Tooltip>
+        <PasswordInput placeholder="密码" ref="password" className="mb-input" />
         <button className="btn btn-large" onClick={this.submit}>立即注册</button>
         <div className="tar extra-info">
           <a className="link" href="javascript:;" onClick={this.toggleType} >

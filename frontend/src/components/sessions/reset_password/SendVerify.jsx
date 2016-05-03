@@ -7,7 +7,7 @@ import Tooltip from '../../share/Tooltip';
 import { isValidID, isEmpty } from '../../../share/validator';
 import { validateCaptcha } from '../../../share/server';
 import { parseErr } from '../../../share/utils';
-import { showMessage } from '../../../actions';
+import { showMessage, sendVerifyCode } from '../../../actions';
 
 class SendVerify extends React.Component {
   constructor() {
@@ -16,11 +16,14 @@ class SendVerify extends React.Component {
     this.clearTip = tipName => () => this.refs[tipName].clear();
     this.next = () => {
       const captchaValue = this.refs.captcha.getValue();
-      if (!this.checkID() && !captchaValue) return;
+      const id = this.getID();
+      if (!id || !captchaValue) return;
 
-      validateCaptcha({ str: captchaValue, user: { email: this.refs.id.value } })
+      validateCaptcha({ str: captchaValue, user: { email: id } })
         .done(() => {
           this.props.goPanel('new');
+          this.props.changeLoginName(id);
+          this.props.dispatch(sendVerifyCode());
         })
         .fail(xhr => {
           const msg = parseErr(xhr.responseText);
@@ -30,24 +33,26 @@ class SendVerify extends React.Component {
     };
   }
 
-  checkID() {
+  getID() {
     const { id, idTip } = this.refs;
     if (isEmpty(id.value)) {
       idTip.postErr('请填写手机号或邮箱');
       return false;
     }
     if (!isValidID(id.value)) {
-      idTip.postErr('邮箱或手机号输错了吧');
+      idTip.postErr('邮箱或手机号不对喔');
       return false;
     }
-    return true;
+    return id.value;
   }
 
   render() {
     return (
       <div>
         <Tooltip ref="idTip">
-          <input type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id" onChange={this.clearTip('idTip')} />
+          <input type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id"
+            onChange={this.clearTip('idTip')} autoFocus
+          />
         </Tooltip>
         <Captcha className="mb-input" ref="captcha" />
         <button onClick={this.next} className="btn btn-large">下一步</button>
@@ -59,6 +64,7 @@ class SendVerify extends React.Component {
 SendVerify.propTypes = {
   dispatch: func,
   goPanel: func,
+  changeLoginName: func,
 };
 
 
