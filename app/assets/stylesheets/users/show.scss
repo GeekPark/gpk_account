@@ -17,6 +17,16 @@ $margin: 25px;
   margin-bottom: $margin;
 }
 
+.link {
+  color: $color-blue;
+  display: inline-block;
+  margin: 0 3px;
+
+  &:hover {
+    color: darken($color-blue, 10%);
+  }
+}
+
 .user-wrapper {
   margin-top: $margin;
   max-width: $container-w;
@@ -45,6 +55,10 @@ $margin: 25px;
 
 .section-title {
   font-size: 1.8rem;
+}
+
+.section-desc a {
+  @extend .link;
 }
 
 .left-menu-wrapper {
@@ -203,4 +217,40 @@ select {
   .form-side {
     height: 40px - 2px;
   }
+}
+
+// 2fa bind
+.tfa-container {
+  display: flex;
+  align-items: center;
+
+  .qr {
+    width: 150px;
+    height: 150px;
+  }
+
+  .qr-form {
+    margin: 10px 20px;
+    max-width: 320px;
+
+    .qr-form-desc {
+      color: #aeaeae;
+      margin: 5px 0;
+    }
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
+.tfa .section-content {
+  padding-bottom: 0;
+}
+
+.tfa .bottom-link {
+  border-top: 1px solid #efefef;
+  padding-top: 10px;
+  margin-top: 20px;
+  line-height: 30px;
 }

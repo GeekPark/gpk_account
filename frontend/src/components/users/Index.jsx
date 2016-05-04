@@ -11,8 +11,11 @@ import BasicInfo from './BasicInfo';
 import Third from './Third';
 
 import SecurityIndex from './security/Index';
+
 import SecurityEmail from './security/Email';
 import EmailBind from './security/EmailBind';
+
+import TFABind from './security/TFABind';
 
 const T = props => (
   <ReduxWrapper>
@@ -35,8 +38,13 @@ const User = props => (
       <Route path="/" component={BasicInfo} />
       <Route path="security">
         <IndexRoute component={SecurityIndex} />
-        <Route path="email/bind" component={EmailBind} />
-        <Route path="email" component={SecurityEmail} />
+        <Route path="email">
+          <IndexRoute component={SecurityEmail} />
+          <Route path="bind" component={EmailBind} />
+        </Route>
+        <Route path="2fa">
+          <Route path="bind" component={TFABind} />
+        </Route>
       </Route>
       <Route path="third" component={Third} />
     </Route>
