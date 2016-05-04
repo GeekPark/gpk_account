@@ -44,8 +44,8 @@ class NewPassword extends React.Component {
   render() {
     return (
       <div>
-        <PasswordInput placeholder="新密码" className="mb-input" autofocus ref="password" />
         <VerifyCode onGetCode={this.goBack} ref="verifyCode" />
+        <PasswordInput placeholder="新密码" className="mb-input" autofocus ref="password" />
         <button className="btn btn-large" onClick={this.submit}>重设密码</button>
       </div>
     );

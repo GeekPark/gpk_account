@@ -19,9 +19,8 @@ class Avatar extends React.Component {
         f.append('user[avatar]', files[0]);
         uploadAvatar(f)
           .done(user => {
-            const { server } = this.props;
             this.props.dispatch(showMessage({ type: 'success', msg: '头像更新成功' }));
-            this.props.dispatch(setStore({ ...server, user }));
+            this.props.dispatch(setStore({ user }));
           })
           .fail(xhr => showXHRError(xhr, this.props.dispatch));
       }
