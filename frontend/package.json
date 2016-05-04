@@ -9,7 +9,8 @@
     "test:watch": "jest --watch",
     "lint": "eslint src/ --ext .js,.jsx",
     "g": "npm run clean && NODE_ENV=production webpack -p --config webpack.config.prod.babel.js",
-    "clean": "rm -f ../public/static/*"
+    "clean": "rm -f ../public/static/*",
+    "ngrok": "ngrok http 8080"
   },
   "repository": {
     "type": "git",

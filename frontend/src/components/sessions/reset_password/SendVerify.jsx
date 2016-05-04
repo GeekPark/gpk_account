@@ -6,15 +6,16 @@ import Tooltip from '../../share/Tooltip';
 
 import { isValidID, isEmpty, isEmail as isValidEmail } from '../../../share/validator';
 import * as SERVER from '../../../share/server';
-import { parseErr } from '../../../share/utils';
-import { showMessage, sendVerifyCode } from '../../../actions';
+import { showXHRError } from '../../../share/utils';
+import { sendVerifyCode } from '../../../actions';
 
 class SendVerify extends React.Component {
   constructor() {
     super();
 
     this.clearTip = tipName => () => this.refs[tipName].clear();
-    this.next = () => {
+    this.next = e => {
+      e.preventDefault();
       const captchaValue = this.refs.captcha.getValue();
       const id = this.getID();
       if (!id || !captchaValue) return;
@@ -25,19 +26,18 @@ class SendVerify extends React.Component {
         .then(() => {
           this.refs.idTip.postErr('用户不存在');
           this.refs.id.focus();
-        }, () => {
+        }).catch(() => {
           // catch meaning the user was exist!
           SERVER.sendVerify({ str: captchaValue, user, isEmail })
-            .done(() => {
-              this.props.goPanel('new');
-              this.props.changeLoginName(id);
-              this.props.dispatch(sendVerifyCode());
-            })
-            .fail(xhr => {
-              const msg = parseErr(xhr.responseText);
-              this.props.dispatch(showMessage({ type: 'error', msg }));
-              this.refs.captcha.random();
-            });
+          .done(() => {
+            this.props.goPanel('new');
+            this.props.changeLoginName(id);
+            this.props.dispatch(sendVerifyCode());
+          })
+          .fail(xhr => {
+            showXHRError(xhr, this.props.dispatch);
+            this.refs.captcha.random();
+          });
         });
     };
   }
@@ -57,15 +57,15 @@ class SendVerify extends React.Component {
 
   render() {
     return (
-      <div>
+      <form onSubmit={this.next}>
         <Tooltip ref="idTip">
           <input type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id"
             onChange={this.clearTip('idTip')} autoFocus
           />
         </Tooltip>
         <Captcha className="mb-input" ref="captcha" />
-        <button onClick={this.next} className="btn btn-large">下一步</button>
-      </div>
+        <button className="btn btn-large">下一步</button>
+      </form>
     );
   }
 }

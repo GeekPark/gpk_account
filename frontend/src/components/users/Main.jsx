@@ -9,7 +9,10 @@ const permitProps = props => ({
 const Wrapper = props => (
   <section className={`section ${props.className}`}>
     <div className="section-title padding">{props.title}</div>
-    <div className="section-desc">{props.desc}</div>
+    {
+      props.desc === undefined ? null :
+      <div className="section-desc" dangerouslySetInnerHTML={{ __html: props.desc }} />
+    }
     <div className={`section-content ${props.isCenter ? 'center' : ''} ${props.needPadding ? 'padding' : ''}`}>
       {
         React.cloneElement(props.children, { ...permitProps(props) })

@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import PasswordInput from '../PasswordInput';
 import VerifyCode from '../../share/VerifyCode';
 import { resetPassword } from '../../../share/server';
-import { parseErr } from '../../../share/utils';
+import { showXHRError } from '../../../share/utils';
 import { showMessage } from '../../../actions';
 
 class NewPassword extends React.Component {
@@ -12,7 +12,8 @@ class NewPassword extends React.Component {
 
     this.goBack = () => this.props.goPanel('/');
 
-    this.submit = () => {
+    this.submit = e => {
+      e.preventDefault();
       const { password } = this.refs;
       const pwd = password.getValue();
       if (pwd === false) return;
@@ -33,11 +34,7 @@ class NewPassword extends React.Component {
           setTimeout(() => {
             window.location.href = d.callback_url;
           }, 3000);
-        })
-        .fail(xhr => {
-          const msg = parseErr(xhr.responseText);
-          if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
-        });
+        }).fail(xhr => showXHRError(xhr, this.props.dispatch));
     };
   }
 
@@ -47,11 +44,11 @@ class NewPassword extends React.Component {
 
   render() {
     return (
-      <div>
-        <PasswordInput placeholder="新密码" className="mb-input" autofocus ref="password" />
-        <VerifyCode onGetCode={this.goBack} ref="verifyCode" />
-        <button className="btn btn-large" onClick={this.submit}>重设密码</button>
-      </div>
+      <form onSubmit={this.submit}>
+        <VerifyCode onGetCode={this.goBack} ref="verifyCode" autofocus />
+        <PasswordInput placeholder="新密码" className="mb-input" ref="password" />
+        <button className="btn btn-large">重设密码</button>
+      </form>
     );
   }
 }

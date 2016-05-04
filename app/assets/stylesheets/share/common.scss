@@ -85,7 +85,8 @@ textarea {
     right: 1px;
     position: absolute;
     top: 1px;
-    height: $input-height - 2px;
+    height: 100%;
+    height: calc(100% - 2px);
     font-size: 1.3rem;
     padding: 0 15px;
     color: #aeaeae;

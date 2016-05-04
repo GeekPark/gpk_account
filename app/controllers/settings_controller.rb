@@ -23,9 +23,6 @@ class SettingsController < ApplicationController
   private
 
   def authenticate_password
-    unless current_user.authenticate(params[:password])
-      render json: { errors: ['Password invalid'] }, status: :unauthorized
-      return
-    end
+    render json: { errors: ['Password invalid'] }, status: 403 unless current_user.authenticate(params[:password])
   end
 end

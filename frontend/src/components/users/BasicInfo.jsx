@@ -6,7 +6,7 @@ import Tooltip from '../share/Tooltip';
 
 import { showMessage } from '../../actions';
 import { updateUser } from '../../share/server';
-import { parseErr } from '../../share/utils';
+import { showXHRError } from '../../share/utils';
 
 import Main from './Main';
 
@@ -36,10 +36,7 @@ class BasicInfo extends React.Component {
       .done(() => {
         this.props.dispatch(showMessage({ type: 'success', msg: '个人信息更新成功' }));
       })
-      .fail(xhr => {
-        const msg = parseErr(xhr.responseText);
-        if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
-      });
+      .fail(xhr => showXHRError(xhr, this.props.dispatch));
   }
 
   render() {

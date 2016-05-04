@@ -5,9 +5,9 @@ import SocialLogin from './SocialLogin';
 import PasswordInput from './PasswordInput';
 
 import { isEmpty, isPhoneNumber, isEmail as isValidEmail } from '../../share/validator';
-import { openModal, updateUser, showMessage, resetVerify } from '../../actions';
+import { openModal, updateUser, resetVerify } from '../../actions';
 import { createUser, checkExist } from '../../share/server';
-import { parseErr } from '../../share/utils';
+import { showXHRError } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
 import VerifyCode from '../share/VerifyCode';
@@ -74,12 +74,7 @@ class Register extends React.Component {
         const dom = document.querySelector('#component-session');
         ReactDOM.unmountComponentAtNode(dom);
         ReactDOM.render(<Welcome data={d} />, dom);
-      }).fail(xhr => {
-        const errStr = parseErr(xhr.responseText);
-        if (errStr) {
-          this.props.dispatch(showMessage({ type: 'error', msg: errStr }));
-        }
-      });
+      }).fail(xhr => showXHRError(xhr, this.props.dispatch));
     };
   }
 

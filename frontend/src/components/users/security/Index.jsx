@@ -29,14 +29,16 @@ class Index extends React.Component {
             <div className="left-label">
               <span className="label-text">密码</span>
             </div>
-            <div className="form-button">修改</div>
+            <Link to="security/password/edit" className="form-button">修改</Link>
           </div>
           <div className="form-button-group">
             <div className="left-label">
               <span className="label-text">两部验证</span>
               <span className="form-info">{is2FA ? '已绑定' : '未绑定'}</span>
             </div>
-            <div className="form-button">{is2FA ? '取消绑定' : '立即绑定' }</div>
+            <Link to={`security/2fa/${is2FA ? 'unbind' : 'bind'}`} className="form-button">
+              {is2FA ? '取消绑定' : '立即绑定' }
+            </Link>
           </div>
         </div>
       </Main>

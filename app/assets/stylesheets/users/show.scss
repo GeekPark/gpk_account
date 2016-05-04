@@ -1,6 +1,7 @@
 & {
-background-color: #efefef;
+  background-color: #efefef;
   padding-top: $header-h;
+  padding-bottom: 50px;
 }
 
 $margin: 25px;
@@ -14,6 +15,16 @@ $margin: 25px;
 
 .mb-bottom {
   margin-bottom: $margin;
+}
+
+.link {
+  color: $color-blue;
+  display: inline-block;
+  margin: 0 3px;
+
+  &:hover {
+    color: darken($color-blue, 10%);
+  }
 }
 
 .user-wrapper {
@@ -44,6 +55,10 @@ $margin: 25px;
 
 .section-title {
   font-size: 1.8rem;
+}
+
+.section-desc a {
+  @extend .link;
 }
 
 .left-menu-wrapper {
@@ -198,8 +213,45 @@ select {
   input {
     width: 100%;
   }
+}
 
-  .form-side {
-    height: 40px - 2px;
+// 2fa bind
+.tfa-container {
+  display: flex;
+  align-items: center;
+
+  .qr {
+    width: 150px;
+    height: 150px;
   }
+
+  .qr-form {
+    margin: 10px 20px;
+    max-width: 320px;
+
+    .qr-form-desc {
+      color: #aeaeae;
+      margin: 5px 0;
+    }
+
+    input {
+      width: 100%;
+    }
+  }
+}
+
+.tfa .section-content {
+  padding-bottom: 0;
+}
+
+.tfa .bottom-link {
+  border-top: 1px solid #efefef;
+  padding-top: 10px;
+  margin-top: 20px;
+  line-height: 30px;
+}
+
+.third-list .iconfont {
+  margin-right: 5px;
+  color: #666;
 }
