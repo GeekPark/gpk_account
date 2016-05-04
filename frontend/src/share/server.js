@@ -28,7 +28,7 @@ export function initWechatLogin() {
     id: 'wechatQR',
     appid: 'wxd469c54993b2a659',
     scope: 'snsapi_login',
-    redirect_uri: 'http://geekpark.net/users/auth/wechat/callback',
+    redirect_uri: `http://${location.hostname}/auth/wechat/callback`,
     state: '',
     style: '',
     href: '',
