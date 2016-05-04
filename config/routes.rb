@@ -24,8 +24,14 @@ Rails.application.routes.draw do
 
   # User settings
   get 'settings', to: 'users#show'
-  match 'settings/update_password', via: [:patch, :put]
   delete 'auth/:provider/unbind', to: 'settings#unbind_auth'
+  namespace :settings do
+    post 'verify_email'
+    post 'verify_mobile'
+    post 'verify_current_user'
+    patch 'update_primary'
+    patch 'update_password'
+  end
 
   namespace :api do
     namespace :v1 do
