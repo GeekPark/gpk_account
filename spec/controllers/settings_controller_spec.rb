@@ -8,7 +8,7 @@ RSpec.describe SettingsController, type: :controller do
     warden.set_user user
   end
 
-  describe 'POST settings#verify_current with verify code' do
+  describe 'POST settings#verify_current_user with verify code' do
     before do
       @code = rand(100_000..999_999).to_s
       Rails.cache.write("verify_code:#{user[:email]}", @code)
@@ -19,20 +19,20 @@ RSpec.describe SettingsController, type: :controller do
     end
 
     it 'should return error if verify code invalid' do
-      post :verify_current, primary: 'email', verify_code: '111111'
+      post :verify_current_user, primary: 'email', verify_code: '111111'
       expect(response).to have_http_status(422)
       expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
     end
 
     it 'should set user authenticate if verify code correct' do
-      post :verify_current, primary: 'email', verify_code: @code
+      post :verify_current_user, primary: 'email', verify_code: @code
       expect(response).to be_success
       token = Rails.cache.fetch("authenticate_token:#{user.id}")
       expect(cookies['authenticate_token']).to eq(token)
     end
   end
 
-  describe 'PATCH settings#update with new email' do
+  describe 'PATCH settings#update_primary with new email' do
     before do
       @new_email = 'new@email.com'
       @code = rand(100_000..999_999).to_s
@@ -44,21 +44,21 @@ RSpec.describe SettingsController, type: :controller do
     end
 
     it 'should return error if user not authenticate' do
-      patch :update, primary: 'email', verify_code: @code, email: @new_email
+      patch :update_primary, primary: 'email', verify_code: @code, email: @new_email
       expect(response).to have_http_status(422)
       expect(JSON.parse(response.body)['errors']).to include('User not authenticate')
     end
 
     it 'should return error if verify_code invalid' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user_authenticate?).and_return(true)
-      patch :update, primary: 'email', verify_code: '111111', email: @new_email
+      allow_any_instance_of(SettingsController).to receive(:current_user_authenticate?).and_return(true)
+      patch :update_primary, primary: 'email', verify_code: '111111', email: @new_email
       expect(response).to have_http_status(422)
       expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
     end
 
     it 'should return user if verify code correct' do
-      allow_any_instance_of(ApplicationController).to receive(:current_user_authenticate?).and_return(true)
-      patch :update, primary: 'email', verify_code: @code, email: @new_email
+      allow_any_instance_of(SettingsController).to receive(:current_user_authenticate?).and_return(true)
+      patch :update_primary, primary: 'email', verify_code: @code, email: @new_email
       expect(JSON.parse(response.body)['email']).to eq('new@email.com')
     end
   end

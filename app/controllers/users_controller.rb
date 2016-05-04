@@ -21,7 +21,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    if verify_code?
+    if verify_code? login_name
       user = User.create!(user_create_params)
       warden.set_user(user)
       render json: { user: UserSerializer.new(current_user), callback_url: callback_url }
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   def reset_password
     user = User.find_by_email_or_mobile(login_name)
     (render json: { errors: ['User not found'] }, status: 404) && return unless user
-    if verify_code?
+    if verify_code? login_name
       user.update!(password: params[:user][:password])
       warden.set_user(user)
       render json: { user: user, callback_url: callback_url }
@@ -62,17 +62,6 @@ class UsersController < ApplicationController
       render json: { errors: @user.errors.full_messages }, status: 422
       return
     end
-  end
-
-  def generate_verify_code(key)
-    Rails.cache.fetch "verify_code:#{key}", expires_in: 30.minutes do
-      rand(100_000..999_999).to_s
-    end
-  end
-
-  def verify_code?
-    code = Rails.cache.fetch "verify_code:#{login_name}"
-    code.present? && code == params[:verify_code]
   end
 
   def get_city_list(id)

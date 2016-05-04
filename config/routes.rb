@@ -28,8 +28,8 @@ Rails.application.routes.draw do
   namespace :settings do
     post 'verify_email'
     post 'verify_mobile'
-    post 'verify_current/:primary', to: :verify_current
-    patch 'update/:primary', to: :update
+    post 'verify_current_user'
+    patch 'update_primary'
     patch 'update_password'
   end
 
