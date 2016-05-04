@@ -29,7 +29,7 @@ class Index extends React.Component {
             <div className="left-label">
               <span className="label-text">密码</span>
             </div>
-            <div className="form-button">修改</div>
+            <Link to="security/password/edit" className="form-button">修改</Link>
           </div>
           <div className="form-button-group">
             <div className="left-label">

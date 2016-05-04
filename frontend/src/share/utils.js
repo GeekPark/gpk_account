@@ -1,5 +1,6 @@
 import React from 'react';
 import { render as r } from 'react-dom';
+import { showMessage } from '../actions';
 
 export function parseErr(str) {
   let err;
@@ -36,4 +37,10 @@ export function tryKey(obj, ...keys) {
     if (pre) return pre[current];
     else return undefined;
   }, obj);
+}
+
+export function showXHRError(xhr, dispatch) {
+  const msg = parseErr(xhr.responseText);
+  if (msg) dispatch(showMessage({ type: 'error', msg }));
+  else console.error(`Can't parse error: ${xhr}`);
 }

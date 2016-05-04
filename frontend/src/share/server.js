@@ -71,7 +71,7 @@ export function resetPassword({ verify_code, user }) {
 export function checkExist(id) {
   return new Promise((res, rej) => {
     $.ajax({
-      url: 'check_exist',
+      url: '/check_exist',
       data: {
         user: { email: id },
       },
@@ -85,5 +85,16 @@ export function checkExist(id) {
       const msg = parseErr(xhr);
       if (msg) rej(msg);
     });
+  });
+}
+
+export function updatePassword({ password, new_password }) {
+  return $.ajax({
+    url: '/settings/update_password',
+    method: 'PATCH',
+    data: {
+      password,
+      new_password,
+    },
   });
 }

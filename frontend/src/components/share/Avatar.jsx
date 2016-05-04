@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { tryKey } from '../../share/utils';
+import { tryKey, showXHRError } from '../../share/utils';
 import { uploadAvatar } from '../../share/server';
 import { showMessage, setStore } from '../../actions';
 
@@ -23,9 +23,7 @@ class Avatar extends React.Component {
             this.props.dispatch(showMessage({ type: 'success', msg: '头像更新成功' }));
             this.props.dispatch(setStore({ ...server, user }));
           })
-          .fail(xhr => {
-            console.error(xhr);
-          });
+          .fail(xhr => showXHRError(xhr, this.props.dispatch));
       }
     };
   }

@@ -10,7 +10,7 @@ import Tooltip from '../share/Tooltip';
 
 import { showMessage } from '../../actions';
 import { updateUser } from '../../share/server';
-import { parseErr } from '../../share/utils';
+import { showXHRError } from '../../share/utils';
 import { isValidNickname, isEmpty } from '../../share/validator';
 
 class Welcome extends React.Component {
@@ -40,10 +40,8 @@ class Welcome extends React.Component {
         setTimeout(() => {
           window.location.href = this.props.data.callback_url;
         }, 3000);
-      }).fail(xhr => {
-        const msg = parseErr(xhr);
-        if (msg) this.props.dispatch(showMessage({ type: 'error', msg }));
-      });
+      })
+      .fail(xhr => showXHRError(xhr, this.props.dispatch));
     };
   }
   render() {

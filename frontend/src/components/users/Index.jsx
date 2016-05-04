@@ -15,6 +15,8 @@ import SecurityIndex from './security/Index';
 import SecurityEmail from './security/Email';
 import EmailBind from './security/EmailBind';
 
+import PasswordEdit from './security/PasswordEdit';
+
 import TFABind from './security/TFABind';
 
 const T = props => (
@@ -41,6 +43,9 @@ const User = props => (
         <Route path="email">
           <IndexRoute component={SecurityEmail} />
           <Route path="bind" component={EmailBind} />
+        </Route>
+        <Route path="password">
+          <Route path="edit" component={PasswordEdit} />
         </Route>
         <Route path="2fa">
           <Route path="bind" component={TFABind} />

@@ -6,8 +6,8 @@ import Tooltip from '../../share/Tooltip';
 
 import { isValidID, isEmpty, isEmail as isValidEmail } from '../../../share/validator';
 import * as SERVER from '../../../share/server';
-import { parseErr } from '../../../share/utils';
-import { showMessage, sendVerifyCode } from '../../../actions';
+import { showXHRError } from '../../../share/utils';
+import { sendVerifyCode } from '../../../actions';
 
 class SendVerify extends React.Component {
   constructor() {
@@ -34,8 +34,7 @@ class SendVerify extends React.Component {
             this.props.dispatch(sendVerifyCode());
           })
           .fail(xhr => {
-            const msg = parseErr(xhr.responseText);
-            this.props.dispatch(showMessage({ type: 'error', msg }));
+            showXHRError(xhr, this.props.dispatch);
             this.refs.captcha.random();
           });
         });
