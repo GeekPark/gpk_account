@@ -51,7 +51,9 @@ const User = props => (
           <Route path="bind" component={TFABind} />
         </Route>
       </Route>
-      <Route path="third" component={Third} />
+      <Route path="third">
+        <IndexRoute component={Third} />
+      </Route>
     </Route>
   </Router>
 );

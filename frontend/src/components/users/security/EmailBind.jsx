@@ -21,8 +21,6 @@ class EmailBind extends React.Component {
       if (!email) return;
       const verifyCode = this.refs.verifyCode.refs.wrappedInstance.getValue();
       if (!verifyCode) return;
-
-      // TODO: 提交邮箱更新
     };
 
     this.clearTip = tipName => () => this.refs[tipName].clear();
