@@ -53,6 +53,7 @@ class VerifyCode extends React.Component {
         <div>
           <input type="text" ref="input" onChange={this.clearTip}
             placeholder={placeholder} maxLength="6"
+            autoFocus={this.props.autofocus}
           />
           <div className="form-side" onClick={this.getCode}>
             {verifyButtonText}
@@ -63,12 +64,16 @@ class VerifyCode extends React.Component {
   }
 }
 
+VerifyCode.defaultProps = {
+  autofocus: false,
+};
 
 // access to redux, for know the pending status(verify_code)
 // onGetCode for click getCodeBtn callback
 VerifyCode.propTypes = {
   className: PropTypes.string,
   isEmail: PropTypes.bool,
+  autofocus: PropTypes.bool,
   onGetCode: PropTypes.func.isRequired,
   verify_code: PropTypes.object.isRequired,
 };

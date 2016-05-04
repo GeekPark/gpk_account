@@ -12,7 +12,8 @@ class NewPassword extends React.Component {
 
     this.goBack = () => this.props.goPanel('/');
 
-    this.submit = () => {
+    this.submit = e => {
+      e.preventDefault();
       const { password } = this.refs;
       const pwd = password.getValue();
       if (pwd === false) return;
@@ -43,11 +44,11 @@ class NewPassword extends React.Component {
 
   render() {
     return (
-      <div>
-        <VerifyCode onGetCode={this.goBack} ref="verifyCode" />
-        <PasswordInput placeholder="新密码" className="mb-input" autofocus ref="password" />
-        <button className="btn btn-large" onClick={this.submit}>重设密码</button>
-      </div>
+      <form onSubmit={this.submit}>
+        <VerifyCode onGetCode={this.goBack} ref="verifyCode" autofocus />
+        <PasswordInput placeholder="新密码" className="mb-input" ref="password" />
+        <button className="btn btn-large">重设密码</button>
+      </form>
     );
   }
 }

@@ -14,7 +14,8 @@ class SendVerify extends React.Component {
     super();
 
     this.clearTip = tipName => () => this.refs[tipName].clear();
-    this.next = () => {
+    this.next = e => {
+      e.preventDefault();
       const captchaValue = this.refs.captcha.getValue();
       const id = this.getID();
       if (!id || !captchaValue) return;
@@ -56,15 +57,15 @@ class SendVerify extends React.Component {
 
   render() {
     return (
-      <div>
+      <form onSubmit={this.next}>
         <Tooltip ref="idTip">
           <input type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id"
             onChange={this.clearTip('idTip')} autoFocus
           />
         </Tooltip>
         <Captcha className="mb-input" ref="captcha" />
-        <button onClick={this.next} className="btn btn-large">下一步</button>
-      </div>
+        <button className="btn btn-large">下一步</button>
+      </form>
     );
   }
 }

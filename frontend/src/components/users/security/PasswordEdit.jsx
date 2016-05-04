@@ -4,7 +4,7 @@ import PasswordInput from '../../sessions/PasswordInput';
 import Main from '../Main';
 import { updatePassword } from '../../../share/server';
 import { showXHRError } from '../../../share/utils';
-import { showMessage } from '../../../actions';
+import { showMessage, setStore } from '../../../actions';
 
 class PasswordEdit extends React.Component {
   constructor() {
@@ -18,11 +18,14 @@ class PasswordEdit extends React.Component {
       if (new_password === false) return;
 
       updatePassword({ password, new_password })
-        .done(d => {
-          console.log(d);
+        .done(user => {
           const msg = '密码修改成功，跳转中';
-          // window.location.href = '/#/security';
+          this.props.dispatch(setStore({ user }));
           this.props.dispatch(showMessage({ type: 'success', msg }));
+
+          setTimeout(() => {
+            window.location.href = '/#/security';
+          }, 5000);
         }).fail(xhr => showXHRError(xhr, this.props.dispatch));
     };
   }
