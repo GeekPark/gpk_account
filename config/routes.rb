@@ -12,8 +12,7 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#create'
   get 'check_exist', to: 'users#check_exist'
 
-  post 'verify_mobile', to: 'users#verify_mobile'
-  post 'verify_email', to: 'users#verify_email'
+  post 'send_verify_code', to: 'users#send_verify_code'
 
   # User reset password
   get 'reset_password', to: 'users#new'
@@ -26,8 +25,7 @@ Rails.application.routes.draw do
   get 'settings', to: 'users#show'
   delete 'auth/:provider/unbind', to: 'settings#unbind_auth'
   namespace :settings do
-    post 'verify_email'
-    post 'verify_mobile'
+    post 'send_verify_code'
     post 'verify_current_user'
     patch 'update_primary'
     patch 'update_password'

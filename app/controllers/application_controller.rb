@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ActiveRecord::RecordInvalid, with: :invalid_error
+  rescue_from Verifiable::VerifyCodeInvalid, with: :invalid_verify_code
 
   helper_method :current_user
 
@@ -38,18 +39,11 @@ class ApplicationController < ActionController::Base
     request.env['warden']
   end
 
-  def generate_verify_code(key)
-    Rails.cache.fetch "verify_code:#{key}", expires_in: 30.minutes do
-      rand(100_000..999_999).to_s
-    end
-  end
-
-  def verify_code?(key)
-    code = Rails.cache.fetch "verify_code:#{key}"
-    code.present? && code == params[:verify_code]
-  end
-
   def invalid_error(invalid)
     render json: { errors: invalid.record.errors.full_messages }, status: 422
+  end
+
+  def invalid_verify_code
+    render json: { errors: ['Verify code invalid'] }, status: 422
   end
 end
