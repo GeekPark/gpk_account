@@ -111,4 +111,18 @@ RSpec.describe SettingsController, type: :controller do
       expect(JSON.parse(response.body)['errors']).to include('Authorization not found')
     end
   end
+
+  describe 'POST settings#identified' do
+    it 'should return false' do
+      post :identified
+      expect(JSON.parse(response.body)['identified']).to eq(false)
+    end
+
+    it 'should return false' do
+      token = user.generate_identify_token
+      cookies['identify_code'] = token
+      post :identified
+      expect(JSON.parse(response.body)['identified']).to eq(true)
+    end
+  end
 end
