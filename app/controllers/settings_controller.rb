@@ -1,18 +1,18 @@
 class SettingsController < ApplicationController
   include Verifiable
   before_action :require_login
-  before_action :fetch_user, only: [:verify_email, :verify_mobile]
   before_action :current_user_authenticate?, only: :update_primary
   before_action :authenticate_password, only: :update_password
 
   def verify_current_user
-    verify_code(current_user.read_attribute(primary)) { return }
+    verify_code? current_addr
+    set_current_user_authenticate
     render nothing: true
   end
 
   def update_primary
-    verify_code(params[primary]) { return }
-    current_user.update!(primary => params[primary])
+    verify_code? new_addr
+    current_user.update!(way => new_addr)
     render json: current_user, serializer: UserSerializer
   end
 
@@ -37,16 +37,6 @@ class SettingsController < ApplicationController
     render json: { errors: ['Password invalid'] }, status: 403 unless current_user.authenticate(params[:password])
   end
 
-  def fetch_user
-    @user = current_user
-    @user.email = params[:email] if params[:email]
-    @user.mobile = params[:mobile] if params[:mobile]
-  end
-
-  def primary
-    params[:primary] == 'email' ? 'email' : 'mobile'
-  end
-
   def set_current_user_authenticate
     token = SecureRandom.urlsafe_base64
     cookies['authenticate_token'] = {
@@ -62,9 +52,5 @@ class SettingsController < ApplicationController
       render json: { errors: ['User not authenticate'] }, status: 422
       return
     end
-  end
-
-  def verify_code(key)
-    (render json: { errors: ['Verify code invalid'] }, status: 422) && yield unless verify_code?(key)
   end
 end

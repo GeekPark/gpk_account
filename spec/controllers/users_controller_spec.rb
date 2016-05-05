@@ -148,15 +148,15 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'POST #verify_mobile' do
-    it_behaves_like 'send verify code' do
-      let(:subject) { post 'verify_mobile', user: attributes_for(:user, :with_mobile) }
-    end
-  end
+  describe 'POST #send_verify_code' do
+    let(:user) { create(:user, :with_email, :with_mobile) }
 
-  describe 'POST #verify_email' do
     it_behaves_like 'send verify code' do
-      let(:subject) { post 'verify_email', user: attributes_for(:user, :with_email) }
+      let(:subject) { post 'send_verify_code', type: 'mobile', mobile: user.mobile }
+    end
+
+    it_behaves_like 'send verify code' do
+      let(:subject) { post 'send_verify_code', type: 'email', email: user.email }
     end
   end
 end
