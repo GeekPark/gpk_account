@@ -49,7 +49,6 @@ RSpec.describe 'routing test', type: :routing do
     end
 
     it 'route to settings#update_password when put or patch /settings/update_password' do
-      expect(put: 'settings/update_password').to route_to('settings#update_password')
       expect(patch: 'settings/update_password').to route_to('settings#update_password')
     end
   end

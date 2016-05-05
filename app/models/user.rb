@@ -55,4 +55,15 @@ class User < ActiveRecord::Base
     save
     remember_token
   end
+
+  def generate_identify_token
+    token = SecureRandom.urlsafe_base64
+    token.tap do |t|
+      Rails.cache.write("identify_token:#{id}", t, expires_in: 1.hour)
+    end
+  end
+
+  def identified?(token)
+    token.present? && token == Rails.cache.fetch("identify_token:#{id}")
+  end
 end

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ActiveRecord::RecordInvalid, with: :invalid_error
+  rescue_from Verifiable::VerifyCodeInvalid, with: :invalid_verify_code
 
   helper_method :current_user
 
@@ -40,5 +41,9 @@ class ApplicationController < ActionController::Base
 
   def invalid_error(invalid)
     render json: { errors: invalid.record.errors.full_messages }, status: 422
+  end
+
+  def invalid_verify_code
+    render json: { errors: ['Verify code invalid'] }, status: 422
   end
 end

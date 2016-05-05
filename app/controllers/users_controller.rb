@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Verifiable
   before_action :require_login, only: [:show, :update]
-  before_action :verify_rucaptcha!, only: [:verify_mobile, :verify_email]
+  before_action :verify_rucaptcha!, only: :send_verify_code
 
   def new
   end
@@ -21,25 +21,19 @@ class UsersController < ApplicationController
   end
 
   def create
-    if verify_code?
-      user = User.create!(user_create_params)
-      warden.set_user(user)
-      render json: { user: UserSerializer.new(current_user), callback_url: callback_url }
-    else
-      render json: { errors: ['Verify code invalid'] }, status: 422
-    end
+    verify_code? login_name
+    user = User.create!(user_create_params)
+    warden.set_user(user)
+    render json: { user: UserSerializer.new(current_user), callback_url: callback_url }
   end
 
   def reset_password
     user = User.find_by_email_or_mobile(login_name)
     (render json: { errors: ['User not found'] }, status: 404) && return unless user
-    if verify_code?
-      user.update!(password: params[:user][:password])
-      warden.set_user(user)
-      render json: { user: user, callback_url: callback_url }
-    else
-      render json: { errors: ['Verify code invalid'] }, status: 422
-    end
+    verify_code? login_name
+    user.update!(password: params[:user][:password])
+    warden.set_user(user)
+    render json: { user: user, callback_url: callback_url }
   end
 
   def check_exist
@@ -57,22 +51,11 @@ class UsersController < ApplicationController
   end
 
   def verify_rucaptcha!
-    @user = User.find_by_email_or_mobile(login_name) || User.new(user_create_params)
+    @user = User.find_by_email_or_mobile(params[way]) || User.new(way => params[way])
     unless verify_rucaptcha?(@user) && @user.valid?
       render json: { errors: @user.errors.full_messages }, status: 422
       return
     end
-  end
-
-  def generate_verify_code(key)
-    Rails.cache.fetch "verify_code:#{key}", expires_in: 30.minutes do
-      rand(100_000..999_999).to_s
-    end
-  end
-
-  def verify_code?
-    code = Rails.cache.fetch "verify_code:#{login_name}"
-    code.present? && code == params[:verify_code]
   end
 
   def get_city_list(id)
