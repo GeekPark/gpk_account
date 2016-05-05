@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
     token.present? && token == Rails.cache.fetch("identify_token:#{id}")
   end
 
-  def email_mobile_blank?
+  def sns_user?
     email.blank? && mobile.blank?
   end
 end

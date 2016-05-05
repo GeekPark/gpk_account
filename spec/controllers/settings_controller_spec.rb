@@ -62,6 +62,13 @@ RSpec.describe SettingsController, type: :controller do
       patch :update_primary, type: 'email', verify_code: @code, email: key
       expect(JSON.parse(response.body)['email']).to eq(key)
     end
+
+    it 'should return user if sns user' do
+      user.update(email: nil, mobile: nil)
+      patch :update_primary, type: 'email', email: key, verify_code: @code, password: 'new_password'
+      expect(JSON.parse(response.body)['email']).to eq(key)
+      expect(user.authenticate('new_password')).to eq(user)
+    end
   end
 
   describe 'PATCH settings#update_primary with new mobile' do

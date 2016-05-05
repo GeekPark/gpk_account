@@ -16,11 +16,9 @@ class SettingsController < ApplicationController
   end
 
   def update_primary
+    verify_code? params[way]
     if updatable?
-      verify_code? params[way]
-      current_user.update!(way => params[way])
-      # Unset is_old when old user verify their email
-      current_user.update!(is_old: false) if current_user.is_old
+      current_user.update!(updatable_params)
       render json: current_user, serializer: UserSerializer
     else
       render json: { errors: ['User not identified'] }, status: 422
@@ -56,8 +54,19 @@ class SettingsController < ApplicationController
     render json: { errors: ['Password invalid'] }, status: 403 unless current_user.authenticate(params[:password])
   end
 
+  def updatable_params
+    if current_user.sns_user?
+      params.permit(way, :password)
+    elsif current_user.is_old && way == 'email'
+      params.permit(way).merge(is_old: false)
+    else
+      params.permit(way)
+    end
+  end
+
   def updatable?
     current_user.identified?(cookies[:identify_token]) ||
-      (current_user.is_old && way == 'email') # Allow old user set a new email once
+      (current_user.is_old && way == 'email') || # Allow old user set a new email once
+      current_user.sns_user? # Allow sns user set email mobile and password
   end
 end
