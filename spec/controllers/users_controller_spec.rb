@@ -124,14 +124,18 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'GET #check_exist' do
+    let(:subject) { JSON.parse(response.body) }
+    let(:user_with_avatar) { create(:basic_user, :with_avatar) }
+
     it 'should return false user not exist' do
       get 'check_exist', user: attributes_for(:user, :with_email)
-      expect(response.body).to eq({ exist: false }.to_json)
+      expect(subject['exist']).to eq(false)
     end
 
     it 'should return true user exist' do
-      get 'check_exist', user: { email: user.email }
-      expect(response.body).to eq({ exist: true }.to_json)
+      get 'check_exist', user: { email: user_with_avatar.email }
+      expect(subject['exist']).to eq(true)
+      expect(subject['avatar_url']).to eq(user_with_avatar.avatar_url)
     end
   end
 

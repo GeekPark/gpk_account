@@ -4,6 +4,7 @@
   background: #efefef center center no-repeat;
   background-size: cover;
   position: relative;
+  background-image: image_url('bg.jpg');
 }
 
 .mb-input {
@@ -24,38 +25,54 @@
 
 .page-container {
   position: absolute;
-  left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  left: 50%;
+  transform: translate(-50%, -270px);
   margin-bottom: 20px;
   width: 350px;
 
   .page-container-style {
     background-color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-clip: content-box;
-    background-clip: padding-box;
     box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
     text-align: center;
     padding-bottom: 30px;
     border-radius: 3px;
   }
 
+  $zoom: 1.1;
   .logo-wrapper {
     background-color: $color-blue;
-    padding: 35px 0;
+    height: 125px;
     color: #fff;
+    border-radius: 3px 3px 0 0;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+  }
+
+  .logo,
+  .avatar-mask {
+    position: absolute;
+    left: 0; right: 0; top: 0; bottom: 0;
+    margin: auto;
   }
 
   .logo {
-    $zoom: 1.1;
     width: 200px * $zoom;
     height: 38.4px * $zoom;
     display: block;
     background: image_url('logo_white.png') center center no-repeat;
     background-size: 100%;
-    margin-left: auto;
-    margin-right: auto;
+  }
+
+  .avatar-mask {
+    $size: 38.4px * $zoom;
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(255, 255, 255, .5);
   }
 
   .switch-button {

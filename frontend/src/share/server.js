@@ -68,7 +68,7 @@ export function resetPassword({ verify_code, user }) {
 
 // resolve when user DOESN'T EXIST
 // reject when user EXIST
-export function checkExist(id) {
+export function notExist(id) {
   return new Promise((res, rej) => {
     $.ajax({
       url: '/check_exist',
@@ -77,7 +77,7 @@ export function checkExist(id) {
       },
     }).done(d => {
       if (d.exist) {
-        rej('用户已存在');
+        rej(d);
       } else {
         res(d);
       }

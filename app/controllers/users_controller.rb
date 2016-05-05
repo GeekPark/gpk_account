@@ -37,7 +37,8 @@ class UsersController < ApplicationController
   end
 
   def check_exist
-    render json: { exist: User.find_by_email_or_mobile(login_name).present? }
+    user = User.find_by_email_or_mobile(login_name)
+    render json: { exist: user.present?, avatar_url: user&.avatar_url }
   end
 
   private
