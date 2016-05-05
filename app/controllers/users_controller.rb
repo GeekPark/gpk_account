@@ -51,7 +51,7 @@ class UsersController < ApplicationController
   end
 
   def verify_rucaptcha!
-    @user = User.find_by_email_or_mobile(new_addr) || User.new(way => new_addr)
+    @user = User.find_by_email_or_mobile(params[way]) || User.new(way => params[way])
     unless verify_rucaptcha?(@user) && @user.valid?
       render json: { errors: @user.errors.full_messages }, status: 422
       return

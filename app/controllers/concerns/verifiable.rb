@@ -4,7 +4,7 @@ module Verifiable
   class VerifyCodeInvalid < StandardError; end
 
   def send_verify_code
-    addr = new_addr || current_addr
+    addr = params[way] || current_addr
     if addr
       method("send_to_#{way}").call(addr)
       render json: { success: 'Sended' }
@@ -40,9 +40,5 @@ module Verifiable
 
   def current_addr
     current_user&.read_attribute(way)
-  end
-
-  def new_addr
-    params[way.to_sym]
   end
 end
