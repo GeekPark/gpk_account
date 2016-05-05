@@ -230,7 +230,8 @@ CREATE TABLE users (
     birthday date,
     realname character varying,
     remember_token character varying,
-    remember_token_created_at timestamp without time zone
+    remember_token_created_at timestamp without time zone,
+    is_old boolean DEFAULT false
 );
 
 
@@ -405,4 +406,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160418083916');
 INSERT INTO schema_migrations (version) VALUES ('20160428055301');
 
 INSERT INTO schema_migrations (version) VALUES ('20160428101641');
+
+INSERT INTO schema_migrations (version) VALUES ('20160505060847');
 
