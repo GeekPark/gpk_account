@@ -3,6 +3,7 @@ import ChinaCity from 'react-china-city';
 
 import Avatar from '../share/Avatar';
 import Tooltip from '../share/Tooltip';
+import Select from '../share/Select';
 
 import { showMessage } from '../../actions';
 import { updateUser } from '../../share/server';
@@ -65,11 +66,11 @@ class BasicInfo extends React.Component {
           </div>
           <div className="form-item">
             <label htmlFor="sex">性别</label>
-            <select name="user[gender]" defaultValue={gender}>
-              <option value="not_sure" checked>其他</option>
-              <option value="male">男</option>
-              <option value="female">女</option>
-            </select>
+            <Select name="user[gender]" defaultValue={gender}
+              options={[
+                ['not_sure', '其他'], ['male', '男'], ['female', '女'],
+              ]}
+            />
           </div>
           <div className="form-item">
             <label htmlFor="birthday">出生日期</label>

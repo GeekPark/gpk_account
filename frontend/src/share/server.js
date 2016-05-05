@@ -1,13 +1,18 @@
 import $ from 'jquery';
 import { parseErr } from './utils';
 
-export function sendVerify({ str, user, isEmail }) {
+export function sendVerify({ str, id, isEmail }) {
+  const param = {};
+  if (isEmail) param.email = id;
+  else param.mobile = id;
+
   return $.ajax({
-    url: isEmail ? '/verify_email' : '/verify_mobile',
+    url: '/send_verify_code',
     method: 'POST',
     data: {
       _rucaptcha: str,
-      user,
+      type: isEmail ? 'email' : 'mobile',
+      ...param,
     },
   });
 }

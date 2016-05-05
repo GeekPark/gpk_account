@@ -13,9 +13,7 @@ class ValidatorIMG extends React.Component {
       const v = this.refs.captcha.getValue();
       if (!v) return;
 
-      const user = props.user.isEmail ? { email: props.user.id } : { mobile: props.user.id };
-
-      sendVerify({ str: v, user, isEmail: props.user.isEmail })
+      sendVerify({ str: v, id: props.user.id, isEmail: props.user.isEmail })
         .done(() => {
           this.props.onClose();
           this.props.sendVerifyCode();
