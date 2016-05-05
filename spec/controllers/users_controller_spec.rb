@@ -65,20 +65,14 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'POST #create' do
-    before do
-      @basic_user = attributes_for(:basic_user)
-      email = @basic_user[:email]
-      @code = rand(100_000..999_999).to_s
-      Rails.cache.write("verify_code:#{email}", @code)
-    end
-
-    after do
-      Rails.cache.clear
+    let(:basic_user) { attributes_for(:basic_user) }
+    include_context 'prepare verify code' do
+      let(:key) { basic_user[:email] }
     end
 
     context 'verify code incorrect' do
       it 'should return error' do
-        post :create, user: @basic_user, verify_code: '1111111'
+        post :create, user: basic_user, verify_code: '1111111'
         expect(response).to have_http_status(422)
         expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
       end
@@ -86,21 +80,21 @@ RSpec.describe UsersController, type: :controller do
 
     context 'verify code correct' do
       it 'validate user params' do
-        User.create(@basic_user)
-        post :create, user: @basic_user, verify_code: @code
+        User.create(basic_user)
+        post :create, user: basic_user, verify_code: @code
         expect(response).to have_http_status(422)
         expect(JSON.parse(response.body)['errors']).to include('Email has already been taken')
       end
 
       it 'return user when created' do
-        post :create, user: @basic_user, verify_code: @code
+        post :create, user: basic_user, verify_code: @code
         expect(response).to be_success
-        expect(JSON.parse(response.body)['user']['email']).to eq(@basic_user[:email])
-        expect(warden.user.email).to eq(@basic_user[:email])
+        expect(JSON.parse(response.body)['user']['email']).to eq(basic_user[:email])
+        expect(warden.user.email).to eq(basic_user[:email])
       end
 
       it 'return callback_url when created' do
-        post :create, user: @basic_user, verify_code: @code
+        post :create, user: basic_user, verify_code: @code
         expect(response).to be_success
         expect(JSON.parse(response.body)['callback_url']).to eq(root_url)
       end
@@ -108,19 +102,12 @@ RSpec.describe UsersController, type: :controller do
   end
 
   describe 'GET #reset_password' do
-    before do
-      email = user.email
-      @params = { email: email, password: 'new_password' }
-      @code = rand(100_000..999_999).to_s
-      Rails.cache.write("verify_code:#{email}", @code)
-    end
-
-    after do
-      Rails.cache.clear
+    include_context 'prepare verify code' do
+      let(:key) { user.email }
     end
 
     it 'verify code invalid' do
-      post :reset_password, user: @params, verify_code: '111111'
+      post :reset_password, user: { email: key, password: 'new_password' }, verify_code: '111111'
       expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
     end
 
@@ -130,7 +117,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'return user and callback when success' do
-      post :reset_password, user: @params, verify_code: @code
+      post :reset_password, user: { email: key, password: 'new_password' }, verify_code: @code
       expect(JSON.parse(response.body)['user']['email']).to eq(user.email)
       expect(JSON.parse(response.body)['callback_url']).to eq(root_url)
     end

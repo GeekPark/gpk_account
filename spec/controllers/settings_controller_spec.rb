@@ -9,13 +9,8 @@ RSpec.describe SettingsController, type: :controller do
   end
 
   describe 'POST settings#verify_current_user with verify code' do
-    before do
-      @code = rand(100_000..999_999).to_s
-      Rails.cache.write("verify_code:#{user[:email]}", @code)
-    end
-
-    after do
-      Rails.cache.clear
+    include_context 'prepare verify code' do
+      let(:key) { user.email }
     end
 
     it 'should return error if verify code invalid' do
@@ -41,56 +36,42 @@ RSpec.describe SettingsController, type: :controller do
   end
 
   describe 'PATCH settings#update_primary with new email' do
-    before do
-      @new_email = 'new@email.com'
-      @code = rand(100_000..999_999).to_s
-      Rails.cache.write("verify_code:#{@new_email}", @code)
-    end
-
-    after do
-      Rails.cache.clear
-    end
+    include_context 'prepare verify code'
 
     it 'should return error if user not authenticate' do
-      patch :update_primary, type: 'email', verify_code: @code, email: @new_email
+      patch :update_primary, type: 'email', verify_code: @code, email: key
       expect(response).to have_http_status(422)
       expect(JSON.parse(response.body)['errors']).to include('User not identified')
     end
 
     it 'should return error if verify_code invalid' do
       allow_any_instance_of(User).to receive(:identified?).and_return(true)
-      patch :update_primary, type: 'email', verify_code: '111111', email: @new_email
+      patch :update_primary, type: 'email', verify_code: '111111', email: key
       expect(response).to have_http_status(422)
       expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
     end
 
     it 'should return user if verify code correct' do
       allow_any_instance_of(User).to receive(:identified?).and_return(true)
-      patch :update_primary, type: 'email', verify_code: @code, email: @new_email
+      patch :update_primary, type: 'email', verify_code: @code, email: key
       expect(JSON.parse(response.body)['email']).to eq('new@email.com')
     end
 
     it 'should return user if user is_old and verify_code correct' do
       user.update(is_old: true)
-      patch :update_primary, type: 'email', verify_code: @code, email: @new_email
-      expect(JSON.parse(response.body)['email']).to eq('new@email.com')
+      patch :update_primary, type: 'email', verify_code: @code, email: key
+      expect(JSON.parse(response.body)['email']).to eq(key)
     end
   end
 
   describe 'PATCH settings#update_primary with new mobile' do
-    before do
-      @new_mobile = '13000000000'
-      @code = rand(100_000..999_999).to_s
-      Rails.cache.write("verify_code:#{@new_mobile}", @code)
-    end
-
-    after do
-      Rails.cache.clear
+    include_context 'prepare verify code' do
+      let(:key) { '13000000000' }
     end
 
     it 'should return error if user is_old and set mobile' do
       user.update(is_old: true)
-      patch :update_primary, type: 'mobile', verify_code: @code, mobile: @new_mobile
+      patch :update_primary, type: 'mobile', verify_code: @code, mobile: key
       expect(JSON.parse(response.body)['errors']).to include('User not identified')
     end
   end
