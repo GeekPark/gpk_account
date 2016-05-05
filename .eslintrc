@@ -23,5 +23,6 @@
     "assert": 0,
     "should": 0,
     "WxLogin": 0,
+    "ISDEV": 0,
   }
 }

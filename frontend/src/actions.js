@@ -14,6 +14,8 @@ export const CLOSE_MESSAGE = 'CLOSE_MESSAGE';
 
 export const SET_STORE = 'SET_STORE';
 
+export const CHANGE_AVATAR = 'CHANGE_AVATAR';
+
 // actionCreators
 export function openModal(modalName, modalStyle) {
   return { type: OPEN_MODAL, modalName, modalStyle };
@@ -76,4 +78,8 @@ export function showMessage({ type, msg }) {
 // server store
 export function setStore(data) {
   return { type: SET_STORE, data };
+}
+
+export function changeAvatar(url) {
+  return { type: CHANGE_AVATAR, url };
 }

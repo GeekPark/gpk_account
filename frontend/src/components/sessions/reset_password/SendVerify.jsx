@@ -22,12 +22,11 @@ class SendVerify extends React.Component {
       const isEmail = isValidEmail(id);
       const user = isEmail ? { email: id } : { mobile: id };
 
-      SERVER.checkExist(id)
+      SERVER.notExist(id)
         .then(() => {
           this.refs.idTip.postErr('用户不存在');
           this.refs.id.focus();
         }).catch(() => {
-          // catch meaning the user was exist!
           SERVER.sendVerify({ str: captchaValue, user, isEmail })
           .done(() => {
             this.props.goPanel('new');

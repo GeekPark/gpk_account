@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import SocialLogin from './SocialLogin';
@@ -8,36 +8,63 @@ import { getCSRFToken } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
 
+import { changeAvatar } from '../../actions';
+import { notExist } from '../../share/server';
+
 class Login extends React.Component {
   constructor() {
     super();
 
     this.submit = e => {
-      if (!this.check()) e.preventDefault();
+      if (this.checkID() === false || this.checkPassword() === false) e.preventDefault();
     };
 
     this.clearTip = tipName => () => this.refs[tipName].clear();
+
+    this.onIDBlur = e => {
+      if (e.target.value < 2) return;
+      const v = this.checkID();
+      if (v === false) {
+        this.props.dispatch(changeAvatar(null));
+        return;
+      }
+      notExist(v)
+        .then(() => {
+          this.refs.loginNameTip.postErr('用户不存在');
+          this.refs.loginName.focus();
+        })
+        .catch(d => {
+          this.props.dispatch(changeAvatar(d.avatar_url || null));
+        });
+    };
   }
 
-  check() {
-    const { loginName, password, loginNameTip, passwordTip } = this.refs;
-    if (isEmpty(loginName.value)) {
+  checkID() {
+    const { loginName, loginNameTip } = this.refs;
+    const v = loginName.value;
+    if (isEmpty(v)) {
       loginNameTip.postErr('用户名不能为空');
       return false;
     }
-    if (!isValidID(loginName.value)) {
+    if (!isValidID(v)) {
       loginNameTip.postErr('用户名必须为邮箱或手机号');
       return false;
     }
-    if (isEmpty(password.value)) {
+    return v;
+  }
+
+  checkPassword() {
+    const { password, passwordTip } = this.refs;
+    const v = password.value;
+    if (isEmpty(v)) {
       passwordTip.postErr('密码不能为空');
       return false;
     }
-    if (!isValidPassword(password.value)) {
+    if (!isValidPassword(v)) {
       passwordTip.postErr('密码格式不对');
       return false;
     }
-    return true;
+    return v;
   }
 
   render() {
@@ -45,7 +72,7 @@ class Login extends React.Component {
       <form className="form-wrapper" action="/login" method="POST">
         <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
         <Tooltip className="mb-input" ref="loginNameTip">
-          <input type="text" name="login_name" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginNameTip')} />
+          <input type="text" name="login_name" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginNameTip')} onBlur={this.onIDBlur} />
         </Tooltip>
         <Tooltip className="mb-input" ref="passwordTip">
           <input type="password" placeholder="密码" ref="password" name="password" onChange={this.clearTip('passwordTip')} />
@@ -63,5 +90,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  dispatch: PropTypes.func,
+};
 
 export default Login;

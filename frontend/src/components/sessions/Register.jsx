@@ -6,7 +6,7 @@ import PasswordInput from './PasswordInput';
 
 import { isEmpty, isPhoneNumber, isEmail as isValidEmail } from '../../share/validator';
 import { openModal, updateUser, resetVerify } from '../../actions';
-import { createUser, checkExist } from '../../share/server';
+import { createUser, notExist } from '../../share/server';
 import { showXHRError } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
@@ -44,11 +44,9 @@ class Register extends React.Component {
     this.getCode = () => {
       const v = this.refs.firstInput.value;
       if (!this.isValidFirstInput()) return;
-      checkExist(v)
-        .then(this.getCodeLogic)
-        .catch(msg => {
-          this.refs.firstInputTip.postErr(msg);
-        });
+      notExist(v).then(this.getCodeLogic).catch(() => {
+        this.refs.firstInputTip.postErr('用户已存在');
+      });
     };
 
     this.getCodeLogic = () => {
