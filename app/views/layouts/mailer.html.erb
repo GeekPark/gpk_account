@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>您的邮箱验证码</title>
+</head>
+<body style="background-color: #efefef; font-family: 'PingFang SC', 'Microsoft YaHei', Arial;">
+  <div style="width: 620px; margin: 80px auto 20px auto; background: #f5f5f5; border-radius: 2px; overflow: hidden; box-shadow: 0 1px 3px rgba(140, 140, 140, 0.2);">
+    <div style="background: #20B6FC; padding: 35px; text-align: center;">
+      <a href="http://www.geekpark.net">
+        <img style="width: 220px;" src="<%= image_url('logo_white.png') %>" />
+      </a>
+    </div>
+    <div style="padding: 20px; text-align: center;">
+      <%= yield %>
+    </div>
+  </div>
+  <p style="color: #afafaf; font-size: 12px; font-weight: 200; width: 620px; margin: 0 auto 50px auto; text-align: center;">
+    邮件来自极客公园用户中心自动发送，无需回复。<br />
+    如果您在使用过程中遇到任何问题，欢迎邮件反馈：contact@geekpark.net
+  </p>
+</body>
+</html>

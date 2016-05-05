@@ -38,6 +38,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.4.0)
     arel (6.0.3)
     ast (2.2.0)
     awesome_print (1.6.1)
@@ -115,6 +116,10 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.3)
     jwt (1.5.1)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     listen (3.1.1)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9.7)
@@ -304,6 +309,7 @@ DEPENDENCIES
   factory_girl_rails
   guard-rspec
   jquery-rails
+  letter_opener
   meta_request
   mini_magick
   omniauth-geekpark (= 0.2.0)

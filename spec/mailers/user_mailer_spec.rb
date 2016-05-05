@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe UserMailer, type: :mailer do
   describe '#send_verify_code' do
     let(:email) { 'test@geekpark.net' }
-    let(:mail) { UserMailer.send_verify_code(email, '123123').deliver_now }
+    let(:mail) { UserMailer.send_verify_code(email, '123456').deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq('您的邮箱验证码')
@@ -18,7 +18,8 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'assigns @code' do
-      expect(mail.body.encoded).to match('123123')
+      expect(mail.body.encoded).to match('123')
+      expect(mail.body.encoded).to match('456')
     end
   end
 end

@@ -1,1 +1,9 @@
-<h1>您的邮箱验证码是: <%= @code %></h1>
+<h2 style="font-weight: 400; color: #323232;">您的邮箱验证码</h2>
+<div style="background-color: #C5EDFE; color: #0983B6; display: inline-block; padding: 10px 30px; font-size: 23px; font-weight: bold; letter-spacing: 5px; border: 1px solid #b5e0f3; border-radius: 2px;">
+  <%= @code[0..2] %>
+  <%= @code[3..-1] %>
+</div>
+<p style="color: #A4A4A4; font-size: 15px; margin-top: 30px; letter-spacing: 0.5px; font-weight: 200;">
+  该验证码30分钟内有效，请勿泄露给其他人。<br />
+  如非本人操作，请忽略此邮件。
+</p>
