@@ -10,13 +10,17 @@ class SettingsController < ApplicationController
       value: token,
       expires: 1.hour.from_now
     }
+    # Unset is_old when old user verify their email
+    current_user.update!(is_old: false) if current_user.is_old
     render nothing: true
   end
 
   def update_primary
-    if current_user.identified?(cookies[:identify_token])
+    if updatable?
       verify_code? params[way]
       current_user.update!(way => params[way])
+      # Unset is_old when old user verify their email
+      current_user.update!(is_old: false) if current_user.is_old
       render json: current_user, serializer: UserSerializer
     else
       render json: { errors: ['User not identified'] }, status: 422
@@ -42,9 +46,18 @@ class SettingsController < ApplicationController
     end
   end
 
+  def identified
+    render json: { identified: current_user.identified?(cookies[:identify_code]) }
+  end
+
   private
 
   def authenticate_password
     render json: { errors: ['Password invalid'] }, status: 403 unless current_user.authenticate(params[:password])
+  end
+
+  def updatable?
+    current_user.identified?(cookies[:identify_token]) ||
+      (current_user.is_old && way == 'email') # Allow old user set a new email once
   end
 end

@@ -31,6 +31,13 @@ RSpec.describe SettingsController, type: :controller do
       expect(token).not_to eq(nil)
       expect(cookies['identify_token']).to eq(token)
     end
+
+    it 'should set user is_old false if user is_old is true' do
+      user.update(is_old: true)
+      post :verify_current_user, type: 'email', verify_code: @code
+      expect(response).to be_success
+      expect(user.is_old).to eq(false)
+    end
   end
 
   describe 'PATCH settings#update_primary with new email' do
@@ -62,6 +69,30 @@ RSpec.describe SettingsController, type: :controller do
       patch :update_primary, type: 'email', verify_code: @code, email: @new_email
       expect(JSON.parse(response.body)['email']).to eq('new@email.com')
     end
+
+    it 'should return user if user is_old and verify_code correct' do
+      user.update(is_old: true)
+      patch :update_primary, type: 'email', verify_code: @code, email: @new_email
+      expect(JSON.parse(response.body)['email']).to eq('new@email.com')
+    end
+  end
+
+  describe 'PATCH settings#update_primary with new mobile' do
+    before do
+      @new_mobile = '13000000000'
+      @code = rand(100_000..999_999).to_s
+      Rails.cache.write("verify_code:#{@new_mobile}", @code)
+    end
+
+    after do
+      Rails.cache.clear
+    end
+
+    it 'should return error if user is_old and set mobile' do
+      user.update(is_old: true)
+      patch :update_primary, type: 'mobile', verify_code: @code, mobile: @new_mobile
+      expect(JSON.parse(response.body)['errors']).to include('User not identified')
+    end
   end
 
   describe 'PATCH settings#update_password with new password' do
@@ -75,7 +106,7 @@ RSpec.describe SettingsController, type: :controller do
       expect(JSON.parse(response.body)['errors']).to include('Password is too short (minimum is 6 characters)')
     end
 
-    it 'should update password and return user if password and new password is valid' do
+    it 'should update password and return user' do
       patch :update_password, password: user.password, new_password: '123456'
       expect(JSON.parse(response.body)['email']).to eq(user.email)
       expect(user.authenticate('123456')).to eq(user)
