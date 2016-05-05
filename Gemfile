@@ -82,6 +82,9 @@ group :development do
 
   gem 'rubocop', require: false
   gem 'overcommit', require: false
+
+  # for email preview
+  gem 'letter_opener'
 end
 
 group :test do
