@@ -79,6 +79,19 @@ textarea {
   padding: 10px;
 }
 
+.select-wrapper {
+  display: inline-block;
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  line-height: 22px;
+  margin-right: 10px;
+
+  select {
+    background: transparent;
+    border: none;
+  }
+}
+
 .form-group {
   position: relative;
   .form-side {

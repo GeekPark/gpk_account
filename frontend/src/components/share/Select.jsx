@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const Select = props => (
-  <div className="select-wrapper">
+  <span className="select-wrapper">
     <select defaultValue={props.value} name={props.name}>
       {
         props.options.map((v, i) => (
@@ -9,7 +9,7 @@ const Select = props => (
         ))
       }
     </select>
-  </div>
+  </span>
 );
 
 Select.propTypes = {
