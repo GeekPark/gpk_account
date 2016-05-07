@@ -7,6 +7,8 @@ import { isEmpty, isValidVerifyCode } from '../../share/validator';
 // NOTE: this component wrap by redux connect
 // You should get ref by below code (eg: <VerifyCode ref="verifyCode">)
 // this.refs.verifyCode.refs.wrappedInstance;
+// the methods postErr,getValue,isPending,clearTip, shouldn't change name
+// another method call it by ref.xxx(), so change before checked safe
 
 class VerifyCode extends React.Component {
   constructor() {
@@ -27,7 +29,7 @@ class VerifyCode extends React.Component {
     };
 
     this.isPending = () => this.props.verify_code.countdown > 0;
-    this.onChange = () => this.refs.tip.clear();
+    this.clearTip = () => this.refs.tip.clear();
     this.postErr = msg => this.refs.tip.postErr(msg);
 
     this.getCode = () => {
@@ -51,7 +53,7 @@ class VerifyCode extends React.Component {
     return (
       <Tooltip className="form-group mb-input" ref="tip">
         <div>
-          <input type="text" ref="input" onChange={this.onChange}
+          <input type="text" ref="input" onChange={this.clearTip}
             placeholder={placeholder} maxLength="6"
             autoFocus={this.props.autofocus}
           />

@@ -44,7 +44,7 @@ class Register extends React.Component {
     this.getCode = () => {
       const v = this.refs.firstInput.value;
       if (!this.isValidFirstInput()) return;
-      notExist(v).then(this.getCodeLogic).catch(() => {
+      notExist(v).then(this.getCodeLogic, () => {
         this.refs.firstInputTip.postErr('用户已存在');
       });
     };

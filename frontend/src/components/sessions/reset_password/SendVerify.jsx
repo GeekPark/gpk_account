@@ -5,7 +5,7 @@ import Captcha from '../../share/Captcha';
 import Tooltip from '../../share/Tooltip';
 
 import { isValidID, isEmpty, isEmail as isValidEmail } from '../../../share/validator';
-import * as SERVER from '../../../share/server';
+import { sendVerify, notExist } from '../../../share/server';
 import { showXHRError } from '../../../share/utils';
 import { sendVerifyCode } from '../../../actions';
 
@@ -20,14 +20,13 @@ class SendVerify extends React.Component {
       const id = this.getID();
       if (!id || !captchaValue) return;
       const isEmail = isValidEmail(id);
-      const user = isEmail ? { email: id } : { mobile: id };
 
-      SERVER.notExist(id)
+      notExist(id)
         .then(() => {
           this.refs.idTip.postErr('用户不存在');
           this.refs.id.focus();
         }).catch(() => {
-          SERVER.sendVerify({ str: captchaValue, user, isEmail })
+          sendVerify({ str: captchaValue, id, isEmail })
           .done(() => {
             this.props.goPanel('new');
             this.props.changeLoginName(id);
