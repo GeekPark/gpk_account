@@ -64,8 +64,8 @@ class EmailBind extends React.Component {
       dom.focus();
       return false;
     }
-    if (!({ email: v => isEmail(v), mobile: v => isPhoneNumber(v) })[type](dom.value)) {
-      err(`${this.typeStr}地址不正确`);
+    if (!({ email: isEmail, mobile: isPhoneNumber })[type](dom.value)) {
+      err(`${this.typeStr}格式正确`);
       dom.focus();
       return false;
     }
@@ -80,6 +80,7 @@ class EmailBind extends React.Component {
           <Tooltip ref="idTip">
             <input className="mb-input" type="text" placeholder={this.typeStr}
               ref="id" onChange={this.clearTip('idTip')} autoFocus
+              maxLength={this.props.type === 'mobile' ? 11 : 20}
             />
           </Tooltip>
           <VerifyCode onGetCode={this.onGetCode} verify_code={verify_code} isEmail={this.isEmail} ref="verifyCode" />
