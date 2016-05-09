@@ -38,17 +38,21 @@ export function validateUser() {
 const resendVerifyCode = () => ({ type: SEND_VERIFY_CODE });
 const updateCountdown = s => ({ type: UPDATE_COUNTDOWN, countdown: s });
 
+let verifyCodeCounter;
+
 export function resetVerify() {
+  window.clearInterval(verifyCodeCounter);
   return { type: RESET_VERIFY_CODE };
 }
 
 export function sendVerifyCode() {
+  if (verifyCodeCounter !== undefined) window.clearInterval(verifyCodeCounter);
   return dispatch => {
     dispatch(resendVerifyCode());
 
     let counter = 1;
-    const id = window.setInterval(() => {
-      if (counter === 60) window.clearInterval(id);
+    verifyCodeCounter = window.setInterval(() => {
+      if (counter === 60) window.clearInterval(verifyCodeCounter);
       dispatch(updateCountdown((60 - counter++)));
     }, 1000);
   };
@@ -71,7 +75,7 @@ export function showMessage({ type, msg }) {
 
     timeoutID = setTimeout(() => {
       dispatch(clearMessage());
-    }, 1000 * 5);
+    }, 1000 * 4);
   };
 }
 

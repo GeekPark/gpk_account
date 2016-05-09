@@ -206,7 +206,7 @@ select {
   padding-bottom: 30px;
 }
 
-.email-panel .container {
+.change-id-panel .container {
   width: 300px;
 
   input {
@@ -264,5 +264,9 @@ select {
       width: 100%;
       height: 28px;
     }
+  }
+
+  .old_user_link {
+    margin-top: 5px;
   }
 }

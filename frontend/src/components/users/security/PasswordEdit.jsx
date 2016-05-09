@@ -24,7 +24,7 @@ class PasswordEdit extends React.Component {
 
           setTimeout(() => {
             window.location.href = '/#/security';
-          }, 5000);
+          }, 4000);
         }).fail(xhr => showXHRError(xhr, this.props.dispatch));
     };
   }

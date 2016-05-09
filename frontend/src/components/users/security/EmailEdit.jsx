@@ -1,9 +1,9 @@
 import React from 'react';
-import Email from './Email';
+import ChangeID from './ChangeID';
 
 class EmailEdit extends React.Component {
   render() {
-    return <Email title="修改邮箱" desc="" {...this.props} />;
+    return <ChangeID title="修改邮箱" type="email" {...this.props} />;
   }
 }
 
