@@ -35,6 +35,7 @@ class VerifyCode extends React.Component {
     this.getCode = () => {
       if (this.isPending()) return;
       this.props.onGetCode();
+      this.refs.input.focus();
     };
   }
 
