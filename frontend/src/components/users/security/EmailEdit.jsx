@@ -1,10 +1,8 @@
 import React from 'react';
 import ChangeID from './ChangeID';
 
-class EmailEdit extends React.Component {
-  render() {
-    return <ChangeID title="修改邮箱" type="email" {...this.props} />;
-  }
-}
+const EmailEdit = props => (
+  <ChangeID title="修改邮箱" type="email" {...props} />
+);
 
 export default EmailEdit;
