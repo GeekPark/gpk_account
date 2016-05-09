@@ -23,13 +23,13 @@ class Header extends React.Component {
 
     const newImage = new Image();
     newImage.onload = () => this.setState({ loaded: nextProps.avatarURL });
-    newImage.src = nextProps.avatarURL;
+    newImage.src = `${nextProps.avatarURL}?imageMogr2/blur/50x8`;
   }
   render() {
     const loaded = this.state.loaded;
     const styles = { wrapper: {}, avatar: { } };
     if (loaded !== null) {
-      styles.wrapper.backgroundImage = ISDEV ? DEVBG : `url(${loaded})`;
+      styles.wrapper.backgroundImage = ISDEV ? DEVBG : `url(${loaded})?imageMogr2/blur/50x8`;
       styles.avatar.backgroundImage = `url(${loaded})`;
     }
 

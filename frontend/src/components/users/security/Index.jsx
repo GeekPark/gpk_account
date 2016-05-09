@@ -23,7 +23,7 @@ class Index extends React.Component {
               <span className="label-text">手机号码</span>
               <span className="form-info">{mobile || '未绑定'}</span>
             </div>
-            <div className="form-button">{ mobile ? '修改' : '立即绑定' }</div>
+            <Link to={mobile ? 'security/mobile' : 'security/mobile/bind'} className="form-button">{ mobile ? '修改' : '立即绑定' }</Link>
           </div>
           <div className="form-button-group">
             <div className="left-label">

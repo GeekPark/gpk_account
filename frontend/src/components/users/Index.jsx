@@ -11,9 +11,13 @@ import BasicInfo from './BasicInfo';
 import Third from './Third';
 
 import SecurityIndex from './security/Index';
+import NeedIdentify from './security/NeedIdentify';
 
 import SecurityEmail from './security/Email';
 import EmailBind from './security/EmailBind';
+
+import MobileEdit from './security/MobileEdit';
+import MobileBind from './security/MobileBind';
 
 import PasswordEdit from './security/PasswordEdit';
 
@@ -40,12 +44,18 @@ const User = props => (
       <Route path="/" component={BasicInfo} />
       <Route path="security">
         <IndexRoute component={SecurityIndex} />
-        <Route path="email">
-          <IndexRoute component={SecurityEmail} />
-          <Route path="bind" component={EmailBind} />
-        </Route>
         <Route path="password">
           <Route path="edit" component={PasswordEdit} />
+        </Route>
+        <Route component={NeedIdentify}>
+          <Route path="email">
+            <IndexRoute component={SecurityEmail} />
+            <Route path="bind" component={EmailBind} />
+          </Route>
+          <Route path="mobile">
+            <IndexRoute component={MobileEdit} />
+            <Route path="bind" component={MobileBind} />
+          </Route>
         </Route>
         <Route path="2fa">
           <Route path="bind" component={TFABind} />

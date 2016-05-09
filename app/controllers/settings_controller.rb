@@ -6,7 +6,7 @@ class SettingsController < ApplicationController
   def verify_current_user
     verify_code? current_addr
     token = current_user.generate_identify_token
-    cookies['identify_token'] = {
+    cookies[:identify_token] = {
       value: token,
       expires: 1.hour.from_now
     }
@@ -45,7 +45,7 @@ class SettingsController < ApplicationController
   end
 
   def identified
-    render json: { identified: current_user.identified?(cookies[:identify_code]) }
+    render json: { identified: current_user.identified?(cookies[:identify_token]) }
   end
 
   private

@@ -79,6 +79,10 @@ textarea {
   padding: 10px;
 }
 
+select[disabled] {
+  cursor: not-allowed;
+}
+
 .select-wrapper {
   display: inline-block;
   border: 1px solid #dedede;

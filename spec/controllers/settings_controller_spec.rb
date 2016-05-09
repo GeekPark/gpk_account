@@ -24,7 +24,7 @@ RSpec.describe SettingsController, type: :controller do
       expect(response).to be_success
       token = Rails.cache.fetch("identify_token:#{user.id}")
       expect(token).not_to eq(nil)
-      expect(cookies['identify_token']).to eq(token)
+      expect(cookies[:identify_token]).to eq(token)
     end
 
     it 'should set user is_old false if user is_old is true' do
@@ -127,7 +127,7 @@ RSpec.describe SettingsController, type: :controller do
 
     it 'should return false' do
       token = user.generate_identify_token
-      cookies['identify_code'] = token
+      cookies[:identify_token] = token
       post :identified
       expect(JSON.parse(response.body)['identified']).to eq(true)
     end

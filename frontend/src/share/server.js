@@ -17,6 +17,20 @@ export function sendVerify({ str, id, isEmail }) {
   });
 }
 
+export function sendVerifyWithoutCaptcha(id, isEmail) {
+  const param = {};
+  if (isEmail) param.email = id;
+  else param.mobile = id;
+
+  return $.ajax({
+    url: '/settings/send_verify_code',
+    method: 'POST',
+    data: {
+      type: isEmail ? 'email' : 'mobile',
+    },
+  });
+}
+
 export function createUser({ verify_code, user }) {
   return $.ajax({
     url: '/signup',
@@ -87,7 +101,7 @@ export function notExist(id) {
         res(d);
       }
     }).fail(xhr => {
-      const msg = parseErr(xhr);
+      const msg = parseErr(xhr.responseText);
       if (msg) rej(msg);
     });
   });
@@ -101,5 +115,29 @@ export function updatePassword({ password, new_password }) {
       password,
       new_password,
     },
+  });
+}
+
+export function isIdentified() {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: '/settings/identified',
+      method: 'POST',
+    }).done(d => {
+      if (d.identified) res();
+      else rej();
+    }).fail(xhr => {
+      const msg = parseErr(xhr.responseText);
+      console.error(msg);
+      rej();
+    });
+  });
+}
+
+export function verifyCurrentUser({ verify_code, type }) {
+  return $.ajax({
+    url: '/settings/verify_current_user',
+    method: 'POST',
+    data: { verify_code, type },
   });
 }

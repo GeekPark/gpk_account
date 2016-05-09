@@ -5,6 +5,8 @@ $color-dark: #688290;
 $color-blue: #08aeff;
 $color-black: #222;
 
+$color-gradient-blue: linear-gradient(to top, darken($color-blue, 5%), $color-blue);
+
 $header-h: 50px;
 
 $mobile-w: 768px;
