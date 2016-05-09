@@ -4,7 +4,7 @@ import PasswordInput from '../PasswordInput';
 import VerifyCode from '../../share/VerifyCode';
 import { resetPassword } from '../../../share/server';
 import { showXHRError } from '../../../share/utils';
-import { showMessage } from '../../../actions';
+import { showSuccessMessage } from '../../../actions';
 
 class NewPassword extends React.Component {
   constructor() {
@@ -30,7 +30,7 @@ class NewPassword extends React.Component {
 
       resetPassword(params)
         .done(d => {
-          this.props.dispatch(showMessage({ type: 'success', msg: '密码修改成功，正在跳转中' }));
+          this.props.dispatch(showSuccessMessage('密码修改成功，正在跳转中'));
           setTimeout(() => {
             window.location.href = d.callback_url;
           }, 3000);

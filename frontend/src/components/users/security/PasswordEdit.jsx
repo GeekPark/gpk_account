@@ -4,7 +4,7 @@ import PasswordInput from '../../sessions/PasswordInput';
 import Main from '../Main';
 import { updatePassword } from '../../../share/server';
 import { showXHRError } from '../../../share/utils';
-import { showMessage, setStore } from '../../../actions';
+import { showSuccessMessage, setStore } from '../../../actions';
 
 class PasswordEdit extends React.Component {
   constructor() {
@@ -19,9 +19,8 @@ class PasswordEdit extends React.Component {
 
       updatePassword({ password, new_password })
         .done(user => {
-          const msg = '密码修改成功，跳转中';
           this.props.dispatch(setStore({ user }));
-          this.props.dispatch(showMessage({ type: 'success', msg }));
+          this.props.dispatch(showSuccessMessage('密码修改成功，跳转中'));
 
           setTimeout(() => {
             window.location.href = '/#/security';

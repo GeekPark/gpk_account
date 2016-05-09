@@ -7,7 +7,7 @@ import VerifyCode from '../../share/VerifyCode';
 
 import { sendVerifyWithoutCaptcha, verifyCurrentUser } from '../../../share/server';
 import { showXHRError } from '../../../share/utils';
-import { showMessage } from '../../../actions';
+import { showSuccessMessage } from '../../../actions';
 
 const trans = v => {
   const obj = { email: '邮箱', mobile: '手机' };
@@ -20,10 +20,9 @@ class Identify extends React.Component {
 
     this.getCode = () => {
       const type = this.getType();
-      const isEmail = type === 'email';
-      sendVerifyWithoutCaptcha({ isEmail, [type]: this.props.server.user[type] })
+      sendVerifyWithoutCaptcha({ type, id: this.props.server.user[type] })
         .done(d => {
-          if (d.success) this.props.dispatch(showMessage({ type: 'success', msg: `校验码已发送到您的${trans(type)}` }));
+          if (d.success) this.props.dispatch(showSuccessMessage(`校验码已发送到您的${trans(type)}`));
         })
         .fail(xhr => showXHRError(xhr, this.props.dispatch));
     };
@@ -37,7 +36,7 @@ class Identify extends React.Component {
 
       verifyCurrentUser({ verify_code: v, type, id })
         .done(() => {
-          this.props.dispatch(showMessage({ type: 'success', msg: '校验成功，自动跳转中。' }));
+          this.props.dispatch(showSuccessMessage('校验成功，自动跳转中。'));
           setTimeout(() => {
             window.location.reload(true);
           }, 3000);

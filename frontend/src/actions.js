@@ -75,6 +75,9 @@ export function showMessage({ type, msg }) {
   };
 }
 
+export const showSuccessMessage = msg => showMessage({ type: 'success', msg });
+export const showErrorMessage = msg => showMessage({ type: 'error', msg });
+
 // server store
 export function setStore(data) {
   return { type: SET_STORE, data };

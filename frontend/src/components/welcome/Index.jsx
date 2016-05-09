@@ -8,7 +8,7 @@ import Message from '../share/Message';
 
 import Tooltip from '../share/Tooltip';
 
-import { showMessage } from '../../actions';
+import { showSuccessMessage } from '../../actions';
 import { updateUser } from '../../share/server';
 import { showXHRError } from '../../share/utils';
 import { isValidNickname, isEmpty } from '../../share/validator';
@@ -36,7 +36,7 @@ class Welcome extends React.Component {
           nickname: nickname.value,
         },
       }).done(() => {
-        this.props.dispatch(showMessage({ type: 'success', msg: '更新成功, 自动跳转中...' }));
+        this.props.dispatch(showSuccessMessage('更新成功, 自动跳转中...'));
         setTimeout(() => {
           window.location.href = this.props.data.callback_url;
         }, 3000);

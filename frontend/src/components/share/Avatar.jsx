@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { tryKey, showXHRError } from '../../share/utils';
 import { uploadAvatar } from '../../share/server';
-import { showMessage, setStore } from '../../actions';
+import { showSuccessMessage, setStore } from '../../actions';
 
 const defaultIMG = require('./default.png');
 
@@ -19,7 +19,7 @@ class Avatar extends React.Component {
         f.append('user[avatar]', files[0]);
         uploadAvatar(f)
           .done(user => {
-            this.props.dispatch(showMessage({ type: 'success', msg: '头像更新成功' }));
+            this.props.dispatch(showSuccessMessage('头像更新成功'));
             this.props.dispatch(setStore({ user }));
           })
           .fail(xhr => showXHRError(xhr, this.props.dispatch));
