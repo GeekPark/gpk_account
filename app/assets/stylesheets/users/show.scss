@@ -3,6 +3,34 @@
   padding-bottom: 50px;
 }
 
+input,
+textarea,
+.limit-width {
+  width: 300px;
+}
+
+.select-wrapper {
+  min-width: 80px;
+}
+
+input {
+  height: 40px;
+}
+
+textarea {
+  height: 100px;
+}
+
+@include mediaMax($mobile-w) {
+  input,
+  textarea,
+  form,
+  .tooltip-wrapper,
+  .limit-width {
+    width: 100%;
+  }
+}
+
 $margin: 25px;
 .padding {
   padding: 10px 20px;
@@ -44,8 +72,10 @@ $margin: 25px;
 .section {
   background-color: #fff;
   transition: all .3s;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  &:not(.no-padding) {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 
   &:hover {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
@@ -63,14 +93,6 @@ $margin: 25px;
 .left-menu-wrapper {
   width: 30%;
   margin-bottom: $margin;
-
-  @include mediaMin($mobile-w) {
-    padding-right: $margin;
-  }
-
-  @include mediaMax($mobile-w) {
-    width: 100%;
-  }
 
   .component-avatar {
     width: 80px;
@@ -93,8 +115,27 @@ $margin: 25px;
   }
 
   .section.menu-items {
+    .iconfont {
+      width: 32px;
+      height: 32px;
+      line-height: 32px;
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .icon-profile::after,
+    .icon-third::after {
+      font-size: 1.2em;
+    }
+
     a {
-      @extend .padding;
+      padding: 8px 15px;
       color: #9B9B9B;
       display: block;
       font-size: 1.6rem;
@@ -109,9 +150,33 @@ $margin: 25px;
       &:hover {
         background-color: #f5f5f5;
       }
+    }
+  }
+
+  @include mediaMin($mobile-w) {
+    padding-right: $margin;
+    .section.menu-items a:not(:last-child) {
+      border-bottom: 1px solid #E9E4EA;
+    }
+  }
+
+  @include mediaMax($mobile-w) {
+    width: 100%;
+    .section.basic-userinfo {
+      flex-direction: column;
+    }
+
+    .section.menu-items a {
+      display: inline-block;
+      width: 33.333%;
+      text-align: center;
+
+      .iconfont {
+        font-size: 2rem;
+      }
 
       &:not(:last-child) {
-        border-bottom: 1px solid #E9E4EA;
+        border-right: 1px solid #efefef;
       }
     }
   }
@@ -128,24 +193,6 @@ $margin: 25px;
     width: 100px;
     height: 100px;
   }
-}
-
-input {
-  height: 40px;
-}
-
-textarea {
-  height: 100px;
-}
-
-input,
-textarea,
-.limit-width {
-  width: 300px;
-}
-
-select {
-  margin: 5px 10px;
 }
 
 .form-item {
@@ -168,7 +215,6 @@ select {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  height: 50px;
   @extend .padding;
 
   .label-text {
@@ -191,6 +237,20 @@ select {
     &:hover {
       background-color: $color-blue;
       color: #fff;
+    }
+  }
+
+  @include mediaMax($mobile-w) {
+    & {
+      flex-wrap: nowrap;
+    }
+
+    .left-label {
+      width: calc(100% - 110px);
+
+      .label-text {
+        display: block;
+      }
     }
   }
 }

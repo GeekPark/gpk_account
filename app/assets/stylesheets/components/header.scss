@@ -1,6 +1,6 @@
 & {
   line-height: $header-h;
-  background-color: $color-black;
+  background-color: rgba(0, 0, 0, .8);
   color: #fff;
   padding: 0 20px;
   position: fixed;
@@ -15,9 +15,9 @@
 .logo {
   background: url('bar_logo_white.png') center center no-repeat;
   background-size: contain;
-  // 1361x125
-  height: 17px;
-  width: 17px * 1361px / 125px;
+  $size: 17px;
+  height: $size;
+  width: $size * 1361px /125px;
 }
 
 .account-home {
@@ -94,5 +94,21 @@
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
+  }
+}
+
+@include mediaMax($mobile-w) {
+  .logo {
+    background-image: image_url('logo_mini.png');
+    width: 32px;
+    height: 32px;
+  }
+
+  .account-home {
+    font-size: 1.7rem;
+  }
+
+  .split {
+    height: 15px;
   }
 }

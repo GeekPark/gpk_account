@@ -52,7 +52,7 @@ class BasicInfo extends React.Component {
               头像
             </label>
 
-            <Avatar editable />
+            <Avatar editable size={80} />
           </div>
           <div className="form-item">
             <label htmlFor="nickname">昵称*</label>
