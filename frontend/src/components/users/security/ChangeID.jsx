@@ -9,7 +9,7 @@ import { sendVerifyCode, showErrorMessage, showSuccessMessage, setStore } from '
 
 import { updateID, sendVerifyWithoutCaptcha, notExist } from '../../../share/server';
 import { isEmail, isEmpty, isPhoneNumber } from '../../../share/validator';
-import { showXHRError, isSNS } from '../../../share/utils';
+import { showXHRError, isSNS, focus } from '../../../share/utils';
 
 class EmailBind extends React.Component {
   constructor(props) {
@@ -66,12 +66,12 @@ class EmailBind extends React.Component {
     const type = this.props.type;
     if (isEmpty(dom.value)) {
       err(`${this.typeStr}不能为空`);
-      dom.focus();
+      focus(dom);
       return false;
     }
     if (!({ email: isEmail, mobile: isPhoneNumber })[type](dom.value)) {
       err(`${this.typeStr}格式正确`);
-      dom.focus();
+      focus(dom);
       return false;
     }
     return dom.value;

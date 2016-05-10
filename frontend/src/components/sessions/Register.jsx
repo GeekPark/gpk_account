@@ -7,7 +7,7 @@ import PasswordInput from './PasswordInput';
 import { isEmpty, isPhoneNumber, isEmail as isValidEmail } from '../../share/validator';
 import { openModal, updateUser, resetVerify } from '../../actions';
 import { createUser, notExist } from '../../share/server';
-import { showXHRError } from '../../share/utils';
+import { showXHRError, focus } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
 import VerifyCode from '../share/VerifyCode';
@@ -38,7 +38,7 @@ class Register extends React.Component {
       this.clearAllTip();
       this.clearInput();
       this.props.dispatch(resetVerify());
-      this.refs.firstInput.focus();
+      focus(this.refs.firstInput);
     };
 
     this.getCode = () => {
@@ -101,12 +101,12 @@ class Register extends React.Component {
     const typeStr = this.typeStr();
     if (isEmpty(v)) {
       this.refs.firstInputTip.postErr(`${typeStr}不能为空`);
-      firstInput.focus();
+      focus(firstInput);
       return false;
     }
     if ((isEmail && !isValidEmail(v)) || (!isEmail && !isPhoneNumber(v))) {
       this.refs.firstInputTip.postErr(`${typeStr}格式不对`);
-      firstInput.focus();
+      focus(firstInput);
       return false;
     }
     return true;

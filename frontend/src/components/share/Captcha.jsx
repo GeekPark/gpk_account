@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 
 import Tooltip from './Tooltip';
 
+import { focus } from '../../share/utils';
+
 class Captcha extends React.Component {
   constructor() {
     super();
@@ -14,7 +16,7 @@ class Captcha extends React.Component {
 
     this.random = () => {
       this.setState({ random: Math.random() });
-      this.refs.input.focus();
+      focus(this.refs.input);
     };
 
     this.getValue = () => {
