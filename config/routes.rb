@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    get 'generate_captcha', to: 'base#generate_captcha'
     namespace :v1 do
       resource 'user', only: [:show, :update]
     end
