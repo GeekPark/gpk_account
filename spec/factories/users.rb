@@ -41,5 +41,6 @@ FactoryGirl.define do
                                  :with_wechat_authorization, :with_weibo_authorization]
     factory :basic_user, traits: [:with_email, :with_password]
     factory :old_user, traits: [:with_email, :with_password, :old_user]
+    factory :sns_user, traits: [:without_validation, :with_wechat_authorization]
   end
 end

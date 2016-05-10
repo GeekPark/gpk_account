@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
 
     context 'on update' do
       it 'could not set password without email and mobile' do
-        user = create(:user, :without_validation, :with_wechat_authorization)
+        user = create(:sns_user)
         user.password = 'password'
         user.valid?
         expect(user.authorizations.count).to eq 1
