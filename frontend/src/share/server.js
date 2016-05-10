@@ -136,10 +136,10 @@ export function verifyCurrentUser({ verify_code, type }) {
   });
 }
 
-export function updateID({ type, id, verify_code }) {
+export function updateID({ type, id, verify_code, password }) {
   return $.ajax({
     url: '/settings/update_primary',
     method: 'PATCH',
-    data: { verify_code, type, [type]: id },
+    data: { verify_code, type, [type]: id, password },
   });
 }

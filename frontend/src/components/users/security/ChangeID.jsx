@@ -3,18 +3,20 @@ import React, { PropTypes } from 'react';
 import Main from '../Main';
 import VerifyCode from '../../share/VerifyCode';
 import Tooltip from '../../share/Tooltip';
+import PasswordInput from '../../sessions/PasswordInput';
 
 import { sendVerifyCode, showErrorMessage, showSuccessMessage, setStore } from '../../../actions';
 
 import { updateID, sendVerifyWithoutCaptcha, notExist } from '../../../share/server';
 import { isEmail, isEmpty, isPhoneNumber } from '../../../share/validator';
-import { showXHRError } from '../../../share/utils';
+import { showXHRError, isSNS } from '../../../share/utils';
 
 class EmailBind extends React.Component {
   constructor(props) {
     super(props);
     this.typeStr = ({ email: '邮箱', mobile: '手机' })[props.type];
     this.isEmail = props.type === 'email';
+    this.isSNS = isSNS(props.server.user);
 
     this.onGetCode = () => {
       const id = this.getID();
@@ -40,8 +42,11 @@ class EmailBind extends React.Component {
       if (!id) return;
       const verify_code = this.refs.verifyCode.refs.wrappedInstance.getValue();
       if (!verify_code) return;
+      let password;
+      if (this.isSNS) password = this.refs.password.getValue();
+      if (password === false) return;
 
-      updateID({ verify_code, type: props.type, id })
+      updateID({ verify_code, type: props.type, id, password })
         .done(user => {
           // update global user
           props.dispatch(setStore({ user }));
@@ -84,6 +89,10 @@ class EmailBind extends React.Component {
             />
           </Tooltip>
           <VerifyCode onGetCode={this.onGetCode} verify_code={verify_code} isEmail={this.isEmail} ref="verifyCode" />
+          {
+            !this.isSNS ? null :
+            <PasswordInput placeholder="密码" className="mb-input" ref="password" />
+          }
           <button className="btn btn-large">提交</button>
         </form>
       </Main>
@@ -97,6 +106,7 @@ EmailBind.propTypes = {
   desc: PropTypes.string,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  server: PropTypes.any.isRequired,
 };
 
 EmailBind.contextTypes = {

@@ -3,6 +3,8 @@ import React, { PropTypes } from 'react';
 import { isIdentified } from '../../../share/server';
 import Identify from './Identify';
 
+import { isSNS } from '../../../share/utils';
+
 class NeedIdentify extends React.Component {
   constructor() {
     super();
@@ -13,14 +15,14 @@ class NeedIdentify extends React.Component {
     };
   }
   componentWillMount() {
-    const { email, mobile, is_old } = this.props.server.user;
+    const { is_old } = this.props.server.user;
     // for is_old true user,
     if (/email/.test(this.props.location.pathname) && is_old) {
       this.setState({ loaded: true, showIdentify: false });
       return;
     }
     // for SNS user
-    if (email === null && mobile === null) {
+    if (isSNS(this.props.server.user)) {
       this.setState({ loaded: true, showIdentify: false });
       return;
     }

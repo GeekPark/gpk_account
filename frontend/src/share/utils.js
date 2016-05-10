@@ -44,3 +44,7 @@ export function showXHRError(xhr, dispatch) {
   if (msg) dispatch(showMessage({ type: 'error', msg }));
   else console.error(`Can't parse error: ${xhr}`);
 }
+
+export function isSNS(user) {
+  return user.email === null && user.mobile === null;
+}
