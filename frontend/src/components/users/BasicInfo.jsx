@@ -5,7 +5,7 @@ import Avatar from '../share/Avatar';
 import Tooltip from '../share/Tooltip';
 import Select from '../share/Select';
 
-import { showMessage } from '../../actions';
+import { showSuccessMessage } from '../../actions';
 import { updateUser } from '../../share/server';
 import { showXHRError } from '../../share/utils';
 
@@ -35,7 +35,7 @@ class BasicInfo extends React.Component {
     });
     updateUser(data)
       .done(() => {
-        this.props.dispatch(showMessage({ type: 'success', msg: '个人信息更新成功' }));
+        this.props.dispatch(showSuccessMessage('个人信息更新成功'));
       })
       .fail(xhr => showXHRError(xhr, this.props.dispatch));
   }
@@ -52,7 +52,7 @@ class BasicInfo extends React.Component {
               头像
             </label>
 
-            <Avatar editable />
+            <Avatar editable size={80} />
           </div>
           <div className="form-item">
             <label htmlFor="nickname">昵称*</label>

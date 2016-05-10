@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobileView } from 'mdetect';
 import { render as r } from 'react-dom';
 import { showMessage } from '../actions';
 
@@ -43,4 +44,12 @@ export function showXHRError(xhr, dispatch) {
   const msg = parseErr(xhr.responseText);
   if (msg) dispatch(showMessage({ type: 'error', msg }));
   else console.error(`Can't parse error: ${xhr}`);
+}
+
+export function isSNS(user) {
+  return user.email === null && user.mobile === null;
+}
+
+export function focus(dom) {
+  if (!isMobileView() && dom instanceof Element) dom.focus();
 }

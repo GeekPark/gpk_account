@@ -6,7 +6,7 @@ import Tooltip from '../../share/Tooltip';
 
 import { isValidID, isEmpty, isEmail as isValidEmail } from '../../../share/validator';
 import { sendVerify, notExist } from '../../../share/server';
-import { showXHRError } from '../../../share/utils';
+import { showXHRError, focus } from '../../../share/utils';
 import { sendVerifyCode } from '../../../actions';
 
 class SendVerify extends React.Component {
@@ -24,7 +24,7 @@ class SendVerify extends React.Component {
       notExist(id)
         .then(() => {
           this.refs.idTip.postErr('用户不存在');
-          this.refs.id.focus();
+          focus(this.refs.id);
         }).catch(() => {
           sendVerify({ str: captchaValue, id, isEmail })
           .done(() => {

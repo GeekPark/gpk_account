@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
-import { isEmpty, isValidPassword } from '../../share/validator';
 import Tooltip from '../share/Tooltip';
+
+import { isEmpty, isValidPassword } from '../../share/validator';
+import { focus } from '../../share/utils';
 
 class PasswordInput extends React.Component {
   constructor() {
@@ -12,7 +14,7 @@ class PasswordInput extends React.Component {
 
     this.toggleType = () => {
       this.setState({ inputType: this.state.inputType === 'password' ? 'text' : 'password' });
-      this.refs.input.focus();
+      focus(this.refs.input);
     };
 
     this.getValue = () => {
@@ -20,12 +22,12 @@ class PasswordInput extends React.Component {
       const { tip, input } = this.refs;
       if (isEmpty(v)) {
         tip.postErr('请填写密码');
-        input.focus();
+        focus(input);
         return false;
       }
       if (!isValidPassword(v)) {
         tip.postErr('密码必须在 6-20 位');
-        input.focus();
+        focus(input);
         return false;
       }
       return v;

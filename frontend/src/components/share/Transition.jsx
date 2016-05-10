@@ -1,7 +1,9 @@
 import React, { PropTypes } from 'react';
 import { RouteTransition, presets } from 'react-router-transition';
+import { isMobileView } from 'mdetect';
 
 const Transition = (props) => (
+  isMobileView() ? props.children :
   <RouteTransition
     component={false}
     className="transition-wrapper"

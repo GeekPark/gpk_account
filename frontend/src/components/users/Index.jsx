@@ -13,7 +13,7 @@ import Third from './Third';
 import SecurityIndex from './security/Index';
 import NeedIdentify from './security/NeedIdentify';
 
-import SecurityEmail from './security/Email';
+import EmailEdit from './security/EmailEdit';
 import EmailBind from './security/EmailBind';
 
 import MobileEdit from './security/MobileEdit';
@@ -49,7 +49,7 @@ const User = props => (
         </Route>
         <Route component={NeedIdentify}>
           <Route path="email">
-            <IndexRoute component={SecurityEmail} />
+            <IndexRoute component={EmailEdit} />
             <Route path="bind" component={EmailBind} />
           </Route>
           <Route path="mobile">

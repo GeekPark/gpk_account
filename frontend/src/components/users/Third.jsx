@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import Main from './Main';
 
@@ -13,9 +13,9 @@ class Third extends React.Component {
                 <i className="iconfont icon-wechat"></i>
                 微信
               </span>
-              <span className="provider-name">Wayne</span>
+              <span className="provider-name">未绑定</span>
             </div>
-            <a href="javascript:;" className="form-button">取消绑定</a>
+            <a href="/auth/wechat" className="form-button">立即绑定</a>
           </div>
           <div className="form-button-group">
             <div className="left-label">
@@ -32,5 +32,9 @@ class Third extends React.Component {
     );
   }
 }
+
+Third.propTypes = {
+  server: PropTypes.any,
+};
 
 export default Third;

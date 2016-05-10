@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { showMessage, setStore, clearMessage } from '../../actions';
+import { showErrorMessage, setStore, clearMessage } from '../../actions';
 
 class Message extends React.Component {
   constructor() {
@@ -19,8 +19,8 @@ class Message extends React.Component {
 
     // dispaly first error message from server side, then delete server errors
     if (msg) {
-      dispatch(showMessage({ type: 'error', msg }));
-      dispatch(setStore({ ...server, errors: [] }));
+      dispatch(showErrorMessage(msg));
+      dispatch(setStore({ errors: [] }));
     }
   }
   render() {

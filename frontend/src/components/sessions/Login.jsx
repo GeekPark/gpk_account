@@ -31,7 +31,6 @@ class Login extends React.Component {
       notExist(v)
         .then(() => {
           this.refs.loginNameTip.postErr('用户不存在');
-          this.refs.loginName.focus();
         })
         .catch(d => {
           this.props.dispatch(changeAvatar(d.avatar_url || null));

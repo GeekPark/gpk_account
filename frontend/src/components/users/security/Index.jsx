@@ -2,13 +2,16 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import Main from '../Main';
+import Identify from './Identify';
+
+import { isSNS } from '../../../share/utils';
 
 class Index extends React.Component {
   render() {
     const { server } = this.props;
-    const { email, mobile } = server.user;
+    const { email, mobile, is_old } = server.user;
     const is2FA = false;
-    return (
+    const Comp = (
       <Main>
         <div className="w100p">
           <div className="form-button-group">
@@ -25,12 +28,16 @@ class Index extends React.Component {
             </div>
             <Link to={mobile ? 'security/mobile' : 'security/mobile/bind'} className="form-button">{ mobile ? '修改' : '立即绑定' }</Link>
           </div>
-          <div className="form-button-group">
-            <div className="left-label">
-              <span className="label-text">密码</span>
+          {
+            // if sns user, then do not show password input
+            isSNS(this.props.server.user) ? null :
+            <div className="form-button-group">
+              <div className="left-label">
+                <span className="label-text">密码</span>
+              </div>
+              <Link to="security/password/edit" className="form-button">修改</Link>
             </div>
-            <Link to="security/password/edit" className="form-button">修改</Link>
-          </div>
+          }
           <div className="form-button-group">
             <div className="left-label">
               <span className="label-text">两部验证</span>
@@ -43,6 +50,8 @@ class Index extends React.Component {
         </div>
       </Main>
     );
+
+    return is_old ? <Identify {...this.props} /> : Comp;
   }
 }
 

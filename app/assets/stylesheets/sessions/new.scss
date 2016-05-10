@@ -4,6 +4,10 @@
   position: relative;
   background-color: $color-blue;
   background-image: $color-gradient-blue;
+
+  @include mediaMax($mobile-w) {
+    background: #fff;
+  }
 }
 
 .mb-input {
@@ -26,7 +30,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -270px);
+  transform: translate(-50%, $offset-of-vertical);
   margin-bottom: 20px;
   width: 350px;
 
@@ -38,6 +42,18 @@
     border-radius: 3px;
   }
 
+  @include mediaMax($mobile-w) {
+    width: 100vw;
+    margin-bottom: 0;
+    top: 0;
+    left: 0;
+    transform: none;
+
+    .page-container-style {
+      box-shadow: none;
+    }
+  }
+
   $zoom: 1.1;
   .logo-wrapper {
     height: 125px;
@@ -47,6 +63,10 @@
     background-size: cover;
     background-position: center center;
     position: relative;
+    
+    @include mediaMax($mobile-w) {
+      border-radius: 0;
+    }
   }
 
   .logo,

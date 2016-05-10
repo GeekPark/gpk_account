@@ -41,6 +41,18 @@
   padding: 0 !important;
 }
 
+.hidden-xs {
+  @include mediaMax($mobile-w) {
+    display: none !important;
+  }
+}
+
+.show-xs {
+  @include mediaMin($mobile-w) {
+    display: none !important;
+  }
+}
+
 input[type=checkbox] {
   margin-right: 5px;
   position: relative;
@@ -88,11 +100,27 @@ select[disabled] {
   border: 1px solid #dedede;
   border-radius: 3px;
   line-height: 22px;
-  margin-right: 10px;
+  margin: 5px 10px 5px 0;
+  padding: 5px 20px 5px 10px;
+  position: relative;
+
+  &::after {
+    @extend .iconfont;
+    content: '\e609';
+    color: #555;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%) scale(.8);
+    font-size: 12px !important;
+  }
 
   select {
+     -webkit-appearance: none;
     background: transparent;
     border: none;
+    outline: 0;
+    width: 100%;
   }
 }
 

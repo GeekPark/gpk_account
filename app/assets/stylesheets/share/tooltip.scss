@@ -4,31 +4,20 @@
   .tooltip-message {
     position: absolute;
     display: inline-block;
-    top: -15px;
-    left: 0;
     background-color: #fff;
     padding: 5px 10px;
     border-radius: 3px;
     -webkit-user-select: none;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
-    transition: all .2s;
-    transform: scaleY(0) translate(0, -100%);
-    transform-origin: right;
-
-    &.show {
-      transform: scaleY(1) translate(0, -100%);
-    }
+    opacity: 0;
 
     &::before {
       content: '';
       display: block;
       position: absolute;
-      left: 10px;
-      bottom: -7px;
       width: 0;
       height: 0;
       border: 8px solid transparent;
-      border-top-color: #fff;
     }
 
     &.status-error {
@@ -41,27 +30,31 @@
     }
   }
 
-  &.direction-right {
+  &.direction-top {
     .tooltip-message {
-      left: auto;
-      right: -15px;
-      top: 50%;
-      bottom: auto;
-      transform: scaleX(0) translate(100%, -50%);
-
-      &.show {
-        transform: scaleX(1) translate(100%, -50%);
-      }
+      left: 0;
+      top: -45px;
 
       &::before {
         border-color: transparent;
-        border-right-color: #fff;
-        left: -16px;
+        left: 15px;
+        bottom: -16px;
+        border-top-color: $color-red;
+      }
+    }
+  }
+
+  &.direction-right {
+    .tooltip-message {
+      right: 0;
+      top: 50%;
+      margin-top: -15px;
+
+      &::before {
         top: 50%;
         transform: translateY(-50%);
-      }
-
-      &.status-error::before {
+        border-color: transparent;
+        left: -15px;
         border-right-color: $color-red;
       }
     }

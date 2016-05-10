@@ -18,10 +18,32 @@
     transition: all .3s;
     width: 32px;
     height: 32px;
+    border-radius: 50%;
 
     &:hover {
       transform: rotate(180deg);
       background-color: #f5f5f5;
     }
+  }
+}
+
+// get validator img modal
+.modal-ValidatorIMG {
+  width: 350px;
+  padding: 15px 30px 25px 30px;
+  background-color: #fff;
+}
+
+.modal-WechatLogin {
+  width: 350px;
+  padding: 0 25px;
+
+  .wechatqr-wrapper {
+    @include flexCenter;
+    min-height: 550px;
+  }
+
+  iframe {
+    width: 100%;
   }
 }

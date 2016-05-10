@@ -36,11 +36,11 @@ class Header extends React.Component {
     return (
       <div className="header-wrapper">
         <div className="logo-wrapper" style={styles.wrapper}>
-          <Motion defaultStyle={{ scale: 1 }} style={{ scale: spring(loaded === null ? 1 : 0), PRESET }}>
-            { s => <a href="//www.geekpark.net" className="logo" style={{ transform: `scale(${s.scale})` }}></a>}
+          <Motion defaultStyle={{ op: 1 }} style={{ op: spring(loaded === null ? 1 : 0), PRESET }}>
+            { s => <a href="//www.geekpark.net" className="logo" style={{ opacity: s.op }}></a>}
           </Motion>
-          <Motion defaultStyle={{ scale: 0 }} style={{ scale: spring(loaded === null ? 0 : 1.8), PRESET }}>
-            { s => <div className="avatar-mask" style={{ ...styles.avatar, transform: `scale(${s.scale})` }}></div>}
+          <Motion defaultStyle={{ op: 0 }} style={{ op: spring(loaded === null ? 0 : 1), PRESET }}>
+            { s => <div className="avatar-mask" style={{ ...styles.avatar, opacity: s.op, transform: 'scale(1.8)' }}></div>}
           </Motion>
         </div>
         <div className="form-wrapper switch-button">
