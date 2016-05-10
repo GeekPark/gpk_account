@@ -51,4 +51,17 @@ RSpec.describe User, type: :model do
       expect(User.count).to eq(1)
     end
   end
+
+  describe 'is_old' do
+    let(:user) { create(:old_user) }
+    it 'should change is_old to false after update email' do
+      user.update(email: 'testname@lsjdf.com')
+      expect(user.is_old?).to be false
+    end
+
+    it 'should not change is_old not update email' do
+      user.update(nickname: 'testname')
+      expect(user.is_old?).to be true
+    end
+  end
 end

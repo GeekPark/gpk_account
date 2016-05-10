@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader
 
+  after_update :update_is_old, if: :email_changed?
+
   class << self
     def find_by_email_or_mobile(param)
       find_by('email = ? OR mobile = ?', param, param) if param
@@ -64,10 +66,16 @@ class User < ActiveRecord::Base
   end
 
   def identified?(token)
-    token.present? && token == Rails.cache.fetch("identify_token:#{id}")
+    (token.present? && token == Rails.cache.fetch("identify_token:#{id}")) || is_old? || sns_user?
   end
 
   def sns_user?
     email.blank? && mobile.blank?
+  end
+
+  private
+
+  def update_is_old
+    self[:is_old] = false
   end
 end

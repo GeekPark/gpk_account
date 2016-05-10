@@ -4,7 +4,11 @@ FactoryGirl.define do
     title 'director'
     birthday 30.years.ago
     city 440_300
+    is_old false
 
+    trait :old_user do
+      is_old true
+    end
     trait :without_validation do
       to_create { |instance| instance.save(validate: false) }
     end
@@ -36,5 +40,6 @@ FactoryGirl.define do
     factory :full_user, traits: [:with_email, :with_mobile, :with_password,
                                  :with_wechat_authorization, :with_weibo_authorization]
     factory :basic_user, traits: [:with_email, :with_password]
+    factory :old_user, traits: [:with_email, :with_password, :old_user]
   end
 end
