@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
 
     context 'on update' do
       it 'could not set password without email and mobile' do
-        user = create(:user, :without_validation, :with_wechat_authorization)
+        user = create(:sns_user)
         user.password = 'password'
         user.valid?
         expect(user.authorizations.count).to eq 1
@@ -49,6 +49,19 @@ RSpec.describe User, type: :model do
     it 'should fail to create user when authorization validation failed' do
       expect(User.create_with_omniauth(mock_wechat_auth)).to be_nil
       expect(User.count).to eq(1)
+    end
+  end
+
+  describe 'is_old' do
+    let(:user) { create(:old_user) }
+    it 'should change is_old to false after update email' do
+      user.update(email: 'testname@lsjdf.com')
+      expect(user.is_old?).to be false
+    end
+
+    it 'should not change is_old not update email' do
+      user.update(nickname: 'testname')
+      expect(user.is_old?).to be true
     end
   end
 end
