@@ -40,7 +40,7 @@ Style/AlignParameters:
   EnforcedStyle: with_fixed_indentation
 
 Style/ClassAndModuleChildren:
-  EnforcedStyle: nested
+  EnforcedStyle: compact
 
 Style/Documentation:
   Enabled: false
