@@ -3,7 +3,6 @@ namespace :deploy do
   task :webpack, :force do |_, args|
     BUNDLE_DIR = 'public/static/'.freeze
     SERVER_ADDR = "#{roles(:web).first.user}@#{roles(:web).first.hostname}".freeze
-    SERVER_PORT = roles(:web).first.port.freeze
     NEED_GENERATE = "ssh #{SERVER_ADDR} 'diff -r #{current_path}/frontend #{release_path}/frontend'".freeze
 
     run_locally do
@@ -15,7 +14,7 @@ namespace :deploy do
         execute 'cd frontend && npm run g'
 
         # rsync bundled dir
-        execute "rsync -avzr -e 'ssh -p #{SERVER_PORT}' #{BUNDLE_DIR} #{SERVER_ADDR}:#{release_path}/#{BUNDLE_DIR}"
+        execute "rsync -avzr #{BUNDLE_DIR} #{SERVER_ADDR}:#{release_path}/#{BUNDLE_DIR}"
 
         execute 'cd frontend && npm run clean'
       end
