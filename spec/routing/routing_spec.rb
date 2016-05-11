@@ -52,4 +52,10 @@ RSpec.describe 'routing test', type: :routing do
       expect(patch: 'settings/update_password').to route_to('settings#update_password')
     end
   end
+
+  describe 'api' do
+    it 'route to clients#captcha' do
+      expect(get: 'api/v1/captcha').to route_to('api/v1/register#captcha')
+    end
+  end
 end
