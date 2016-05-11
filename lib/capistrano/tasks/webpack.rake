@@ -1,7 +1,7 @@
 namespace :deploy do
   desc 'Execute webpack compile And rsync to server'
   task :webpack, :force do |_, args|
-    BUNDLE_DIR = 'public/static/'.freeze
+    BUNDLE_DIR = 'public/static'.freeze
     DIFF_COMMAND = "diff -r #{current_path}/frontend #{release_path}/frontend".freeze
     need_generate = false
 
@@ -18,7 +18,7 @@ namespace :deploy do
         execute 'cd frontend && npm run g'
 
         on roles(:app) do
-          upload! BUNDLE_DIR, "#{shared_path}/#{BUNDLE_DIR}", recursive: true
+          upload! "#{BUNDLE_DIR}/", "#{shared_path}/#{BUNDLE_DIR.split('/').first}", recursive: true
         end
 
         execute 'cd frontend && npm run clean'
