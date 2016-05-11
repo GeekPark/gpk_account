@@ -115,7 +115,7 @@ class Register extends React.Component {
   check() {
     if (!this.isValidFirstInput()) return false;
     if (!this.props.user.isValidated) {
-      this.getVerifyCodeInstance().postErr('请获取验证码并输入');
+      this.getVerifyCodeInstance().postErr('请获取校验码并输入');
       return false;
     }
     if (!this.getVerifyCodeInstance().getValue()) return false;

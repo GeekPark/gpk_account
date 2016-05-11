@@ -18,7 +18,7 @@ class VerifyCode extends React.Component {
       const v = this.refs.input.value;
       const tip = this.refs.tip;
       if (isEmpty(v)) {
-        tip.postErr(`请填写${this.typeStr()}收到的验证码`);
+        tip.postErr(`请填写${this.typeStr()}收到的校验码`);
         return false;
       }
       if (!isValidVerifyCode(v)) {
@@ -43,7 +43,7 @@ class VerifyCode extends React.Component {
   }
 
   render() {
-    let verifyButtonText = '获取验证码';
+    let verifyButtonText = '获取校验码';
     const { verify_code } = this.props;
     if (this.isPending()) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
     else if (!verify_code.isFirst) verifyButtonText = '重新发送';

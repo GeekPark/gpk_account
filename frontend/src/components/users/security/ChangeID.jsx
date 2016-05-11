@@ -25,7 +25,7 @@ class EmailBind extends React.Component {
         sendVerifyWithoutCaptcha({ id, type: props.type })
           .done(() => {
             props.dispatch(sendVerifyCode());
-            props.dispatch(showSuccessMessage(`验证码已经发送到您的${this.typeStr}`));
+            props.dispatch(showSuccessMessage(`校验码已经发送到您的${this.typeStr}`));
           })
           .fail(xhr => showXHRError(xhr, props.dispatch));
       };

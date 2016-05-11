@@ -19,7 +19,7 @@ class TFABind extends React.Component {
             </div>
           </div>
           <div className="bottom-link">
-            <a className="link" target="_blank" href="https://www.wikiwand.com/en/Two-factor_authentication">为什么两部验证更安全</a>
+            <a className="link" target="_blank" href="https://www.wikiwand.com/en/Two-factor_authentication">为什么两步验证更安全</a>
           </div>
         </div>
       </Main>
