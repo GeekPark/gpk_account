@@ -6,7 +6,7 @@ RSpec.describe UserMailer, type: :mailer do
     let(:mail) { UserMailer.send_verify_code(email, '123456').deliver_now }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq('您的邮箱验证码')
+      expect(mail.subject).to eq('您的邮箱校验码')
     end
 
     it 'renders the receiver email' do
