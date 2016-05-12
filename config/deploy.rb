@@ -35,8 +35,8 @@ set :puma_init_active_record, true # Change to true if using ActiveRecord
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{.env}
-set :linked_dirs,  %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads public/static}
+set :linked_files, %w(.env)
+set :linked_dirs,  %w(bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads public/static)
 
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
@@ -51,12 +51,12 @@ namespace :puma do
 end
 
 namespace :deploy do
-  desc "Make sure local git is in sync with remote."
+  desc 'Make sure local git is in sync with remote.'
   task :check_revision do
     on roles(:app) do
       unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        puts "WARNING: HEAD is not the same as origin/master"
-        puts "Run `git push` to sync changes."
+        logger.info 'WARNING: HEAD is not the same as origin/master'
+        logger.info 'Run `git push` to sync changes.'
         exit
       end
     end
