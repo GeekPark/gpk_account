@@ -189,6 +189,37 @@
 }
 
 .form-reset {
+  .back-btn {
+    margin: 12px auto;
+    margin-bottom: 5px;
+    display: inline-block;
+    transition: all .3s;
+
+    .iconfont {
+      display: inline-block;
+      color: #fff;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      background-color: $color-blue;
+      border-radius: 50%;
+      text-align: center;
+      margin-right: 5px;
+      position: relative;
+      top: -1px;
+
+      &::after {
+        position: relative;
+        left: -1px;
+        top: 1px;
+      }
+    }
+
+    &:hover {
+      transform: translateX(-10px);
+    }
+  }
+
   .form-title {
     font-size: 2rem;
     color: #222;

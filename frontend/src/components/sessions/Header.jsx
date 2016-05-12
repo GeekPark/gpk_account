@@ -29,6 +29,9 @@ class Header extends React.Component {
     newImage.onload = () => this.setState({ loaded: nextProps.avatarURL });
     newImage.src = `${nextProps.avatarURL}${BLUR}`;
   }
+  hideSwitch() {
+    return /reset_password/.test(window.location.href);
+  }
   render() {
     const loaded = this.state.loaded;
     const avatar = {};
@@ -50,10 +53,13 @@ class Header extends React.Component {
             }
           </Motion>
         </div>
-        <div className="form-wrapper switch-button">
-          <Link to="login" onClick={this.resetAvatar} activeClassName="active">登录</Link>
-          <Link to="signup" onClick={this.resetAvatar} activeClassName="active">注册</Link>
-        </div>
+        {
+          this.hideSwitch() ? null :
+          <div className="form-wrapper switch-button">
+            <Link to="login" onClick={this.resetAvatar} activeClassName="active">登录</Link>
+            <Link to="signup" onClick={this.resetAvatar} activeClassName="active">注册</Link>
+          </div>
+        }
       </div>
     );
   }
