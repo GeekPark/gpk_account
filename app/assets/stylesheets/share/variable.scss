@@ -5,6 +5,9 @@ $color-dark: #688290;
 $color-blue: #08aeff;
 $color-black: #222;
 
+$color-weibo: desaturate(#f3122b, 20%);
+$color-wechat: desaturate(#17b64c, 20%);
+
 $color-gradient-blue: linear-gradient(to top, darken($color-blue, 5%), $color-blue);
 
 $header-h: 50px;

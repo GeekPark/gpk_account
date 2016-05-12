@@ -5,7 +5,7 @@ import Main from './Main';
 class Third extends React.Component {
   render() {
     return (
-      <Main title="第三方账号" desc="可直接使用绑定的第三方帐号登录你的帐号">
+      <Main title="第三方帐号" desc="可直接使用绑定的第三方帐号登录你的帐号">
         <div className="third-list">
           <div className="form-button-group">
             <div className="left-label">

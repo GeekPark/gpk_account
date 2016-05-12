@@ -27,13 +27,13 @@ class LeftMenu extends React.Component {
           <Link to="security" activeClassName="active">
             <i className="iconfont icon-security"></i>
             <span className="hidden-xs">
-              账户安全
+              帐户安全
             </span>
           </Link>
           <Link to="third" activeClassName="active">
             <i className="iconfont icon-third"></i>
             <span className="hidden-xs">
-              第三方账号
+              第三方帐号
             </span>
           </Link>
         </section>

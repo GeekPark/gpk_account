@@ -2,8 +2,10 @@ import React, { PropTypes } from 'react';
 import { Motion, spring, presets } from 'react-motion';
 import { Link } from 'react-router';
 
+import { changeAvatar } from '../../actions';
+
 const PRESET = presets.wobbly;
-const DEVBG = 'url(https://dn-geekpark-new.qbox.me/uploads/user/avatar/000/212/439/6a24809ee6c70b34c0a4a2b359013b50.png?imageMogr2/blur/50x8)';
+const BLUR = '?imageMogr2/blur/50x8';
 
 class Header extends React.Component {
   constructor(props) {
@@ -13,6 +15,8 @@ class Header extends React.Component {
       source: props.avatarURL,
       loaded: null,
     };
+
+    this.resetAvatar = () => this.props.dispatch(changeAvatar(null));
   }
   componentWillReceiveProps(nextProps) {
     if (this.props === nextProps) return;
@@ -23,29 +27,32 @@ class Header extends React.Component {
 
     const newImage = new Image();
     newImage.onload = () => this.setState({ loaded: nextProps.avatarURL });
-    newImage.src = `${nextProps.avatarURL}?imageMogr2/blur/50x8`;
+    newImage.src = `${nextProps.avatarURL}${BLUR}`;
   }
   render() {
     const loaded = this.state.loaded;
-    const styles = { wrapper: {}, avatar: { } };
+    const avatar = {};
     if (loaded !== null) {
-      styles.wrapper.backgroundImage = ISDEV ? DEVBG : `url(${loaded})?imageMogr2/blur/50x8`;
-      styles.avatar.backgroundImage = `url(${loaded})`;
+      avatar.backgroundImage = `url(${loaded})`;
     }
 
     return (
       <div className="header-wrapper">
-        <div className="logo-wrapper" style={styles.wrapper}>
+        <div className="logo-wrapper">
           <Motion defaultStyle={{ op: 1 }} style={{ op: spring(loaded === null ? 1 : 0), PRESET }}>
             { s => <a href="//www.geekpark.net" className="logo" style={{ opacity: s.op }}></a>}
           </Motion>
           <Motion defaultStyle={{ op: 0 }} style={{ op: spring(loaded === null ? 0 : 1), PRESET }}>
-            { s => <div className="avatar-mask" style={{ ...styles.avatar, opacity: s.op, transform: 'scale(1.8)' }}></div>}
+            { s =>
+              <div className="avatar-wrapper" style={{ backgroundImage: loaded === null ? 'none' : `url(${loaded + BLUR})` }}>
+                <div className="avatar-mask" style={{ ...avatar, opacity: s.op, transform: 'scale(1.8)' }}></div>
+              </div>
+            }
           </Motion>
         </div>
         <div className="form-wrapper switch-button">
-          <Link to="login" activeClassName="active">登录</Link>
-          <Link to="signup" activeClassName="active">注册</Link>
+          <Link to="login" onClick={this.resetAvatar} activeClassName="active">登录</Link>
+          <Link to="signup" onClick={this.resetAvatar} activeClassName="active">注册</Link>
         </div>
       </div>
     );
@@ -54,6 +61,7 @@ class Header extends React.Component {
 
 Header.propTypes = {
   avatarURL: PropTypes.any,
+  dispatch: PropTypes.func.isRequired,
 };
 
 export default Header;

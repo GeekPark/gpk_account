@@ -5,6 +5,7 @@ import Header from './Header';
 
 const filterProps = props => ({
   avatarURL: props.avatarURL,
+  dispatch: props.dispatch,
 });
 
 const Wrapper = props => (

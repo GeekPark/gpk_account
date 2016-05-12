@@ -193,26 +193,42 @@ input[type=password] {
   justify-content: space-around;
 }
 
-.iconfont.social-icon {
-  display: inline-block;
-  font-size: 20px;
-  color: $color-dark;
-  background-color: #efefef;
-  width: 32px;
-  height: 32px;
-  text-align: center;
-  line-height: 32px;
-  border-radius: 50%;
+.social-button-style {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  display: flex;
+  color: #fff;
+  justify-content: center;
+  border-radius: 2px;
+  border: 1px solid #000;
+  border-bottom-width: 2px;
 
-  &:hover {
-    color: #fff;
+  span {
+    margin-left: 5px;
+  }
 
-    &.icon-weibo {
-      background-color: #f3122b;
-    }
+  &.weibo {
+    background-color: $color-weibo;
+    border-color: darken($color-weibo, 3%);
 
-    &.icon-wechat {
-      background-color: #17b64c;
+    &:hover {
+      background-color: darken($color-weibo, 3%);
     }
   }
+
+  &.wechat {
+    background-color: $color-wechat;
+    border-color: darken($color-wechat, 3%);
+
+    &:hover {
+      background-color: darken($color-wechat, 3%);
+    }
+  }
+}
+
+.iconfont.social-icon {
+  font-size: 20px;
+  text-align: center;
+  border-radius: 2px;
 }
