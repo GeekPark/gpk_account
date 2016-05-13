@@ -33,6 +33,6 @@ class SessionsController < ApplicationController
   end
 
   def auth_params
-    request.env['omniauth.auth']&.symbolize_keys&.extract!(:provider, :uid)
+    request.env['omniauth.auth']&.to_hash&.symbolize_keys&.extract!(:provider, :uid)
   end
 end

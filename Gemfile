@@ -44,7 +44,7 @@ gem 'sucker_punch'
 # gem 'capistrano-rails', group: :development
 
 # Omniauth
-gem 'omniauth-geekpark', '0.2.0'
+gem 'omniauth-geekpark', '0.2.1'
 
 # API
 gem 'rails-api'
