@@ -55,6 +55,9 @@ gem 'china_city'
 # Cache store
 gem 'redis-rails'
 
+# Rack middleware for blocking & throttling abusive requests
+gem 'rack-attack'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'

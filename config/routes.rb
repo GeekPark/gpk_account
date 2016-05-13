@@ -36,7 +36,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Register
       get 'captcha', to: 'register#captcha'
-      get 'send_verify_code', to: 'register#send_verify_code'
+      post 'send_verify_code', to: 'register#send_verify_code'
       post 'register', to: 'register#register'
 
       resource 'user', only: [:show, :update]
