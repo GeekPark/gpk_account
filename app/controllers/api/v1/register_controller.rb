@@ -15,7 +15,7 @@ class Api::V1::RegisterController < Api::BaseController
     verify_code?(params[:user][:mobile] || params[:user][:email])
     user = User.find_or_create_by! register_param
     token = Doorkeeper::AccessToken.find_or_create_for(@client, user.id, @client.scopes, 7200, true)
-    render json: { access_token: token.token, refresh_token: token.refresh_token, expires_in: token.expires_in }
+    render json: token
   end
 
   private

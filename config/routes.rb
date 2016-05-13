@@ -39,7 +39,9 @@ Rails.application.routes.draw do
       get 'send_verify_code', to: 'register#send_verify_code'
       post 'register', to: 'register#register'
 
-      resource 'user', only: [:show, :update]
+      resource 'user', only: [:show, :update] do
+        post ':provider/login', action: 'third_part_login'
+      end
     end
   end
 
