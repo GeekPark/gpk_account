@@ -52,6 +52,9 @@ gem 'active_model_serializers', '~> 0.9.5'
 gem 'doorkeeper'
 gem 'china_city'
 
+# Cache store
+gem 'redis-rails'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'

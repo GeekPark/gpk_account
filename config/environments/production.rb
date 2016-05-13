@@ -55,7 +55,7 @@ Rails.application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  config.cache_store = :redis_store, ENV['REDIS_URL'], { expires_in: 3.hours }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = 'http://assets.example.com'
@@ -68,8 +68,8 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'account.geekpark.net' }
 
   config.action_mailer.smtp_settings = {
-    user_name: ENV['GPK_ACCOUNT_SENDGRID_USERNAME'],
-    password: ENV['GPK_ACCOUNT_SENDGRID_PASSWORD'],
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
     domain: 'geekpark.net',
     address: 'smtp.sendgrid.net',
     port: 587,
