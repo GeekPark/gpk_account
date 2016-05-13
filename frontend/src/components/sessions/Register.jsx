@@ -7,7 +7,7 @@ import PasswordInput from './PasswordInput';
 import { isEmpty, isPhoneNumber, isEmail as isValidEmail } from '../../share/validator';
 import { openModal, updateUser, resetVerify } from '../../actions';
 import { createUser, notExist } from '../../share/server';
-import { showXHRError, focus } from '../../share/utils';
+import { showXHRError, focus, changeTitle } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
 import VerifyCode from '../share/VerifyCode';
@@ -74,6 +74,10 @@ class Register extends React.Component {
         ReactDOM.render(<Welcome data={d} />, dom);
       }).fail(xhr => showXHRError(xhr, this.props.dispatch));
     };
+  }
+
+  componentWillMount() {
+    changeTitle('注册');
   }
 
   getPwd() {

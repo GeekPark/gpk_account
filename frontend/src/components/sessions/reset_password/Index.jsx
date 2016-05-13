@@ -5,6 +5,8 @@ const { object } = React.PropTypes;
 import SendVerify from './SendVerify';
 import NewPassword from './NewPassword';
 
+import { changeTitle } from '../../../share/utils';
+
 class ResetPassword extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +24,11 @@ class ResetPassword extends React.Component {
 
     this.changeLoginName = loginName => this.setState({ loginName });
   }
+
+  componentWillMount() {
+    changeTitle('忘记密码');
+  }
+
   render() {
     const hash = this.state.hash;
     let Component = SendVerify;
