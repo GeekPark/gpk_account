@@ -313,6 +313,14 @@ $margin: 25px;
 .third-list .iconfont {
   margin-right: 5px;
   color: #666;
+
+  &.icon-weibo.active {
+    color: $color-weibo;
+  }
+
+  &.icon-weixin.active {
+    color: $color-wechat;
+  }
 }
 
 .identify-wrapper {
