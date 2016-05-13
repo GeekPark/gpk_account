@@ -23,7 +23,7 @@ class SocialLogin extends React.Component {
             <i className="iconfont icon-wechat social-icon"></i>
             <span>微信登陆</span>
           </a>
-          <a className="social-button-style weibo" href="javascript:;" onClick={this.weibo}>
+          <a className="social-button-style weibo" href="/auth/weibo">
             <i className="iconfont icon-weibo social-icon"></i>
             <span>微博登陆</span>
           </a>
