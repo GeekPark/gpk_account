@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-const { func } = PropTypes;
+const { func, string } = PropTypes;
 
 import Captcha from '../../share/Captcha';
 import Tooltip from '../../share/Tooltip';
@@ -7,7 +7,7 @@ import Tooltip from '../../share/Tooltip';
 import { isValidID, isEmpty, isEmail as isValidEmail } from '../../../share/validator';
 import { sendVerify, notExist } from '../../../share/server';
 import { showXHRError, focus } from '../../../share/utils';
-import { sendVerifyCode } from '../../../actions';
+import { sendVerifyCode, changeAvatar } from '../../../actions';
 
 class SendVerify extends React.Component {
   constructor() {
@@ -38,6 +38,22 @@ class SendVerify extends React.Component {
           });
         });
     };
+
+    this.onIDBlur = e => {
+      if (e.target.value < 2) return;
+      const v = this.getID();
+      if (v === false) {
+        this.props.dispatch(changeAvatar(null));
+        return;
+      }
+      notExist(v)
+        .then(() => {
+          this.refs.idTip.postErr('用户不存在');
+        })
+        .catch(d => {
+          this.props.dispatch(changeAvatar(d.avatar_url || null));
+        });
+    };
   }
 
   getID() {
@@ -54,11 +70,14 @@ class SendVerify extends React.Component {
   }
 
   render() {
+    const { loginName } = this.props;
     return (
       <form onSubmit={this.next}>
         <Tooltip ref="idTip">
           <input type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id"
+            defaultValue={loginName.length !== 0 ? loginName : ''}
             onChange={this.clearTip('idTip')} autoFocus
+            onBlur={this.onIDBlur}
           />
         </Tooltip>
         <Captcha className="mb-input" ref="captcha" />
@@ -72,6 +91,7 @@ SendVerify.propTypes = {
   dispatch: func,
   goPanel: func,
   changeLoginName: func,
+  loginName: string,
 };
 
 

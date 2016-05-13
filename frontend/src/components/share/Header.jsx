@@ -14,7 +14,7 @@ class Header extends React.Component {
         <div className="dropdown-side">
           <Avatar size={35} />
           <div className="dropdown">
-            <a href="/">账号中心</a>
+            <a href="/">帐号中心</a>
             <a href="/logout" data-method="delete">退出登录</a>
           </div>
         </div>

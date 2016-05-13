@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 const { object } = React.PropTypes;
 
 import SendVerify from './SendVerify';
@@ -27,6 +28,12 @@ class ResetPassword extends React.Component {
     if (hash === 'new') Component = NewPassword;
     return (
       <div className="form-wrapper form-reset">
+        <div className="tal">
+          <Link to="/login" className="back-btn">
+            <i className="iconfont icon-back"></i>
+            <span>返回登录</span>
+          </Link>
+        </div>
         <div className="form-title">
           重设密码
         </div>

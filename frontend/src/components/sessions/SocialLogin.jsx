@@ -18,12 +18,14 @@ class SocialLogin extends React.Component {
             通过第三方帐号登录
           </span>
         </div>
-        <div className="space-around social-button">
-          <a href="javascript:;" onClick={this.weibo}>
-            <i className="iconfont icon-weibo social-icon"></i>
-          </a>
-          <a href="javascript:;" onClick={this.wechat}>
+        <div className="social-button">
+          <a className="social-button-style wechat" href="javascript:;" onClick={this.wechat}>
             <i className="iconfont icon-wechat social-icon"></i>
+            <span>微信登陆</span>
+          </a>
+          <a className="social-button-style weibo" href="javascript:;" onClick={this.weibo}>
+            <i className="iconfont icon-weibo social-icon"></i>
+            <span>微博登陆</span>
           </a>
         </div>
       </div>

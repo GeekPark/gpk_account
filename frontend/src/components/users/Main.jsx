@@ -22,7 +22,7 @@ const Wrapper = props => (
 );
 
 Wrapper.defaultProps = {
-  title: '账户安全',
+  title: '帐户安全',
 };
 
 Wrapper.propTypes = {
