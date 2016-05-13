@@ -55,8 +55,8 @@ namespace :deploy do
   task :check_revision do
     on roles(:app) do
       unless `git rev-parse HEAD` == `git rev-parse origin/master`
-        logger.info 'WARNING: HEAD is not the same as origin/master'
-        logger.info 'Run `git push` to sync changes.'
+        warn 'WARNING: HEAD is not the same as origin/master'
+        warn 'Run `git push` to sync changes.'
         exit
       end
     end
