@@ -53,3 +53,7 @@ export function isSNS(user) {
 export function focus(dom) {
   if (!isMobileView() && dom instanceof Element) dom.focus();
 }
+
+export function changeTitle(str) {
+  $('title').text($('title').text().replace(/^[^\s]*\s/, `${str} `));
+}

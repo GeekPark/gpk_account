@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import SocialLogin from './SocialLogin';
 
 import { isEmpty, isValidID, isValidPassword } from '../../share/validator';
-import { getCSRFToken } from '../../share/utils';
+import { getCSRFToken, changeTitle } from '../../share/utils';
 
 import Tooltip from '../share/Tooltip';
 
@@ -36,6 +36,10 @@ class Login extends React.Component {
           this.props.dispatch(changeAvatar(d.avatar_url || null));
         });
     };
+  }
+
+  componentWillMount() {
+    changeTitle('登陆');
   }
 
   checkID() {
