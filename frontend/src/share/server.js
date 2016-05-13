@@ -143,3 +143,14 @@ export function updateID({ type, id, verify_code, password }) {
     data: { verify_code, type, [type]: id, password },
   });
 }
+
+export function bindAccount(type) {
+  window.location.href = `${window.location.origin}/auth/${type}`;
+}
+
+export function unbindAccount(type) {
+  return $.ajax({
+    url: `/auth/${type}/unbind`,
+    method: 'DELETE',
+  });
+}

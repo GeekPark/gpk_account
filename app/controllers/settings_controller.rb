@@ -32,11 +32,11 @@ class SettingsController < ApplicationController
 
   def unbind_auth
     auth = current_user.authorizations.find_by_provider(params[:provider])
-    if auth
-      auth.destroy
+    (render json: { errors: ['Authorization not found'] }, status: :not_found) && return unless auth
+    if auth.destroy
       render json: current_user, serializer: UserSerializer
     else
-      render json: { errors: ['Authorization not found'] }, status: :not_found
+      render json: { errors: auth.errors.full_messages }, status: 422
     end
   end
 
