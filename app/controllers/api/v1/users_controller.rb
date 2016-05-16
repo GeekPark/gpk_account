@@ -32,6 +32,8 @@ class Api::V1::UsersController < Api::BaseController
       wechat_auth params[:code]
     when 'weibo'
       weibo_auth params
+    else
+      raise ParameterValueNotAllowed, params[:provider]
     end
   end
 
