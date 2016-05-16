@@ -35,25 +35,48 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe 'third_part_login' do
     include_context 'prepare api signature'
-    describe 'wechat' do
-      let(:origin_hash) do
-        {
-          client_id: application.uid,
-          timestamp: Time.current.to_i,
-          code: 123
-        }
-      end
+    let(:origin_hash) do
+      {
+        client_id: application.uid,
+        timestamp: Time.current.to_i,
+      }
+    end
 
+    it 'should return error when unsurpport provider is given' do
+      post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'test')
+      expect(response).to have_http_status(400)
+    end
+
+    it 'should not create new authorization' do
+      user = User.create_with_omniauth(mock_wechat_auth)
+      allow_any_instance_of(Api::V1::UsersController).to receive(:wechat_auth).and_return(mock_wechat_auth)
+      post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'wechat')
+      expect(response).to be_success
+      expect(user.authorizations.where(uid: mock_wechat_auth['uid'], provider: mock_wechat_auth['provider']).count).to eq(1)
+    end
+
+    %w(weibo wechat).each do |provider|
+      it "should return user's token" do
+        allow_any_instance_of(Api::V1::UsersController).to receive(:"#{provider}_auth").and_return(mock_wechat_auth)
+        post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: provider)
+        expect(response).to be_success
+        expect(JSON.parse(response.body)).to include('access_token')
+      end
+    end
+
+    describe 'wechat' do
       it 'should return error when code incorrect' do
+        origin_hash.merge!(code: 123)
         post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'wechat')
         expect(response).to have_http_status(400)
       end
+    end
 
-      it "should return user's token" do
-        allow_any_instance_of(Api::V1::UsersController).to receive(:wechat_auth).and_return(mock_wechat_auth)
-        post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'wechat')
-        expect(response).to be_success
-        expect(JSON.parse(response.body)).to include('access_token')
+    describe 'weibo' do
+      it 'should return error when access_token incorrect' do
+        origin_hash.merge!(access_token: 'incorrect_token')
+        post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'weibo')
+        expect(response).to have_http_status(400)
       end
     end
   end
