@@ -3,7 +3,7 @@ class Api::V1::UsersController < Api::BaseController
   before_action :verify_signature!, only: :third_part_login
 
   def show
-    render json: current_user
+    render json: current_user, serializer: UserBasicSerializer
   end
 
   def update
