@@ -24,8 +24,10 @@
   "homepage": "https://github.com/GeekPark/gpk_account#readme",
   "dependencies": {
     "deep-assign": "^2.0.0",
+    "jquery-scroll": "^1.1.1",
     "lodash": "^4.11.1",
     "mdetect": "^1.2.2",
+    "moment": "^2.13.0",
     "rc-tooltip": "^3.3.2",
     "react": "^15.0.1",
     "react-china-city": "^1.0.5",
@@ -67,7 +69,8 @@
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
-      "<rootDir>/node_modules/lodash"
+      "<rootDir>/node_modules/lodash",
+      "<rootDir>/node_modules/moment"
     ]
   }
 }

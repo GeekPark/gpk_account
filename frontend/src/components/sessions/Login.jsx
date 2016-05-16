@@ -39,7 +39,7 @@ class Login extends React.Component {
   }
 
   componentWillMount() {
-    changeTitle('登陆');
+    changeTitle('登录');
   }
 
   checkID() {

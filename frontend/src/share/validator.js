@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const limitStr = (str, min, max) => str && str.length >= min && str.length <= max;
 
 export function isPhoneNumber(str) {
@@ -31,4 +33,9 @@ export function isValidID(str) {
 
 export function isValidVerifyCode(str) {
   return /^\d{6}$/.test(str);
+}
+
+export function isValidBirthday(str) {
+  const date = moment(str, 'YYYY-MM-DD');
+  return date.isValid() && date.year() <= new Date().getFullYear() && date.year() > 1910;
 }

@@ -56,9 +56,9 @@ const User = props => (
             <IndexRoute component={MobileEdit} />
             <Route path="bind" component={MobileBind} />
           </Route>
-        </Route>
-        <Route path="2fa">
-          <Route path="bind" component={TFABind} />
+          <Route path="2fa">
+            <Route path="bind" component={TFABind} />
+          </Route>
         </Route>
       </Route>
       <Route path="third">

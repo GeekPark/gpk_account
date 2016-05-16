@@ -8,6 +8,7 @@ import Select from '../share/Select';
 import { showSuccessMessage } from '../../actions';
 import { updateUser } from '../../share/server';
 import { showXHRError } from '../../share/utils';
+import { isValidBirthday, isValidNickname } from '../../share/validator';
 
 import Main from './Main';
 
@@ -19,8 +20,17 @@ class BasicInfo extends React.Component {
 
     this.submit = e => {
       e.preventDefault();
-      if ($('input[name="user[nickname]"]').val().length === 0) {
-        this.refs.nicknameTip.postErr('昵称是必填项喔');
+      if (!isValidNickname(
+        $('input[name="user[nickname]"]').val()
+      )) {
+        this.refs.nicknameTip.postErr('昵称必须在 2-20 个字符喔');
+        return;
+      }
+
+      if (!isValidBirthday(
+          $('input[name="user[birthday]"]').val()
+      )) {
+        this.refs.birthdayTip.postErr('请填写正确的出生日期');
         return;
       }
 
@@ -66,7 +76,7 @@ class BasicInfo extends React.Component {
           </div>
           <div className="form-item">
             <label htmlFor="sex">性别</label>
-            <Select name="user[gender]" defaultValue={gender}
+            <Select name="user[gender]" value={gender}
               options={[
                 ['not_sure', '其他'], ['male', '男'], ['female', '女'],
               ]}
@@ -74,7 +84,9 @@ class BasicInfo extends React.Component {
           </div>
           <div className="form-item">
             <label htmlFor="birthday">出生日期</label>
-            <input type="date" defaultValue={birthday || `${year - 25}-01-01`} name="user[birthday]" />
+            <Tooltip ref="birthdayTip">
+              <input type="date" defaultValue={birthday || `${year - 25}-01-01`} name="user[birthday]" onChange={this.clearTip('birthdayTip')} />
+            </Tooltip>
           </div>
           <div className="form-item">
             <label htmlFor="location">地区</label>

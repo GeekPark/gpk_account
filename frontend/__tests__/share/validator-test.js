@@ -1,7 +1,8 @@
 jest.unmock('../../src/share/validator');
 
 import {
-  isPhoneNumber, isEmpty, isNotEmpty, isEmail, isValidNickname, isValidPassword, isValidID, isValidVerifyCode,
+  isPhoneNumber, isEmpty, isNotEmpty, isEmail, isValidNickname,
+  isValidPassword, isValidID, isValidVerifyCode, isValidBirthday,
 } from '../../src/share/validator';
 
 describe('validator', () => {
@@ -60,5 +61,12 @@ describe('validator', () => {
     expect(isValidVerifyCode('1a3432')).toEqual(false);
     expect(isValidVerifyCode('1234321')).toEqual(false);
     expect(isValidVerifyCode('')).toEqual(false);
+  });
+
+  it('isValidBirthday', () => {
+    expect(isValidBirthday('1994-10-20')).toEqual(true);
+    expect(isValidBirthday('2017-10-20')).toEqual(false);
+    expect(isValidBirthday('1907-10-20')).toEqual(false);
+    expect(isValidBirthday('123123123123')).toEqual(false);
   });
 });

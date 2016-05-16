@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Motion, spring, presets } from 'react-motion';
 import { isMobileView } from 'mdetect';
+import scrollTo from 'jquery-scroll';
 
 const EFFECT = presets.stiff;
 
@@ -15,6 +16,14 @@ class Tooltip extends React.Component {
 
     this.postErr = msg => {
       this.setState({ isShow: true, msg });
+      if (isMobileView()) {
+        setTimeout(() => {
+          scrollTo({
+            selector: '.tooltip-message.status-error.show',
+            offset: 60,
+          });
+        }, 300);
+      }
     };
 
     this.clear = () => this.setState({ isShow: false });

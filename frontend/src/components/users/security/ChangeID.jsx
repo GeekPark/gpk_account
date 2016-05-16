@@ -14,7 +14,7 @@ import { showXHRError, isSNS, focus } from '../../../share/utils';
 class EmailBind extends React.Component {
   constructor(props) {
     super(props);
-    this.typeStr = ({ email: '邮箱', mobile: '手机' })[props.type];
+    this.typeStr = ({ email: '邮箱', mobile: '新手机' })[props.type];
     this.isEmail = props.type === 'email';
     this.isSNS = isSNS(props.server.user);
 
@@ -70,7 +70,7 @@ class EmailBind extends React.Component {
       return false;
     }
     if (!({ email: isEmail, mobile: isPhoneNumber })[type](dom.value)) {
-      err(`${this.typeStr}格式正确`);
+      err(`${this.typeStr}格式不正确`);
       focus(dom);
       return false;
     }
@@ -85,7 +85,7 @@ class EmailBind extends React.Component {
           <Tooltip ref="idTip">
             <input className="mb-input" type="text" placeholder={this.typeStr}
               ref="id" onChange={this.clearTip('idTip')} autoFocus
-              maxLength={this.props.type === 'mobile' ? 11 : 20}
+              maxLength={this.props.type === 'mobile' ? 11 : 100}
             />
           </Tooltip>
           <VerifyCode onGetCode={this.onGetCode} verify_code={verify_code} isEmail={this.isEmail} ref="verifyCode" />
