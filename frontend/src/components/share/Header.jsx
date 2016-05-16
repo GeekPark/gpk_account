@@ -7,7 +7,7 @@ class Header extends React.Component {
     return (
       <div className="component-header">
         <div className="logo-container">
-          <a href="http://wwww.geekpark.net" className="dib-middle logo hover-link"></a>
+          <a href="http://www.geekpark.net" className="dib-middle logo hover-link"></a>
           <div className="dib-middle split"></div>
           <a href="/" className="dib-middle account-home hover-link">帐号中心</a>
         </div>

@@ -74,7 +74,7 @@ export function showMessage({ type, msg }) {
     }, 300);
 
     timeoutID = setTimeout(() => {
-      dispatch(clearMessage());
+      // dispatch(clearMessage());
     }, 1000 * 4);
   };
 }

@@ -1,7 +1,6 @@
 & {
   left: 50%;
   top: 75px;
-  max-width: 60vw;
   position: fixed;
   padding: 15px 40px;
   border-radius: 2px;
@@ -10,12 +9,18 @@
   box-shadow: 0px 2px 5px rgba(0, 0, 0, .2);
   border: 1px solid rgba(255, 255, 255, .3);
   font-size: 1.8rem;
-  display: flex;
-  align-items: center;
   transition: transform .3s;
   transform: scaleY(0) rotate(-15deg) translate(-50%, -20px);
   transform-origin: top;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @include mediaMin($mobile-w) {
+    max-width: 60vw;
+  }
 }
 
 &.show {
@@ -30,7 +35,10 @@
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  margin-right: 20px;
+
+  @include mediaMin($mobile-w) {
+    margin-right: 20px;
+  }
 
   &.icon-error {
     font-size: 2.5rem;
@@ -42,5 +50,18 @@
 
   .iconfont {
     color: $color-red;
+  }
+}
+
+@include mediaMax($mobile-w) {
+  & {
+    width: 92vw;
+    padding: 15px 5px 5px 5px;
+  }
+
+  .message-content {
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
   }
 }
