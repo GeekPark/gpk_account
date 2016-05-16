@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/GeekPark/gpk_account#readme",
   "dependencies": {
+    "click-at-outside": "^1.0.2",
     "deep-assign": "^2.0.0",
     "jquery-scroll": "^1.1.1",
     "lodash": "^4.11.1",
