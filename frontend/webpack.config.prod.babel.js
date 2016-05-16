@@ -13,7 +13,7 @@ config.plugins = [...config.plugins, (
   })),
   (new optimize.UglifyJsPlugin({
     compress: {
-      warnings: true,
+      warnings: false,
     },
   })),
 ];

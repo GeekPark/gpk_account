@@ -7,6 +7,7 @@ const config = {
   context: __dirname,
   entry: {
     sessions: './src/sessions.js',
+    user: './src/user.js',
   },
   output: {
     path: path.resolve(__dirname, 'static/'),
@@ -30,6 +31,10 @@ const config = {
       'process.env.API_URL': JSON.stringify(process.env.API_URL),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       ISDEV: JSON.stringify(ISDEV),
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
     }),
   ],
   externals: {

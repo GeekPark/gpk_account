@@ -10,6 +10,7 @@
     "lint": "eslint src/ --ext .js,.jsx",
     "g": "npm run clean && NODE_ENV=production webpack -p --config webpack.config.prod.babel.js",
     "clean": "rm -f ../public/static/*",
+    "analytic": "NODE_ENV=production webpack --json | webpack-bundle-size-analyzer",
     "ngrok": "ngrok http 8080"
   },
   "repository": {
