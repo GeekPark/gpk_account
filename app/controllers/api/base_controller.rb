@@ -14,6 +14,10 @@ class Api::BaseController < ActionController::API
     render json: { error: 'Verify code invalid' }, status: 422
   end
 
+  rescue_from(OAuth2::Error) do
+    render json: { error: 'Oauth2Error', message: 'Authorize failed' }, status: 400
+  end
+
   private
 
   def current_user

@@ -14,8 +14,8 @@ class Api::V1::UsersController < Api::BaseController
 
   def third_part_login
     auth = auth_hash
-    user = User.create_with_omniauth(auth) ||
-      Authorization.find_by(uid: auth['uid'], provider: auth['provider']).try(:user)
+    user = Authorization.find_by(uid: auth['uid'], provider: auth['provider']).try(:user) ||
+      User.create_with_omniauth(auth)
     if user
       token = Doorkeeper::AccessToken.find_or_create_for(@client, user.id, @client.scopes, 7200, true)
       render json: token

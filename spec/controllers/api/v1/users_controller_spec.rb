@@ -32,4 +32,29 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(JSON.parse(response.body)['nickname']).to eq('testuser')
     end
   end
+
+  describe 'third_part_login' do
+    include_context 'prepare api signature'
+    describe 'wechat' do
+      let(:origin_hash) do
+        {
+          client_id: application.uid,
+          timestamp: Time.current.to_i,
+          code: 123
+        }
+      end
+
+      it 'should return error when code incorrect' do
+        post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'wechat')
+        expect(response).to have_http_status(400)
+      end
+
+      it "should return user's token" do
+        allow_any_instance_of(Api::V1::UsersController).to receive(:wechat_auth).and_return(mock_wechat_auth)
+        post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'wechat')
+        expect(response).to be_success
+        expect(JSON.parse(response.body)).to include('access_token')
+      end
+    end
+  end
 end
