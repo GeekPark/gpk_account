@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import { isMobileView } from 'mdetect';
 import { render as r } from 'react-dom';

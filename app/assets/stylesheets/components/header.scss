@@ -91,10 +91,18 @@
     }
   }
 
-  &:hover .dropdown {
+  &.active .dropdown {
     opacity: 1;
     transform: translateY(0);
     visibility: visible;
+  }
+
+  @include mediaMin($mobile-w) {
+    &:hover .dropdown {
+      opacity: 1;
+      transform: translateY(0);
+      visibility: visible;
+    }
   }
 }
 
