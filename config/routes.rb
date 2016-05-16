@@ -46,6 +46,8 @@ Rails.application.routes.draw do
         post ':provider/login', action: 'third_part_login'
         get 'extra_info'
       end
+
+      resource 'device', only: [:create, :destroy]
     end
   end
 
