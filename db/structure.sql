@@ -231,7 +231,8 @@ CREATE TABLE users (
     realname character varying,
     remember_token character varying,
     remember_token_created_at timestamp without time zone,
-    is_old boolean DEFAULT false
+    is_old boolean DEFAULT false,
+    role integer
 );
 
 
@@ -408,4 +409,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160428055301');
 INSERT INTO schema_migrations (version) VALUES ('20160428101641');
 
 INSERT INTO schema_migrations (version) VALUES ('20160505060847');
+
+INSERT INTO schema_migrations (version) VALUES ('20160517094226');
 
