@@ -74,7 +74,7 @@ RSpec.describe UsersController, type: :controller do
       it 'should return error' do
         post :create, user: basic_user, verify_code: '1111111'
         expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
+        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
       end
     end
 
@@ -83,7 +83,7 @@ RSpec.describe UsersController, type: :controller do
         User.create(basic_user)
         post :create, user: basic_user, verify_code: @code
         expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('Email has already been taken')
+        expect(JSON.parse(response.body)['errors']).to include('Email已经被使用')
       end
 
       it 'return user when created' do
@@ -108,7 +108,7 @@ RSpec.describe UsersController, type: :controller do
 
     it 'verify code invalid' do
       post :reset_password, user: { email: key, password: 'new_password' }, verify_code: '111111'
-      expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
+      expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
     end
 
     it 'return error when user not found' do

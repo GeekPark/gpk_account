@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   def require_login
     unless current_user
       respond_to do |format|
-        format.html { redirect_to login_url, alert: 'Need Login' }
-        format.json { render json: { errors: ['Need login'] }, status: :unauthorized }
+        format.html { redirect_to login_url, alert: t('errors.need_login') }
+        format.json { render json: { errors: [t('errors.need_login')] }, status: :unauthorized }
       end
     end
   end
@@ -44,6 +44,6 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_verify_code
-    render json: { errors: ['Verify code invalid'] }, status: 422
+    render json: { errors: [t('errors.invalid_verify_code')] }, status: 422
   end
 end
