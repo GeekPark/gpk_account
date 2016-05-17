@@ -1,9 +1,18 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action -> { doorkeeper_authorize! :write }, except: [:create, :third_part_login]
+  before_action -> { doorkeeper_authorize! }, only: :show
+  before_action -> { doorkeeper_authorize! :admin, :write }, only: :update
+  before_action -> { doorkeeper_authorize! :admin }, only: :extra_info
   before_action :verify_signature!, only: :third_part_login
 
   def show
-    render json: current_user
+    render json: current_user, serializer: UserBasicSerializer
+  end
+
+  def extra_info
+    white_list = %w(email mobile)
+    querys = white_list & params[:querys].collect(&:to_s)
+    querys << 'is_old'
+    render json: current_user.attributes.slice(*querys)
   end
 
   def update

@@ -4,6 +4,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   let(:user) { create(:full_user) }
   let(:public_token) { create(:public_access_token, resource_owner_id: user.id) }
   let(:write_token) { create(:write_access_token, resource_owner_id: user.id) }
+  let(:admin_token) { create(:admin_access_token, resource_owner_id: user.id) }
 
   describe 'show' do
     it 'requires token to authorize' do
@@ -12,9 +13,25 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it 'returns user info' do
-      get :show, format: :json, access_token: write_token.token
+      get :show, format: :json, access_token: public_token.token
       expect(response).to be_success
       expect(JSON.parse(response.body)['id']).to eq(user.id)
+    end
+  end
+
+  describe 'extra_info' do
+    it 'return queried attributes' do
+      get :extra_info, access_token: admin_token.token, querys: %w(email mobile)
+      expect(response).to be_success
+      json = JSON.parse(response.body)
+      expect(json).to include('email', 'mobile', 'is_old')
+      expect(json).not_to include('birthday')
+      expect(json['email']).to eq user.email
+    end
+
+    it 'not return whitelited attribute' do
+      get :extra_info, access_token: admin_token.token, querys: %w(email password)
+      expect(JSON.parse(response.body)).not_to include('password')
     end
   end
 

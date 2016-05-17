@@ -21,6 +21,10 @@ FactoryGirl.define do
       scopes 'public write'
     end
 
+    factory :admin_access_token do
+      scopes 'admin'
+    end
+
     factory :clientless_access_token do
       application nil
     end
