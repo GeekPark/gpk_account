@@ -5,7 +5,7 @@ import Avatar from '../share/Avatar';
 import Tooltip from '../share/Tooltip';
 import Select from '../share/Select';
 
-import { showSuccessMessage } from '../../actions';
+import { showSuccessMessage, setStore } from '../../actions';
 import { updateUser } from '../../share/server';
 import { showXHRError } from '../../share/utils';
 import { isValidBirthday, isValidNickname } from '../../share/validator';
@@ -44,8 +44,9 @@ class BasicInfo extends React.Component {
       else return x;
     });
     updateUser(data)
-      .done(() => {
+      .done(user => {
         this.props.dispatch(showSuccessMessage('个人信息更新成功'));
+        this.props.dispatch(setStore({ user }));
       })
       .fail(xhr => showXHRError(xhr, this.props.dispatch));
   }

@@ -22,7 +22,10 @@ class Login extends React.Component {
     this.clearTip = tipName => () => this.refs[tipName].clear();
 
     this.onIDBlur = e => {
-      if (e.target.value < 2) return;
+      if (e.target.value < 2) {
+        this.props.dispatch(changeAvatar(null));
+        return;
+      }
       const v = this.checkID();
       if (v === false) {
         this.props.dispatch(changeAvatar(null));
@@ -31,6 +34,7 @@ class Login extends React.Component {
       notExist(v)
         .then(() => {
           this.refs.loginNameTip.postErr('用户不存在');
+          this.props.dispatch(changeAvatar(null));
         })
         .catch(d => {
           this.props.dispatch(changeAvatar(d.avatar_url || null));
