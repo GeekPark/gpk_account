@@ -73,6 +73,8 @@ $margin: 25px;
 .section {
   background-color: #fff;
   transition: all .3s;
+  border-radius: 2px;
+  overflow: hidden;
   &:not(.no-padding) {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -85,6 +87,8 @@ $margin: 25px;
 
 .section-title {
   font-size: 1.8rem;
+  font-weight: bold;
+  color: #555;
 }
 
 .section-desc a {
@@ -115,6 +119,7 @@ $margin: 25px;
       margin: 10px;
       font-weight: bold;
       color: #555;
+      word-break: break-all;
     }
   }
 
@@ -131,7 +136,7 @@ $margin: 25px;
     span {
       display: inline-block;
       vertical-align: middle;
-      font-weight: bold;
+      font-weight: 600;
     }
 
     .icon-profile::after,
@@ -154,6 +159,7 @@ $margin: 25px;
 
       &:hover {
         background-color: #f5f5f5;
+        border-color: #f5f5f5;
       }
     }
   }
@@ -213,7 +219,6 @@ $margin: 25px;
   label {
     width: 100px;
     margin-bottom: 5px;
-    font-weight: bold;
     color: #555;
   }
 }

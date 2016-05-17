@@ -108,9 +108,7 @@
 
 @include mediaMax($mobile-w) {
   .logo {
-    background-image: image_url('logo_mini.png');
-    width: 32px;
-    height: 32px;
+    display: none;
   }
 
   .account-home {
@@ -118,6 +116,7 @@
   }
 
   .split {
+    display: none;
     height: 15px;
   }
 }
