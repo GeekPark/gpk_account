@@ -5,7 +5,7 @@ Doorkeeper.configure do
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
     env['warden'].user ||
-      session[:callback_url] = request.fullpath && redirect_to(login_url)
+      (session[:callback_url] = request.fullpath) && redirect_to(login_url)
   end
 
   resource_owner_from_credentials do
