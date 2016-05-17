@@ -80,7 +80,7 @@ RSpec.describe SessionsController, type: :controller do
       it 'should return error if uid is exist' do
         post :create
         post :create
-        expect(JSON.parse(response.body)['errors']).to include('Uid has already been taken')
+        expect(JSON.parse(response.body)['errors']).to include('Uid已经被使用')
       end
     end
   end

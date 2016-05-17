@@ -2,7 +2,7 @@ RSpec.shared_examples 'send verify code' do
   context 'captcha incorrect' do
     it 'should return error' do
       expect(subject).to have_http_status(422)
-      expect(JSON.parse(subject.body)['errors']).to include('Captcha invalid!')
+      expect(JSON.parse(subject.body)['errors']).to include('验证码不正确')
     end
   end
 

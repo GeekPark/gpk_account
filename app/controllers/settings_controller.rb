@@ -17,7 +17,7 @@ class SettingsController < ApplicationController
       current_user.update! params.permit(way)
       render json: current_user, serializer: UserSerializer
     else
-      render json: { errors: ['User not identified'] }, status: 422
+      render json: { errors: [t('errors.user_not_identified')] }, status: 422
     end
   end
 
@@ -26,13 +26,13 @@ class SettingsController < ApplicationController
       current_user.update!(password: params[:new_password])
       render json: current_user, serializer: UserSerializer
     else
-      render json: { errors: ['Password invalid'] }, status: 401
+      render json: { errors: [t('errors.password_invalid')] }, status: 401
     end
   end
 
   def unbind_auth
     auth = current_user.authorizations.find_by_provider(params[:provider])
-    (render json: { errors: ['Authorization not found'] }, status: :not_found) && return unless auth
+    (render json: { errors: [t('errors.authorization_not_found')] }, status: :not_found) && return unless auth
     if auth.destroy
       render json: current_user, serializer: UserSerializer
     else

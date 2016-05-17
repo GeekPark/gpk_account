@@ -17,7 +17,7 @@ RSpec.describe SettingsController, type: :controller do
       it 'should return error if verify code invalid' do
         post :verify_current_user, type: 'email', verify_code: '111111'
         expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
+        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
       end
 
       it 'should set user authenticate if verify code correct' do
@@ -35,14 +35,14 @@ RSpec.describe SettingsController, type: :controller do
       it 'should return error if user not authenticate' do
         patch :update_primary, type: 'email', verify_code: @code, email: key
         expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('User not identified')
+        expect(JSON.parse(response.body)['errors']).to include('请先验证您的身份')
       end
 
       it 'should return error if verify_code invalid' do
         allow_any_instance_of(User).to receive(:identified?).and_return(true)
         patch :update_primary, type: 'email', verify_code: '111111', email: key
         expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('Verify code invalid')
+        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
       end
 
       it 'should return user if verify code correct' do
@@ -55,12 +55,12 @@ RSpec.describe SettingsController, type: :controller do
     describe 'PATCH settings#update_password with new password' do
       it 'should return error if password is invalid' do
         patch :update_password, password: '111111', new_password: '222222'
-        expect(JSON.parse(response.body)['errors']).to include('Password invalid')
+        expect(JSON.parse(response.body)['errors']).to include('密码错误')
       end
 
       it 'should return error if new password is invalid' do
         patch :update_password, password: user.password, new_password: '12345'
-        expect(JSON.parse(response.body)['errors']).to include('Password is too short (minimum is 6 characters)')
+        expect(JSON.parse(response.body)['errors']).to include('Password过短（最短为 6 个字符）')
       end
 
       it 'should update password and return user' do
@@ -84,7 +84,7 @@ RSpec.describe SettingsController, type: :controller do
       it 'should return error if Authorization not found' do
         delete :unbind_auth, provider: 'wechat'
         delete :unbind_auth, provider: 'wechat'
-        expect(JSON.parse(response.body)['errors']).to include('Authorization not found')
+        expect(JSON.parse(response.body)['errors']).to include('第三方帐号不存在')
       end
     end
 
