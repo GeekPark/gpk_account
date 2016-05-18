@@ -77,9 +77,9 @@ namespace :deploy do
     end
   end
 
-  before :starting,     :check_revision
-  after  :finishing,    :webpack
-  after  :finishing,    :compile_assets
-  after  :finishing,    :cleanup
-  after  :finishing,    :restart
+  before :starting,           :check_revision
+  before 'assets:precompile', :webpack
+  after  :finishing,          :compile_assets
+  after  :finishing,          :cleanup
+  after  :finishing,          :restart
 end
