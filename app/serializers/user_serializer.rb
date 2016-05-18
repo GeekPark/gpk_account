@@ -4,10 +4,10 @@ class UserSerializer < ActiveModel::Serializer
   has_many :authorizations
 
   def mobile
-    object.mobile.gsub(/(?<=\d{3})\d(?=\d{4})/, '*')
+    object.mobile&.gsub(/(?<=\d{3})\d(?=\d{4})/, '*')
   end
 
   def email
-    object.email.gsub(/(?!\A).+(?=@)/, '****')
+    object.email&.gsub(/(?!\A).+(?=@)/, '****')
   end
 end
