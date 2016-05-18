@@ -20,7 +20,7 @@ RSpec.describe UsersController, type: :controller do
       it 'shoud return user info after user login' do
         get :show, format: :json
         expect(response).to be_success
-        expect(JSON.parse(response.body)['user']['email']).to eq(user.email)
+        expect(JSON.parse(response.body)['user']['email']).to eq('u****@geekpark.net')
       end
 
       it 'should return user authorizations' do
@@ -89,7 +89,7 @@ RSpec.describe UsersController, type: :controller do
       it 'return user when created' do
         post :create, user: basic_user, verify_code: @code
         expect(response).to be_success
-        expect(JSON.parse(response.body)['user']['email']).to eq(basic_user[:email])
+        expect(JSON.parse(response.body)['user']['email']).to eq('u****@geekpark.net')
         expect(warden.user.email).to eq(basic_user[:email])
       end
 

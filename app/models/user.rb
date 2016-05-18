@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
     prefer_not_to_disclose: 'prefer_not_to_disclose'
   }
 
+  enum role: { admin: 1 }
+
   mount_uploader :avatar, AvatarUploader
 
   after_update :update_is_old, if: :email_changed?

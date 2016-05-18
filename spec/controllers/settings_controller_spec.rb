@@ -65,7 +65,7 @@ RSpec.describe SettingsController, type: :controller do
 
       it 'should update password and return user' do
         patch :update_password, password: user.password, new_password: '123456'
-        expect(JSON.parse(response.body)['email']).to eq(user.email)
+        expect(JSON.parse(response.body)['email']).to eq('u****@geekpark.net')
         expect(user.authenticate('123456')).to eq(user)
       end
     end
@@ -78,7 +78,7 @@ RSpec.describe SettingsController, type: :controller do
       it 'should delete authorization' do
         delete :unbind_auth, provider: 'wechat'
         expect(response).to be_success
-        expect(JSON.parse(response.body)['email']).to eq(full_user.email)
+        expect(JSON.parse(response.body)['email']).to eq('u****@geekpark.net')
       end
 
       it 'should return error if Authorization not found' do
@@ -112,13 +112,13 @@ RSpec.describe SettingsController, type: :controller do
       it 'should return user if user is_old and verify_code correct' do
         warden.set_user old_user
         patch :update_primary, type: 'email', verify_code: @code, email: key
-        expect(JSON.parse(response.body)['email']).to eq(key)
+        expect(JSON.parse(response.body)['email']).to eq('n****@email.com')
       end
 
       it 'should return user if sns user' do
         warden.set_user create(:sns_user)
         patch :update_primary, type: 'email', email: key, verify_code: @code, password: 'new_password'
-        expect(JSON.parse(response.body)['email']).to eq(key)
+        expect(JSON.parse(response.body)['email']).to eq('n****@email.com')
       end
     end
 
