@@ -50,9 +50,9 @@ test:
 #
 production:
   <<: *default
-  host: <%= ENV['GPK_ACCOUNT_DATABASE_HOST'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
   encoding: utf8
   database: gpk_account_production
   pool: 20
-  username: <%= ENV['GPK_ACCOUNT_DATABASE_USERNAME'] %>
-  password: <%= ENV['GPK_ACCOUNT_DATABASE_PASSWORD'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
