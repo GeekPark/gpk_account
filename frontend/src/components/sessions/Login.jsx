@@ -43,6 +43,7 @@ class Login extends React.Component {
   }
 
   componentWillMount() {
+    this.props.dispatch(changeAvatar(null));
     changeTitle('登录');
   }
 

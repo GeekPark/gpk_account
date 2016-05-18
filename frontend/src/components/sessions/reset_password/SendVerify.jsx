@@ -56,6 +56,10 @@ class SendVerify extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.props.dispatch(changeAvatar(null));
+  }
+
   getID() {
     const { id, idTip } = this.refs;
     if (isEmpty(id.value)) {
