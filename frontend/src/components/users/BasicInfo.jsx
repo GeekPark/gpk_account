@@ -27,9 +27,9 @@ class BasicInfo extends React.Component {
         return;
       }
 
-      if (!isValidBirthday(
-          $('input[name="user[birthday]"]').val()
-      )) {
+      const birthday = $('input[name="user[birthday]"]').val();
+
+      if (birthday.length > 0 && !isValidBirthday(birthday)) {
         this.refs.birthdayTip.postErr('请填写正确的出生日期');
         return;
       }
@@ -54,7 +54,6 @@ class BasicInfo extends React.Component {
   render() {
     const { server } = this.props;
     const { nickname, realname, bio, company, city, birthday, title, gender } = server.user;
-    const year = new Date().getFullYear();
     return (
       <Main className="basic-info" title="基本资料" needPadding>
         <form id="basic-info">
@@ -86,7 +85,7 @@ class BasicInfo extends React.Component {
           <div className="form-item">
             <label htmlFor="birthday">出生日期</label>
             <Tooltip ref="birthdayTip">
-              <input type="date" defaultValue={birthday || `${year - 25}-01-01`} name="user[birthday]" onChange={this.clearTip('birthdayTip')} />
+              <input type="date" placeholder="YYYY-MM-DD" defaultValue={birthday} name="user[birthday]" onChange={this.clearTip('birthdayTip')} />
             </Tooltip>
           </div>
           <div className="form-item">

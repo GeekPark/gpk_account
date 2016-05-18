@@ -5,7 +5,7 @@ import { tryKey, showXHRError } from '../../share/utils';
 import { uploadAvatar } from '../../share/server';
 import { showSuccessMessage, setStore } from '../../actions';
 
-const defaultIMG = require('./default.png');
+const defaultIMG = require('./default.jpg');
 
 class Avatar extends React.Component {
   constructor() {
