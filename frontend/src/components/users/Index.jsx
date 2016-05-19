@@ -11,6 +11,7 @@ import BasicInfo from './BasicInfo';
 import Third from './Third';
 
 import SecurityIndex from './security/Index';
+import Identify from './security/Identify';
 import NeedIdentify from './security/NeedIdentify';
 
 import EmailEdit from './security/EmailEdit';
@@ -38,12 +39,15 @@ T.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
+const redirectIdentify = props => <Identify {...props} redirect />;
+
 const User = props => (
   <Router history={hashHistory}>
     <Route component={T} {...props}>
       <Route path="/" component={BasicInfo} />
       <Route path="security">
         <IndexRoute component={SecurityIndex} />
+        <Route path="identify" component={redirectIdentify} />
         <Route path="password">
           <Route path="edit" component={PasswordEdit} />
         </Route>

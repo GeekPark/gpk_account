@@ -47,7 +47,11 @@ class Identify extends React.Component {
         .done(() => {
           this.props.dispatch(showSuccessMessage('校验成功，自动跳转中。'));
           setTimeout(() => {
-            window.location.reload(true);
+            if (this.props.redirect) {
+              this.context.router.push('/security');
+            } else {
+              window.location.reload(true);
+            }
           }, 2500);
         })
         .fail(xhr => showXHRError(xhr, this.props.dispatch));
@@ -107,6 +111,11 @@ Identify.propTypes = {
   server: PropTypes.any,
   verify_code: PropTypes.object,
   dispatch: PropTypes.func,
+  redirect: PropTypes.bool,
+};
+
+Identify.contextTypes = {
+  router: () => PropTypes.func.isRequired,
 };
 
 export default Identify;
