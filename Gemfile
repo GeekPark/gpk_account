@@ -37,8 +37,8 @@ gem 'china_sms'
 # Asynchronous processing
 gem 'sucker_punch'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
+# Use pums as the app server
+gem 'puma'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -51,9 +51,6 @@ gem 'rails-api'
 gem 'active_model_serializers', '~> 0.9.5'
 gem 'doorkeeper'
 gem 'china_city'
-
-# Cache store
-gem 'redis-rails'
 
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack'
@@ -105,5 +102,7 @@ group :test do
 end
 
 group :production do
-  gem 'puma'
+  # Cache store
+  gem 'redis-rails'
+  gem 'rack-utf8_sanitizer'
 end

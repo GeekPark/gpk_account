@@ -10,7 +10,7 @@ RSpec.describe Api::V1::RegisterController, type: :controller do
 
   describe 'GET#send_verify_code' do
     it 'should return error' do
-      get :send_verify_code
+      post :send_verify_code
       expect(response).to have_http_status(422)
     end
   end

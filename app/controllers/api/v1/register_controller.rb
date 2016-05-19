@@ -25,8 +25,12 @@ class Api::V1::RegisterController < Api::BaseController
   end
 
   def verify_rucaptcha!
-    right = params[:captcha_key].present? && params[:captcha].present? &&
-      Rails.cache.read("captcha_key:#{params[:captcha_key]}") == params[:captcha]
+    if params[:captcha_key].present?
+      (captcha = Rails.cache.read "captcha_key:#{params[:captcha_key]}") &&
+        Rails.cache.delete("captcha_key:#{params[:captcha_key]}")
+    end
+
+    right = params[:captcha].present? && captcha == params[:captcha]
 
     (render json: { error: 'Captcha invalid' }, status: 422) && return unless right
   end

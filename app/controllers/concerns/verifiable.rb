@@ -15,6 +15,7 @@ module Verifiable
 
   def verify_code?(key)
     code = Rails.cache.fetch "verify_code:#{key}"
+    Rails.cache.delete "verify_code:#{key}"
     raise Verifiable::VerifyCodeInvalid unless code.present? && code == params[:verify_code]
   end
 

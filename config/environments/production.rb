@@ -92,4 +92,5 @@ Rails.application.configure do
 
   # Rack middleware for blocking & throttling abusive requests
   config.middleware.use Rack::Attack
+  config.middleware.insert 0, Rack::UTF8Sanitizer
 end

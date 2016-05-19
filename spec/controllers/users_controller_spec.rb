@@ -86,6 +86,13 @@ RSpec.describe UsersController, type: :controller do
         expect(JSON.parse(response.body)['errors']).to include('Email已经被使用')
       end
 
+      it 'verify code can not use twice' do
+        post :create, user: basic_user, verify_code: '1111111'
+        post :create, user: basic_user, verify_code: @code
+        expect(response).to have_http_status(422)
+        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
+      end
+
       it 'return user when created' do
         post :create, user: basic_user, verify_code: @code
         expect(response).to be_success
