@@ -3,7 +3,8 @@
   width: 100vw;
   position: relative;
   // background-image: linear-gradient(to top left, #aadcf9, #b8fbf8);
-  background-color: #f5f5f5;
+  background: #f5f5f5 image_url('bg.svg') center center no-repeat;
+  background-size: cover;
 
   @include mediaMax($mobile-w) {
     background: #fff;
