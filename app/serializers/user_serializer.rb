@@ -1,6 +1,6 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :nickname, :mobile, :avatar_url, :realname, :gender,
-    :birthday, :city, :company, :title, :bio, :is_old
+    :birthday, :city, :company, :title, :bio, :is_old, :two_factor_enable
   has_many :authorizations
 
   def mobile

@@ -30,6 +30,8 @@ Rails.application.routes.draw do
     patch 'update_primary'
     patch 'update_password'
     post 'identified'
+    get 'two_factor_qr'
+    post 'two_factor'
   end
 
   namespace :api do

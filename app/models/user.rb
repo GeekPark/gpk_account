@@ -24,10 +24,10 @@ class User < ActiveRecord::Base
   }
 
   enum role: { admin: 1 }
+  after_update :update_is_old, if: :email_changed?
 
   mount_uploader :avatar, AvatarUploader
-
-  after_update :update_is_old, if: :email_changed?
+  has_one_time_password
 
   class << self
     def find_by_email_or_mobile(param)
@@ -73,6 +73,21 @@ class User < ActiveRecord::Base
 
   def sns_user?
     email.blank? && mobile.blank?
+  end
+
+  def two_factor_qr
+    update_attribute(:otp_secret_key, ROTP::Base32.random_base32)
+    key = email.presence || mobile.presence || nickname.presence || 'noname'
+    RQRCode::QRCode.new(provisioning_uri(key, issuer: 'GeekPark')).as_png.resize(200, 200).to_data_url
+  end
+
+  def two_factor_switch(code = nil)
+    if two_factor_enable?
+      update_attribute(:two_factor_enable, false)
+    elsif otp_secret_key.present? && authenticate_otp(code.to_s, drift: 60)
+      update_attribute(:two_factor_enable, true)
+    end
+    two_factor_enable?
   end
 
   private
