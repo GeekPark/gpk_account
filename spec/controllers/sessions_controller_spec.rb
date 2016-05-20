@@ -49,6 +49,23 @@ RSpec.describe SessionsController, type: :controller do
         post :create, login_name: user.email, password: 'password', remember_me: true
         expect(request.cookies['remember_token']).to eq(user.remember_token)
       end
+
+      it 'redirect_to two_factor_verify url when enabled' do
+        user.update_attribute(:two_factor_enable, true)
+        post :create, login_name: user.email, password: 'password'
+        expect(response).to redirect_to(two_factor_verify_url)
+      end
+
+      it 'login with two_factor code' do
+        session[:user_need_verify] = { id: user.id }
+        post :create, otp_code: user.otp_code
+        expect(warden.user).to eq(user)
+      end
+
+      it 'not login without session' do
+        post :create, otp_code: user.otp_code
+        expect(warden.user).to be_nil
+      end
     end
 
     context 'user login with omniauth' do
