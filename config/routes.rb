@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
   delete 'logout', to: 'sessions#destroy'
+  get 'two_factor_verify', to: 'sessions#two_factor_verify'
 
   # User signup
   get 'signup', to: 'users#new'
@@ -30,6 +31,8 @@ Rails.application.routes.draw do
     patch 'update_primary'
     patch 'update_password'
     post 'identified'
+    get 'two_factor_qr'
+    post 'two_factor'
   end
 
   namespace :api do

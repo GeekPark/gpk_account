@@ -2,7 +2,8 @@ class SessionsController < ApplicationController
   before_action :require_login, only: :destroy
 
   def new
-    redirect_to root_url if current_user
+    (redirect_to root_url) && return if current_user
+    (redirect_to two_factor_verify_url) && return if session[:user_need_verify].present?
     warden.message.present? &&
       @data = { errors: [t('errors.invalid_username_or_password')], login_name: warden.message }.to_json
   end
@@ -19,6 +20,9 @@ class SessionsController < ApplicationController
   def destroy
     warden.logout
     redirect_to login_url
+  end
+
+  def two_factor_verify
   end
 
   private

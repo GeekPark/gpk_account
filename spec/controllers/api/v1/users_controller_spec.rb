@@ -69,9 +69,8 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       allow_any_instance_of(Api::V1::UsersController).to receive(:wechat_auth).and_return(mock_wechat_auth)
       post :third_part_login, origin_hash.merge(signature: calculate_signature, provider: 'wechat')
       expect(response).to be_success
-      expect(user.authorizations.where(
-        uid: mock_wechat_auth['uid'],
-        provider: mock_wechat_auth['provider']).count).to eq(1)
+      expect(user.authorizations.where(uid: mock_wechat_auth['uid'],
+                                       provider: mock_wechat_auth['provider']).count).to eq(1)
     end
 
     %w(weibo wechat).each do |provider|

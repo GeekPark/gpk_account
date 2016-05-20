@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.2
--- Dumped by pg_dump version 9.5.2
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 9.5.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -232,7 +232,9 @@ CREATE TABLE users (
     remember_token character varying,
     remember_token_created_at timestamp without time zone,
     is_old boolean DEFAULT false,
-    role integer
+    role integer,
+    otp_secret_key character varying,
+    two_factor_enable boolean
 );
 
 
@@ -411,4 +413,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160428101641');
 INSERT INTO schema_migrations (version) VALUES ('20160505060847');
 
 INSERT INTO schema_migrations (version) VALUES ('20160517094226');
+
+INSERT INTO schema_migrations (version) VALUES ('20160519151446');
 

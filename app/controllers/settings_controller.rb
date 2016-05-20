@@ -1,6 +1,7 @@
 class SettingsController < ApplicationController
   include Verifiable
   before_action :require_login
+  before_action :require_identify, only: [:update_primary, :two_factor_qr, :two_factor]
 
   def verify_current_user
     verify_code? current_addr
@@ -13,12 +14,8 @@ class SettingsController < ApplicationController
 
   def update_primary
     verify_code? params[way]
-    if current_user.identified?(cookies[:identify_token])
-      current_user.update! params.permit(way)
-      render json: current_user, serializer: UserSerializer
-    else
-      render json: { errors: [t('errors.user_not_identified')] }, status: 422
-    end
+    current_user.update! params.permit(way)
+    render json: current_user, serializer: UserSerializer
   end
 
   def update_password
@@ -42,5 +39,26 @@ class SettingsController < ApplicationController
 
   def identified
     render json: { identified: current_user.identified?(cookies[:identify_token]) }
+  end
+
+  def two_factor_qr
+    if current_user.two_factor_enable?
+      render json: { errors: [t('errors.already_enabled_two_factor')] }
+    else
+      render json: { qr_code: current_user.two_factor_qr }
+    end
+  end
+
+  def two_factor
+    render json: { two_factor_enabled: current_user.two_factor_switch(params[:otp_code]) }
+  end
+
+  private
+
+  def require_identify
+    unless current_user.identified?(cookies[:identify_token])
+      render json: { errors: [t('errors.user_not_identified')] }, status: 422
+      return
+    end
   end
 end

@@ -7,3 +7,4 @@ zh-CN:
     user_not_identified: '请先验证您的身份'
     invalid_username_or_password: '用户名或密码错误'
     need_login: '请先登录'
+    already_enabled_two_factor: '您已开启两步验证, 请不要重复开启'

@@ -24,6 +24,10 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Use warden for user authenticate
 gem 'warden'
+# 2 factor
+gem 'active_model_otp'
+
+gem 'rqrcode'
 
 # Captcha
 gem 'rucaptcha'

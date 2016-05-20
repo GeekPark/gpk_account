@@ -64,4 +64,27 @@ RSpec.describe User, type: :model do
       expect(user.is_old?).to be true
     end
   end
+
+  describe 'two_factor' do
+    let(:user) { create(:basic_user) }
+    it 'should regenerate secret_key every time' do
+      init_key = user.otp_secret_key
+      user.two_factor_qr
+      expect(user.otp_secret_key).not_to eq(init_key)
+    end
+
+    it 'should disable two factor when enabled' do
+      user.update_attribute(:two_factor_enable, true)
+      expect(user.two_factor_switch).to be false
+    end
+
+    it 'should enable two factor with right code' do
+      code = user.otp_code
+      expect(user.two_factor_switch(code)).to be true
+    end
+
+    it 'should not enable two factor with wrong code' do
+      expect(user.two_factor_switch).to be false
+    end
+  end
 end
