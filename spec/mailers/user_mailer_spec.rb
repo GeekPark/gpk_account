@@ -14,7 +14,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it 'renders the sender email' do
-      expect(mail.from).to eq(['noreply@geekpark.net'])
+      expect(mail.from).to eq(['noreply@mail-notification.geekpark.net'])
     end
 
     it 'assigns @code' do
