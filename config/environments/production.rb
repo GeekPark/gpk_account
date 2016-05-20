@@ -68,7 +68,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'account.geekpark.net' }
 
   config.action_mailer.smtp_settings = {
-    domain: 'geekpark.net',
+    domain: 'mail-notification.geekpark.net',
     address: ENV['SMTP_SERVER'],
     port: ENV['SMTP_PORT'],
     enable_starttls_auto: false
