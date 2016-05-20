@@ -22,7 +22,7 @@ class EmailBind extends React.Component {
       const id = this.getID();
       if (!id) return;
       const getCode = () => {
-        sendVerifyWithoutCaptcha({ id, type: props.type })
+        sendVerifyWithoutCaptcha({ type: props.type })
           .done(() => {
             props.dispatch(sendVerifyCode());
             props.dispatch(showSuccessMessage(`校验码已经发送到您的${this.typeStr}`));

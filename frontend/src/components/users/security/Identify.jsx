@@ -26,7 +26,7 @@ class Identify extends React.Component {
 
     this.getCode = () => {
       const type = this.getType();
-      sendVerifyWithoutCaptcha({ type, id: this.props.server.user[type] })
+      sendVerifyWithoutCaptcha({ type })
         .done(d => {
           if (d.success) {
             this.props.dispatch(sendVerifyCode());
