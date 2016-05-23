@@ -1,7 +1,7 @@
 require "#{Rails.root}/lib/extras/warden_mixin"
 
 Rails.application.config.middleware.insert_after ActionDispatch::Flash, Warden::Manager do |manager|
-  manager.failure_app = ->(env) { SessionsController.action(:new).call(env) }
+  manager.failure_app = UnauthorizedController
   manager.default_scope = :user
   manager.scope_defaults :user, strategies: [:password, :two_factor, :omniauth]
   manager.scope_defaults :cookie, strategies: [:cookie]
@@ -88,9 +88,9 @@ Warden::Strategies.add(:two_factor) do
   end
 
   def authenticate!
-    user = User.find(session[:user_need_verify][:id])
+    user = User.find(session[:user_need_verify]['id'])
     if user.authenticate_otp(params[:otp_code].to_s, drift: 60)
-      store_cookie(user) if session[:user_need_verify][:remember_me]
+      store_cookie(user) if session[:user_need_verify]['remember_me']
       session.delete(:user_need_verify)
       success!(user)
     else

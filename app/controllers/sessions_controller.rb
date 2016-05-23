@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
 
   def new
     (redirect_to root_url) && return if current_user
-    (redirect_to two_factor_verify_url) && return if session[:user_need_verify].present?
     warden.message.present? &&
       @data = { errors: [t('errors.invalid_username_or_password')], login_name: warden.message }.to_json
   end

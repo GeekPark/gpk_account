@@ -50,7 +50,8 @@ class SettingsController < ApplicationController
   end
 
   def two_factor
-    render json: { two_factor_enabled: current_user.two_factor_switch(params[:otp_code]) }
+    current_user.two_factor_switch(params[:otp_code])
+    render json: current_user, serializer: UserSerializer
   end
 
   private
