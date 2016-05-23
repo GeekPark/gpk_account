@@ -17,11 +17,11 @@ export function sendVerify({ str, id, isEmail }) {
   });
 }
 
-export function sendVerifyWithoutCaptcha({ id, type }) {
+export function sendVerifyWithoutCaptcha({ type }) {
   return $.ajax({
     url: '/settings/send_verify_code',
     method: 'POST',
-    data: { type, [type]: id },
+    data: { type },
   });
 }
 
@@ -153,4 +153,30 @@ export function unbindAccount(type) {
     url: `/auth/${type}/unbind`,
     method: 'DELETE',
   });
+}
+
+export function get2FAQR() {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: '/settings/two_factor_qr',
+    }).done(d => {
+      if (d.qr_code) res(d.qr_code);
+      else rej();
+    }).error(() => rej());
+  });
+}
+
+export function bind2FA(otp_code) {
+  const data = {};
+  if (otp_code !== undefined) data.otp_code = otp_code;
+
+  return $.ajax({
+    url: '/settings/two_factor',
+    method: 'POST',
+    data,
+  });
+}
+
+export function unbind2FA() {
+  return bind2FA(undefined);
 }

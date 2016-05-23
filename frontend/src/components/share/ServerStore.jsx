@@ -7,15 +7,14 @@ class ServerStore extends React.Component {
     this.props.dispatch(setStore(this.props.server));
   }
   render() {
-    return (
-      <div></div>
-    );
+    return this.props.children;
   }
 }
 
 ServerStore.propTypes = {
   server: PropTypes.any,
   dispatch: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) => ({ ...state, ...ownProps });

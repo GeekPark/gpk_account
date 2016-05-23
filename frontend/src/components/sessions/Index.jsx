@@ -4,23 +4,26 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import ReduxWrapper from '../ReduxWrapper';
 import Transition from '../share/Transition';
 import Wrapper from './Wrapper';
-import Login from './Login';
-import Register from './Register';
-import ResetPassword from './reset_password/Index';
 import Modal from '../Modal';
 import Message from '../share/Message';
 import ServerStore from '../share/ServerStore';
 
+import Login from './Login';
+import Register from './Register';
+import TFA from './TFA/Index';
+import ResetPassword from './reset_password/Index';
+
 const T = props => (
   <ReduxWrapper>
-    <div>
-      <ServerStore server={props.route.server} />
-      <Transition {...props}>
-        <Wrapper children={props.children} />
-      </Transition>
-      <Modal />
-      <Message />
-    </div>
+    <ServerStore server={props.route.server}>
+      <div>
+        <Transition {...props}>
+          <Wrapper children={props.children} />
+        </Transition>
+        <Modal />
+        <Message />
+      </div>
+    </ServerStore>
   </ReduxWrapper>
 );
 
@@ -35,6 +38,7 @@ const Session = props => (
       <IndexRoute component={Login} />
       <Route path="login" component={Login} />
       <Route path="signup" component={Register} />
+      <Route path="two_factor_verify" component={TFA} />
       <Route path="reset_password" component={ResetPassword} />
     </Route>
   </Router>

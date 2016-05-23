@@ -4,14 +4,14 @@ import { isMobileView } from 'mdetect';
 
 const Transition = (props) => (
   isMobileView() ? props.children :
-  <RouteTransition
-    component={false}
-    className="transition-wrapper"
-    pathname={props.location.pathname}
-    {...presets.pop}
-  >
-    {props.children}
-  </RouteTransition>
+    <RouteTransition
+      component={false}
+      className="transition-wrapper"
+      pathname={props.location.pathname}
+      {...presets.pop}
+    >
+      {props.children}
+    </RouteTransition>
 );
 
 Transition.propTypes = {

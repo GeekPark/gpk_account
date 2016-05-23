@@ -38,11 +38,13 @@ class Tooltip extends React.Component {
     return (
       <div className={`tooltip-wrapper direction-${isRight ? 'right' : 'top'} ${className}`}>
         {children}
-        <Motion defaultStyle={{ op: 0, offset: 15 }}
+        <Motion
+          defaultStyle={{ op: 0, offset: 15 }}
           style={{ op: spring(isShow ? 1 : 0, EFFECT), offset: spring(isShow ? 0 : 15, EFFECT) }}
         >
-          { s => (
-            <span className={`tooltip-message status-error ${isShow ? 'show' : ''}`}
+          {s => (
+            <span
+              className={`tooltip-message status-error ${isShow ? 'show' : ''}`}
               style={{ opacity: s.op, transform: isRight ? `translateX(${115 - s.offset}%)` : `translateY(${s.offset}px)` }}
             >
               {msg}

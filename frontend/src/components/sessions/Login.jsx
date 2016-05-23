@@ -80,7 +80,11 @@ class Login extends React.Component {
       <form className="form-wrapper" action="/login" method="POST">
         <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
         <Tooltip className="mb-input" ref="loginNameTip">
-          <input type="text" name="login_name" placeholder="手机号码/邮箱" autoFocus ref="loginName" onChange={this.clearTip('loginNameTip')} onBlur={this.onIDBlur} />
+          <input
+            type="text" name="login_name" placeholder="手机号码/邮箱"
+            autoFocus ref="loginName" onChange={this.clearTip('loginNameTip')} onBlur={this.onIDBlur}
+            defaultValue={this.props.server.login_name}
+          />
         </Tooltip>
         <Tooltip className="mb-input" ref="passwordTip">
           <input type="password" placeholder="密码" ref="password" name="password" onChange={this.clearTip('passwordTip')} />
@@ -101,6 +105,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
   dispatch: PropTypes.func,
+  server: PropTypes.any,
 };
 
 export default Login;

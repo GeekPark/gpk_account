@@ -50,7 +50,7 @@ class Welcome extends React.Component {
       <div className="component-welcome">
         <Header />
         <div className="component-welcome-container tac">
-          <div className="w100p">
+          <form className="w100p" onSubmit={this.submit}>
             <div className="success-tip">
               <i className="iconfont icon-success"></i>
               <span className="tip-text">
@@ -68,13 +68,13 @@ class Welcome extends React.Component {
                 <Tooltip ref="nicknameTip" className="mb-input">
                   <input type="text" placeholder="请输入你的昵称" onChange={this.clearTip} ref="nickname" />
                 </Tooltip>
-                <button className="btn btn-large" onClick={this.submit}>提交</button>
+                <button className="btn btn-large">提交</button>
                 <div className="tar go-setting">
                   <a href={callback_url}>跳过，稍后去帐号中心设置</a>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     );

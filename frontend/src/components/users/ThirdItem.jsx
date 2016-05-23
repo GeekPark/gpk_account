@@ -39,14 +39,14 @@ class ThirdItem extends React.Component {
         <div className="left-label">
           <span className="label-text">
             <i className={`iconfont icon-${type} ${isBind ? 'active' : ''}`}></i>
-            { convert(type) }
+            {convert(type)}
           </span>
           <span className="provider-name">
-            { isBind ? '已绑定' : '未绑定' }
+            {isBind ? '已绑定' : '未绑定'}
           </span>
         </div>
         <a onClick={this.onClick} className="form-button">
-          { isBind ? '取消绑定' : '立即绑定' }
+          {isBind ? '取消绑定' : '立即绑定'}
         </a>
       </div>
     );

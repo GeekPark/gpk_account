@@ -355,3 +355,14 @@ $margin: 25px;
     margin-top: 5px;
   }
 }
+
+.tfa-container {
+  @include mediaMax($mobile-w) {
+    flex-direction: column;
+  }
+
+  .qr-form {
+    max-width: 90%;
+    margin-top: 20px;
+  }
+}

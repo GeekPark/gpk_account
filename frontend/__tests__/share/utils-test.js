@@ -1,6 +1,6 @@
 jest.unmock('../../src/share/utils');
 
-import { parseErr, tryKey } from '../../src/share/utils';
+import { parseErr, tryKey, permit } from '../../src/share/utils';
 
 describe('utils test', () => {
   it('parseErr should work', () => {
@@ -21,5 +21,13 @@ describe('utils test', () => {
     expect(tryKey(obj, 'b', 'x')).toEqual(1);
     expect(tryKey(obj, 'b', 'y', 'z')).toEqual(2);
     expect(tryKey(obj, 'b', 'r', 'z')).toEqual(undefined);
+  });
+
+  it('permit', () => {
+    const props = { x: 1, y: false, z: false, k: undefined };
+
+    expect(permit(props, ['x', 'y', 'k'])).toEqual({
+      x: 1, y: false,
+    });
   });
 });

@@ -22,7 +22,7 @@ class EmailBind extends React.Component {
       const id = this.getID();
       if (!id) return;
       const getCode = () => {
-        sendVerifyWithoutCaptcha({ id, type: props.type })
+        sendVerifyWithoutCaptcha({ type: props.type })
           .done(() => {
             props.dispatch(sendVerifyCode());
             props.dispatch(showSuccessMessage(`校验码已经发送到您的${this.typeStr}`));
@@ -83,7 +83,8 @@ class EmailBind extends React.Component {
       <Main className="change-id-panel" title={title} isCenter needPadding desc={desc}>
         <form className="container" onSubmit={this.submit}>
           <Tooltip ref="idTip">
-            <input className="mb-input" type="text" placeholder={this.typeStr}
+            <input
+              className="mb-input" type="text" placeholder={this.typeStr}
               ref="id" onChange={this.clearTip('idTip')} autoFocus
               maxLength={this.props.type === 'mobile' ? 11 : 100}
             />
@@ -91,7 +92,7 @@ class EmailBind extends React.Component {
           <VerifyCode onGetCode={this.onGetCode} verify_code={verify_code} isEmail={this.isEmail} ref="verifyCode" />
           {
             !this.isSNS ? null :
-            <PasswordInput placeholder="密码" className="mb-input" ref="password" />
+              <PasswordInput placeholder="密码" className="mb-input" ref="password" />
           }
           <button className="btn btn-large">提交</button>
         </form>

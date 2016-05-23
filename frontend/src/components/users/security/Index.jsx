@@ -3,8 +3,9 @@ import { Link } from 'react-router';
 
 import Main from '../Main';
 
-import { isSNS } from '../../../share/utils';
-import { showErrorMessage } from '../../../actions';
+import { isSNS, showXHRError } from '../../../share/utils';
+import { isIdentified, unbind2FA } from '../../../share/server';
+import { showErrorMessage, showSuccessMessage, setStore } from '../../../actions';
 
 class Index extends React.Component {
   constructor() {
@@ -12,6 +13,30 @@ class Index extends React.Component {
 
     this.checkIdentify = this.checkIdentify.bind(this);
     this.banOld = e => this.checkIdentify.call(this, e, 'old');
+
+    this.cancleTFABind = e => {
+      e.preventDefault();
+
+      isIdentified().then(
+        this.sendUnbind2FA.bind(this),
+        () => {
+          this.context.router.push({
+            pathname: '/security/identify',
+            state: { onSuccess: this.sendUnbind2FA.bind(this) },
+          });
+        }
+      );
+    };
+  }
+  sendUnbind2FA() {
+    unbind2FA()
+      .done(user => {
+        if (user.two_factor_enable === false) {
+          this.props.dispatch(showSuccessMessage('两部验证解绑成功'));
+          this.props.dispatch(setStore({ user }));
+        }
+      })
+      .fail(xhr => showXHRError(xhr, this.props.dispatch));
   }
   checkIdentify(e, ban) {
     const { user } = this.props.server;
@@ -28,8 +53,7 @@ class Index extends React.Component {
   }
   render() {
     const { server } = this.props;
-    const { email, mobile, is_old } = server.user;
-    const is2FA = false;
+    const { email, mobile, is_old, two_factor_enable } = server.user;
 
     let emailURL = email ? 'security/email' : 'security/email/bind';
     let emailStr = email ? '修改' : '立即绑定';
@@ -54,9 +78,10 @@ class Index extends React.Component {
               <span className="label-text">手机号码</span>
               <span className="form-info">{mobile || '未绑定'}</span>
             </div>
-            <Link to={mobile ? 'security/mobile' : 'security/mobile/bind'}
+            <Link
+              to={mobile ? 'security/mobile' : 'security/mobile/bind'}
               className="form-button" onClick={this.banOld}
-            >{ mobile ? '修改' : '立即绑定' }</Link>
+            >{mobile ? '修改' : '立即绑定'}</Link>
           </div>
           <div className="form-button-group">
             <div className="left-label">
@@ -67,12 +92,13 @@ class Index extends React.Component {
           <div className="form-button-group">
             <div className="left-label">
               <span className="label-text">两步验证</span>
-              <span className="form-info">{is2FA ? '已绑定' : '未绑定'}</span>
+              <span className="form-info">{two_factor_enable ? '已绑定' : '未绑定'}</span>
             </div>
-            <Link to={`security/2fa/${is2FA ? 'unbind' : 'bind'}`}
-              className="form-button" onClick={this.checkIdentify}
+            <Link
+              to={`security/2fa/${two_factor_enable ? 'unbind' : 'bind'}`}
+              className="form-button" onClick={two_factor_enable ? this.cancleTFABind : this.checkIdentify}
             >
-              {is2FA ? '取消绑定' : '立即绑定' }
+              {two_factor_enable ? '取消绑定' : '立即绑定'}
             </Link>
           </div>
         </div>
@@ -84,6 +110,10 @@ class Index extends React.Component {
 Index.propTypes = {
   server: PropTypes.any,
   dispatch: PropTypes.func,
+};
+
+Index.contextTypes = {
+  router: () => PropTypes.func.isRequired,
 };
 
 export default Index;
