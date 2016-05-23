@@ -7,7 +7,7 @@ class Rack::Attack
     req.ip unless req.path.start_with?('/assets', '/static')
   end
 
-  throttle('logins/ip', limit: 5, period: 3.minutes) do |req|
+  throttle('logins/ip', limit: 10, period: 5.minutes) do |req|
     req.ip if req.path == '/login' && req.post?
   end
 

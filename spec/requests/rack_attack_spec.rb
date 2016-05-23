@@ -19,8 +19,8 @@ RSpec.describe 'RackAttack' do
     end
 
     describe 'Sessions#create' do
-      it 'limit 5 time every 3 minute per ip' do
-        5.times do
+      it 'limit 10 time every 5 minute per ip' do
+        10.times do
           post '/login', {}, 'REMOTE_ADDR' => '1.2.3.4'
         end
         expect(response.status).not_to be(429)
