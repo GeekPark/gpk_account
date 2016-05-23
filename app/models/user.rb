@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
   has_secure_password validations: false
   has_many :authorizations
   has_many :devices
+  has_many :access_tokens, -> { where revoked_at: nil }, class_name: 'Doorkeeper::AccessToken',
+    foreign_key: 'resource_owner_id'
 
   validates :mobile, presence: { message: 'email and mobile at least have one' },
                      on: :create, if: ->(user) { user.email.blank? }
@@ -26,6 +28,7 @@ class User < ActiveRecord::Base
 
   enum role: { admin: 1 }
   after_update :update_is_old, if: :email_changed?
+  after_update :revoke_all, if: :password_digest_changed?
 
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
@@ -89,6 +92,10 @@ class User < ActiveRecord::Base
       update_attribute(:two_factor_enable, true)
     end
     two_factor_enable?
+  end
+
+  def revoke_all
+    access_tokens.each(&:revoke)
   end
 
   private

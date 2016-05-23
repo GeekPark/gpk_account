@@ -24,6 +24,24 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe 'User tokens' do
+    let(:user) { create(:basic_user) }
+    let!(:token) { create(:write_access_token, resource_owner_id: user.id) }
+    it 'has_many access_tokens' do
+      expect(user.access_tokens.first).to eq token
+    end
+
+    it 'do not count revoked token' do
+      token.revoke
+      expect(user.access_tokens.count).to eq 0
+    end
+
+    it 'revoked after password change' do
+      user.update(password: '123123')
+      expect(user.access_tokens.count).to eq 0
+    end
+  end
+
   describe 'user#authencitate' do
     it 'should failed when password is blank' do
       user = create(:user, :with_email)
