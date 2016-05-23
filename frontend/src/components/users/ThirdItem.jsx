@@ -12,8 +12,9 @@ class ThirdItem extends React.Component {
 
     this.onClick = e => {
       e.preventDefault();
-      const { type, isBind, isSNS } = this.props;
-      if (isSNS) {
+      const { type, isBind, isSNS, isOld } = this.props;
+
+      if (isSNS || isOld) {
         this.props.dispatch(showErrorMessage('请绑定邮箱或手机后再进行后续设置。'));
         setTimeout(() => {
           this.context.router.push('/security');
@@ -57,6 +58,7 @@ ThirdItem.propTypes = {
   type: PropTypes.string.isRequired,
   isBind: PropTypes.bool.isRequired,
   isSNS: PropTypes.bool.isRequired,
+  isOld: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired,
 };
 

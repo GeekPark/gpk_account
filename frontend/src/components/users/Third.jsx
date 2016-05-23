@@ -11,11 +11,12 @@ class Third extends React.Component {
     const weibo = authorizations.filter(x => x.provider === 'weibo')[0];
     const wechat = authorizations.filter(x => x.provider === 'wechat')[0];
     const snsUser = isSNS(this.props.server.user);
+    const isOld = this.props.server.is_old;
     return (
       <Main title="第三方帐号" desc="可直接使用绑定的第三方帐号登录你的帐号">
         <div className="third-list">
-          <Item type="wechat" isBind={wechat !== undefined} isSNS={snsUser} dispatch={this.props.dispatch} />
-          <Item type="weibo" isBind={weibo !== undefined} isSNS={snsUser} dispatch={this.props.dispatch} />
+          <Item type="wechat" isBind={wechat !== undefined} isOld={isOld} isSNS={snsUser} dispatch={this.props.dispatch} />
+          <Item type="weibo" isBind={weibo !== undefined} isOld={isOld} isSNS={snsUser} dispatch={this.props.dispatch} />
         </div>
       </Main>
     );
