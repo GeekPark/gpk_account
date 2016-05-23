@@ -39,8 +39,7 @@ body {
 }
 
 // page only scss
-.sessions-new,
-.sessions-two_factor_verify,
+.sessions-controller,
 .users-new {
   @import 'sessions/new';
 }

@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Main from '../Main';
 
 import { isSNS, showXHRError } from '../../../share/utils';
-import { isIdentified, bind2FA } from '../../../share/server';
+import { isIdentified, unbind2FA } from '../../../share/server';
 import { showErrorMessage, showSuccessMessage, setStore } from '../../../actions';
 
 class Index extends React.Component {
@@ -18,21 +18,25 @@ class Index extends React.Component {
       e.preventDefault();
 
       isIdentified().then(
+        this.sendUnbind2FA.bind(this),
         () => {
-          bind2FA()
-            .done(user => {
-              if (user.two_factor_enable === false) {
-                this.props.dispatch(showSuccessMessage('两部验证解绑成功'));
-                this.props.dispatch(setStore(user));
-              }
-            })
-            .fail(xhr => showXHRError(xhr, this.props.dispatch));
-        },
-        () => {
-          this.context.router.push('/security/identify');
+          this.context.router.push({
+            pathname: '/security/identify',
+            state: { onSuccess: this.sendUnbind2FA.bind(this) },
+          });
         }
       );
     };
+  }
+  sendUnbind2FA() {
+    unbind2FA()
+      .done(user => {
+        if (user.two_factor_enable === false) {
+          this.props.dispatch(showSuccessMessage('两部验证解绑成功'));
+          this.props.dispatch(setStore({ user }));
+        }
+      })
+      .fail(xhr => showXHRError(xhr, this.props.dispatch));
   }
   checkIdentify(e, ban) {
     const { user } = this.props.server;

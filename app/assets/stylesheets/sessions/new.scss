@@ -15,7 +15,13 @@
   margin-bottom: 15px;
 }
 
+.select-wrapper {
+  margin: 10px 0;
+  line-height: 33px;
+}
+
 .link {
+  cursor: pointer;
   color: $color-blue;
   &:hover {
     color: darken($color-blue, 10%);

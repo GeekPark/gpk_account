@@ -176,3 +176,7 @@ export function bind2FA(otp_code) {
     data,
   });
 }
+
+export function unbind2FA() {
+  return bind2FA(undefined);
+}

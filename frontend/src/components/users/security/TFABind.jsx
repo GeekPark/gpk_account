@@ -30,7 +30,7 @@ class TFABind extends React.Component {
         .done(user => {
           if (user.two_factor_enable) {
             this.props.dispatch(showSuccessMessage('两部验证绑定成功，跳转中...'));
-            this.props.dispatch(setStore(user));
+            this.props.dispatch(setStore({ user }));
             setTimeout(() => {
               this.context.router.push('/security');
             }, 4000);
@@ -53,7 +53,7 @@ class TFABind extends React.Component {
             <div className="qr-form">
               <div className="qr-form-desc">使用 Google 身份验证器扫描左边的二维码，即可获得验证码。</div>
               <Tooltip ref="tfaCodeTip" className="mb-input">
-                <input type="text" ref="tfaCode" placeholder="验证码" maxLength="6" onChange={this.clearTip} />
+                <input type="text" ref="tfaCode" placeholder="验证码" maxLength="6" onChange={this.clearTip} autoFocus />
               </Tooltip>
               <button className="btn btn-large">立即绑定</button>
             </div>
