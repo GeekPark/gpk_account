@@ -50,6 +50,21 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
+  describe 'logout' do
+    it 'revoked access token' do
+      post :logout, access_token: public_token.token
+      expect(response).to be_success
+      expect(public_token.reload.accessible?).to eq false
+    end
+
+    it 'destory user device' do
+      device = create(:device, user: user)
+      post :logout, access_token: public_token.token, device_id: device.id
+      expect(response).to be_success
+      expect(user.devices.count).to eq 0
+    end
+  end
+
   describe 'third_part_login' do
     include_context 'prepare api signature'
     let(:origin_hash) do
