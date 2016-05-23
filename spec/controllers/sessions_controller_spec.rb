@@ -34,6 +34,11 @@ RSpec.describe SessionsController, type: :controller do
         expect(warden.user).to be_nil
       end
 
+      it 'contain error message when login failed' do
+        post :create, login_name: user.email, password: '123456'
+        expect(flash[:unauthorized_user]).not_to be_nil
+      end
+
       it 'failed no warden strategies fetched' do
         post :create
         expect(warden.user).to be_nil
