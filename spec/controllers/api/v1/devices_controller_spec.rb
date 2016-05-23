@@ -21,11 +21,4 @@ RSpec.describe Api::V1::DevicesController, type: :controller do
       end
     end
   end
-
-  describe 'POST#destroy' do
-    it 'destroy a device' do
-      delete :destroy, format: :json, device_id: device.id, access_token: write_token.token
-      expect { Device.find(device.id) }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-  end
 end

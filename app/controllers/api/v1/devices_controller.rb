@@ -6,10 +6,4 @@ class Api::V1::DevicesController < Api::BaseController
     device.update_attributes(user: current_user, last_actived_time: Time.current)
     render json: { message: 'success' }
   end
-
-  def destroy
-    device = current_user.devices.find(params[:device_id])
-    device&.destroy
-    render json: { message: 'success' }
-  end
 end

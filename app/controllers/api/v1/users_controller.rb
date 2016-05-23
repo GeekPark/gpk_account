@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action -> { doorkeeper_authorize! }, only: :show
+  before_action -> { doorkeeper_authorize! :public, :write, :admin }, only: [:show, :logout]
   before_action -> { doorkeeper_authorize! :admin, :write }, only: :update
   before_action -> { doorkeeper_authorize! :admin }, only: :extra_info
   before_action :verify_signature!, only: :third_part_login
@@ -16,9 +16,15 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def update
-    @user = current_user
-    @user.update!(user_params)
-    render json: @user
+    user = current_user
+    user.update!(user_params)
+    render json: user
+  end
+
+  def logout
+    current_user.devices.find_by(device_id: params[:device_id])&.destroy
+    doorkeeper_token.revoke
+    render json: { message: 'success' }
   end
 
   def third_part_login
