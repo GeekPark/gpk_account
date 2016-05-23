@@ -80,7 +80,8 @@ class Login extends React.Component {
       <form className="form-wrapper" action="/login" method="POST">
         <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
         <Tooltip className="mb-input" ref="loginNameTip">
-          <input type="text" name="login_name" placeholder="手机号码/邮箱"
+          <input
+            type="text" name="login_name" placeholder="手机号码/邮箱"
             autoFocus ref="loginName" onChange={this.clearTip('loginNameTip')} onBlur={this.onIDBlur}
             defaultValue={this.props.server.login_name}
           />

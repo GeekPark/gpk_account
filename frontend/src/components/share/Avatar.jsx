@@ -36,12 +36,12 @@ class Avatar extends React.Component {
       >
         {
           !editable ? null :
-          <div>
-            <input type="file" onChange={this.upload} ref="input" />
-            <div className="button-tip">上传头像</div>
-          </div>
+            <div>
+              <input type="file" onChange={this.upload} ref="input" />
+              <div className="button-tip">上传头像</div>
+            </div>
         }
-        <img ref="img" src={src || tryKey(server, 'user', 'avatar_url') || defaultIMG } alt="avatar" />
+        <img ref="img" src={src || tryKey(server, 'user', 'avatar_url') || defaultIMG} alt="avatar" />
       </div>
     );
   }

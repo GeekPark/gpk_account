@@ -40,7 +40,8 @@ class PasswordInput extends React.Component {
     return (
       <Tooltip ref="tip">
         <div className={`form-group ${this.props.className}`}>
-          <input type={this.state.inputType} placeholder={this.props.placeholder}
+          <input
+            type={this.state.inputType} placeholder={this.props.placeholder}
             ref="input" onChange={this.clearTip} maxLength="20" minLength="6" autoFocus={this.props.autofocus}
           />
           <div className="form-side" onClick={this.toggleType}>

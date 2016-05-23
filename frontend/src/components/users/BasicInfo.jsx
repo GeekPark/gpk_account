@@ -76,7 +76,8 @@ class BasicInfo extends React.Component {
           </div>
           <div className="form-item">
             <label htmlFor="sex">性别</label>
-            <Select name="user[gender]" value={gender}
+            <Select
+              name="user[gender]" value={gender}
               options={[
                 ['not_sure', '其他'], ['male', '男'], ['female', '女'],
               ]}

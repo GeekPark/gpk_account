@@ -38,17 +38,17 @@ class TFA extends React.Component {
         </div>
         {
           this.state.panel === 'unbind' ? <Unbind /> :
-          <div>
-            <div className="form-title">两部验证</div>
-            <div className="form-desc">输入绑定的两步验证工具中的验证码</div>
-            <Tooltip className="mb-input" ref="tip">
-              <input type="text" ref="code" name="otp_code" onChange={this.clear} maxLength="6" />
-            </Tooltip>
-            <button className="btn btn-large">立即验证</button>
-            <div className="tar extra-info">
-              <a className="link" onClick={this.goUnbind}>无法获取验证码？</a>
+            <div>
+              <div className="form-title">两部验证</div>
+              <div className="form-desc">输入绑定的两步验证工具中的验证码</div>
+              <Tooltip className="mb-input" ref="tip">
+                <input type="text" ref="code" name="otp_code" onChange={this.clear} maxLength="6" />
+              </Tooltip>
+              <button className="btn btn-large">立即验证</button>
+              <div className="tar extra-info">
+                <a className="link" onClick={this.goUnbind}>无法获取验证码？</a>
+              </div>
             </div>
-          </div>
         }
       </form>
     );

@@ -78,7 +78,8 @@ class SendVerify extends React.Component {
     return (
       <form onSubmit={this.next}>
         <Tooltip ref="idTip">
-          <input type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id"
+          <input
+            type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id"
             defaultValue={loginName.length !== 0 ? loginName : ''}
             onChange={this.clearTip('idTip')} autoFocus
             onBlur={this.onIDBlur}

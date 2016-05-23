@@ -47,7 +47,8 @@ class ResetPassword extends React.Component {
         <p className="form-desc">
           校验码将会发送至你的注册邮箱或手机
         </p>
-        <Component {...this.props} goPanel={this.goPanel}
+        <Component
+          {...this.props} goPanel={this.goPanel}
           changeLoginName={this.changeLoginName} loginName={this.state.loginName}
         />
       </div>

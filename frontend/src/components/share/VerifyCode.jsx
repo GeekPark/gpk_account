@@ -53,7 +53,8 @@ class VerifyCode extends React.Component {
     return (
       <Tooltip className="form-group mb-input" ref="tip">
         <div>
-          <input type="text" ref="input" onChange={this.clearTip}
+          <input
+            type="text" ref="input" onChange={this.clearTip}
             placeholder={placeholder} maxLength="6"
             autoFocus={this.props.autofocus}
           />
