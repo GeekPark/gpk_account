@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password validations: false
   has_many :authorizations
+  has_many :devices
 
   validates :mobile, presence: { message: 'email and mobile at least have one' },
                      on: :create, if: ->(user) { user.email.blank? }

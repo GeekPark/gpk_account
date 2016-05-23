@@ -93,6 +93,19 @@ ALTER SEQUENCE authorizations_id_seq OWNED BY authorizations.id;
 
 
 --
+-- Name: devices; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE devices (
+    device_id character varying NOT NULL,
+    user_id uuid,
+    last_actived_time timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -275,6 +288,14 @@ ALTER TABLE ONLY authorizations
 
 
 --
+-- Name: devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY devices
+    ADD CONSTRAINT devices_pkey PRIMARY KEY (device_id);
+
+
+--
 -- Name: oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -411,6 +432,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160428055301');
 INSERT INTO schema_migrations (version) VALUES ('20160428101641');
 
 INSERT INTO schema_migrations (version) VALUES ('20160505060847');
+
+INSERT INTO schema_migrations (version) VALUES ('20160512062432');
 
 INSERT INTO schema_migrations (version) VALUES ('20160517094226');
 
