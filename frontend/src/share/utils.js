@@ -58,3 +58,13 @@ export function focus(dom) {
 export function changeTitle(str) {
   $('title').text($('title').text().replace(/^[^\s]*\s/, `${str} `));
 }
+
+export function permit(props, keys) {
+  const result = {};
+
+  keys.forEach(key => {
+    if (props[key] !== undefined) result[key] = props[key];
+  });
+
+  return result;
+}

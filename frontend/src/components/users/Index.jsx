@@ -26,11 +26,12 @@ import TFABind from './security/TFABind';
 
 const T = props => (
   <ReduxWrapper>
-    <div>
-      <ServerStore server={props.route.server} />
-      <Message />
-      <Wrapper children={props.children} />
-    </div>
+    <ServerStore server={props.route.server}>
+      <div>
+        <Message />
+        <Wrapper children={props.children} />
+      </div>
+    </ServerStore>
   </ReduxWrapper>
 );
 

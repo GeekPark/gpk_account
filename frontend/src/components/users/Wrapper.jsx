@@ -4,21 +4,17 @@ import { connect } from 'react-redux';
 import Header from '../share/Header';
 import LeftMenu from './LeftMenu';
 
-const permitProps = props => ({
-  server: props.server,
-  dispatch: props.dispatch,
-  verify_code: props.verify_code,
-});
+import { permit } from '../../share/utils';
 
 const Wrapper = props => (
   <div>
     <Header />
     <div className="user-wrapper">
       <div className="left-menu-wrapper">
-        <LeftMenu {...permitProps(props)} />
+        <LeftMenu {...permit(props, ['server', 'dispatch', 'verify_code'])} />
       </div>
       <div className="main-panel-wrapper">
-        {React.cloneElement(props.children, { ...permitProps(props) })}
+        {React.cloneElement(props.children, { ...permit(props, ['server', 'dispatch', 'verify_code']) })}
       </div>
     </div>
   </div>

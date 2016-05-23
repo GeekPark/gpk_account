@@ -30,7 +30,8 @@ class Header extends React.Component {
     newImage.src = `${nextProps.avatarURL}${BLUR}`;
   }
   hideSwitch() {
-    return /reset_password/.test(window.location.href);
+    const url = window.location.href;
+    return /reset_password/.test(url) || /two_factor_verify/.test(url);
   }
   render() {
     const loaded = this.state.loaded;

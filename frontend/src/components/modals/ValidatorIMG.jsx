@@ -18,6 +18,7 @@ class ValidatorIMG extends React.Component {
           this.props.onClose();
           this.props.sendVerifyCode();
           this.props.validateUser();
+          this.props.showMessage({ type: 'success', msg: '验证码发送成功' });
         })
         .fail(xhr => {
           const errStr = parseErr(xhr.responseText);

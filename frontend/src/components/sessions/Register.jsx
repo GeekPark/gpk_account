@@ -131,7 +131,7 @@ class Register extends React.Component {
     const { isEmail } = this.state;
 
     return (
-      <div className="form-wrapper">
+      <form className="form-wrapper" onSubmit={this.submit}>
         <Tooltip className="mb-input" ref="firstInputTip">
           <input type="text" autoFocus ref="firstInput"
             placeholder={isEmail ? '邮箱' : '手机号码（仅支持中国大陆）'}
@@ -141,14 +141,14 @@ class Register extends React.Component {
         </Tooltip>
         <VerifyCode ref="verifyCode" onGetCode={this.getCode} isEmail={isEmail} />
         <PasswordInput placeholder="密码" ref="password" className="mb-input" />
-        <button className="btn btn-large" onClick={this.submit}>立即注册</button>
+        <button className="btn btn-large">立即注册</button>
         <div className="tar extra-info">
           <a className="link" href="javascript:;" onClick={this.toggleType} >
             { isEmail ? '使用手机注册' : '使用邮箱注册' }
           </a>
         </div>
         <SocialLogin {...this.props} />
-      </div>
+      </form>
     );
   }
 }

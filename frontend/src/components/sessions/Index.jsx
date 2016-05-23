@@ -10,19 +10,20 @@ import ServerStore from '../share/ServerStore';
 
 import Login from './Login';
 import Register from './Register';
-import TFA from './TFA';
+import TFA from './TFA/Index';
 import ResetPassword from './reset_password/Index';
 
 const T = props => (
   <ReduxWrapper>
-    <div>
-      <ServerStore server={props.route.server} />
-      <Transition {...props}>
-        <Wrapper children={props.children} />
-      </Transition>
-      <Modal />
-      <Message />
-    </div>
+    <ServerStore server={props.route.server}>
+      <div>
+        <Transition {...props}>
+          <Wrapper children={props.children} />
+        </Transition>
+        <Modal />
+        <Message />
+      </div>
+    </ServerStore>
   </ReduxWrapper>
 );
 
