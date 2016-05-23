@@ -1,13 +1,6 @@
 class Api::BaseController < ActionController::API
   include ActionController::Serialization
 
-  class ParameterValueNotAllowed < ActionController::ParameterMissing
-    def initialize(param)
-      @param = param
-      super("param: #{param} value not allowed")
-    end
-  end
-
   rescue_from(ActionController::ParameterMissing) do |err|
     render json: { error: 'ParameterInvalid', message: err }, status: 400
   end
@@ -17,7 +10,7 @@ class Api::BaseController < ActionController::API
   rescue_from(ActiveRecord::RecordNotFound) do
     render json: { error: 'ResourceNotFound' }, status: 404
   end
-  rescue_from(Verifiable::VerifyCodeInvalid) do
+  rescue_from(VerifyCodeInvalid) do
     render json: { error: 'Verify code invalid' }, status: 422
   end
 

@@ -1,10 +1,12 @@
 class SettingsController < ApplicationController
   include Verifiable
-  before_action :require_login
+  before_action :require_login, except: [:send_verify_code, :verify_current_user]
   before_action :require_identify, only: [:update_primary, :two_factor_qr, :two_factor]
+  before_action :require_login_or_unverified_user_from_session, only: [:send_verify_code, :verify_current_user]
 
   def verify_current_user
     verify_code? current_addr
+    current_user || warden.set_user(@user)
     cookies[:identify_token] = {
       value: current_user.generate_identify_token,
       expires: 1.hour.from_now
@@ -61,5 +63,11 @@ class SettingsController < ApplicationController
       render json: { errors: [t('errors.user_not_identified')] }, status: 422
       return
     end
+  end
+
+  def require_login_or_unverified_user_from_session
+    @user = unverified_user_from_session || current_user
+    raise Unauthorized unless @user
+    @current_addr = @user.read_attribute(way)
   end
 end

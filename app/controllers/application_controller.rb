@@ -4,19 +4,20 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ActiveRecord::RecordInvalid, with: :invalid_error
-  rescue_from Verifiable::VerifyCodeInvalid, with: :invalid_verify_code
+  rescue_from VerifyCodeInvalid, with: :invalid_verify_code
+  rescue_from Unauthorized do
+    respond_to do |format|
+      format.html { redirect_to login_url, alert: t('errors.need_login') }
+      format.json { render json: { errors: [t('errors.need_login')] }, status: :unauthorized }
+    end
+  end
 
   helper_method :current_user
 
   protected
 
   def require_login
-    unless current_user
-      respond_to do |format|
-        format.html { redirect_to login_url, alert: t('errors.need_login') }
-        format.json { render json: { errors: [t('errors.need_login')] }, status: :unauthorized }
-      end
-    end
+    raise Unauthorized unless current_user
   end
 
   def callback_url(custom_url = nil)
@@ -25,6 +26,10 @@ class ApplicationController < ActionController::Base
 
   def current_user
     warden.user || user_from_cookie
+  end
+
+  def unverified_user_from_session
+    User.find(session[:user_need_verify]['id']) if session[:user_need_verify].present?
   end
 
   def user_from_cookie
