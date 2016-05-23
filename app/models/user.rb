@@ -79,7 +79,8 @@ class User < ActiveRecord::Base
   def two_factor_qr
     update_attribute(:otp_secret_key, ROTP::Base32.random_base32)
     key = email.presence || mobile.presence || nickname.presence || 'noname'
-    RQRCode::QRCode.new(provisioning_uri(key, issuer: 'GeekPark')).as_png.resize(200, 200).to_data_url
+    RQRCode::QRCode.new(provisioning_uri(key, issuer: 'GeekPark'))
+                   .as_png(border_modules: 0).resize(200, 200).to_data_url
   end
 
   def two_factor_switch(code = nil)

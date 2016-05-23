@@ -45,7 +45,7 @@ class Identify extends React.Component {
 
       verifyCurrentUser({ verify_code: v, type, id })
         .done(() => {
-          this.props.dispatch(showSuccessMessage('校验成功，自动跳转中。'));
+          this.props.dispatch(showSuccessMessage('校验成功，自动跳转中...'));
           setTimeout(() => {
             if (this.props.redirect) {
               this.context.router.push('/security');

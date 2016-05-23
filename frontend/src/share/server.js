@@ -154,3 +154,25 @@ export function unbindAccount(type) {
     method: 'DELETE',
   });
 }
+
+export function get2FAQR() {
+  return new Promise((res, rej) => {
+    $.ajax({
+      url: '/settings/two_factor_qr',
+    }).done(d => {
+      if (d.qr_code) res(d.qr_code);
+      else rej();
+    }).error(() => rej());
+  });
+}
+
+export function bind2FA(otp_code) {
+  const data = {};
+  if (otp_code !== undefined) data.otp_code = otp_code;
+
+  return $.ajax({
+    url: '/settings/two_factor',
+    method: 'POST',
+    data,
+  });
+}

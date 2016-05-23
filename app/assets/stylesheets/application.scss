@@ -40,6 +40,7 @@ body {
 
 // page only scss
 .sessions-new,
+.sessions-two_factor_verify,
 .users-new {
   @import 'sessions/new';
 }
