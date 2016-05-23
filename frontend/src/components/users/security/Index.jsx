@@ -69,7 +69,10 @@ class Index extends React.Component {
           <div className="form-button-group">
             <div className="left-label">
               <span className="label-text">邮箱</span>
-              <span className="form-info">{email || '未绑定'}{is_old ? '（未验证）' : ''}</span>
+              <span className="form-info">
+                {email || '未绑定'}
+                {is_old ? <span className="red-highlight">（未验证）</span> : ''}
+              </span>
             </div>
             <Link to={emailURL} className="form-button">{emailStr}</Link>
           </div>
