@@ -22,6 +22,9 @@ class SessionsController < ApplicationController
   end
 
   def two_factor_verify
+    user = unverified_user_from_session
+    (redirect_to login_url) && return unless user
+    @data = { user: UserSerializer.new(user) }.to_json
   end
 
   private

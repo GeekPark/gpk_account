@@ -1,8 +1,6 @@
 module Verifiable
   extend ActiveSupport::Concern
 
-  class VerifyCodeInvalid < StandardError; end
-
   def send_verify_code
     addr = params[way] || current_addr
     if addr
@@ -16,7 +14,7 @@ module Verifiable
   def verify_code?(key)
     code = Rails.cache.fetch "verify_code:#{key}"
     Rails.cache.delete "verify_code:#{key}"
-    raise Verifiable::VerifyCodeInvalid unless code.present? && code == params[:verify_code]
+    raise VerifyCodeInvalid unless code.present? && code == params[:verify_code]
   end
 
   private
@@ -40,6 +38,6 @@ module Verifiable
   end
 
   def current_addr
-    current_user&.read_attribute(way)
+    @current_addr ||= current_user&.read_attribute(way)
   end
 end

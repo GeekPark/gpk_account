@@ -57,7 +57,7 @@ RSpec.describe SessionsController, type: :controller do
       end
 
       it 'login with two_factor code' do
-        session[:user_need_verify] = { id: user.id }
+        session[:user_need_verify] = { 'id' => user.id }
         post :create, otp_code: user.otp_code
         expect(warden.user).to eq(user)
       end
