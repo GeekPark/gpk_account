@@ -27,7 +27,6 @@ class User < ActiveRecord::Base
   }
 
   enum role: { admin: 1 }
-  after_update :update_is_old, if: :email_changed?
   after_update :revoke_all, if: :password_digest_changed?
 
   mount_uploader :avatar, AvatarUploader
@@ -97,11 +96,5 @@ class User < ActiveRecord::Base
 
   def revoke_all
     access_tokens.each(&:revoke)
-  end
-
-  private
-
-  def update_is_old
-    self[:is_old] = false
   end
 end

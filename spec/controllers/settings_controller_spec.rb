@@ -27,6 +27,12 @@ RSpec.describe SettingsController, type: :controller do
         expect(token).not_to eq(nil)
         expect(cookies[:identify_token]).to eq(token)
       end
+
+      it 'update is old after verify' do
+        user.update_attribute(:is_old, true)
+        post :verify_current_user, type: 'email', verify_code: @code
+        expect(user.is_old?).to eq false
+      end
     end
 
     describe 'PATCH settings#update_primary' do
