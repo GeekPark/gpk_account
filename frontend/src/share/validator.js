@@ -36,6 +36,6 @@ export function isValidVerifyCode(str) {
 }
 
 export function isValidBirthday(str) {
-  const date = moment(str, 'YYYY-MM-DD');
+  const date = moment(str, 'YYYY-MM-DD', true);
   return date.isValid() && date.year() <= new Date().getFullYear() && date.year() > 1910;
 }

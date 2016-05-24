@@ -67,6 +67,7 @@ describe('validator', () => {
     expect(isValidBirthday('1994-10-20')).toEqual(true);
     expect(isValidBirthday('2017-10-20')).toEqual(false);
     expect(isValidBirthday('1907-10-20')).toEqual(false);
+    expect(isValidBirthday('2013-10-201')).toEqual(false);
     expect(isValidBirthday('123123123123')).toEqual(false);
   });
 });
