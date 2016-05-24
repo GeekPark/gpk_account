@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { showErrorMessage, setStore, clearMessage } from '../../actions';
+import { showMessage, setStore, clearMessage } from '../../actions';
 
 class Message extends React.Component {
   constructor() {
@@ -12,15 +12,20 @@ class Message extends React.Component {
   }
   componentWillMount() {
     const { server, dispatch } = this.props;
-    let msg;
-    if (typeof server === 'object' && server !== null && Array.isArray(server.errors)) {
-      msg = server.errors[0];
+    let flash;
+    if (typeof server === 'object' && server !== null && Array.isArray(server.flash)) {
+      flash = server.flash[0];
     }
 
     // dispaly first error message from server side, then delete server errors
-    if (msg) {
-      dispatch(showErrorMessage(msg));
-      dispatch(setStore({ errors: [] }));
+    if (flash) {
+      dispatch(
+        showMessage({
+          type: flash[0] === 'success' ? 'success' : 'error',
+          msg: flash[1],
+        })
+      );
+      dispatch(setStore({ flash: [] }));
     }
   }
   render() {

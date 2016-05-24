@@ -34,7 +34,7 @@ RSpec.describe UsersController, type: :controller do
         get :show, format: :html
         expect(response).to be_success
         expect(response).to render_template(:show)
-        expect(JSON.parse(assigns(:data))['user']['id']).to eq(user.id)
+        expect(assigns(:data)[:user].id).to eq(user.id)
       end
     end
   end

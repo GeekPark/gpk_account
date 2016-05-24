@@ -19,10 +19,11 @@ export function render(Comp, dom, initProps = {}) {
   if (dom) {
     let props = initProps;
     try {
-      const propsStr = dom.getAttribute('data-server');
-      const server = propsStr && JSON.parse(propsStr);
+      const $server = document.getElementById('server-data');
+      const serverData = $server.getAttribute('data-server');
+      const server = serverData && JSON.parse(serverData);
       props = { ...props, server };
-      dom.removeAttribute('data-server');
+      document.body.removeChild($server);
     } catch (err) {
       console.error('react server data parse error: ', err);
     }
