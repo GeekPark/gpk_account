@@ -109,4 +109,5 @@ group :production do
   # Cache store
   gem 'redis-rails'
   gem 'rack-utf8_sanitizer'
+  gem 'exception_notification'
 end

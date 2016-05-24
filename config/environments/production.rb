@@ -68,10 +68,13 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'account.geekpark.net' }
 
   config.action_mailer.smtp_settings = {
-    domain: 'mail-notification.geekpark.net',
-    address: ENV['SMTP_SERVER'],
-    port: ENV['SMTP_PORT'],
-    enable_starttls_auto: false
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: 'mailer.geekpark.net',
+    address: 'smtp.sendgrid.net',
+    port: 587,
+    authentication: :plain,
+    enable_starttls_auto: true
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
@@ -90,4 +93,12 @@ Rails.application.configure do
   # Rack middleware for blocking & throttling abusive requests
   config.middleware.use Rack::Attack
   config.middleware.insert 0, Rack::UTF8Sanitizer
+
+  config.middleware.use ExceptionNotification::Rack,
+    ignore_exceptions: ['ActionController::UnknownFormat'] + ExceptionNotifier.ignored_exceptions,
+    email: {
+      email_prefix: '[gpk_account]',
+      sender_address: %(error <error_notifier@mailer.geekpark.net>),
+      exception_recipients: %w(gavin.li1986@gmail.com zhukun@geekpark.net haoyunfei@geekpark.net)
+    }
 end
