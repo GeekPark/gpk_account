@@ -21,7 +21,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe 'extra_info' do
     it 'return queried attributes' do
-      get :extra_info, access_token: admin_token.token, querys: %w(email mobile)
+      get :extra_info, access_token: admin_token.token, query: %w(email mobile)
       expect(response).to be_success
       json = JSON.parse(response.body)
       expect(json).to include('email', 'mobile', 'is_old')
@@ -30,7 +30,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
 
     it 'not return whitelited attribute' do
-      get :extra_info, access_token: admin_token.token, querys: %w(email password)
+      get :extra_info, access_token: admin_token.token, query: %w(email password)
       expect(JSON.parse(response.body)).not_to include('password')
     end
   end

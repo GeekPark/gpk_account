@@ -10,7 +10,7 @@ class Api::V1::UsersController < Api::BaseController
 
   def extra_info
     white_list = %w(email mobile)
-    querys = white_list & params[:querys].collect(&:to_s)
+    querys = white_list & params[:query].collect(&:to_s)
     querys << 'is_old'
     render json: current_user.attributes.slice(*querys)
   end

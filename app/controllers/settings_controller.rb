@@ -12,7 +12,7 @@ class SettingsController < ApplicationController
       value: current_user.generate_identify_token,
       expires: 1.hour.from_now
     }
-    render nothing: true
+    render json: current_user, serializer: UserSerializer
   end
 
   def update_primary
