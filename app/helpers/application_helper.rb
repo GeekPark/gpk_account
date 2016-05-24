@@ -12,7 +12,7 @@ module ApplicationHelper
 
   def cdn_assets_url(name, asset_name)
     if Rails.env.production?
-      "#{Rails.configuration.asset_host}/static/#{asset_name}"
+      "#{Rails.configuration.action_controller.asset_host}/static/#{asset_name}"
     elsif asset_name.present?
       "/static/#{asset_name}"
     elsif request.port == 8080

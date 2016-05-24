@@ -4,7 +4,7 @@ import config from './webpack.config.babel';
 import ManifestPlugin from 'webpack-manifest-plugin';
 
 config.output.filename = '[name]_bundle-[chunkhash].js';
-config.output.publicPath = 'http://7xjjng.com2.z0.glb.qiniucdn.com/static/';
+config.output.publicPath = 'https://o7h2xtq3g.qnssl.com';
 config.output.path = path.join(__dirname, '../', 'public', 'static');
 
 config.plugins = [...config.plugins, (
