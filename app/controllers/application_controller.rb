@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
     session[:callback_url] || custom_url || root_url
   end
 
+  def authorizations_url
+    '/#/third'
+  end
+
   def current_user
     warden.user || user_from_cookie
   end

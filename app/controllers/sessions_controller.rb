@@ -31,11 +31,8 @@ class SessionsController < ApplicationController
 
   def bind_auth
     auth = current_user.authorizations.build(auth_params)
-    if auth.save
-      render json: { user: UserSerializer.new(current_user).to_json }
-    else
-      render json: { errors: auth.errors.full_messages }, status: 422
-    end
+    flash[:error] = t('errors.authorization_bind_failed') unless auth.save
+    redirect_to authorizations_url
   end
 
   def auth_params
