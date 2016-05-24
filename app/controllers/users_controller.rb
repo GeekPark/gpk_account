@@ -8,7 +8,7 @@ class UsersController < ApplicationController
 
   def show
     user = UserSerializer.new(current_user)
-    @data = { user: user, city: get_city_list(user.city) }.to_json
+    @data = { user: user, city: get_city_list(user.city) }
     respond_to do |format|
       format.html
       format.json { render json: @data }

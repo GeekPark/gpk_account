@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   def new
     (redirect_to root_url) && return if current_user
     flash[:unauthorized_user].present? &&
-      @data = { errors: [t('errors.invalid_username_or_password')], login_name: flash[:unauthorized_user] }.to_json
+      @data = { errors: [t('errors.invalid_username_or_password')], login_name: flash[:unauthorized_user] }
   end
 
   def create
@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
   def two_factor_verify
     user = unverified_user_from_session
     (redirect_to login_url) && return unless user
-    @data = { user: UserSerializer.new(user) }.to_json
+    @data = { user: UserSerializer.new(user) }
   end
 
   private
