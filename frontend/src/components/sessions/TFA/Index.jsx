@@ -44,7 +44,7 @@ class Index extends React.Component {
               <Tooltip className="mb-input" ref="tip">
                 <input type="text" ref="code" name="otp_code" onChange={this.clear} maxLength="6" autoFocus />
               </Tooltip>
-              <button className="btn btn-large">登陆</button>
+              <button className="btn btn-large">登录</button>
               <div className="tar extra-info">
                 <a className="link" onClick={this.goUnbind}>无法获取验证码？</a>
               </div>

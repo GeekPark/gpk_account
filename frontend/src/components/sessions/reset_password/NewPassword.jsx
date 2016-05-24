@@ -4,6 +4,7 @@ import PasswordInput from '../PasswordInput';
 import VerifyCode from '../../share/VerifyCode';
 import { resetPassword } from '../../../share/server';
 import { showXHRError } from '../../../share/utils';
+import { isEmail } from '../../../share/validator';
 import { showSuccessMessage } from '../../../actions';
 
 class NewPassword extends React.Component {
@@ -45,7 +46,7 @@ class NewPassword extends React.Component {
   render() {
     return (
       <form onSubmit={this.submit}>
-        <VerifyCode onGetCode={this.goBack} ref="verifyCode" autofocus />
+        <VerifyCode onGetCode={this.goBack} ref="verifyCode" autofocus isEmail={isEmail(this.props.loginName)} />
         <PasswordInput placeholder="新密码" className="mb-input" ref="password" />
         <button className="btn btn-large">重设密码</button>
       </form>
