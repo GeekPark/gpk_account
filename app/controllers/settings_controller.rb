@@ -7,6 +7,7 @@ class SettingsController < ApplicationController
   def verify_current_user
     verify_code? current_addr
     current_user || warden.set_user(@user)
+    current_user.update_attribute(:is_old, false) if way == 'email'
     cookies[:identify_token] = {
       value: current_user.generate_identify_token,
       expires: 1.hour.from_now
