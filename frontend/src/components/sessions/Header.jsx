@@ -3,6 +3,7 @@ import { Motion, spring, presets } from 'react-motion';
 import { Link } from 'react-router';
 
 import { changeAvatar } from '../../actions';
+import { tryKey } from '../../share/utils';
 
 const PRESET = presets.wobbly;
 const BLUR = '?imageMogr2/blur/50x8';
@@ -19,15 +20,30 @@ class Header extends React.Component {
     this.resetAvatar = () => this.props.dispatch(changeAvatar(null));
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props === nextProps) return;
-    if (nextProps.avatarURL === null) {
-      this.setState({ loaded: null });
-      return;
+    const oldAvatar = this.props.avatarURL;
+    const newAvatar = nextProps.avatarURL;
+    const serverAvatar = tryKey(nextProps, 'server', 'user', 'avatar_url');
+
+    // avatar from user input
+    if (serverAvatar === undefined) {
+      // if not change then return
+      if (oldAvatar === newAvatar) return;
+      // if next was null then clearn and return
+      if (nextProps.avatarURL === null) {
+        this.setState({ loaded: null });
+        return;
+      }
+    // avatar from server.user
+    } else {
+      // just display server side avatar, if it loaded then exit detect change
+      if (this.state.loaded !== null) return;
     }
 
+    const result = nextProps.avatarURL || serverAvatar;
+
     const newImage = new Image();
-    newImage.onload = () => this.setState({ loaded: nextProps.avatarURL });
-    newImage.src = `${nextProps.avatarURL}${BLUR}`;
+    newImage.onload = () => this.setState({ loaded: result });
+    newImage.src = `${result}${BLUR}`;
   }
   hideSwitch() {
     const url = window.location.href;
