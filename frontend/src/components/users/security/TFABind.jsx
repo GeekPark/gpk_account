@@ -6,7 +6,7 @@ import { get2FAQR, bind2FA } from '../../../share/server';
 import { showSuccessMessage, showErrorMessage, setStore } from '../../../actions';
 import { showXHRError } from '../../../share/utils';
 
-const DESC = '使用 Google 身份验证器进行两步验证，你需要先安装<a target="_blank" href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a>。';
+const DESC = '使用两步验证工具（如 <a target="_blank" href="https://support.google.com/accounts/answer/1066447">Google Authenticator</a> 等）扫描下面的二维码，即可获取验证码 。';
 
 class TFABind extends React.Component {
   constructor() {
@@ -29,7 +29,7 @@ class TFABind extends React.Component {
       bind2FA(code)
         .done(user => {
           if (user.two_factor_enable) {
-            this.props.dispatch(showSuccessMessage('两部验证绑定成功，跳转中...'));
+            this.props.dispatch(showSuccessMessage('两步验证绑定成功，跳转中...'));
             this.props.dispatch(setStore({ user }));
             setTimeout(() => {
               this.context.router.push('/security');
@@ -46,10 +46,10 @@ class TFABind extends React.Component {
   }
   render() {
     return (
-      <Main title="两步验证 | 绑定" needPadding desc={DESC} className="tfa">
+      <Main title="绑定两步验证" needPadding desc={DESC} className="tfa">
         <form onSubmit={this.submit}>
           <div className="tfa-container">
-            <img className="qr" src={this.state.qr || ''} alt="qrcode for 2fa" />
+            <img className="qr" src={this.state.qr || ''} alt="二维码载入中..." />
             <div className="qr-form">
               <div className="qr-form-desc">使用 Google 身份验证器扫描左边的二维码，即可获得验证码。</div>
               <Tooltip ref="tfaCodeTip" className="mb-input">

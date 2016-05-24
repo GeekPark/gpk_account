@@ -22,7 +22,7 @@ class Index extends React.Component {
         () => {
           this.context.router.push({
             pathname: '/security/identify',
-            state: { onSuccess: this.sendUnbind2FA.bind(this) },
+            state: { isTFA: true },
           });
         }
       );
@@ -32,7 +32,7 @@ class Index extends React.Component {
     unbind2FA()
       .done(user => {
         if (user.two_factor_enable === false) {
-          this.props.dispatch(showSuccessMessage('两部验证解绑成功'));
+          this.props.dispatch(showSuccessMessage('两步验证解绑成功'));
           this.props.dispatch(setStore({ user }));
         }
       })
