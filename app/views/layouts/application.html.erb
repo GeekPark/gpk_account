@@ -11,9 +11,10 @@
 </head>
 <body class="<%= controller_name %>-controller <%= controller_name%>-<%= action_name%>">
   <%
-    @data['flash'] = flash
+    server_data = @data || {}
+    server_data['flash'] = flash
   %>
-  <div id="server-data" data-server="<%= @data.to_json %>"></div>
+  <div id="server-data" data-server="<%= server_data.to_json %>"></div>
   <div class="page-wrapper">
     <%= yield %>
   </div>
