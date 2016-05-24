@@ -38,13 +38,13 @@ class Index extends React.Component {
         {
           this.state.panel === 'unbind' ? <Unbind {...this.props} /> :
             <form action="/login" method="POST" onSubmit={this.submit}>
-              <div className="form-title">两部验证</div>
+              <div className="form-title">两步验证</div>
               <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
               <div className="form-desc">输入绑定的两步验证工具中的验证码</div>
               <Tooltip className="mb-input" ref="tip">
                 <input type="text" ref="code" name="otp_code" onChange={this.clear} maxLength="6" autoFocus />
               </Tooltip>
-              <button className="btn btn-large">立即验证</button>
+              <button className="btn btn-large">登陆</button>
               <div className="tar extra-info">
                 <a className="link" onClick={this.goUnbind}>无法获取验证码？</a>
               </div>

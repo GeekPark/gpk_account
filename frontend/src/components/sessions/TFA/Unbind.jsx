@@ -12,7 +12,7 @@ class Unbind extends React.Component {
     this.success = () => {
       unbind2FA()
         .done(() => {
-          this.props.dispatch(showSuccessMessage('两部验证解绑成功，跳转中...'));
+          this.props.dispatch(showSuccessMessage('两步验证解绑成功，跳转中...'));
           setTimeout(() => {
             window.location.href = '/';
           }, 3000);
@@ -23,10 +23,10 @@ class Unbind extends React.Component {
   render() {
     return (
       <div>
-        <div className="form-title">取消两部验证</div>
+        <div className="form-title">取消绑定两步验证 | 验证身份</div>
         <div className="form-desc">为了保证你的帐户安全，请验证身份后取消绑定两步验证</div>
 
-        <IdentifyForm {...this.props} onSuccess={this.success} />
+        <IdentifyForm {...this.props} onSuccess={this.success} buttonText="验证身份并取消绑定" />
       </div>
     );
   }

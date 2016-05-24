@@ -74,6 +74,7 @@ class IdentifyForm extends React.Component {
   render() {
     const { options, isEmail } = this.state;
     const { is_old } = this.props.server.user;
+    const { buttonText } = this.props;
     return (
       <form onSubmit={this.submit}>
         <Select
@@ -84,7 +85,7 @@ class IdentifyForm extends React.Component {
           onGetCode={this.getCode} ref="verifyCode"
           isEmail={isEmail} verify_code={this.props.verify_code}
         />
-        <button className="btn btn-large">验证身份</button>
+        <button className="btn btn-large">{buttonText || '验证身份'}</button>
         {
           !is_old ? null :
             <div className="tar old_user_link">
@@ -101,6 +102,7 @@ IdentifyForm.propTypes = {
   server: PropTypes.any,
   verify_code: PropTypes.object,
   dispatch: PropTypes.func,
+  buttonText: PropTypes.string,
 };
 
 export default IdentifyForm;
