@@ -96,13 +96,14 @@ RSpec.describe SessionsController, type: :controller do
 
       it 'should create an authorization' do
         expect { post :create }.to change { basic_user.authorizations.count }.by(1)
-        expect(JSON.parse(response.body)['user']).to eq(UserSerializer.new(basic_user).to_json)
+        expect(response).to redirect_to('/#/third')
       end
 
       it 'should return error if uid is exist' do
         post :create
         post :create
-        expect(JSON.parse(response.body)['errors']).to include('Uid已经被使用')
+        expect(response).to redirect_to('/#/third')
+        expect(flash[:error]).to eq(I18n.translate('errors.authorization_bind_failed'))
       end
     end
   end
