@@ -68,13 +68,12 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'account.geekpark.net' }
 
   config.action_mailer.smtp_settings = {
-    user_name: ENV['SENDGRID_USERNAME'],
-    password: ENV['SENDGRID_PASSWORD'],
-    domain: 'mailer.geekpark.net',
-    address: 'smtp.sendgrid.net',
+    user_name: ENV['MAILGUN_USERNAME'],
+    password: ENV['MAILGUN_PASSWORD'],
+    domain: 'mg.geekpark.net',
+    address: 'smtp.mailgun.org',
     port: 587,
-    authentication: :plain,
-    enable_starttls_auto: true
+    authentication: :plain
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

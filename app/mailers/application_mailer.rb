@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'notification@mailer.geekpark.net'
+  default from: 'notification@mg.geekpark.net'
   layout 'mailer'
 end
