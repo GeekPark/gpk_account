@@ -56,5 +56,13 @@ module GpkAccount
     config.webpack = {
       asset_manifest: {}
     }
+
+    # Allow cors
+    config.middleware.insert_before 0, 'Rack::Cors' do
+      allow do
+        origins 'events.geekpark.net'
+        resource '/api/*', headers: :any, methods: [:get, :post, :options]
+      end
+    end
   end
 end

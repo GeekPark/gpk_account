@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:geekpark/gpk_account.git'
 set :user, 'www'
 set :rbenv_ruby, '2.3.1'
 set :puma_threads, [4, 16]
-set :puma_workers, 0
+set :puma_workers, 2
 
 set :pty,             true
 set :use_sudo,        false
