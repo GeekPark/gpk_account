@@ -11,8 +11,9 @@ class Identify extends React.Component {
   constructor() {
     super();
 
-    this.success = () => {
+    this.success = user => {
       this.props.dispatch(showSuccessMessage('校验成功，自动跳转中...'));
+      this.props.dispatch(setStore({ user }));
 
       setTimeout(() => {
         if (this.props.redirect) {

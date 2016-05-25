@@ -15,10 +15,11 @@ class ThirdItem extends React.Component {
       const { type, isBind, isSNS, isOld } = this.props;
 
       if (isSNS || isOld) {
-        this.props.dispatch(showErrorMessage('请绑定邮箱或手机后再进行后续设置。'));
+        const msg = isSNS ? '请绑定邮箱或手机后再进行后续设置。' : '请验证邮箱后再进行后续设置。';
+        this.props.dispatch(showErrorMessage(msg));
         setTimeout(() => {
           this.context.router.push('/security');
-        }, 4000);
+        }, 1000);
         return;
       }
       if (isBind) {
