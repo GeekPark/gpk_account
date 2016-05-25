@@ -52,4 +52,6 @@ const config = {
   },
 };
 
+if (ISDEV) config.devtool = 'source-map';
+
 export default config;
