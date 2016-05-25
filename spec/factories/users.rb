@@ -37,6 +37,16 @@ FactoryGirl.define do
       avatar { Rack::Test::UploadedFile.new(Rails.root.join('app', 'assets', 'images', 'logo.png')) }
     end
 
+    trait :with_notifications do
+      transient do
+        notifications_count 5
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:notification, evaluator.notifications_count, user: user)
+      end
+    end
+
     factory :full_user, traits: [:with_email, :with_mobile, :with_password,
                                  :with_wechat_authorization, :with_weibo_authorization]
     factory :basic_user, traits: [:with_email, :with_password]

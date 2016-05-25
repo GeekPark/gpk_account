@@ -29,6 +29,7 @@ gem 'active_model_otp'
 
 gem 'rqrcode'
 
+gem 'counter_culture'
 # Captcha
 gem 'rucaptcha'
 
@@ -103,6 +104,8 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: false
+  # This fix after commit not run in rails 4 no needs in Rails 5
+  gem 'test_after_commit'
 end
 
 group :production do
