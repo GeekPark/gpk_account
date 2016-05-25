@@ -29,7 +29,7 @@ class Avatar extends React.Component {
 
           // send blob to server
           const f = new FormData();
-          f.append('user[avatar]', new File([blob], files[0].name, { type: blob.type }));
+          f.append('user[avatar]', blob, files[0].name);
           uploadAvatar(f)
             .done(user => {
               this.props.dispatch(setStore({ user }));
