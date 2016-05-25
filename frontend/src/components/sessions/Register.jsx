@@ -59,7 +59,8 @@ class Register extends React.Component {
       this.clearAllTip();
     };
 
-    this.submit = () => {
+    this.submit = e => {
+      e.preventDefault();
       if (!this.check()) return;
       const user = { password: this.getPwd() };
       const key = this.props.user.isEmail ? 'email' : 'mobile';
