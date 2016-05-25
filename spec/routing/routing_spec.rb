@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'routing test', type: :routing do
   describe 'root_path' do
     it 'route to users edit' do
-      expect(get: '/').to route_to('users#show')
+      expect(get: '/').to route_to('sessions#new')
     end
   end
 

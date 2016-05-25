@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   end
 
   def callback_url(custom_url = nil)
-    session[:callback_url] || custom_url || root_url
+    session[:callback_url] || custom_url || user_url
   end
 
   def authorizations_url

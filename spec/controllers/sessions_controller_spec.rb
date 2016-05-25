@@ -10,7 +10,7 @@ RSpec.describe SessionsController, type: :controller do
       request.cookies[:remember_user] = user.id
       get :new
       expect(warden.user).to eq(user)
-      expect(response).to redirect_to(root_url)
+      expect(response).to redirect_to(user_url)
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe SessionsController, type: :controller do
     it 'redirect to root_url user already login' do
       warden.set_user(user)
       get :new
-      expect(response).to redirect_to(root_url)
+      expect(response).to redirect_to(user_url)
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe SessionsController, type: :controller do
       it 'success with correct password' do
         post :create, login_name: user.email, password: 'password'
         expect(warden.user).to eq(user)
-        expect(response).to redirect_to(root_url)
+        expect(response).to redirect_to(user_url)
       end
 
       it 'will set remember_token if remember_me' do

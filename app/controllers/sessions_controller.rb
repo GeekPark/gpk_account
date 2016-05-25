@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   before_action :require_login, only: :destroy
 
   def new
-    (redirect_to root_url) && return if current_user
+    (redirect_to user_url) && return if current_user
     flash[:unauthorized_user].present? &&
       @data = { errors: [t('errors.invalid_username_or_password')], login_name: flash[:unauthorized_user] }
   end

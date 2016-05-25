@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'users#show'
+  root 'sessions#new'
 
   use_doorkeeper scope: 'oauth2'
   # User sessions controller
