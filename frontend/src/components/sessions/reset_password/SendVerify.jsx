@@ -76,7 +76,7 @@ class SendVerify extends React.Component {
   render() {
     const { loginName } = this.props;
     return (
-      <form onSubmit={this.next}>
+      <form onSubmit={this.next} autoComplete="off" noValidate>
         <Tooltip ref="idTip">
           <input
             type="text" placeholder="手机号码/邮箱" className="mb-input" ref="id"

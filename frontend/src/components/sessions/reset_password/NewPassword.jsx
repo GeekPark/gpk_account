@@ -45,7 +45,7 @@ class NewPassword extends React.Component {
 
   render() {
     return (
-      <form onSubmit={this.submit}>
+      <form onSubmit={this.submit} noValidate autoComplete="off">
         <VerifyCode onGetCode={this.goBack} ref="verifyCode" autofocus isEmail={isEmail(this.props.loginName)} />
         <PasswordInput placeholder="新密码" className="mb-input" ref="password" />
         <button className="btn btn-large">重设密码</button>

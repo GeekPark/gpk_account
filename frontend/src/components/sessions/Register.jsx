@@ -132,7 +132,7 @@ class Register extends React.Component {
     const { isEmail } = this.state;
 
     return (
-      <form className="form-wrapper" onSubmit={this.submit}>
+      <form className="form-wrapper" onSubmit={this.submit} autoComplete="off" noValidate>
         <Tooltip className="mb-input" ref="firstInputTip">
           <input
             type="text" autoFocus ref="firstInput"

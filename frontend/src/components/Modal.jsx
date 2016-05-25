@@ -16,6 +16,7 @@ const components = {
 
 const defaultStyles = {
   overlay: {
+    zIndex: 99,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
