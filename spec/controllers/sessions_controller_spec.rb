@@ -103,7 +103,9 @@ RSpec.describe SessionsController, type: :controller do
         post :create
         post :create
         expect(response).to redirect_to('/#/third')
-        expect(flash[:error]).to eq(I18n.translate('errors.authorization_bind_failed'))
+        msg = I18n.translate('errors.authorization_bind_failed',
+          provider: I18n.translate("authorizations.providers.#{mock_wechat_auth['provider']}"))
+        expect(flash[:error]).to eq(msg)
       end
     end
   end

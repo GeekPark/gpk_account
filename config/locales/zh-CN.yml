@@ -208,3 +208,8 @@ zh-CN:
       long: "%Y年%b%d日 %H:%M"
       short: "%b%d日 %H:%M"
     pm: 下午
+  authorizations:
+    providers:
+      weibo: 微博
+      wechat: 微信
+    bind: "%{provider}绑定成功"

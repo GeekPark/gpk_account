@@ -31,7 +31,13 @@ class SessionsController < ApplicationController
 
   def bind_auth
     auth = current_user.authorizations.build(auth_params)
-    flash[:error] = t('errors.authorization_bind_failed') unless auth.save
+    if auth.save
+      flash[:success] = t('authorizations.bind',
+        provider: t("authorizations.providers.#{auth.provider}"))
+    else
+      flash[:error] = t('errors.authorization_bind_failed',
+        provider: t("authorizations.providers.#{auth.provider}"))
+    end
     redirect_to authorizations_url
   end
 
