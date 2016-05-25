@@ -39,11 +39,6 @@ Warden::Strategies.add(:password) do
       fail!(params['login_name'])
     end
   end
-
-  def store_cookie(user)
-    cookies[:remember_user] = user.id
-    cookies[:remember_token] = user.generate_remember_token
-  end
 end
 
 Warden::Strategies.add(:omniauth) do
