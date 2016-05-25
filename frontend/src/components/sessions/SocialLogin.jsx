@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
+import { isWechat } from 'mdetect';
 import { openModal } from '../../actions';
+
+const IS_WECHAT = isWechat();
 
 class SocialLogin extends React.Component {
   constructor() {
@@ -19,11 +22,14 @@ class SocialLogin extends React.Component {
           </span>
         </div>
         <div className="social-button">
-          <a className="social-button-style wechat" href="javascript:;" onClick={this.wechat}>
-            <i className="iconfont icon-wechat social-icon"></i>
-            <span>微信登录</span>
-          </a>
-          <a className="social-button-style weibo" href="/auth/weibo">
+          {
+            IS_WECHAT ? null :
+              <a className="social-button-style wechat" href="javascript:;" onClick={this.wechat}>
+                <i className="iconfont icon-wechat social-icon"></i>
+                <span>微信登录</span>
+              </a>
+          }
+          <a className={`social-button-style weibo ${IS_WECHAT ? 'full-width' : ''}`} href="/auth/weibo">
             <i className="iconfont icon-weibo social-icon"></i>
             <span>微博登录</span>
           </a>

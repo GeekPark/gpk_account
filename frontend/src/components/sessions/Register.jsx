@@ -59,7 +59,8 @@ class Register extends React.Component {
       this.clearAllTip();
     };
 
-    this.submit = () => {
+    this.submit = e => {
+      e.preventDefault();
       if (!this.check()) return;
       const user = { password: this.getPwd() };
       const key = this.props.user.isEmail ? 'email' : 'mobile';
@@ -131,7 +132,7 @@ class Register extends React.Component {
     const { isEmail } = this.state;
 
     return (
-      <form className="form-wrapper" onSubmit={this.submit}>
+      <form className="form-wrapper" onSubmit={this.submit} autoComplete="off" noValidate>
         <Tooltip className="mb-input" ref="firstInputTip">
           <input
             type="text" autoFocus ref="firstInput"

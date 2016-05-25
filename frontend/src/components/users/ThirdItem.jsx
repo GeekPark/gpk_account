@@ -15,13 +15,14 @@ class ThirdItem extends React.Component {
       const { type, isBind, isSNS, isOld } = this.props;
 
       if (isSNS || isOld) {
-        this.props.dispatch(showErrorMessage('请绑定邮箱或手机后再进行后续设置。'));
+        const msg = isSNS ? '请绑定邮箱或手机后再进行后续设置。' : '请验证邮箱后再进行后续设置。';
+        this.props.dispatch(showErrorMessage(msg));
         setTimeout(() => {
           this.context.router.push('/security');
-        }, 4000);
+        }, 1000);
         return;
       }
-      if (isBind) {
+      if (isBind && confirm('取消绑定后将不能使用微博/微信登录该帐号，确定取消绑定吗？')) {
         unbindAccount(type)
           .done(user => {
             this.props.dispatch(showSuccessMessage(`${convert(type)}解绑成功`));

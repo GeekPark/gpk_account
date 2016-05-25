@@ -77,7 +77,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <form className="form-wrapper" action="/login" method="POST">
+      <form className="form-wrapper" action="/login" method="POST" noValidate>
         <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
         <Tooltip className="mb-input" ref="loginNameTip">
           <input

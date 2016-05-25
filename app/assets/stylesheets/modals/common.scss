@@ -3,6 +3,13 @@
   -webkit-user-select: none;
   background-color: #fff;
 
+  @include mediaMax($mobile-w) {
+    width: 100%;
+    height: 100%;
+    width: 100vw;
+    height: 100vh;
+  }
+
   .modal-title {
     font-size: 1.6rem;
     margin-bottom: 15px;
@@ -35,8 +42,11 @@
 }
 
 .modal-WechatLogin {
-  width: 350px;
   padding: 0 25px;
+
+  @include mediaMin($mobile-w) {
+    width: 350px;
+  }
 
   .wechatqr-wrapper {
     @include flexCenter;
