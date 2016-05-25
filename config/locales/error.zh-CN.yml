@@ -4,7 +4,7 @@ zh-CN:
     invalid_captcha: '图形验证码输入错误'
     password_invalid: '密码错误'
     authorization_not_found: '第三方帐号不存在'
-    authorization_bind_failed: '第三方账号绑定失败'
+    authorization_bind_failed: "%{provider}绑定失败，已被其他帐号绑定。"
     user_not_identified: '请先验证您的身份'
     invalid_username_or_password: '用户名或密码错误'
     need_login: '请先登录'
