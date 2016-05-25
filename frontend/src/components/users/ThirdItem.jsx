@@ -22,7 +22,7 @@ class ThirdItem extends React.Component {
         }, 1000);
         return;
       }
-      if (isBind) {
+      if (isBind && confirm('取消绑定后将不能使用微博/微信登录该帐号，确定取消绑定吗？')) {
         unbindAccount(type)
           .done(user => {
             this.props.dispatch(showSuccessMessage(`${convert(type)}解绑成功`));
