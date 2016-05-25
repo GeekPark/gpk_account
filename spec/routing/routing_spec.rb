@@ -57,5 +57,15 @@ RSpec.describe 'routing test', type: :routing do
     it 'route to clients#captcha' do
       expect(get: 'api/v1/captcha').to route_to('api/v1/register#captcha')
     end
+
+    it 'route to notifications#read' do
+      expect(post: 'api/v1/notifications/1/read').to route_to(controller: 'api/v1/notifications',
+                                                             action: 'read',
+                                                             id: '1')
+    end
+
+    it 'route to notifications#read_all' do
+      expect(post: 'api/v1/notifications/read_all').to route_to('api/v1/notifications#read_all')
+    end
   end
 end

@@ -19,8 +19,7 @@ Rails.application.routes.draw do
   get 'reset_password', to: 'users#new'
   post 'reset_password', to: 'users#reset_password'
 
-  resource 'user', path: 'my', except: [:edit, :destroy] do
-  end
+  resource 'user', path: 'my', except: [:edit, :destroy]
 
   # User settings
   get 'settings', to: 'users#show'
@@ -49,6 +48,10 @@ Rails.application.routes.draw do
       end
 
       resource 'device', only: :create
+      resources 'notifications', only: :create do
+        post 'read', on: :member
+        post 'read_all', on: :collection
+      end
     end
   end
 
