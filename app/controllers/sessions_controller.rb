@@ -3,8 +3,12 @@ class SessionsController < ApplicationController
 
   def new
     (redirect_to user_url) && return if current_user
-    flash[:unauthorized_user].present? &&
-      @data = { errors: [t('errors.invalid_username_or_password')], login_name: flash[:unauthorized_user] }
+
+    login_name = session.delete(:unauthorized_user)
+    if login_name.present?
+      @data = { login_name: login_name }
+      flash.now[:error] = t('errors.invalid_username_or_password')
+    end
   end
 
   def create
