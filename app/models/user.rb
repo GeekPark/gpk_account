@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_secure_password validations: false
   has_many :authorizations
   has_many :devices
+  has_many :notifications
   has_many :access_tokens, -> { where revoked_at: nil }, class_name: 'Doorkeeper::AccessToken',
     foreign_key: 'resource_owner_id'
 

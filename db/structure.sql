@@ -106,6 +106,22 @@ CREATE TABLE devices (
 
 
 --
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE notifications (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid,
+    content_type integer,
+    content character varying,
+    parent_id uuid,
+    unread boolean DEFAULT true,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -188,8 +204,8 @@ CREATE TABLE oauth_applications (
     secret character varying NOT NULL,
     redirect_uri text NOT NULL,
     scopes character varying DEFAULT ''::character varying NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -247,7 +263,8 @@ CREATE TABLE users (
     is_old boolean DEFAULT false,
     role integer,
     otp_secret_key character varying,
-    two_factor_enable boolean
+    two_factor_enable boolean,
+    unread_notifications_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -296,6 +313,14 @@ ALTER TABLE ONLY devices
 
 
 --
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -339,6 +364,13 @@ CREATE INDEX index_authorizations_on_provider_and_uid ON authorizations USING bt
 --
 
 CREATE INDEX index_authorizations_on_user_id ON authorizations USING btree (user_id);
+
+
+--
+-- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_id);
 
 
 --
@@ -438,4 +470,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160512062432');
 INSERT INTO schema_migrations (version) VALUES ('20160517094226');
 
 INSERT INTO schema_migrations (version) VALUES ('20160519151446');
+
+INSERT INTO schema_migrations (version) VALUES ('20160525053141');
 
