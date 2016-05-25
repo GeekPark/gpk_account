@@ -25,6 +25,7 @@
   "homepage": "https://github.com/GeekPark/gpk_account#readme",
   "dependencies": {
     "click-at-outside": "^1.0.2",
+    "crop-image": "^0.1.5",
     "deep-assign": "^2.0.0",
     "jquery-scroll": "^1.1.1",
     "mdetect": "^1.2.2",

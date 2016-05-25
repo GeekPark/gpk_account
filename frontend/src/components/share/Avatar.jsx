@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import crop from 'crop-image';
+
 import { tryKey, showXHRError } from '../../share/utils';
 import { uploadAvatar } from '../../share/server';
 import { showSuccessMessage, setStore } from '../../actions';
@@ -14,15 +16,28 @@ class Avatar extends React.Component {
     this.upload = e => {
       const files = e.target.files;
       if (files && files[0]) {
-        // upload to server
-        const f = new FormData();
-        f.append('user[avatar]', files[0]);
-        uploadAvatar(f)
-          .done(user => {
-            this.props.dispatch(showSuccessMessage('头像更新成功'));
-            this.props.dispatch(setStore({ user }));
-          })
-          .fail(xhr => showXHRError(xhr, this.props.dispatch));
+        const image = new Image();
+
+        image.onload = () => {
+          // crop img first
+          const { width, height } = image;
+          const isHoriz = width > height;
+          const minMax = isHoriz ? [height, width] : [width, height];
+          const distance = minMax[1] - minMax[0];
+          const CROP_SIZE = minMax[1] > 500 ? 500 : minMax[1];
+          const blob = crop(image, isHoriz ? distance : 0, isHoriz ? 0 : distance, minMax[0], minMax[0], CROP_SIZE, CROP_SIZE);
+
+          // send blob to server
+          const f = new FormData();
+          f.append('user[avatar]', new File([blob], files[0].name, { type: blob.type }));
+          uploadAvatar(f)
+            .done(user => {
+              this.props.dispatch(setStore({ user }));
+              this.props.dispatch(showSuccessMessage('头像更新成功'));
+            })
+            .fail(xhr => showXHRError(xhr, this.props.dispatch));
+        };
+        image.src = window.URL.createObjectURL(files[0]);
       }
     };
   }
