@@ -60,6 +60,9 @@ gem 'china_city'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack'
 
+# Allow Cors
+gem 'rack-cors', require: 'rack/cors'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
