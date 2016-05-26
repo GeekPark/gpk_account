@@ -17,6 +17,7 @@
 .swp
 # redis
 dump.rdb
+notification.pem
 
 .env
 
