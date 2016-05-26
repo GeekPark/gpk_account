@@ -17,11 +17,11 @@ export function sendVerify({ str, id, isEmail }) {
   });
 }
 
-export function sendVerifyWithoutCaptcha({ type }) {
+export function sendVerifyWithoutCaptcha({ type, params }) {
   return $.ajax({
     url: '/settings/send_verify_code',
     method: 'POST',
-    data: { type },
+    data: { type, ...params },
   });
 }
 

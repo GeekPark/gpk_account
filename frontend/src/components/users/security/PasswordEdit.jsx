@@ -20,7 +20,7 @@ class PasswordEdit extends React.Component {
       updatePassword({ password, new_password })
         .done(user => {
           this.props.dispatch(setStore({ user }));
-          this.props.dispatch(showSuccessMessage('密码修改成功，跳转中'));
+          this.props.dispatch(showSuccessMessage('密码修改成功，跳转中...'));
 
           setTimeout(() => {
             window.location.href = '/#/security';
