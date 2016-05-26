@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     post 'verify_current_user'
     patch 'update_primary'
     patch 'update_password'
-    post 'identified'
+    get 'identified'
     get 'two_factor_qr'
     post 'two_factor'
   end

@@ -116,7 +116,6 @@ export function isIdentified() {
   return new Promise((res, rej) => {
     $.ajax({
       url: '/settings/identified',
-      method: 'POST',
     }).done(d => {
       if (d.identified) res();
       else rej();
