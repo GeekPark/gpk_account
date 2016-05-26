@@ -60,7 +60,7 @@ module GpkAccount
     # Allow cors
     config.middleware.insert_before 0, 'Rack::Cors' do
       allow do
-        origins 'events.geekpark.net'
+        origins %r{\Ahttps?:\/\/(.*\.)?geekpark\.net\z}
         resource '/api/*', headers: :any, methods: [:get, :post, :options]
       end
     end
