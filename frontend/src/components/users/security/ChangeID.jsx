@@ -22,7 +22,8 @@ class EmailBind extends React.Component {
       const id = this.getID();
       if (!id) return;
       const getCode = () => {
-        sendVerifyWithoutCaptcha({ type: props.type })
+        const paramKey = this.isEmail ? 'email' : 'mobile';
+        sendVerifyWithoutCaptcha({ type: props.type, params: { [paramKey]: id } })
           .done(() => {
             props.dispatch(sendVerifyCode());
             props.dispatch(showSuccessMessage(`校验码已经发送到您的${this.typeStr}`));
@@ -50,7 +51,7 @@ class EmailBind extends React.Component {
         .done(user => {
           // update global user
           props.dispatch(setStore({ user }));
-          props.dispatch(showSuccessMessage('修改成功，跳转中'));
+          props.dispatch(showSuccessMessage('修改成功，跳转中...'));
           setTimeout(() => {
             this.context.router.push('/security');
           }, 4000);

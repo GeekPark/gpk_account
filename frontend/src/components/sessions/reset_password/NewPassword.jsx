@@ -31,7 +31,7 @@ class NewPassword extends React.Component {
 
       resetPassword(params)
         .done(d => {
-          this.props.dispatch(showSuccessMessage('密码修改成功，正在跳转中'));
+          this.props.dispatch(showSuccessMessage('密码修改成功，正在跳转中...'));
           setTimeout(() => {
             window.location.href = d.callback_url;
           }, 3000);
