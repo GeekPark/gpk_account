@@ -35,7 +35,7 @@ set :puma_init_active_record, true # Change to true if using ActiveRecord
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w(.env)
+set :linked_files, %w(.env notification.pem)
 set :linked_dirs,  %w(log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads public/static)
 
 namespace :puma do
