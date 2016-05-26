@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  before_action :require_login, only: :destroy
-
   def new
     (redirect_to user_url) && return if current_user
 
@@ -21,8 +19,12 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    warden.logout
-    redirect_to login_url
+    if request.get? && current_user == User.find(doorkeeper_token&.resource_owner_id)
+      warden.logout
+    elsif current_user
+      warden.logout
+    end
+    redirect_to params[:referrer] || root_url
   end
 
   def two_factor_verify

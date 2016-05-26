@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # User sessions controller
   get 'login', to: 'sessions#new'
   post 'login', to: 'sessions#create'
-  delete 'logout', to: 'sessions#destroy'
+  match 'logout', to: 'sessions#destroy', via: [:get, :delete]
   get 'two_factor_verify', to: 'sessions#two_factor_verify'
 
   # User signup
