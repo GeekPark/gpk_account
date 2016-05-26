@@ -22,7 +22,9 @@ class ThirdItem extends React.Component {
         }, 1000);
         return;
       }
-      if (isBind && confirm(`取消绑定后将不能使用${convert(type)}登录该帐号，确定取消绑定吗？`)) {
+
+      if (isBind) {
+        if (!confirm(`取消绑定后将不能使用${convert(type)}登录该帐号，确定取消绑定吗？`)) return;
         unbindAccount(type)
           .done(user => {
             this.props.dispatch(showSuccessMessage(`${convert(type)}解绑成功`));
