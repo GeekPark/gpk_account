@@ -39,6 +39,9 @@ gem 'mini_magick'
 # SMS
 gem 'china_sms'
 
+# Apple push notification
+gem 'houston'
+
 # Asynchronous processing
 gem 'sucker_punch'
 

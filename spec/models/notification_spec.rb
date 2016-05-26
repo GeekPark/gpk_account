@@ -13,4 +13,9 @@ RSpec.describe Notification, type: :model do
     notification.read!
     expect(notification.unread?).to eq false
   end
+
+  it 'as_json work correct' do
+    notification = create(:notification)
+    expect(notification.as_json.keys).to eq %w(content_type content parent_id)
+  end
 end
