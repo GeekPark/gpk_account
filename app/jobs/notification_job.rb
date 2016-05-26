@@ -13,5 +13,6 @@ class NotificationJob
       message.custom_data = notification.as_json
     end
     APN.push(message)
+    logger "Error: #{message.error}." if message.error
   end
 end
