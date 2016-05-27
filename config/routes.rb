@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       end
 
       resource 'device', only: :create
-      resources 'notifications', only: :create do
+      resources 'notifications', only: [:index, :create] do
         post 'read', on: :member
         post 'read_all', on: :collection
       end

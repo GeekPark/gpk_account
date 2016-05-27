@@ -9,6 +9,8 @@ class Notification < ActiveRecord::Base
   enum content_type: { event: 1, dm: 2, comment: 3 }
   counter_culture :user, column_name: proc { |model| model.unread? ? 'unread_notifications_count' : nil }
 
+  default_scope { order(created_at: :desc) }
+
   def read!
     update_attribute(:unread, false)
   end
