@@ -123,4 +123,5 @@ group :production do
   gem 'redis-rails'
   gem 'rack-utf8_sanitizer'
   gem 'exception_notification'
+  gem 'oneapm_rpm'
 end
