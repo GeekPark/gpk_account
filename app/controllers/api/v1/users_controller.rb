@@ -81,6 +81,6 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def user_params
-    params.permit(:nickname, :city, :company, :title, :bio)
+    params.permit(:avatar, :realname, :nickname, :city, :company, :title, :bio)
   end
 end
