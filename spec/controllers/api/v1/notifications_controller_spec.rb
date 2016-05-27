@@ -6,8 +6,9 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
 
   describe 'GET#index' do
     it 'return 10 notifications per page' do
-      get :index, access_token: write_token.token
+      get :index, access_token: write_token.token, scope: 'event'
       expect(JSON.parse(response.body).length).to eq 10
+      expect(response.header['unread_count']).to eq 20
       expect(response.header['Total']).to eq '20'
     end
   end

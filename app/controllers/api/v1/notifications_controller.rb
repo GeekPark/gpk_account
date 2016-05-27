@@ -3,7 +3,10 @@ class Api::V1::NotificationsController < Api::BaseController
   before_action -> { doorkeeper_authorize! :write }, except: :create
 
   def index
-    paginate json: current_user.notifications, per_page: 10
+    requires! :scope, values: Notification.content_types.keys
+    notifications = current_user.notifications.where(content_type: Notification.content_types[params[:scope]])
+    headers['unread_count'] = notifications.where(unread: true).count
+    paginate json: notifications, per_page: 10
   end
 
   def create

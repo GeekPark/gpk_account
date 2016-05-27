@@ -18,6 +18,15 @@ class Api::BaseController < ActionController::API
     render json: { error: 'Oauth2Error', message: 'Authorize failed' }, status: 400
   end
 
+  def requires!(name, opts = {})
+    raise(ActionController::ParameterMissing, name) if params[name].blank?
+
+    if opts[:values]
+      values = opts[:values]
+      raise(ParameterValueNotAllowed, name) unless values.include?(params[name])
+    end
+  end
+
   private
 
   def current_user
