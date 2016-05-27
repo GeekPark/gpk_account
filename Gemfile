@@ -60,6 +60,10 @@ gem 'active_model_serializers', '~> 0.9.5'
 gem 'doorkeeper'
 gem 'china_city'
 
+# Pagination
+gem 'kaminari'
+gem 'api-pagination'
+
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack'
 

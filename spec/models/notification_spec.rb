@@ -18,4 +18,10 @@ RSpec.describe Notification, type: :model do
     notification = create(:notification)
     expect(notification.as_json.keys).to eq %w(content_type content parent_id)
   end
+
+  it 'orders created at desc' do
+    notification = create(:notification)
+    create(:notification, created_at: 1.hour.ago)
+    expect(Notification.first).to eq(notification)
+  end
 end

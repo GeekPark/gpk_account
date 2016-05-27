@@ -1,6 +1,10 @@
 class Api::V1::NotificationsController < Api::BaseController
   before_action -> { doorkeeper_authorize! :admin }, only: :create
-  before_action -> { doorkeeper_authorize! :write }, only: [:read, :read_all]
+  before_action -> { doorkeeper_authorize! :write }, except: :create
+
+  def index
+    paginate json: current_user.notifications, per_page: 10
+  end
 
   def create
     current_user.notifications.create(notification_params)
