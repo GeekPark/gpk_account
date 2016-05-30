@@ -12,6 +12,8 @@ class SessionsController < ApplicationController
   def create
     if auth_params && current_user
       bind_auth
+    elsif request.env['omniauth.redirect'].present?
+      redirect_to wechat_auth_callback_url
     else
       warden.authenticate!
       redirect_to callback_url
@@ -49,5 +51,10 @@ class SessionsController < ApplicationController
 
   def auth_params
     request.env['omniauth.auth']&.to_hash&.symbolize_keys&.extract!(:provider, :uid)
+  end
+
+  def wechat_auth_callback_url
+    uri, code = request.env['omniauth.redirect'].values
+    "#{uri}?code=#{code}"
   end
 end
