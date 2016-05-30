@@ -5,7 +5,7 @@ module Doorkeeper
     def get_error_response_from_exception(exception)
       error_name = case exception
                    when Errors::TwoFactorError
-                     :two_factor
+                     :two_factor_required
                    end
       if error_name
         OAuth::ErrorResponse.new name: error_name, state: params[:state]

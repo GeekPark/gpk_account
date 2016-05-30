@@ -14,7 +14,7 @@ Doorkeeper.configure do
     env['warden'].custom_failure!
     user = User.find_by_email_or_mobile(params['username'])&.authenticate(params['password'])
     if user && user.two_factor_enable?
-      user.authenticate_otp(params['code'].to_s, drift: 60) ? user : raise(Doorkeeper::Errors::TwoFactorError)
+      user.authenticate_otp(params['otp_code'].to_s, drift: 60) ? user : raise(Doorkeeper::Errors::TwoFactorError)
     else
       user
     end
