@@ -35,7 +35,9 @@ class User < ActiveRecord::Base
 
   class << self
     def find_by_email_or_mobile(param)
-      find_by('email = ? OR mobile = ?', param, param) if param
+      return unless param
+      q = param.to_s.downcase
+      find_by('lower(email) = ? OR mobile = ?', q, q)
     end
 
     def create_with_omniauth(auth)
