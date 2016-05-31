@@ -207,7 +207,7 @@ GEM
     omniauth (1.3.1)
       hashie (>= 1.2, < 4)
       rack (>= 1.0, < 3)
-    omniauth-geekpark (1.0.7)
+    omniauth-geekpark (1.0.6)
       omniauth (~> 1.0)
       omniauth-oauth2 (= 1.3.1)
     omniauth-oauth2 (1.3.1)
@@ -404,7 +404,7 @@ DEPENDENCIES
   letter_opener
   meta_request
   mini_magick
-  omniauth-geekpark (= 1.0.7)
+  omniauth-geekpark (= 1.0.6)
   oneapm_rpm
   overcommit
   pg (~> 0.15)
