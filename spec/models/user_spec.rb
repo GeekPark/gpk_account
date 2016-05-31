@@ -92,4 +92,18 @@ RSpec.describe User, type: :model do
       expect(user.two_factor_switch).to be false
     end
   end
+
+  describe 'wechat alias' do
+    let!(:user) { User.create_with_omniauth mock_wechat_auth('wechatservice') }
+
+    it 'should save provider as wechat' do
+      expect(user.authorizations.first.provider).to eq('wechat')
+    end
+
+    it 'should find provider by wechat' do
+      auth = mock_wechat_auth('wechatservice')
+      authorization = Authorization.find_by_provider_and_uid(Authorization.providers[auth['provider']], auth['uid'])
+      expect(authorization.user).to eq(user)
+    end
+  end
 end

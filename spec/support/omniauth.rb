@@ -1,9 +1,9 @@
 OmniAuth.config.test_mode = true
 
 module OmniauthMacros
-  def mock_wechat_auth
+  def mock_wechat_auth(option = nil)
     OmniAuth.config.mock_auth[:wechat] = {
-      'provider' => 'wechat',
+      'provider' => option || 'wechat',
       'uid' => '123545',
       'info' => {
         'nickname' => 'mockuser',
