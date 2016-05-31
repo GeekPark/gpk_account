@@ -4,6 +4,11 @@ class Authorization < ActiveRecord::Base
   validates :uid, presence: true, uniqueness: { scope: :provider }
 
   before_destroy :confirm_presence_of_alternate_login
+  enum provider: {
+    wechat:              'wechat',
+    wechatservice:       'wechat',
+    weibo:               'weibo'
+  }
 
   private
 
