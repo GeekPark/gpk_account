@@ -55,6 +55,8 @@ class SessionsController < ApplicationController
 
   def wechat_auth_callback_url
     uri, code = request.env['omniauth.redirect'].values
-    "#{uri}?code=#{code}"
+    callback = Addressable::URI.parse(uri)
+    callback.query_values = (callback.query_values || {}).merge(code: code)
+    callback.to_s
   end
 end
