@@ -52,7 +52,7 @@ gem 'puma'
 # gem 'capistrano-rails', group: :development
 
 # Omniauth
-gem 'omniauth-geekpark', '1.0.6'
+gem 'omniauth-geekpark', '1.0.7'
 
 # API
 gem 'rails-api'
