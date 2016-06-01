@@ -27,6 +27,11 @@ class Api::BaseController < ActionController::API
     end
   end
 
+  def doorkeeper_authorize!(*scopes)
+    request.env['warden'].custom_failure!
+    super
+  end
+
   private
 
   def current_user
