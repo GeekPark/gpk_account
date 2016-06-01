@@ -27,6 +27,15 @@ class Api::BaseController < ActionController::API
     end
   end
 
+  def doorkeeper_authorize!(*scopes)
+    request.env['warden'].custom_failure!
+    super
+  end
+
+  def doorkeeper_unauthorized_render_options(*)
+    { json: { error: 'Invalid token' } }
+  end
+
   private
 
   def current_user
