@@ -32,6 +32,10 @@ class Api::BaseController < ActionController::API
     super
   end
 
+  def doorkeeper_unauthorized_render_options(*)
+    { json: { error: 'Invalid token' } }
+  end
+
   private
 
   def current_user
