@@ -26,9 +26,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'warden'
 # 2 factor
 gem 'active_model_otp'
-
 gem 'rqrcode'
 
+# Custom counter cache
 gem 'counter_culture'
 # Captcha
 gem 'rucaptcha'
@@ -48,8 +48,8 @@ gem 'sucker_punch'
 # Use pums as the app server
 gem 'puma'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+# Mailchimp api
+gem 'gibbon'
 
 # Omniauth
 gem 'omniauth-geekpark', '1.0.6'

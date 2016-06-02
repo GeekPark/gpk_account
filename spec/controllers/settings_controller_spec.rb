@@ -35,6 +35,24 @@ RSpec.describe SettingsController, type: :controller do
       end
     end
 
+    describe 'PATCH settings#update_preference' do
+      it 'build right params' do
+        param_hash = {
+          'preference' => {
+            'email' => {
+              'enabled' => false,
+              'subscriptions' => {
+                'event' => 'unsubscribed',
+                'report' => 'unsubscribed'
+              }
+            }
+          }
+        }
+        patch :update_preference, user: param_hash
+        expect(user.preference.email).to eq param_hash['preference']['email']
+      end
+    end
+
     describe 'PATCH settings#update_primary' do
       include_context 'prepare verify code'
 

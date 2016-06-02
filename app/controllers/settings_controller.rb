@@ -57,7 +57,16 @@ class SettingsController < ApplicationController
     render json: current_user, serializer: UserSerializer
   end
 
+  def update_preference
+    current_user.preference.update(build_preference_params)
+    render json: current_user, serializer: UserSerializer
+  end
+
   private
+
+  def build_preference_params
+    params.require(:user).require(:preference).permit(email: [:enabled, subscriptions: [:event, :report]])
+  end
 
   def require_identify
     unless current_user.identified?(cookies[:identify_token])
