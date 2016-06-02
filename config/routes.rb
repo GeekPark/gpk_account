@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   end
 
   # Omniauth
-  match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  get '/auth/:provider/callback', to: 'sessions#create'
   # Captcha
   mount RuCaptcha::Engine => '/rucaptcha'
   # City select
