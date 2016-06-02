@@ -26,7 +26,7 @@ class PasswordInput extends React.Component {
         return false;
       }
       if (!isValidPassword(v)) {
-        tip.postErr('密码必须在 6-20 位');
+        tip.postErr('密码必须在 6-32 位');
         focus(input);
         return false;
       }
@@ -42,7 +42,7 @@ class PasswordInput extends React.Component {
         <div className={`form-group ${this.props.className}`}>
           <input
             type={this.state.inputType} placeholder={this.props.placeholder}
-            ref="input" onChange={this.clearTip} maxLength="20" minLength="6" autoFocus={this.props.autofocus}
+            ref="input" onChange={this.clearTip} minLength="6" autoFocus={this.props.autofocus}
           />
           <div className="form-side" onClick={this.toggleType}>
             <i className={`iconfont icon-eye ${this.state.inputType === 'text' ? 'active' : ''}`}></i>
