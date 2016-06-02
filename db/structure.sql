@@ -204,8 +204,8 @@ CREATE TABLE oauth_applications (
     secret character varying NOT NULL,
     redirect_uri text NOT NULL,
     scopes character varying DEFAULT ''::character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -226,6 +226,18 @@ CREATE SEQUENCE oauth_applications_id_seq
 --
 
 ALTER SEQUENCE oauth_applications_id_seq OWNED BY oauth_applications.id;
+
+
+--
+-- Name: preferences; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE preferences (
+    user_id uuid NOT NULL,
+    email jsonb DEFAULT '{}'::jsonb,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
 
 
 --
@@ -342,6 +354,14 @@ ALTER TABLE ONLY oauth_access_tokens
 
 ALTER TABLE ONLY oauth_applications
     ADD CONSTRAINT oauth_applications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY preferences
+    ADD CONSTRAINT preferences_pkey PRIMARY KEY (user_id);
 
 
 --
@@ -472,4 +492,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160517094226');
 INSERT INTO schema_migrations (version) VALUES ('20160519151446');
 
 INSERT INTO schema_migrations (version) VALUES ('20160525053141');
+
+INSERT INTO schema_migrations (version) VALUES ('20160601061329');
 
