@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     get 'identified'
     get 'two_factor_qr'
     post 'two_factor'
+    patch 'update_preference'
   end
 
   namespace :api do
