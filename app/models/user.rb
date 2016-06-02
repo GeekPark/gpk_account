@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
             format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ },
             allow_nil: true
   validates :nickname, length: { in: 2..20 }, allow_nil: true
-  validates :password, length: { in: 6..20 }, allow_nil: true
+  validates :password, length: { in: 6..32 }, allow_nil: true
   validates :city, format: { with: /\A\d{6}\z/ }, allow_nil: true
 
   enum gender: {

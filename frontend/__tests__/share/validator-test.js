@@ -46,7 +46,7 @@ describe('validator', () => {
     expect(isValidPassword('123')).toEqual(false);
     expect(isValidPassword('1asdfasdf')).toEqual(true);
     expect(isValidPassword('123456')).toEqual(true);
-    expect(isValidPassword('1112312312312312312311231231231232')).toEqual(false);
+    expect(isValidPassword('1112312312312312312311231231223232323')).toEqual(false);
   });
 
   it('isValidID', () => {

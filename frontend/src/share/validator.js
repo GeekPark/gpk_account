@@ -24,7 +24,7 @@ export function isValidNickname(str) {
 }
 
 export function isValidPassword(str) {
-  return limitStr(str, 6, 20);
+  return limitStr(str, 6, 32);
 }
 
 export function isValidID(str) {
