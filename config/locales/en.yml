@@ -21,3 +21,7 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    errors:
+      messages:
+        set_email_first: 'Please validate your email first.'
