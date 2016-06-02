@@ -7,6 +7,7 @@ zh-CN:
         restrict_dependent_destroy:
           has_one: 由于 %{record} 需要此记录，所以无法移除记录
           has_many: 由于 %{record} 需要此记录，所以无法移除记录
+        set_email_first: '请先验证您的邮箱'
   date:
     abbr_day_names:
     - 周日

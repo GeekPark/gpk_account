@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
 
   enum role: { admin: 1 }
   after_update :revoke_all, if: :password_digest_changed?
+  after_create -> { Preference.create(user: self) }
 
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
