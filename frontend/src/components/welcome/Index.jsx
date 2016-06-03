@@ -19,7 +19,9 @@ class Welcome extends React.Component {
 
     this.clearTip = () => this.refs.nicknameTip.clear();
 
-    this.submit = () => {
+    this.submit = e => {
+      e.preventDefault();
+
       const { nickname } = this.refs;
       if (isEmpty(nickname.value)) {
         this.refs.nicknameTip.postErr('昵称不能为空');
