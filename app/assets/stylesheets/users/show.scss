@@ -144,6 +144,12 @@ $margin: 25px;
       font-size: 1.2em;
     }
 
+    .icon-email-sub::after {
+      font-size: 1.4em;
+      position: relative;
+      left: 3px;
+    }
+
     a {
       padding: 8px 15px;
       color: #9B9B9B;

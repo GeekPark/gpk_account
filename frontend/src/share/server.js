@@ -179,3 +179,13 @@ export function bind2FA(otp_code) {
 export function unbind2FA() {
   return bind2FA(undefined);
 }
+
+export function updateEmailPreference({ preference }) {
+  return $.ajax({
+    url: '/settings/update_preference',
+    method: 'PATCH',
+    data: {
+      user: { preference },
+    },
+  });
+}
