@@ -16,7 +16,11 @@ class Login extends React.Component {
     super();
 
     this.submit = e => {
-      if (this.checkID() === false || this.checkPassword() === false) e.preventDefault();
+      if (this.checkID() === false || this.checkPassword() === false) {
+        e.preventDefault();
+        return;
+      }
+      this.refs.loginBtn.innerText = '登陆中...';
     };
 
     this.clearTip = tipName => () => this.refs[tipName].clear();
@@ -89,7 +93,7 @@ class Login extends React.Component {
         <Tooltip className="mb-input" ref="passwordTip">
           <input type="password" placeholder="密码" ref="password" name="password" onChange={this.clearTip('passwordTip')} />
         </Tooltip>
-        <button className="btn btn-large" onClick={this.submit}>立即登录</button>
+        <button className="btn btn-large" onClick={this.submit} ref="loginBtn">立即登录</button>
         <div className="space-between extra-info">
           <div className="rember-me">
             <input type="checkbox" id="rember-me-check" name="remember_me" />
