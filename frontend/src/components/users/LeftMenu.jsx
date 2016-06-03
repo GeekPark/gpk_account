@@ -36,6 +36,12 @@ class LeftMenu extends React.Component {
               第三方帐号
             </span>
           </Link>
+          <Link to="subscribe" activeClassName="active">
+            <i className="iconfont icon-email-sub"></i>
+            <span className="hidden-xs">
+              邮件订阅
+            </span>
+          </Link>
         </section>
       </div>
     );

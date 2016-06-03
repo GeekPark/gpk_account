@@ -9,6 +9,7 @@ import Wrapper from './Wrapper';
 
 import BasicInfo from './BasicInfo';
 import Third from './Third';
+import Subscribe from './Subscribe';
 
 import SecurityIndex from './security/Index';
 import Identify from './security/Identify';
@@ -69,6 +70,7 @@ const User = props => (
       <Route path="third">
         <IndexRoute component={Third} />
       </Route>
+      <Route path="subscribe" component={Subscribe} />
     </Route>
   </Router>
 );
