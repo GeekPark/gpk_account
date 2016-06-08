@@ -1,5 +1,6 @@
 class Api::BaseController < ActionController::API
   include ActionController::Serialization
+  include ActionView::Helpers::TranslationHelper
 
   rescue_from(ActionController::ParameterMissing) do |err|
     render json: { error: 'ParameterInvalid', message: err }, status: 400
@@ -11,7 +12,7 @@ class Api::BaseController < ActionController::API
     render json: { error: 'ResourceNotFound' }, status: 404
   end
   rescue_from(VerifyCodeInvalid) do
-    render json: { error: 'Verify code invalid' }, status: 422
+    render json: { error: t('errors.invalid_verify_code') }, status: 422
   end
 
   rescue_from(OAuth2::Error) do
