@@ -32,6 +32,6 @@ class Api::V1::RegisterController < Api::BaseController
 
     right = params[:captcha].present? && captcha == params[:captcha]
 
-    (render json: { error: 'Captcha invalid' }, status: 422) && return unless right
+    (render json: { error: t('errors.invalid_captcha') }, status: 422) && return unless right
   end
 end
