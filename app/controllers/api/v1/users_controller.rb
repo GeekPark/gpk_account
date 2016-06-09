@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action -> { doorkeeper_authorize! :public, :write, :admin }, only: [:show, :logout]
+  before_action -> { doorkeeper_authorize! :public, :write, :admin }, only: [:show, :logout, :recommends]
   before_action -> { doorkeeper_authorize! :admin, :write }, only: :update
   before_action -> { doorkeeper_authorize! :admin }, only: :extra_info
   before_action :verify_signature!, only: :third_part_login
@@ -37,6 +37,11 @@ class Api::V1::UsersController < Api::BaseController
     else
       render json: { error: 'Login Failed!' }, status: 404
     end
+  end
+
+  def recommends
+    users = User.recommends
+    paginate json: users, per_page: 10, each_serializer: UserBasicSerializer
   end
 
   private

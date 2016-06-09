@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
       resource 'user', only: [:show, :update] do
         post ':provider/login', action: 'third_part_login'
+        get 'recommends'
         get 'extra_info'
         post 'logout'
       end
