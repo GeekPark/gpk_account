@@ -106,6 +106,22 @@ CREATE TABLE devices (
 
 
 --
+-- Name: direct_messages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE direct_messages (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    user_id uuid NOT NULL,
+    to_user_id uuid NOT NULL,
+    content_type integer DEFAULT 1 NOT NULL,
+    content character varying,
+    media_content character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: notifications; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -204,8 +220,8 @@ CREATE TABLE oauth_applications (
     secret character varying NOT NULL,
     redirect_uri text NOT NULL,
     scopes character varying DEFAULT ''::character varying NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -325,6 +341,14 @@ ALTER TABLE ONLY devices
 
 
 --
+-- Name: direct_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY direct_messages
+    ADD CONSTRAINT direct_messages_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -384,6 +408,27 @@ CREATE INDEX index_authorizations_on_provider_and_uid ON authorizations USING bt
 --
 
 CREATE INDEX index_authorizations_on_user_id ON authorizations USING btree (user_id);
+
+
+--
+-- Name: index_direct_messages_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_direct_messages_on_created_at ON direct_messages USING btree (created_at);
+
+
+--
+-- Name: index_direct_messages_on_to_user_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_direct_messages_on_to_user_id_and_user_id ON direct_messages USING btree (to_user_id, user_id);
+
+
+--
+-- Name: index_direct_messages_on_user_id_and_to_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_direct_messages_on_user_id_and_to_user_id ON direct_messages USING btree (user_id, to_user_id);
 
 
 --
@@ -494,4 +539,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160519151446');
 INSERT INTO schema_migrations (version) VALUES ('20160525053141');
 
 INSERT INTO schema_migrations (version) VALUES ('20160601061329');
+
+INSERT INTO schema_migrations (version) VALUES ('20160612064616');
 
