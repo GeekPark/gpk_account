@@ -47,6 +47,16 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_direct_messages do
+      transient do
+        direct_messages_count 5
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:direct_message, evaluator.direct_messages_count, user: user)
+      end
+    end
+
     factory :full_user, traits: [:with_email, :with_mobile, :with_password,
                                  :with_wechat_authorization, :with_weibo_authorization]
     factory :basic_user, traits: [:with_email, :with_password]

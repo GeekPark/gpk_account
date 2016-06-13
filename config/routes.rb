@@ -54,6 +54,10 @@ Rails.application.routes.draw do
         post 'read', on: :member
         post 'read_all', on: :collection
       end
+
+      resources 'direct_messages', only: [:index, :create] do
+        get 'detail', on: :collection
+      end
     end
   end
 
