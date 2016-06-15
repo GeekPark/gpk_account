@@ -20,7 +20,7 @@ class Login extends React.Component {
         e.preventDefault();
         return;
       }
-      this.refs.loginBtn.innerText = '登陆中...';
+      this.refs.loginBtn.innerText = '登录中...';
     };
 
     this.clearTip = tipName => () => this.refs[tipName].clear();
