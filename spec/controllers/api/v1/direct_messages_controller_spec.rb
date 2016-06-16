@@ -14,11 +14,22 @@ RSpec.describe Api::V1::DirectMessagesController, type: :controller do
   describe 'POST#create' do
     let(:from_user) { create(:basic_user) }
     let(:to_user) { create(:basic_user) }
-    let(:create_toekn) { create(:write_access_token, resource_owner_id: from_user.id) }
-    it 'should create direct_message' do
-      expect { post :create, access_token: create_toekn.token, to_user_id: to_user.id, content: 'test_data' }.to \
-        change(DirectMessage, :count).by(1)
-      expect(response).to be_success
+    let(:create_token) { create(:write_access_token, resource_owner_id: from_user.id) }
+    context 'when user allow send message' do
+      it 'should create direct_message' do
+        expect { post :create, access_token: create_token.token, to_user_id: to_user.id, content: 'test_data' }.to \
+          change(DirectMessage, :count).by(1)
+        expect(response).to be_success
+      end
+    end
+
+    context 'when user do not allow send message' do
+      before { to_user.preference.update(receive_message: false) }
+      it 'should return error' do
+        post :create, access_token: create_token.token, to_user_id: to_user.id, content: 'test_data'
+        expect(response).to have_http_status(422)
+        expect(JSON.parse(response.body)['error']).to include('当前用户拒绝接受消息')
+      end
     end
   end
 end
