@@ -1,6 +1,7 @@
 class Api::V1::RegisterController < Api::BaseController
   include Verifiable
   before_action :verify_signature!, only: :register
+  before_action :verify_user_exist!, only: [:send_verify_code, :register]
   before_action :verify_rucaptcha!, only: :send_verify_code
 
   def captcha
@@ -13,7 +14,7 @@ class Api::V1::RegisterController < Api::BaseController
 
   def register
     verify_code?(params[:user][:mobile] || params[:user][:email])
-    user = User.find_or_create_by! register_param
+    user = User.create! register_param
     token = Doorkeeper::AccessToken.find_or_create_for(@client, user.id, @client.scopes, 7200, true)
     render json: token
   end
@@ -21,7 +22,7 @@ class Api::V1::RegisterController < Api::BaseController
   private
 
   def register_param
-    params.require(:user).permit(:email, :mobile)
+    params.require(:user).permit(:email, :mobile, :password)
   end
 
   def verify_rucaptcha!
@@ -33,5 +34,10 @@ class Api::V1::RegisterController < Api::BaseController
     right = params[:captcha].present? && captcha == params[:captcha]
 
     (render json: { error: t('errors.invalid_captcha') }, status: 422) && return unless right
+  end
+
+  def verify_user_exist!
+    user = User.find_by_email(params[:email]) || User.find_by_mobile(params[:mobile])
+    (render json: { error: 'send fail', message: t('errors.account_already_exist') }, status: 422) && return if user
   end
 end
