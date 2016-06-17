@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::BaseController
-  before_action -> { doorkeeper_authorize! :public, :write, :admin }, only: [:show, :logout, :recommends]
-  before_action -> { doorkeeper_authorize! :admin, :write }, only: :update
+  before_action -> { doorkeeper_authorize! :public, :write, :admin }, only: [:show, :logout]
+  before_action -> { doorkeeper_authorize! :admin, :write }, only: [:update, :update_preference]
   before_action -> { doorkeeper_authorize! :admin }, only: :extra_info
   before_action :verify_signature!, only: :third_part_login
 
@@ -39,12 +39,16 @@ class Api::V1::UsersController < Api::BaseController
     end
   end
 
-  def recommends
-    users = User.recommends
-    paginate json: users, per_page: 10, each_serializer: UserBasicSerializer
+  def update_preference
+    current_user.preference&.update(preference_params)
+    render json: { message: 'success' }
   end
 
   private
+
+  def preference_params
+    params.permit(:receive_message, email: [:enabled, subscriptions: [:event, :report]])
+  end
 
   def auth_hash
     case params[:provider]

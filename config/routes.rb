@@ -47,6 +47,7 @@ Rails.application.routes.draw do
         get 'recommends'
         get 'extra_info'
         post 'logout'
+        patch 'update_preference'
       end
 
       resource 'device', only: :create

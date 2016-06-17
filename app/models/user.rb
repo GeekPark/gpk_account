@@ -36,7 +36,6 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
 
-  scope :recommends, -> { includes(:perference).where('preference.receive_message', true).order('random()') }
   class << self
     def find_by_email_or_mobile(param)
       return unless param
