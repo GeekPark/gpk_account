@@ -9,9 +9,17 @@ RSpec.describe Api::V1::RegisterController, type: :controller do
   end
 
   describe 'GET#send_verify_code' do
-    it 'should return error' do
+    let(:mobile) { '15101520123' }
+    it 'should return error when no account' do
       post :send_verify_code
       expect(response).to have_http_status(422)
+    end
+
+    it 'should return error when account exist' do
+      create(:user, mobile: mobile)
+      post :send_verify_code, mobile: mobile, way: 'mobile'
+      expect(response).to have_http_status(422)
+      expect(JSON.parse(response.body)['message']).to eq('该账号已被注册')
     end
   end
 
@@ -29,6 +37,13 @@ RSpec.describe Api::V1::RegisterController, type: :controller do
         timestamp: Time.current.to_i,
         verify_code: @code
       }
+    end
+
+    it 'should return error when user exist' do
+      create(:user, mobile: user_attr[:mobile])
+      post :register, origin_hash.merge(signature: calculate_signature)
+      expect(response).to have_http_status(422)
+      expect(JSON.parse(response.body)['message']).to eq('该账号已被注册')
     end
 
     it 'should verify_signature right' do
