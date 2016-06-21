@@ -113,4 +113,23 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH#update_preference' do
+    it 'should update user preference' do
+      param_hash = {
+        'receive_message' => false,
+        'email' => {
+          'enabled' => false,
+          'subscriptions' => {
+            'event' => 'unsubscribed',
+            'report' => 'unsubscribed'
+          }
+        }
+      }
+      patch :update_preference, param_hash.merge(access_token: write_token.token)
+      reload_user = User.find(user.id)
+      expect(response).to be_success
+      expect(reload_user.preference.receive_message).to eq false
+    end
+  end
 end
