@@ -7,7 +7,29 @@ class DirectMessage < ActiveRecord::Base
 
   mount_uploader :media_content, MediaUploader
 
+  after_create :create_notification
+
+  scope :unread, -> { where(unread: true) }
   default_scope { order(created_at: :desc) }
+
+  def create_notification
+    Notification.create(
+      title: user.realname || user.nickname,
+      user_id: to_user.id,
+      from_user_id: user.id,
+      content_type: 'dm',
+      content: "#{user.realname || user.nickname}: #{content}",
+      parent_id: id
+    )
+  end
+
+  def read!
+    update_attribute(:unread, false)
+  end
+
+  def self.unread_dm(user_id, to_user_id)
+    where('user_id = ? and to_user_id = ?', user_id, to_user_id).unread
+  end
 
   def self.between(user_id, to_user_id)
     includes(:user, :to_user).where(

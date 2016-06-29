@@ -18,11 +18,16 @@ class Api::V1::DirectMessagesController < Api::BaseController
     paginate json: direct_messages, per_page: 20
   end
 
-  def direct_messages_params
-    params.permit(:to_user_id, :content_type, :content, :media_content)
+  def read_all
+    DirectMessage.unread_dm(current_user.id, params[:to_user_id]).each(&:read!)
+    render json: :nothing
   end
 
   private
+
+  def direct_messages_params
+    params.permit(:to_user_id, :content_type, :content, :media_content)
+  end
 
   def verify_allow_send
     requires! :to_user_id
