@@ -58,6 +58,7 @@ Rails.application.routes.draw do
 
       resources 'direct_messages', only: [:index, :create] do
         get 'detail', on: :collection
+        patch 'read_all', on: :collection
       end
     end
   end
