@@ -1,5 +1,6 @@
 class Notification < ActiveRecord::Base
   belongs_to :user
+  belongs_to :from_user, class_name: 'User'
   validates :user_id, presence: true
   validates :content_type, inclusion: { in: %w(event dm comment) }
   validates :content, presence: true

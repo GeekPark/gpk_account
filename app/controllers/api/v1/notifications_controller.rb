@@ -25,6 +25,6 @@ class Api::V1::NotificationsController < Api::BaseController
   end
 
   def notification_params
-    params.require(:notification).permit(:content_type, :content, :parent_id)
+    params.require(:notification).permit(:title, :from_user_id, :direct_id, :content_type, :content, :parent_id)
   end
 end
