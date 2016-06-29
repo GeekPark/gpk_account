@@ -14,14 +14,23 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
   end
 
   describe 'POST#create' do
-    let!(:token) { create(:admin_access_token, resource_owner_id: user.id).token }
+    include_context 'prepare api signature'
+    let(:notification_params) { attributes_for(:notification) }
+    let(:origin_hash) do
+      {
+        id: user.id,
+        notification: notification_params,
+        timestamp: Time.current.to_i,
+        client_id: application.uid
+      }
+    end
+
     it 'should create notification' do
-      expect { post :create, access_token: token, notification: attributes_for(:notification) }.to \
-        change(Notification, :count).by(1)
+      expect { post :create, origin_hash.merge(signature: calculate_signature) }.to change(Notification, :count).by(21)
     end
 
     it 'should change user unread notification count' do
-      post :create, access_token: token, notification: attributes_for(:notification)
+      post :create, origin_hash.merge(signature: calculate_signature)
       expect(JSON.parse(response.body)['count']).to eq 21
     end
   end
