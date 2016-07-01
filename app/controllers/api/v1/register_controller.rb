@@ -37,7 +37,7 @@ class Api::V1::RegisterController < Api::BaseController
   end
 
   def verify_user_exist!
-    user = User.find_by_email(params[:email]) || User.find_by_mobile(params[:mobile])
+    user = User.find_by_email(params[:email] || '') || User.find_by_mobile(params[:mobile] || '')
     (render json: { error: 'send fail', message: t('errors.account_already_exist') }, status: 422) && return if user
   end
 end
