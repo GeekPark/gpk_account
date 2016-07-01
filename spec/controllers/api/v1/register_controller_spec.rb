@@ -42,8 +42,7 @@ RSpec.describe Api::V1::RegisterController, type: :controller do
     it 'should return error when user exist' do
       create(:user, mobile: user_attr[:mobile])
       post :register, origin_hash.merge(signature: calculate_signature)
-      expect(response).to have_http_status(422)
-      expect(JSON.parse(response.body)['message']).to eq('该账号已被注册')
+      expect(response).to have_http_status(400)
     end
 
     it 'should verify_signature right' do
