@@ -9,7 +9,7 @@ class Api::V1::DirectMessagesController < Api::BaseController
 
   def index
     direct_messages = DirectMessage.list(current_user)
-    paginate json: direct_messages, per_page: 20
+    paginate json: direct_messages, current_user: current_user, per_page: 20
   end
 
   def detail
@@ -18,11 +18,16 @@ class Api::V1::DirectMessagesController < Api::BaseController
     paginate json: direct_messages, per_page: 20
   end
 
-  def direct_messages_params
-    params.permit(:to_user_id, :content_type, :content, :media_content)
+  def read_all
+    current_user.unread_dm_between(params[:user_id]).update_all(unread: false)
+    render json: :nothing
   end
 
   private
+
+  def direct_messages_params
+    params.permit(:to_user_id, :content_type, :content, :media_content)
+  end
 
   def verify_allow_send
     requires! :to_user_id

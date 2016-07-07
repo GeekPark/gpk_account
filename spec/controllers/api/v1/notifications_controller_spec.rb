@@ -33,6 +33,12 @@ RSpec.describe Api::V1::NotificationsController, type: :controller do
       post :create, origin_hash.merge(signature: calculate_signature)
       expect(JSON.parse(response.body)['count']).to eq 21
     end
+
+    it 'should return signature verify faild' do
+      post :create, origin_hash.merge(signature: 'wrong sign')
+      expect(response).to have_http_status(422)
+      expect(JSON.parse(response.body)['error']).to eq 'Signature verify failed.'
+    end
   end
 
   describe 'read' do
