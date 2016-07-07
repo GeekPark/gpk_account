@@ -1,5 +1,5 @@
 class Api::V1::NotificationsController < Api::BaseController
-  before_action -> { doorkeeper_authorize! :admin }, only: :create
+  before_action -> { verify_signature! }, only: :create
   before_action -> { doorkeeper_authorize! :write }, except: :create
 
   def index
@@ -10,8 +10,10 @@ class Api::V1::NotificationsController < Api::BaseController
   end
 
   def create
+    requires! :id
+    current_user = User.find(params[:id])
     current_user.notifications.create(notification_params)
-    render json: { count: current_user.unread_notifications_count }
+    render json: { count: current_user.reload.unread_notifications_count }
   end
 
   def read
