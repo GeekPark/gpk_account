@@ -9,11 +9,11 @@ Rails.application.routes.draw do
   get 'two_factor_verify', to: 'sessions#two_factor_verify'
 
   # User signup
-  get 'signup', to: 'users#new'
-  post 'signup', to: 'users#create'
+  get 'signup', to: 'users/signup#new'
+  post 'signup', to: 'users/signup#create'
   get 'check_exist', to: 'users#check_exist'
 
-  post 'send_verify_code', to: 'users#send_verify_code'
+  post 'send_verify_code', to: 'verify_codes#create'
 
   # User reset password
   get 'reset_password', to: 'users#new'
