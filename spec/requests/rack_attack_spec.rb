@@ -8,7 +8,7 @@ RSpec.describe 'RackAttack' do
     after { Rails.cache.clear }
     describe 'Users#send_verify_code' do
       it 'limit 15 times an hour per ip' do
-        allow_any_instance_of(UsersController).to receive(:verify_rucaptcha!).and_return(true)
+        allow_any_instance_of(VerifyCodesController).to receive(:verify_rucaptcha!).and_return(true)
         15.times do
           post '/send_verify_code', {}, 'REMOTE_ADDR' => '1.2.3.4'
         end

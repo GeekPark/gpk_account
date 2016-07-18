@@ -25,12 +25,11 @@ export function sendVerifyWithoutCaptcha({ type, params }) {
   });
 }
 
-export function createUser({ verify_code, user }) {
+export function createUser({ user }) {
   return $.ajax({
     url: '/signup',
     method: 'POST',
     data: {
-      verify_code,
       user,
     },
   });

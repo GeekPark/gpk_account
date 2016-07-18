@@ -23,12 +23,12 @@ RSpec.describe 'routing test', type: :routing do
   end
 
   describe 'signup' do
-    it 'route to users#new via get' do
-      expect(get: 'signup').to route_to('users#new')
+    it 'route to users/signup#new via get' do
+      expect(get: 'signup').to route_to('users/signup#new')
     end
 
-    it 'route to users#create via post' do
-      expect(post: 'signup').to route_to('users#create')
+    it 'route to users/signup#create via post' do
+      expect(post: 'signup').to route_to('users/signup#create')
     end
   end
 

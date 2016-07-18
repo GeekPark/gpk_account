@@ -1,4 +1,6 @@
 class VerifyCodesController < ApplicationController
+  before_action :verify_rucaptcha!
+
   def create
     build_verify_code
     save_verify_code
@@ -25,5 +27,17 @@ class VerifyCodesController < ApplicationController
       :email,
       :mobile
     )
+  end
+
+  def verify_rucaptcha!
+    @user = User.find_by_email_or_mobile(params[way]) || User.new(way => params[way])
+    unless verify_rucaptcha?(@user) && @user.valid?
+      render json: { errors: @user.errors.full_messages }, status: 422
+      return
+    end
+  end
+
+  def way
+    return params[:type] if %w(email mobile).include?(params[:type])
   end
 end

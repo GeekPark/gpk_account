@@ -64,50 +64,6 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
-    let(:basic_user) { attributes_for(:basic_user) }
-    include_context 'prepare verify code' do
-      let(:key) { basic_user[:email] }
-    end
-
-    context 'verify code incorrect' do
-      it 'should return error' do
-        post :create, user: basic_user, verify_code: '1111111'
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
-      end
-    end
-
-    context 'verify code correct' do
-      it 'validate user params' do
-        User.create(basic_user)
-        post :create, user: basic_user, verify_code: @code
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('Email已经被使用')
-      end
-
-      it 'verify code can not use twice' do
-        post :create, user: basic_user, verify_code: '1111111'
-        post :create, user: basic_user, verify_code: @code
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
-      end
-
-      it 'return user when created' do
-        post :create, user: basic_user, verify_code: @code
-        expect(response).to be_success
-        expect(JSON.parse(response.body)['user']['email']).to eq('u****@geekpark.net')
-        expect(warden.user.email).to eq(basic_user[:email])
-      end
-
-      it 'return callback_url when created' do
-        post :create, user: basic_user, verify_code: @code
-        expect(response).to be_success
-        expect(JSON.parse(response.body)['callback_url']).to eq(user_url)
-      end
-    end
-  end
-
   describe 'GET #reset_password' do
     include_context 'prepare verify code' do
       let(:key) { user.email }
@@ -143,18 +99,6 @@ RSpec.describe UsersController, type: :controller do
       get 'check_exist', user: { email: user_with_avatar.email }
       expect(subject['exist']).to eq(true)
       expect(subject['avatar_url']).to eq(user_with_avatar.avatar_url)
-    end
-  end
-
-  describe 'POST #send_verify_code' do
-    let(:user) { create(:user, :with_email, :with_mobile) }
-
-    it_behaves_like 'send verify code' do
-      let(:subject) { post 'send_verify_code', type: 'mobile', mobile: user.mobile }
-    end
-
-    it_behaves_like 'send verify code' do
-      let(:subject) { post 'send_verify_code', type: 'email', email: user.email }
     end
   end
 end

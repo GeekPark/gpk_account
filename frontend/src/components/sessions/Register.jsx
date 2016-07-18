@@ -62,12 +62,14 @@ class Register extends React.Component {
     this.submit = e => {
       e.preventDefault();
       if (!this.check()) return;
-      const user = { password: this.getPwd() };
+      const user = {
+        password: this.getPwd(),
+        verify_code: this.getVerifyCodeInstance().getValue(),
+      };
       const key = this.props.user.isEmail ? 'email' : 'mobile';
       user[key] = this.props.user.id;
 
       createUser({
-        verify_code: this.getVerifyCodeInstance().getValue(),
         user,
       }).done(d => {
         const dom = document.querySelector('#component-session');

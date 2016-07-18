@@ -26,3 +26,4 @@ node_modules/
 /public/static
 /public/uploads
 frontend/coverage/
+frontend/npm-debug.log
