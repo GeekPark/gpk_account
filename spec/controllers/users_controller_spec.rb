@@ -64,28 +64,6 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'GET #reset_password' do
-    include_context 'prepare verify code' do
-      let(:key) { user.email }
-    end
-
-    it 'verify code invalid' do
-      post :reset_password, user: { email: key, password: 'new_password' }, verify_code: '111111'
-      expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
-    end
-
-    it 'return error when user not found' do
-      post :reset_password, user: { email: 'ex@am.ple' }, verify_code: @code
-      expect(JSON.parse(response.body)['errors']).to include('User not found')
-    end
-
-    it 'return user and callback when success' do
-      post :reset_password, user: { email: key, password: 'new_password' }, verify_code: @code
-      expect(JSON.parse(response.body)['user']['email']).to eq(user.email)
-      expect(JSON.parse(response.body)['callback_url']).to eq(user_url)
-    end
-  end
-
   describe 'GET #check_exist' do
     let(:subject) { JSON.parse(response.body) }
     let(:user_with_avatar) { create(:basic_user, :with_avatar) }

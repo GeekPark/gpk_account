@@ -16,8 +16,8 @@ Rails.application.routes.draw do
   post 'send_verify_code', to: 'verify_codes#create'
 
   # User reset password
-  get 'reset_password', to: 'users#new'
-  post 'reset_password', to: 'users#reset_password'
+  get 'reset_password', to: 'users/reset_password#new'
+  post 'reset_password', to: 'users/reset_password#create'
 
   resource 'user', path: 'my', except: [:edit, :destroy]
 

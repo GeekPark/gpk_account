@@ -15,15 +15,6 @@ class UsersController < ApplicationController
     render json: current_user, serializer: UserSerializer
   end
 
-  def reset_password
-    user = User.find_by_email_or_mobile(login_name)
-    (render json: { errors: ['User not found'] }, status: 404) && return unless user
-    verify_code? login_name
-    user.update!(password: params[:user][:password])
-    warden.set_user(user)
-    render json: { user: user, callback_url: callback_url }
-  end
-
   def check_exist
     user = User.find_by_email_or_mobile(login_name)
     render json: { exist: user.present?, avatar_url: user&.avatar_url }

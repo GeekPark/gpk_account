@@ -66,13 +66,12 @@ export function uploadAvatar(data) {
   });
 }
 
-// user: { email/mobile, password }, verify_code: xxxxxx
-export function resetPassword({ verify_code, user }) {
+// user: { email/mobile, password, verify_code: xxxxxx }
+export function resetPassword({ user }) {
   return $.ajax({
     url: '/reset_password',
     method: 'POST',
     data: {
-      verify_code,
       user,
     },
   });
