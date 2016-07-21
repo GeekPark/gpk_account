@@ -11,10 +11,6 @@ class Rack::Attack
     req.ip if req.path == '/login' && req.post?
   end
 
-  throttle('settings/send_verify_code', limit: 8, period: 1.day) do |req|
-    req.env['warden']&.user&.id if req.path == '/settings/send_verify_code' && req.post?
-  end
-
   %w(/send_verify_code /api/v1/send_verify_code).each do |key|
     throttle("#{key}/ip", limit: 15, period: 1.hour) do |req|
       req.ip if req.path == key && req.post?

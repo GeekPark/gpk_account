@@ -1,5 +1,6 @@
 class VerifyCodesController < ApplicationController
-  before_action :verify_rucaptcha!
+  before_action :verify_rucaptcha!,
+    unless: -> { login_or_unverified_user }
 
   def create
     build_verify_code
@@ -11,6 +12,8 @@ class VerifyCodesController < ApplicationController
   def build_verify_code
     @verify_code = VerifyCode.new
     @verify_code.attributes = verify_code_params
+    send_to_self = login_or_unverified_user && !verify_code_params[way]
+    @verify_code[way] = login_or_unverified_user.public_send(way) if send_to_self
   end
 
   def save_verify_code
@@ -39,5 +42,9 @@ class VerifyCodesController < ApplicationController
 
   def way
     return params[:type] if %w(email mobile).include?(params[:type])
+  end
+
+  def login_or_unverified_user
+    unverified_user_from_session || current_user
   end
 end

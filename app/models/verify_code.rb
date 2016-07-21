@@ -33,4 +33,8 @@ class VerifyCode < ActiveType::Object
       rand(100_000..999_999).to_s
     end
   end
+
+  def code
+    Rails.cache.read("verify_code:#{public_send(type)}")
+  end
 end

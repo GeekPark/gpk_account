@@ -25,8 +25,7 @@ Rails.application.routes.draw do
   get 'settings', to: 'users#show'
   delete 'auth/:provider/unbind', to: 'settings#unbind_auth'
   namespace :settings do
-    post 'send_verify_code'
-    post 'verify_current_user'
+    post 'verify_current_user', to: 'identifies#create'
     patch 'update_primary'
     patch 'update_password'
     get 'identified'

@@ -9,32 +9,6 @@ RSpec.describe SettingsController, type: :controller do
       warden.set_user user
     end
 
-    describe 'POST settings#verify_current_user with verify code' do
-      include_context 'prepare verify code' do
-        let(:key) { user.email }
-      end
-
-      it 'should return error if verify code invalid' do
-        post :verify_current_user, type: 'email', verify_code: '111111'
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
-      end
-
-      it 'should set user authenticate if verify code correct' do
-        post :verify_current_user, type: 'email', verify_code: @code
-        expect(response).to be_success
-        token = Rails.cache.fetch("identify_token:#{user.id}")
-        expect(token).not_to eq(nil)
-        expect(cookies[:identify_token]).to eq(token)
-      end
-
-      it 'update is old after verify' do
-        user.update_attribute(:is_old, true)
-        post :verify_current_user, type: 'email', verify_code: @code
-        expect(user.is_old?).to eq false
-      end
-    end
-
     describe 'PATCH settings#update_preference' do
       it 'build right params' do
         param_hash = {

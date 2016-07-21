@@ -29,18 +29,6 @@ RSpec.describe 'RackAttack' do
       end
     end
 
-    describe 'Settings#send_verify_code' do
-      it 'limit 8 time a day per user' do
-        login_as create(:basic_user)
-        8.times do
-          post '/settings/send_verify_code', { way: 'mobile' }, 'REMOTE_ADDR' => '1.2.3.4'
-        end
-        expect(response.status).not_to be(429)
-        post '/settings/send_verify_code', { way: 'mobile' }, 'REMOTE_ADDR' => '1.2.3.4'
-        expect(response.status).to be(429)
-      end
-    end
-
     describe 'api#send_verify_code' do
       it 'limit 15 times an hour per ip' do
         15.times do

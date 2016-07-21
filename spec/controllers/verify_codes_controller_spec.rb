@@ -23,5 +23,25 @@ RSpec.describe VerifyCodesController, type: :controller do
         expect(JSON.parse(response.body)['success']).to include('Sended')
       end
     end
+
+    context 'when user has logged in' do
+      before do
+        warden.set_user(user)
+      end
+
+      it 'should send to self when params only have a type' do
+        post 'create', type: 'mobile'
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body)['success']).to include('Sended')
+        expect(Rails.cache.read("verify_code:#{user.mobile}")).to be_truthy
+      end
+
+      it 'should send to new mobile when params have a mobile' do
+        post 'create', type: 'mobile', mobile: '13111111111'
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body)['success']).to include('Sended')
+        expect(Rails.cache.read('verify_code:13111111111')).to be_truthy
+      end
+    end
   end
 end
