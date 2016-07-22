@@ -1,12 +1,5 @@
 class SettingsController < ApplicationController
-  include Verifiable
-  before_action :require_identify, only: [:update_primary, :two_factor_qr, :two_factor]
-
-  def update_primary
-    verify_code? params[way]
-    current_user.update! params.permit(way)
-    render json: current_user, serializer: UserSerializer
-  end
+  before_action :require_identify, only: [:two_factor_qr, :two_factor]
 
   def update_password
     if current_user.authenticate(params[:password]) || current_user.password.blank?
@@ -53,12 +46,5 @@ class SettingsController < ApplicationController
 
   def build_preference_params
     params.require(:user).require(:preference).permit(email: [:enabled, subscriptions: [:event, :report]])
-  end
-
-  def require_identify
-    unless current_user.identified?(cookies[:identify_token])
-      render json: { errors: [t('errors.user_not_identified')] }, status: 422
-      return
-    end
   end
 end

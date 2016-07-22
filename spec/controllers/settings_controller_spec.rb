@@ -27,29 +27,6 @@ RSpec.describe SettingsController, type: :controller do
       end
     end
 
-    describe 'PATCH settings#update_primary' do
-      include_context 'prepare verify code'
-
-      it 'should return error if user not authenticate' do
-        patch :update_primary, type: 'email', verify_code: @code, email: key
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('请先验证您的身份')
-      end
-
-      it 'should return error if verify_code invalid' do
-        allow_any_instance_of(User).to receive(:identified?).and_return(true)
-        patch :update_primary, type: 'email', verify_code: '111111', email: key
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
-      end
-
-      it 'should return user if verify code correct' do
-        allow_any_instance_of(User).to receive(:identified?).and_return(true)
-        patch :update_primary, type: 'email', verify_code: @code, email: key
-        expect(response.body).to eq(UserSerializer.new(user).to_json)
-      end
-    end
-
     describe 'PATCH settings#update_password with new password' do
       it 'should return error if password is invalid' do
         patch :update_password, password: '111111', new_password: '222222'
@@ -104,24 +81,8 @@ RSpec.describe SettingsController, type: :controller do
   context 'old user or sns user' do
     let(:old_user) { create(:old_user) }
 
-    describe 'PATCH settings#update_primary' do
-      include_context 'prepare verify code'
-
-      it 'should return user if user is_old and verify_code correct' do
-        warden.set_user old_user
-        patch :update_primary, type: 'email', verify_code: @code, email: key
-        expect(JSON.parse(response.body)['email']).to eq('n****@email.com')
-      end
-
-      it 'should return user if sns user' do
-        warden.set_user create(:sns_user)
-        patch :update_primary, type: 'email', email: key, verify_code: @code, password: 'new_password'
-        expect(JSON.parse(response.body)['email']).to eq('n****@email.com')
-      end
-    end
-
     describe 'POST settings#identified' do
-      it 'should return false' do
+      it 'should return true' do
         warden.set_user old_user
         post :identified
         expect(JSON.parse(response.body)['identified']).to eq(true)

@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   delete 'auth/:provider/unbind', to: 'settings#unbind_auth'
   namespace :settings do
     post 'verify_current_user', to: 'identifies#create'
-    patch 'update_primary'
+    patch 'update_primary', to: 'edit_email_or_mobile#update'
     patch 'update_password'
     get 'identified'
     get 'two_factor_qr'

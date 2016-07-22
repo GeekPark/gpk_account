@@ -1,7 +1,7 @@
 class User::ResetPassword < ActiveType::Object
-  attribute :login_name
-  attribute :verify_code
-  attribute :password
+  attribute :login_name, :string
+  attribute :verify_code, :string
+  attribute :password, :string
 
   validates :login_name, :verify_code, :password, presence: true
   validates :password, length: { in: 6..32 }

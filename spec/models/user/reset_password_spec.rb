@@ -14,9 +14,9 @@ RSpec.describe User::ResetPassword, type: :model do
     end
 
     it 'should invalid without login_name or password or verify_code' do
-      expect(reset_password.tap { |re| re.login_name = nil }).not_to be_valid
-      expect(reset_password.tap { |re| re.password = nil }).not_to be_valid
-      expect(reset_password.tap { |re| re.verify_code = nil }).not_to be_valid
+      expect(reset_password.dup.tap { |re| re.login_name = nil }).not_to be_valid
+      expect(reset_password.dup.tap { |re| re.password = nil }).not_to be_valid
+      expect(reset_password.dup.tap { |re| re.verify_code = nil }).not_to be_valid
     end
 
     it 'should invalid when user not exist' do
