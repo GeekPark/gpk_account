@@ -103,4 +103,8 @@ class User < ActiveRecord::Base
   def revoke_all
     access_tokens.each(&:revoke)
   end
+
+  def unread_dm_between(user_id)
+    DirectMessage.where('user_id = ? and to_user_id = ?', user_id, id).unread
+  end
 end
