@@ -19,18 +19,17 @@ export function sendVerify({ str, id, isEmail }) {
 
 export function sendVerifyWithoutCaptcha({ type, params }) {
   return $.ajax({
-    url: '/settings/send_verify_code',
+    url: '/send_verify_code',
     method: 'POST',
     data: { type, ...params },
   });
 }
 
-export function createUser({ verify_code, user }) {
+export function createUser({ user }) {
   return $.ajax({
     url: '/signup',
     method: 'POST',
     data: {
-      verify_code,
       user,
     },
   });
@@ -67,13 +66,12 @@ export function uploadAvatar(data) {
   });
 }
 
-// user: { email/mobile, password }, verify_code: xxxxxx
-export function resetPassword({ verify_code, user }) {
+// user: { email/mobile, password, verify_code: xxxxxx }
+export function resetPassword({ user }) {
   return $.ajax({
     url: '/reset_password',
     method: 'POST',
     data: {
-      verify_code,
       user,
     },
   });

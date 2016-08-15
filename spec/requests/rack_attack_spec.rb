@@ -8,7 +8,7 @@ RSpec.describe 'RackAttack' do
     after { Rails.cache.clear }
     describe 'Users#send_verify_code' do
       it 'limit 15 times an hour per ip' do
-        allow_any_instance_of(UsersController).to receive(:verify_rucaptcha!).and_return(true)
+        allow_any_instance_of(VerifyCodesController).to receive(:verify_rucaptcha!).and_return(true)
         15.times do
           post '/send_verify_code', {}, 'REMOTE_ADDR' => '1.2.3.4'
         end
@@ -25,18 +25,6 @@ RSpec.describe 'RackAttack' do
         end
         expect(response.status).not_to be(429)
         post '/login', {}, 'REMOTE_ADDR' => '1.2.3.4'
-        expect(response.status).to be(429)
-      end
-    end
-
-    describe 'Settings#send_verify_code' do
-      it 'limit 8 time a day per user' do
-        login_as create(:basic_user)
-        8.times do
-          post '/settings/send_verify_code', { way: 'mobile' }, 'REMOTE_ADDR' => '1.2.3.4'
-        end
-        expect(response.status).not_to be(429)
-        post '/settings/send_verify_code', { way: 'mobile' }, 'REMOTE_ADDR' => '1.2.3.4'
         expect(response.status).to be(429)
       end
     end

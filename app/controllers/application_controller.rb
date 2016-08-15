@@ -20,6 +20,13 @@ class ApplicationController < ActionController::Base
     raise Unauthorized unless current_user
   end
 
+  def require_identify
+    unless current_user.identified?(cookies[:identify_token])
+      render json: { errors: [t('errors.user_not_identified')] }, status: 422
+      return
+    end
+  end
+
   def callback_url(custom_url = nil)
     session[:callback_url] || custom_url || user_url
   end

@@ -1,25 +1,5 @@
 class SettingsController < ApplicationController
-  include Verifiable
-  before_action :require_login, except: [:send_verify_code, :verify_current_user]
-  before_action :require_identify, only: [:update_primary, :two_factor_qr, :two_factor]
-  before_action :require_login_or_unverified_user_from_session, only: [:send_verify_code, :verify_current_user]
-
-  def verify_current_user
-    verify_code? current_addr
-    current_user || warden.set_user(@user)
-    current_user.update_attribute(:is_old, false) if way == 'email'
-    cookies[:identify_token] = {
-      value: current_user.generate_identify_token,
-      expires: 1.hour.from_now
-    }
-    render json: current_user, serializer: UserSerializer
-  end
-
-  def update_primary
-    verify_code? params[way]
-    current_user.update! params.permit(way)
-    render json: current_user, serializer: UserSerializer
-  end
+  before_action :require_identify, only: [:two_factor_qr, :two_factor]
 
   def update_password
     if current_user.authenticate(params[:password]) || current_user.password.blank?
@@ -66,18 +46,5 @@ class SettingsController < ApplicationController
 
   def build_preference_params
     params.require(:user).require(:preference).permit(email: [:enabled, subscriptions: [:event, :report]])
-  end
-
-  def require_identify
-    unless current_user.identified?(cookies[:identify_token])
-      render json: { errors: [t('errors.user_not_identified')] }, status: 422
-      return
-    end
-  end
-
-  def require_login_or_unverified_user_from_session
-    @user = unverified_user_from_session || current_user
-    raise Unauthorized unless @user
-    @current_addr = @user.read_attribute(way)
   end
 end

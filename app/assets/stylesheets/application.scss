@@ -40,7 +40,8 @@ body {
 
 // page only scss
 .sessions-controller,
-.users-new {
+.reset_password-controller,
+.signup-new {
   @import 'sessions/new';
 }
 

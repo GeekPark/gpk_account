@@ -9,32 +9,6 @@ RSpec.describe SettingsController, type: :controller do
       warden.set_user user
     end
 
-    describe 'POST settings#verify_current_user with verify code' do
-      include_context 'prepare verify code' do
-        let(:key) { user.email }
-      end
-
-      it 'should return error if verify code invalid' do
-        post :verify_current_user, type: 'email', verify_code: '111111'
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
-      end
-
-      it 'should set user authenticate if verify code correct' do
-        post :verify_current_user, type: 'email', verify_code: @code
-        expect(response).to be_success
-        token = Rails.cache.fetch("identify_token:#{user.id}")
-        expect(token).not_to eq(nil)
-        expect(cookies[:identify_token]).to eq(token)
-      end
-
-      it 'update is old after verify' do
-        user.update_attribute(:is_old, true)
-        post :verify_current_user, type: 'email', verify_code: @code
-        expect(user.is_old?).to eq false
-      end
-    end
-
     describe 'PATCH settings#update_preference' do
       it 'build right params' do
         param_hash = {
@@ -50,29 +24,6 @@ RSpec.describe SettingsController, type: :controller do
         }
         patch :update_preference, user: param_hash
         expect(user.preference.email).to eq param_hash['preference']['email']
-      end
-    end
-
-    describe 'PATCH settings#update_primary' do
-      include_context 'prepare verify code'
-
-      it 'should return error if user not authenticate' do
-        patch :update_primary, type: 'email', verify_code: @code, email: key
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('请先验证您的身份')
-      end
-
-      it 'should return error if verify_code invalid' do
-        allow_any_instance_of(User).to receive(:identified?).and_return(true)
-        patch :update_primary, type: 'email', verify_code: '111111', email: key
-        expect(response).to have_http_status(422)
-        expect(JSON.parse(response.body)['errors']).to include('验证码输入错误')
-      end
-
-      it 'should return user if verify code correct' do
-        allow_any_instance_of(User).to receive(:identified?).and_return(true)
-        patch :update_primary, type: 'email', verify_code: @code, email: key
-        expect(response.body).to eq(UserSerializer.new(user).to_json)
       end
     end
 
@@ -130,24 +81,8 @@ RSpec.describe SettingsController, type: :controller do
   context 'old user or sns user' do
     let(:old_user) { create(:old_user) }
 
-    describe 'PATCH settings#update_primary' do
-      include_context 'prepare verify code'
-
-      it 'should return user if user is_old and verify_code correct' do
-        warden.set_user old_user
-        patch :update_primary, type: 'email', verify_code: @code, email: key
-        expect(JSON.parse(response.body)['email']).to eq('n****@email.com')
-      end
-
-      it 'should return user if sns user' do
-        warden.set_user create(:sns_user)
-        patch :update_primary, type: 'email', email: key, verify_code: @code, password: 'new_password'
-        expect(JSON.parse(response.body)['email']).to eq('n****@email.com')
-      end
-    end
-
     describe 'POST settings#identified' do
-      it 'should return false' do
+      it 'should return true' do
         warden.set_user old_user
         post :identified
         expect(JSON.parse(response.body)['identified']).to eq(true)

@@ -8,8 +8,6 @@ class User < ActiveRecord::Base
   has_many :access_tokens, -> { where revoked_at: nil }, class_name: 'Doorkeeper::AccessToken',
     foreign_key: 'resource_owner_id'
 
-  validates :mobile, presence: { message: 'email and mobile at least have one' },
-                     on: :create, if: ->(user) { user.email.blank? }
   validates_absence_of :password, message: 'please set the email or mobile first',
                                   if: ->(user) { user.email.blank? && user.mobile.blank? }
   validates :mobile, uniqueness: true,

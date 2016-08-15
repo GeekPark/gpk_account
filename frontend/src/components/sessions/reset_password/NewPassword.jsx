@@ -22,10 +22,10 @@ class NewPassword extends React.Component {
       if (!verifyCode) return;
 
       const params = {
-        verify_code: verifyCode,
         user: {
           email: this.props.loginName,
           password: pwd,
+          verify_code: verifyCode,
         },
       };
 

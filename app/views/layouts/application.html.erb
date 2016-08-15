@@ -21,6 +21,6 @@
   <script src="//res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js" async></script>
   <%= webpack_javascript_include_tag 'common' %>
   <%= webpack_javascript_include_tag 'user' if controller_name == 'users' && action_name == 'show'%>
-  <%= webpack_javascript_include_tag 'sessions' if controller_name == 'sessions' || (controller_name == 'users' && action_name == 'new')%>
+  <%= webpack_javascript_include_tag 'sessions' if controller_name == 'sessions' || (controller_name == 'signup' && action_name == 'new') || (controller_name == 'reset_password' && action_name == 'new')%>
 </body>
 </html>

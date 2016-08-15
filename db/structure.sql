@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
--- Dumped by pg_dump version 9.5.3
+-- Dumped from database version 9.5.2
+-- Dumped by pg_dump version 9.5.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -133,7 +133,10 @@ CREATE TABLE notifications (
     parent_id uuid,
     unread boolean DEFAULT true,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    from_user_id uuid,
+    direct_id character varying,
+    title character varying
 );
 
 
@@ -220,8 +223,8 @@ CREATE TABLE oauth_applications (
     secret character varying NOT NULL,
     redirect_uri text NOT NULL,
     scopes character varying DEFAULT ''::character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -252,7 +255,8 @@ CREATE TABLE preferences (
     user_id uuid NOT NULL,
     email jsonb DEFAULT '{}'::jsonb,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    receive_message boolean DEFAULT true
 );
 
 
@@ -263,6 +267,38 @@ CREATE TABLE preferences (
 CREATE TABLE schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE subscriptions (
+    id integer NOT NULL,
+    user_id character varying,
+    list_id character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE subscriptions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 
 
 --
@@ -322,6 +358,13 @@ ALTER TABLE ONLY oauth_access_tokens ALTER COLUMN id SET DEFAULT nextval('oauth_
 --
 
 ALTER TABLE ONLY oauth_applications ALTER COLUMN id SET DEFAULT nextval('oauth_applications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions ALTER COLUMN id SET DEFAULT nextval('subscriptions_id_seq'::regclass);
 
 
 --
@@ -386,6 +429,14 @@ ALTER TABLE ONLY oauth_applications
 
 ALTER TABLE ONLY preferences
     ADD CONSTRAINT preferences_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -474,6 +525,20 @@ CREATE UNIQUE INDEX index_oauth_applications_on_uid ON oauth_applications USING 
 
 
 --
+-- Name: index_subscriptions_on_list_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscriptions_on_list_id ON subscriptions USING btree (list_id);
+
+
+--
+-- Name: index_subscriptions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscriptions_on_user_id ON subscriptions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -538,7 +603,13 @@ INSERT INTO schema_migrations (version) VALUES ('20160519151446');
 
 INSERT INTO schema_migrations (version) VALUES ('20160525053141');
 
+INSERT INTO schema_migrations (version) VALUES ('20160531091743');
+
 INSERT INTO schema_migrations (version) VALUES ('20160601061329');
 
 INSERT INTO schema_migrations (version) VALUES ('20160612064616');
+
+INSERT INTO schema_migrations (version) VALUES ('20160616064016');
+
+INSERT INTO schema_migrations (version) VALUES ('20160628045735');
 

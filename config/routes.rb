@@ -9,15 +9,15 @@ Rails.application.routes.draw do
   get 'two_factor_verify', to: 'sessions#two_factor_verify'
 
   # User signup
-  get 'signup', to: 'users#new'
-  post 'signup', to: 'users#create'
+  get 'signup', to: 'users/signup#new'
+  post 'signup', to: 'users/signup#create'
   get 'check_exist', to: 'users#check_exist'
 
-  post 'send_verify_code', to: 'users#send_verify_code'
+  post 'send_verify_code', to: 'verify_codes#create'
 
   # User reset password
-  get 'reset_password', to: 'users#new'
-  post 'reset_password', to: 'users#reset_password'
+  get 'reset_password', to: 'users/reset_password#new'
+  post 'reset_password', to: 'users/reset_password#create'
 
   resource 'user', path: 'my', except: [:edit, :destroy]
 
@@ -25,9 +25,8 @@ Rails.application.routes.draw do
   get 'settings', to: 'users#show'
   delete 'auth/:provider/unbind', to: 'settings#unbind_auth'
   namespace :settings do
-    post 'send_verify_code'
-    post 'verify_current_user'
-    patch 'update_primary'
+    post 'verify_current_user', to: 'identifies#create'
+    patch 'update_primary', to: 'edit_email_or_mobile#update'
     patch 'update_password'
     get 'identified'
     get 'two_factor_qr'
