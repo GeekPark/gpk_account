@@ -4,6 +4,7 @@
 }
 
 .ant-layout-aside .ant-layout-logo {
+  display: block;
   width: 150px;
   height: 32px;
   margin: 16px 24px 16px 28px;
@@ -24,22 +25,14 @@
   margin-bottom: 20px;
 }
 
-.ant-layout-aside .ant-layout-breadcrumb {
-  padding-top: 7px;
-  margin: 0 0 -17px 24px;
-}
-
 .ant-layout-aside .ant-layout-main {
   margin-left: 224px;
-}
-
-.ant-layout-aside .ant-layout-container {
-  margin: 24px 16px;
 }
 
 .ant-layout-aside .ant-layout-content {
   background: #fff;
   padding: 24px;
+  min-height: calc(100vh - 80px);
 }
 
 .ant-layout-aside .ant-layout-footer {
