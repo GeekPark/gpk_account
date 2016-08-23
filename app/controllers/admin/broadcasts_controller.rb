@@ -1,6 +1,7 @@
 class Admin::BroadcastsController < Admin::BaseController
   def index
     @broadcasts = Broadcast.all
+    @data = { broadcasts: @broadcasts }
   end
 
   def new
