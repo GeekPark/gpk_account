@@ -6,6 +6,10 @@ FactoryGirl.define do
     city 440_300
     is_old false
 
+    trait :admin do
+      role :admin
+    end
+
     trait :old_user do
       is_old true
     end
