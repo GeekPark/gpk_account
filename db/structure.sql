@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.2
--- Dumped by pg_dump version 9.5.2
+-- Dumped from database version 9.5.3
+-- Dumped by pg_dump version 9.5.3
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -93,6 +93,37 @@ ALTER SEQUENCE authorizations_id_seq OWNED BY authorizations.id;
 
 
 --
+-- Name: broadcasts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE broadcasts (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    title character varying,
+    content_type integer DEFAULT 1 NOT NULL,
+    content text,
+    send_at timestamp without time zone,
+    redirect_id uuid,
+    user_id uuid,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: broadcasts_devices_relations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE broadcasts_devices_relations (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    broadcast_id uuid,
+    device_id uuid,
+    read boolean DEFAULT false,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: devices; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -117,7 +148,8 @@ CREATE TABLE direct_messages (
     content character varying,
     media_content character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    unread boolean DEFAULT true
 );
 
 
@@ -223,8 +255,8 @@ CREATE TABLE oauth_applications (
     secret character varying NOT NULL,
     redirect_uri text NOT NULL,
     scopes character varying DEFAULT ''::character varying NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -267,38 +299,6 @@ CREATE TABLE preferences (
 CREATE TABLE schema_migrations (
     version character varying NOT NULL
 );
-
-
---
--- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE subscriptions (
-    id integer NOT NULL,
-    user_id character varying,
-    list_id character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE subscriptions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 
 
 --
@@ -361,18 +361,27 @@ ALTER TABLE ONLY oauth_applications ALTER COLUMN id SET DEFAULT nextval('oauth_a
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY subscriptions ALTER COLUMN id SET DEFAULT nextval('subscriptions_id_seq'::regclass);
-
-
---
 -- Name: authorizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY authorizations
     ADD CONSTRAINT authorizations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: broadcasts_devices_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY broadcasts_devices_relations
+    ADD CONSTRAINT broadcasts_devices_relations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: broadcasts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY broadcasts
+    ADD CONSTRAINT broadcasts_pkey PRIMARY KEY (id);
 
 
 --
@@ -432,14 +441,6 @@ ALTER TABLE ONLY preferences
 
 
 --
--- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY subscriptions
-    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
-
-
---
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -459,6 +460,20 @@ CREATE INDEX index_authorizations_on_provider_and_uid ON authorizations USING bt
 --
 
 CREATE INDEX index_authorizations_on_user_id ON authorizations USING btree (user_id);
+
+
+--
+-- Name: index_broadcasts_devices_relations_on_broadcast_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_broadcasts_devices_relations_on_broadcast_id ON broadcasts_devices_relations USING btree (broadcast_id);
+
+
+--
+-- Name: index_broadcasts_devices_relations_on_device_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_broadcasts_devices_relations_on_device_id ON broadcasts_devices_relations USING btree (device_id);
 
 
 --
@@ -522,20 +537,6 @@ CREATE UNIQUE INDEX index_oauth_access_tokens_on_token ON oauth_access_tokens US
 --
 
 CREATE UNIQUE INDEX index_oauth_applications_on_uid ON oauth_applications USING btree (uid);
-
-
---
--- Name: index_subscriptions_on_list_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_subscriptions_on_list_id ON subscriptions USING btree (list_id);
-
-
---
--- Name: index_subscriptions_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_subscriptions_on_user_id ON subscriptions USING btree (user_id);
 
 
 --
@@ -603,8 +604,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160519151446');
 
 INSERT INTO schema_migrations (version) VALUES ('20160525053141');
 
-INSERT INTO schema_migrations (version) VALUES ('20160531091743');
-
 INSERT INTO schema_migrations (version) VALUES ('20160601061329');
 
 INSERT INTO schema_migrations (version) VALUES ('20160612064616');
@@ -612,4 +611,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160612064616');
 INSERT INTO schema_migrations (version) VALUES ('20160616064016');
 
 INSERT INTO schema_migrations (version) VALUES ('20160628045735');
+
+INSERT INTO schema_migrations (version) VALUES ('20160629115311');
+
+INSERT INTO schema_migrations (version) VALUES ('20160822041506');
+
+INSERT INTO schema_migrations (version) VALUES ('20160822070805');
 

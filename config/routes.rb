@@ -34,6 +34,11 @@ Rails.application.routes.draw do
     patch 'update_preference'
   end
 
+  namespace :admin do
+    root 'broadcasts#index'
+    resources 'broadcasts', only: [:index, :new, :create]
+  end
+
   namespace :api do
     namespace :v1 do
       # Register

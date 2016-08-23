@@ -1,3 +1,5 @@
+class PermissionError < StandardError; end
+
 class Unauthorized < StandardError; end
 
 class VerifyCodeInvalid < StandardError; end

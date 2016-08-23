@@ -9,3 +9,9 @@ RSpec.shared_examples 'redirect_to login_url' do
     expect(subject).to redirect_to(login_url)
   end
 end
+
+RSpec.shared_examples 'return 404 without admin' do
+  it 'should return 404' do
+    expect(subject).to have_http_status(404)
+  end
+end
