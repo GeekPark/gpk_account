@@ -1,0 +1,17 @@
+.panel-title {
+  font-size: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid lighten($color-dark, 40%);
+  color: $color-blue;
+}
+
+.panel-split {
+  margin: 20px 0;
+  height: 1px;
+  background-color: lighten($color-dark, 40%);
+}
+
+.panel-btns .ant-btn {
+  margin-right: 15px;
+}
