@@ -1,5 +1,10 @@
 import React, { PropTypes } from 'react';
-import { Select } from 'antd';
+import isUUID from 'validator/lib/isUUID';
+import { Form, Select } from 'antd';
+
+const FormItem = Form.Item;
+
+import { searchOrigin } from '../../../share/server';
 
 const Option = Select.Option;
 
@@ -13,15 +18,11 @@ class OriginSearchInput extends React.Component {
     super();
 
     this.state = {
-      data: [
-        {
-          text: '123',
-          value: '123',
-        },
-      ],
+      data: [],
       value: '',
       focus: false,
       type: props.type,
+      isLoading: false,
     };
   }
 
@@ -31,26 +32,37 @@ class OriginSearchInput extends React.Component {
 
   handleChange(value) {
     this.setState({ value });
-    if (this.state.type === 'initial') this.props.showError();
+    if (this.state.type === 'initial') {
+      this.props.showError();
+      return;
+    }
+
+    if (value.length === 0 || isUUID(value, 4) || /^\d{6}$/.test(value)) return;
+
+    this.setState({ isLoading: true });
+    searchOrigin({ type: this.state.type, key: value })
+      .then(data => this.setState({ data, isLoading: false }));
   }
 
   render() {
     const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>);
     return (
-      <div style={{ width: '100%' }}>
-        <Select
-          size="large"
-          combobox
-          value={this.state.value}
-          notFoundContent=""
-          defaultActiveFirstOption={false}
-          showArrow={false}
-          filterOption={false}
-          onChange={::this.handleChange}
-        >
-          {options}
-        </Select>
-      </div>
+      <FormItem validateStatus={this.state.isLoading ? 'validating' : ''} hasFeedback>
+        <div style={{ width: '100%' }}>
+          <Select
+            size="large"
+            combobox
+            value={this.state.value}
+            notFoundContent=""
+            defaultActiveFirstOption={false}
+            showArrow={false}
+            filterOption={false}
+            onChange={::this.handleChange}
+          >
+            {options}
+          </Select>
+        </div>
+      </FormItem>
     );
   }
 }

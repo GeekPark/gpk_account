@@ -187,3 +187,23 @@ export function updateEmailPreference({ preference }) {
     },
   });
 }
+
+export function searchOrigin({ type, key }) {
+  const urls = {
+    activity: 'http://events.geekpark.net/api/v1/activities',
+    topic: 'http://www.geekpark.net/api/v1/topics',
+  };
+
+  return new Promise((res, rej) => {
+    const url = `${urls[type]}/auto_complete/${key}.json`;
+
+    $.ajax(url)
+      .done(d => {
+        const list = d.activities || d.topics;
+        res(list.map(x => ({ text: x.label, value: x.value })));
+      })
+      .fail(jqXHR => {
+        rej(jqXHR);
+      });
+  });
+}
