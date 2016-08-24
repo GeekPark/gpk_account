@@ -46,9 +46,9 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
 
       context 'invalid params' do
         it 'render new' do
-          post :create, broadcast: attributes_for(:broadcast, title: nil)
+          post :create, broadcast: attributes_for(:broadcast, content: nil)
           expect(response).to have_http_status(422)
-          expect(JSON.parse(response.body)['errors']).to include('Title不能为空字符')
+          expect(JSON.parse(response.body)['errors']).to include('Content不能为空字符')
         end
       end
     end

@@ -98,7 +98,6 @@ ALTER SEQUENCE authorizations_id_seq OWNED BY authorizations.id;
 
 CREATE TABLE broadcasts (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
-    title character varying,
     content_type integer DEFAULT 1 NOT NULL,
     content text,
     send_at timestamp without time zone,
