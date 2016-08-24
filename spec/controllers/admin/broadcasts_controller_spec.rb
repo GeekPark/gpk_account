@@ -6,15 +6,15 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
 
   describe 'without login or not admin' do
     context 'not login' do
-      it_behaves_like 'return 404 without admin' do
-        let(:subject) { get :index }
+      it 'raise error' do
+        expect { get :index }.to raise_error(ActionController::RoutingError)
       end
     end
 
     context 'not admin' do
       before { warden.set_user(user) }
-      it_behaves_like 'return 404 without admin' do
-        let(:subject) { get :index }
+      it 'raise error' do
+        expect { get :index }.to raise_error(ActionController::RoutingError)
       end
     end
   end
