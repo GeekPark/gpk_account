@@ -12,6 +12,7 @@ class OriginSearchInput extends React.Component {
   static propTypes = {
     type: PropTypes.string.isRequired,
     showError: PropTypes.func.isRequired,
+    getFieldProps: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -23,6 +24,7 @@ class OriginSearchInput extends React.Component {
       focus: false,
       type: props.type,
       isLoading: false,
+      selected: '',
     };
   }
 
@@ -39,15 +41,23 @@ class OriginSearchInput extends React.Component {
 
     if (value.length === 0 || isUUID(value, 4) || /^\d{6}$/.test(value)) return;
 
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, selected: '' });
     searchOrigin({ type: this.state.type, key: value })
       .then(data => this.setState({ data, isLoading: false }));
+  }
+
+  handleSelect(e) {
+    const item = this.state.data.filter(x => x.value === +e)[0];
+    this.setState({ selected: item.text });
   }
 
   render() {
     const options = this.state.data.map(d => <Option key={d.value}>{d.text}</Option>);
     return (
-      <FormItem validateStatus={this.state.isLoading ? 'validating' : ''} hasFeedback>
+      <FormItem
+        validateStatus={this.state.isLoading ? 'validating' : ''}
+        hasFeedback help={this.state.selected} required
+      >
         <div style={{ width: '100%' }}>
           <Select
             size="large"
@@ -57,7 +67,10 @@ class OriginSearchInput extends React.Component {
             defaultActiveFirstOption={false}
             showArrow={false}
             filterOption={false}
-            onChange={::this.handleChange}
+            onSelect={::this.handleSelect}
+            {...this.props.getFieldProps('redirect_id', {
+              onChange: ::this.handleChange,
+            })}
           >
             {options}
           </Select>

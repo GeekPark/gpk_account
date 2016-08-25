@@ -207,3 +207,11 @@ export function searchOrigin({ type, key }) {
       });
   });
 }
+
+export function createBroadcast(params) {
+  return $.ajax({
+    url: '/admin/broadcasts',
+    method: 'POST',
+    data: params,
+  });
+}
