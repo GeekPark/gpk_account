@@ -23,7 +23,7 @@ RSpec.describe Api::V1::BroadcastsController, type: :controller do
 
     context 'when params invalid' do
       let(:origin_hash) do
-        attributes_for(:broadcast, title: nil).merge(timestamp: Time.current.to_i, client_id: application.uid)
+        attributes_for(:broadcast, content: nil).merge(timestamp: Time.current.to_i, client_id: application.uid)
       end
       it 'return error' do
         post :create, origin_hash.merge(signature: calculate_signature, format: :json, title: nil)

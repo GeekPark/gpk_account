@@ -27,6 +27,21 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
         get :index
         expect(response).to have_http_status(200)
       end
+
+      context 'with type' do
+        before do
+          create(:broadcast, :activity, content: 'activity broadcast')
+          create(:broadcast, :topic, content: 'topic broadcast')
+        end
+        it 'return activity broadcast' do
+          get :index, type: 'activity_type'
+          expect(assigns(:broadcasts).last&.content).to include('activity')
+        end
+        it 'return topic broadcast' do
+          get :index, type: 'topic_type'
+          expect(assigns(:broadcasts).last&.content).to include('topic')
+        end
+      end
     end
 
     describe 'Get #new' do
@@ -39,14 +54,14 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
     describe 'Post #create' do
       context 'valid params' do
         it 'create a broadcast' do
-          post :create, broadcast: attributes_for(:broadcast)
+          post :create, attributes_for(:broadcast)
           expect(response).to redirect_to(admin_broadcasts_path)
         end
       end
 
       context 'invalid params' do
         it 'render new' do
-          post :create, broadcast: attributes_for(:broadcast, content: nil)
+          post :create, attributes_for(:broadcast, content: nil)
           expect(response).to have_http_status(422)
           expect(JSON.parse(response.body)['errors']).to include('Content不能为空字符')
         end
