@@ -115,7 +115,7 @@ CREATE TABLE broadcasts (
 CREATE TABLE broadcasts_devices_relations (
     id uuid DEFAULT uuid_generate_v4() NOT NULL,
     broadcast_id uuid,
-    device_id uuid,
+    device_id character varying,
     read boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

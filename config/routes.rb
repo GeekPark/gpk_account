@@ -54,7 +54,10 @@ Rails.application.routes.draw do
         patch 'update_preference'
       end
 
-      resources 'broadcasts', only: :create
+      resources 'broadcasts', only: [:create, :index] do
+        patch 'read_all', on: :collection
+      end
+
       resource 'device', only: :create
       resources 'notifications', only: [:index, :create] do
         post 'read', on: :member
