@@ -27,6 +27,21 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
         get :index
         expect(response).to have_http_status(200)
       end
+
+      context 'with type' do
+        before do
+          create(:broadcast, :activity, content: 'activity broadcast')
+          create(:broadcast, :topic, content: 'topic broadcast')
+        end
+        it 'return activity broadcast' do
+          get :index, type: 'activity_type'
+          expect(assigns(:broadcasts).last&.content).to include('activity')
+        end
+        it 'return topic broadcast' do
+          get :index, type: 'topic_type'
+          expect(assigns(:broadcasts).last&.content).to include('topic')
+        end
+      end
     end
 
     describe 'Get #new' do
