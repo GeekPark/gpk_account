@@ -13,7 +13,7 @@ class Broadcast < ActiveRecord::Base
       delay = Time.now.getlocal - send_at
       BroadcastJob.perform_in(delay, id)
     else
-      BroadcastJob.preform_async(id)
+      BroadcastJob.perform_async(id)
     end
   end
 end
