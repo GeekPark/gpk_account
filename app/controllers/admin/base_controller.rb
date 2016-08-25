@@ -3,7 +3,7 @@ class Admin::BaseController < ApplicationController
 
   rescue_from PermissionError do
     respond_to do |format|
-      format.html { render status: 404 }
+      format.html { render_404 }
       format.json { render json: { errors: ['permission denial'] }, status: 404 }
     end
   end

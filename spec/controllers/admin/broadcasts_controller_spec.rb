@@ -6,15 +6,15 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
 
   describe 'without login or not admin' do
     context 'not login' do
-      it_behaves_like 'return 404 without admin' do
-        let(:subject) { get :index }
+      it 'raise error' do
+        expect { get :index }.to raise_error(ActionController::RoutingError)
       end
     end
 
     context 'not admin' do
       before { warden.set_user(user) }
-      it_behaves_like 'return 404 without admin' do
-        let(:subject) { get :index }
+      it 'raise error' do
+        expect { get :index }.to raise_error(ActionController::RoutingError)
       end
     end
   end
@@ -26,6 +26,21 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
       it 'return 200' do
         get :index
         expect(response).to have_http_status(200)
+      end
+
+      context 'with type' do
+        before do
+          create(:broadcast, :activity, content: 'activity broadcast')
+          create(:broadcast, :topic, content: 'topic broadcast')
+        end
+        it 'return activity broadcast' do
+          get :index, type: 'activity_type'
+          expect(assigns(:broadcasts).last&.content).to include('activity')
+        end
+        it 'return topic broadcast' do
+          get :index, type: 'topic_type'
+          expect(assigns(:broadcasts).last&.content).to include('topic')
+        end
       end
     end
 
@@ -46,9 +61,9 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
 
       context 'invalid params' do
         it 'render new' do
-          post :create, broadcast: attributes_for(:broadcast, title: nil)
+          post :create, broadcast: attributes_for(:broadcast, content: nil)
           expect(response).to have_http_status(422)
-          expect(JSON.parse(response.body)['errors']).to include('Title不能为空字符')
+          expect(JSON.parse(response.body)['errors']).to include('Content不能为空字符')
         end
       end
     end

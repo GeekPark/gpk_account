@@ -62,4 +62,8 @@ class ApplicationController < ActionController::Base
   def invalid_verify_code
     render json: { errors: [t('errors.invalid_verify_code')] }, status: 422
   end
+
+  def render_404
+    raise ActionController::RoutingError, 'Not Found'
+  end
 end

@@ -1,11 +1,12 @@
 class Admin::BroadcastsController < Admin::BaseController
   def index
-    @broadcasts = Broadcast.all
+    params[:type] = 'all' unless %w('topic_type' 'activity_type').include?(params[:type])
+    @broadcasts = Broadcast.public_send(params[:type] || :all)
+                           .order(created_at: :desc).page(params[:page] || 1).per(params[:per] || 10)
     @data = { broadcasts: @broadcasts }
   end
 
   def new
-    @broadcasts = Broadcast.new
   end
 
   def create
