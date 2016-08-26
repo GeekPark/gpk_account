@@ -2,7 +2,12 @@ class Admin::BroadcastsController < Admin::BaseController
   def index
     @broadcasts = Broadcast.public_send(check_type(params[:type]))
                            .order(created_at: :desc).page(params[:page] || 1).per(params[:per] || 10)
-    @data = { broadcasts: @broadcasts }
+    @data = { broadcasts: @broadcasts, broadcasts_count: Broadcast.all.count }
+
+    respond_to do |format|
+      format.html
+      format.js { render json: @broadcasts }
+    end
   end
 
   def new

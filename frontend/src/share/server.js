@@ -215,3 +215,11 @@ export function createBroadcast(params) {
     data: params,
   });
 }
+
+export function fetchBroadcasts(params) {
+  return $.ajax({
+    url: '/admin/broadcasts',
+    data: params,
+    dataType: 'json',
+  });
+}

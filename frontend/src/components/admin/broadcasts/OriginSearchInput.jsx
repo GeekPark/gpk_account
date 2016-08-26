@@ -43,7 +43,7 @@ class OriginSearchInput extends React.Component {
 
     this.setState({ isLoading: true, selected: '' });
     searchOrigin({ type: this.state.type, key: value })
-      .then(data => this.setState({ data, isLoading: false }));
+      .then(data => this.setState({ data, isLoading: false }), f => f);
   }
 
   handleSelect(e) {
