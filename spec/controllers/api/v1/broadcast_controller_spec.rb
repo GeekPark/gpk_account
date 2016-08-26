@@ -31,4 +31,27 @@ RSpec.describe Api::V1::BroadcastsController, type: :controller do
       end
     end
   end
+
+  describe 'GET#index' do
+    before do
+      create(:broadcast, :activity, content: 'activity')
+      create(:broadcast, :topic, content: 'topic')
+    end
+    context 'when get request from app' do
+      it 'only return activity broadcasts' do
+        get :index
+        expect(response).to be_success
+        expect(JSON.parse(response.body).length).to eq 1
+      end
+    end
+  end
+
+  describe 'PATCH#read_all' do
+    let(:device) { create(:device, :with_broadcast) }
+    it 'will read all broadcast on this device' do
+      expect(device.broadcasts_devices_relations.where(read: true).size).to eq 0
+      patch :read_all, device_id: device.id
+      expect(device.broadcasts_devices_relations.where(read: true).size).to eq 2
+    end
+  end
 end

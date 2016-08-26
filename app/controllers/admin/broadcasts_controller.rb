@@ -1,7 +1,6 @@
 class Admin::BroadcastsController < Admin::BaseController
   def index
-    params[:type] = 'all' unless %w(topic_type activity_type).include?(params[:type])
-    @broadcasts = Broadcast.public_send(params[:type] || :all)
+    @broadcasts = Broadcast.public_send(check_type(params[:type]))
                            .order(created_at: :desc).page(params[:page] || 1).per(params[:per] || 10)
     @data = { broadcasts: @broadcasts }
   end
@@ -22,5 +21,9 @@ class Admin::BroadcastsController < Admin::BaseController
 
   def broadcast_params
     params.permit(:content_type, :content, :send_at, :redirect)
+  end
+
+  def check_type(type)
+    Broadcast.content_types.keys.include?(type) ? type : :all
   end
 end
