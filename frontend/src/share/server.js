@@ -200,7 +200,7 @@ export function searchOrigin({ type, key }) {
     $.ajax(url)
       .done(d => {
         const list = d.activities || d.topics;
-        res(list.map(x => ({ text: x.label, value: x.value })));
+        res(list.map(x => ({ text: x.label, value: x.value.toString() })));
       })
       .fail(jqXHR => {
         rej(jqXHR);

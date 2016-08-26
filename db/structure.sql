@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.3
--- Dumped by pg_dump version 9.5.3
+-- Dumped from database version 9.5.4
+-- Dumped by pg_dump version 9.5.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -101,7 +101,7 @@ CREATE TABLE broadcasts (
     content_type integer DEFAULT 1 NOT NULL,
     content text,
     send_at timestamp without time zone,
-    redirect_id uuid,
+    redirect character varying,
     user_id uuid,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL

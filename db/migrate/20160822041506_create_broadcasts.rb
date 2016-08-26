@@ -4,7 +4,7 @@ class CreateBroadcasts < ActiveRecord::Migration
       t.integer  :content_type, null: false, default: 1
       t.text     :content
       t.datetime :send_at
-      t.uuid     :redirect_id
+      t.string     :redirect
       t.uuid     :user_id
 
       t.timestamps null: false

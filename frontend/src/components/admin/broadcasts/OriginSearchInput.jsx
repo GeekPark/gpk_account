@@ -47,7 +47,7 @@ class OriginSearchInput extends React.Component {
   }
 
   handleSelect(e) {
-    const item = this.state.data.filter(x => x.value === +e)[0];
+    const item = this.state.data.filter(x => x.value === e)[0];
     this.setState({ selected: item.text });
   }
 
@@ -68,7 +68,7 @@ class OriginSearchInput extends React.Component {
             showArrow={false}
             filterOption={false}
             onSelect={::this.handleSelect}
-            {...this.props.getFieldProps('redirect_id', {
+            {...this.props.getFieldProps('redirect', {
               onChange: ::this.handleChange,
             })}
           >

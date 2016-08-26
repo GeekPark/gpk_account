@@ -21,6 +21,6 @@ class Admin::BroadcastsController < Admin::BaseController
   private
 
   def broadcast_params
-    params.permit(:content_type, :content, :send_at, :redirect_id)
+    params.permit(:content_type, :content, :send_at, :redirect)
   end
 end

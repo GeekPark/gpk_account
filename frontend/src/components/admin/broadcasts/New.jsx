@@ -49,14 +49,14 @@ class New extends React.Component {
     e.preventDefault();
     const { getFieldsValue } = this.props.form;
 
-    const { content_type, redirect_id, content, send_at } = getFieldsValue();
+    const { content_type, redirect, content, send_at } = getFieldsValue();
 
     if (content_type === 'initial') {
       alert('请选择类型');
       return;
     }
 
-    if (redirect_id === undefined || redirect_id.length === 0) {
+    if (redirect === undefined || redirect.length === 0) {
       alert('请填写需要关联的内容');
       return;
     }
@@ -75,8 +75,8 @@ class New extends React.Component {
     createBroadcast({
       content_type: `${content_type}_type`,
       content,
-      redirect_id,
-      send_at: new Date(send_at).getTime() / 1000 | 0,
+      redirect,
+      send_at: $('.ant-calendar-range-picker').val(),
     })
       .done(d => {
         message.success('添加成功，自动跳转中...');
@@ -155,6 +155,7 @@ class New extends React.Component {
                 showTime
                 disabled={this.state.sendNow === '1'}
                 style={{ marginRight: '15px' }}
+                format="yyyy-MM-dd HH:mm:ss"
                 {...getFieldProps('send_at')}
               />
             </Field>
