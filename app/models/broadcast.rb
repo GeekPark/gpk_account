@@ -10,10 +10,10 @@ class Broadcast < ActiveRecord::Base
 
   def push_broadcast
     if send_at
-      delay = Time.now.getlocal - send_at
+      delay = send_at - Time.now.getlocal
       BroadcastJob.perform_in(delay, id)
     else
-      BroadcastJob.perform_async(id)
+      BroadcastJob.perform_in(3, id)
     end
   end
 end

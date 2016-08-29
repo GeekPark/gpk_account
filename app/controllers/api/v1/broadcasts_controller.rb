@@ -11,12 +11,15 @@ class Api::V1::BroadcastsController < Api::BaseController
   end
 
   def index
-    broadcasts = Broadcast.where(content_type: 'activity_type')
+    broadcasts = Broadcast.activity_type
+                          .where('send_at <= ? or (send_at is NULL and created_at <= ?)'\
+                          , Time.now.getlocal, Time.now.getlocal)
+                          .order(send_at: :desc, created_at: :desc)
     paginate json: broadcasts, per_page: 20
   end
 
   def read_all
-    relations = BroadcastsDevicesRelation.where(device_id: params[:device_id])
+    relations = BroadcastsDevicesRelation.activity_type.where(device_id: params[:device_id])
     relations.map { |relation| relation.update(read: true) }
   end
 
