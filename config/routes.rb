@@ -34,6 +34,11 @@ Rails.application.routes.draw do
     patch 'update_preference'
   end
 
+  namespace :admin do
+    root 'broadcasts#index'
+    resources 'broadcasts', only: [:index, :new, :create]
+  end
+
   namespace :api do
     namespace :v1 do
       # Register
@@ -47,6 +52,10 @@ Rails.application.routes.draw do
         get 'extra_info'
         post 'logout'
         patch 'update_preference'
+      end
+
+      resources 'broadcasts', only: [:create, :index] do
+        patch 'read_all', on: :collection
       end
 
       resource 'device', only: :create

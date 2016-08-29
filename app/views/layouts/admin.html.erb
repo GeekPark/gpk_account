@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>后台管理 | 极客公园</title>
+  <meta name="renderer" content="webkit">
+  <meta content="initial-scale=1.0,maximum-scale=1.0,width=device-width,user-scalable=no" name="viewport">
+  <%= stylesheet_link_tag    'admin', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= controller_name %>-controller <%= controller_name%>-<%= action_name%>">
+  <%
+    server_data = @data || {}
+    server_data = server_data.merge({
+      flash: flash,
+      controller: controller_name,
+      action: action_name,
+      routes: {
+        broadcasts: [
+          { title: '通知列表', path: admin_broadcasts_path },
+          { title: '新增通知', path: new_admin_broadcast_path }
+        ]
+      }
+    })
+  %>
+  <div id="server-data" data-server="<%= server_data.to_json %>"></div>
+  <div class="page-wrapper">
+    <%= yield %>
+  </div>
+  <%= webpack_javascript_include_tag 'common' %>
+  <%= webpack_javascript_include_tag 'admin' %>
+</body>
+</html>

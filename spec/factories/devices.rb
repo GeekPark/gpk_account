@@ -4,5 +4,12 @@ FactoryGirl.define do
     last_actived_time Time.now.getlocal
 
     association :user, factory: :basic_user
+
+    trait :with_broadcast do
+      after(:create) do |device|
+        BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: create(:broadcast, :activity).id)
+        BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: create(:broadcast, :activity).id)
+      end
+    end
   end
 end

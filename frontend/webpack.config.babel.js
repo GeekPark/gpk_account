@@ -8,6 +8,7 @@ const config = {
   entry: {
     sessions: './src/sessions.js',
     user: './src/user.js',
+    admin: './src/admin.js',
   },
   output: {
     path: path.resolve(__dirname, 'static/'),
