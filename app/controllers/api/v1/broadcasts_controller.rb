@@ -26,7 +26,7 @@ class Api::V1::BroadcastsController < Api::BaseController
   private
 
   def broadcast_params
-    params.permit(:title, :content_type, :content, :send_at, :redirect)
+    params.permit(:content_type, :content, :send_at, :redirect)
   end
 
   def with_device_token?
