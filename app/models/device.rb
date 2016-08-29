@@ -6,8 +6,8 @@ class Device < ActiveRecord::Base
   validates :device_id, presence: true, uniqueness: true
 
   def unread_message_count
-    boradcast_count = BroadcastsDevicesRelation.where(device_id: device.id, unread: true).count
-    notification_count = device.user&.unread_notifications_count || 0
-    boradcast_count + notification_count
+    broadcast_count = BroadcastsDevicesRelation.activity_type.where(device_id: id, read: false).count
+    notification_count = user&.unread_notifications_count || 0
+    broadcast_count + notification_count
   end
 end

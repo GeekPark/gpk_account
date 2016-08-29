@@ -7,8 +7,8 @@ FactoryGirl.define do
 
     trait :with_broadcast do
       after(:create) do |device|
-        BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: create(:broadcast).id)
-        BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: create(:broadcast).id)
+        BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: create(:broadcast, :activity).id)
+        BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: create(:broadcast, :activity).id)
       end
     end
   end
