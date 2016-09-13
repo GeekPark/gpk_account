@@ -35,6 +35,25 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
+  describe 'count' do
+    it 'returns correct user count' do
+      create(:basic_user)
+      get :count, from: Date.yesterday, to: Time.zone.now
+      expect(response.status).to eq(200)
+      expect(JSON.parse(response.body)['count']).to equal(1)
+    end
+
+    it 'requires two parameters' do
+      get :count
+      expect(response.status).to eq(400)
+    end
+
+    it 'rejects invalid parameters' do
+      get :count, from: 1, to: 'geekpark'
+      expect(response.status).to eq(400)
+    end
+  end
+
   describe 'update' do
     it 'requires token to have write access' do
       patch :update, format: :json
