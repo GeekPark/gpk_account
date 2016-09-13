@@ -46,7 +46,7 @@ class Api::V1::UsersController < Api::BaseController
 
   def count
     from, to = params.values_at(:from, :to)
-    if !from.present? || !to.present?
+    if from.blank? || to.blank?
       render json: { error: 'Missing parameters' }, status: 400
       return
     end
