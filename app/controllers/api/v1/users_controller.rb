@@ -44,6 +44,20 @@ class Api::V1::UsersController < Api::BaseController
     render json: { message: 'success' }
   end
 
+  def count
+    from, to = params.values_at(:from, :to)
+    if !from.present? || !to.present?
+      render json: { error: 'Missing parameters' }, status: 400
+      return
+    end
+
+    count = User.where(created_at: from..to).count
+    render json: { count: count }
+
+  rescue ActiveRecord::StatementInvalid
+    render json: { error: 'Invalid parameter value(s)' }, status: 400
+  end
+
   private
 
   def preference_params

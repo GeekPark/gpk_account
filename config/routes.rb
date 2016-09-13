@@ -50,6 +50,7 @@ Rails.application.routes.draw do
         post ':provider/login', action: 'third_part_login'
         get 'recommends'
         get 'extra_info'
+        get 'count'
         post 'logout'
         patch 'update_preference'
       end
