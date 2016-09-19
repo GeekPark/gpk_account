@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
       bind_auth
     elsif request.env['omniauth.redirect'].present?
       uri = request.env['omniauth.redirect']
-      return (redirect_to uris) if sanitary_uri?(uri)
+      return (redirect_to uri) if sanitary_uri?(uri)
       render status: 400, text: 'invalid redirection location'
     else
       warden.authenticate!
