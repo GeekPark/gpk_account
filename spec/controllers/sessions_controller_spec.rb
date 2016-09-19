@@ -86,6 +86,18 @@ RSpec.describe SessionsController, type: :controller do
 
         expect(warden.user).to eq(user)
       end
+
+      it 'should redirect to valid location' do
+        url = 'https://example.org/callback'
+        request.env['omniauth.redirect'] = url
+        expect(post(:create, provider: :wechat)).to redirect_to(url)
+      end
+
+      it 'should reject malicious redirections' do
+        malicious_uri = "data:text/html,<script>alert('1');</script>"
+        request.env['omniauth.redirect'] = URI.encode(malicious_uri)
+        expect(post(:create, provider: :wechat)).to be_a_bad_request
+      end
     end
 
     context 'bind auth if omniauth request and user already logged in' do
