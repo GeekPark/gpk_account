@@ -98,6 +98,6 @@ Rails.application.configure do
     email: {
       email_prefix: '[gpk_account]',
       sender_address: %(error <error_notifier@mailer.geekpark.net>),
-      exception_recipients: %w(zhukun@geekpark.net mail@liyaodong.com shaojinjun@geekpark.net)
+      exception_recipients: ENV['EXCEPTION_RECIPIENTS'].split
     }
 end
