@@ -13,7 +13,9 @@ class SessionsController < ApplicationController
     if auth_params && current_user
       bind_auth
     elsif request.env['omniauth.redirect'].present?
-      redirect_to request.env['omniauth.redirect']
+      uri = request.env['omniauth.redirect']
+      return (redirect_to uri) if sanitary_uri?(uri)
+      render status: 400, text: 'invalid redirection location'
     else
       warden.authenticate!
       redirect_to callback_url
@@ -51,5 +53,9 @@ class SessionsController < ApplicationController
 
   def auth_params
     request.env['omniauth.auth']&.to_hash&.symbolize_keys&.extract!(:provider, :uid)
+  end
+
+  def sanitary_uri?(uri)
+    URI.parse(uri).scheme.in?(%w(http https))
   end
 end
