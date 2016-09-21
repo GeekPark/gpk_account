@@ -8,8 +8,7 @@ module HasRole
 
   def ensure_roles_existing
     return if roles.present?
-    # TODO: implement using config
-    roles << 'user'
+    roles << Role.default
   end
 
   def ensure_roles_unique

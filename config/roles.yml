@@ -1,0 +1,12 @@
+
+default-role: user
+
+roles:
+
+  user:
+    name: User
+    description: Trivial users
+
+  admin:
+    name: Administrator
+    description: The ones that rule the all
