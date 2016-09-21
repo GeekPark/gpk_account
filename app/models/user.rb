@@ -7,8 +7,7 @@ class User < ActiveRecord::Base
   has_many :direct_messages
   has_many :access_tokens, -> { where revoked_at: nil }, class_name: 'Doorkeeper::AccessToken',
     foreign_key: 'resource_owner_id'
-  has_many :roles_users
-  has_many :roles, through: :roles_users
+  has_and_belongs_to_many :roles
 
   validates_absence_of :password, message: 'please set the email or mobile first',
                                   if: ->(user) { user.email.blank? && user.mobile.blank? }

@@ -1,4 +1,5 @@
 class Role < ActiveRecord::Base
-  has_many :roles_users
-  has_many :users, through: :roles_users
+  has_and_belongs_to_many :users
+
+  validates_uniqueness_of :name, :slug
 end

@@ -50,3 +50,9 @@ Style/MultilineOperationIndentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Rails/Validation:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
