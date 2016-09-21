@@ -292,6 +292,30 @@ CREATE TABLE preferences (
 
 
 --
+-- Name: roles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE roles (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    name character varying,
+    slug character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: roles_users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE roles_users (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    role_id uuid,
+    user_id uuid
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -437,6 +461,22 @@ ALTER TABLE ONLY oauth_applications
 
 ALTER TABLE ONLY preferences
     ADD CONSTRAINT preferences_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: roles_users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY roles_users
+    ADD CONSTRAINT roles_users_pkey PRIMARY KEY (id);
 
 
 --
@@ -616,4 +656,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160629115311');
 INSERT INTO schema_migrations (version) VALUES ('20160822041506');
 
 INSERT INTO schema_migrations (version) VALUES ('20160822070805');
+
+INSERT INTO schema_migrations (version) VALUES ('20160920091920');
+
+INSERT INTO schema_migrations (version) VALUES ('20160920104022');
 

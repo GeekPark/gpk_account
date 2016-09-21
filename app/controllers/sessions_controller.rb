@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
       return (redirect_to uri) if sanitary_uri?(uri)
       render status: 400, text: 'invalid redirection location'
     else
-      warden.authenticate!
+      # warden.authenticate!
       redirect_to callback_url
     end
   end
