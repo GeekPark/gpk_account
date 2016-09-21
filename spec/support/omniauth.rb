@@ -7,8 +7,7 @@ module OmniauthMacros
       'uid' => '123545',
       'info' => {
         'nickname' => 'mockuser',
-        'city' => 'Chaoyang',
-        'avatar' => 'http://test.com/test.jpg'
+        'city' => 'Chaoyang'
       },
       'credentials' => {
         'token' => 'mock_token',
