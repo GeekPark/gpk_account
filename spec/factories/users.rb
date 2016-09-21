@@ -7,7 +7,7 @@ FactoryGirl.define do
     is_old false
 
     trait :admin do
-      role :admin
+      roles %w(user admin)
     end
 
     trait :old_user do

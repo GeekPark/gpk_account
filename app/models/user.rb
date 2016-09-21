@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include HasRole
+
   has_secure_password validations: false
   has_one  :preference
   has_many :authorizations
@@ -27,7 +29,6 @@ class User < ActiveRecord::Base
     prefer_not_to_disclose: 'prefer_not_to_disclose'
   }
 
-  enum role: { admin: 1 }
   after_update :revoke_all, if: :password_digest_changed?
   after_create -> { Preference.create(user: self) }
 
