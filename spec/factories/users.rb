@@ -7,7 +7,7 @@ FactoryGirl.define do
     is_old false
 
     trait :admin do
-      role :admin
+      roles { [Role.find_by(slug: :admin) || create(:admin_role)] }
     end
 
     trait :old_user do

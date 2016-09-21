@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
   enum role: { admin: 1 }
   after_update :revoke_all, if: :password_digest_changed?
   after_create -> { Preference.create(user: self) }
+  before_create :set_default_role
 
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
@@ -109,5 +110,10 @@ class User < ActiveRecord::Base
 
   def unread_dm_between(user_id)
     DirectMessage.where('user_id = ? and to_user_id = ?', user_id, id).unread
+  end
+
+  def set_default_role
+    return if roles.blank?
+    roles << Role.user
   end
 end
