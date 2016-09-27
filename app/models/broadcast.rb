@@ -16,4 +16,32 @@ class Broadcast < ActiveRecord::Base
       BroadcastJob.perform_in(3, id)
     end
   end
+
+  def send_to_devices
+    devices = Device.all.to_a
+    begin
+      send_message(devices.shift, yield) while devices.present?
+    rescue Errno::EPIPE, OpenSSL::SSL::SSLError
+      sleep 3
+      retry
+    end
+  end
+
+  private
+
+  def send_message(device, connection)
+    BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
+    notification = to_notificaiton device
+    connection.write notification.message
+  end
+
+  def to_notificaiton(device)
+    Houston::Notification.new(device: device.id).tap do |msg|
+      msg.alert = content
+      msg.badge = device.unread_message_count
+      msg.sound = 'sosumi.aiff'
+      msg.content_available = false
+      msg.custom_data = { data: as_json, type: 'broadcast' }
+    end
+  end
 end
