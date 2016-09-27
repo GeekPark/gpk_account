@@ -1,4 +1,4 @@
-filename = File.join(Rails.root, ENV['CERITFICATE'])
+filename = File.join(Rails.root, ENV['CERITFICATE'] || 'no_such_file')
 
 if Rails.env.production?
   APNGETEWAY = Houston::APPLE_PRODUCTION_GATEWAY_URI
@@ -7,7 +7,7 @@ else
   APNGETEWAY = Houston::APPLE_DEVELOPMENT_GATEWAY_URI
   APN = Houston::Client.development
 end
-CERTIFICATE = File.read(filename).freeze if File.exist?(filename)
 PASSPHRASE = (ENV['CERITFICATE_PASSWORD'] || '').freeze
+CERTIFICATE = File.exist?(filename) ? File.read(filename).freeze : nil
 
 APN.certificate = CERTIFICATE

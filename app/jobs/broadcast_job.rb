@@ -2,12 +2,13 @@ class BroadcastJob
   include SuckerPunch::Job
 
   def perform(broadcast_id)
+    return unless CERTIFICATE
     ActiveRecord::Base.connection_pool.with_connection do
       @broadcast = Broadcast.find(broadcast_id)
       @broadcast.send_to_devices { connection }
     end
   ensure
-    connection.close
+    @connection&.close
   end
 
   private
