@@ -17,12 +17,11 @@ class Broadcast < ActiveRecord::Base
     end
   end
 
-  def send_to_devices(connection)
+  def send_to_devices
     devices = Device.all.to_a
-
     begin
-      send_message(devices.shift, connection) while devices.present?
-    rescue Errno::EPIPE
+      send_message(devices.shift, yield) while devices.present?
+    rescue Errno::EPIPE, OpenSSL::SSL::SSLError
       sleep 3
       retry
     end
@@ -32,18 +31,17 @@ class Broadcast < ActiveRecord::Base
 
   def send_message(device, connection)
     BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
-    notification = to_notificaiton
-    logger "Error: #{notificaiton.error}." if notifcation.error
+    notification = to_notificaiton device
     connection.write notification.message
   end
 
-  def to_notificaiton
+  def to_notificaiton(device)
     Houston::Notification.new(device: device.id).tap do |msg|
-      msg.alert = broadcast.content
+      msg.alert = content
       msg.badge = device.unread_message_count
       msg.sound = 'sosumi.aiff'
       msg.content_available = false
-      msg.custom_data = { data: broadcast.as_json, type: 'broadcast' }
+      msg.custom_data = { data: as_json, type: 'broadcast' }
     end
   end
 end
