@@ -73,6 +73,9 @@ gem 'rack-cors', require: 'rack/cors'
 # Make Ruby object like ActiveRecord
 gem 'active_type'
 
+# Authentication
+gem 'cant_cant_cant', github: 'shouya/cant_cant_cant'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
