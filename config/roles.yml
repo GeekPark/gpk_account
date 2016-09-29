@@ -1,7 +1,11 @@
 
-default-role: user
+default: public
 
 roles:
+
+  public:
+    name: Public
+    description: Public visitors
 
   user:
     name: User

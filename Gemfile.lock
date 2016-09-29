@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/shouya/cant_cant_cant.git
-  revision: 4de17b54020a048026d37c586b519a2d5ed7d618
+  revision: 5ab0b198268e2e89ae8f73757f431c257126bfd1
   specs:
-    cant_cant_cant (0.1.1)
+    cant_cant_cant (0.1.2)
       rails (~> 4.2.0)
 
 GEM

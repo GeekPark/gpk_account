@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new
-    (redirect_to user_url) && return if current_user
+    return (redirect_to user_url) if current_user
 
     login_name = session.delete(:unauthorized_user)
     if login_name.present?

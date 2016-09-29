@@ -5,6 +5,7 @@ FactoryGirl.define do
     birthday 30.years.ago
     city 440_300
     is_old false
+    roles %w(user)
 
     trait :admin do
       roles %w(user admin)

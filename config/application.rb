@@ -64,5 +64,10 @@ module GpkAccount
         resource '/api/*', headers: :any, methods: [:get, :post, :options]
       end
     end
+
+    config.after_initialize do
+      ccc_config = File.join(Rails.root, 'config/cant_cant_cant.yml')
+      CantCantCant.initialize(ccc_config)
+    end
   end
 end
