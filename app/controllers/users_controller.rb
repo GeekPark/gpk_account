@@ -18,6 +18,15 @@ class UsersController < ApplicationController
     render json: { exist: user.present?, avatar_url: user&.avatar_url }
   end
 
+  def access_key
+    if current_user
+      render json: { access_key: current_user.access_key }
+      return
+    end
+
+    render json: { error: t('errors.user_not_identified') }
+  end
+
   private
 
   def user_update_params

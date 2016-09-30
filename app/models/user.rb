@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   include HasRole
+  include HasAccessKey
 
   has_secure_password validations: false
   has_one  :preference

@@ -53,6 +53,7 @@ Rails.application.routes.draw do
         get 'count'
         post 'logout'
         patch 'update_preference'
+        get 'access_key', action: 'access_key'
       end
 
       resources 'broadcasts', only: [:create, :index] do

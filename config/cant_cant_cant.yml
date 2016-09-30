@@ -59,6 +59,7 @@ user: &user_permissions
   <<: *default_permissions
   users#show: allow
   users#update: allow
+  users#access_key: allow
 
 admin:
   <<: *user_permissions
