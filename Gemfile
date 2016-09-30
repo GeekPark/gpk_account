@@ -57,7 +57,7 @@ gem 'omniauth-geekpark', '1.0.6'
 # API
 gem 'rails-api'
 gem 'active_model_serializers', '~> 0.9.5'
-gem 'doorkeeper'
+gem 'doorkeeper', '>= 4.2.0'
 gem 'china_city'
 
 # Pagination
