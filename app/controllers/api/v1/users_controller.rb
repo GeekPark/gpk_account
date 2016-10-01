@@ -58,6 +58,15 @@ class Api::V1::UsersController < Api::BaseController
     render json: { error: 'Invalid parameter value(s)' }, status: 400
   end
 
+  def access_key
+    if current_user
+      render json: { access_key: current_user.access_key }
+      return
+    end
+
+    render json: { error: t('errors.user_not_identified') }
+  end
+
   private
 
   def preference_params

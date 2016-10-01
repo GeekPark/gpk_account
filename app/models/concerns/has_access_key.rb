@@ -14,7 +14,7 @@ module HasAccessKey
       return if info.blank?
 
       user_id, = info.split(':')
-      user = User.find_by(id: user_id)
+      user = find_by(id: user_id)
       return if user.blank?
 
       user

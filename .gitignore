@@ -27,3 +27,5 @@ node_modules/
 /public/uploads
 frontend/coverage/
 frontend/npm-debug.log
+
+.byebug_history

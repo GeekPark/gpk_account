@@ -151,4 +151,22 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(reload_user.preference.receive_message).to eq false
     end
   end
+
+  describe 'GET #access_key' do
+    it 'should return an access key for logged in user' do
+      get :access_key, access_token: public_token.token
+      expect(response).to be_success
+      result = JSON.parse(response.body)
+      expect(result).not_to include('error')
+      expect(result).to include('access_key')
+    end
+
+    it 'should return an access key' do
+      get :access_key
+      expect(response).to be_success
+      result = JSON.parse(response.body)
+      expect(result).to include('error')
+      expect(result).not_to include('access_key')
+    end
+  end
 end
