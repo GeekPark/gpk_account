@@ -11,7 +11,7 @@ RSpec.describe HasAccessKey do
 
     it 'saves cache in access_key' do
       key = user.access_key
-      value = Rails.cache.fetch("access_key:#{key}")
+      value = User.local_redis.get("access_key:#{key}")
       expect(value).to be_present
       expect(value.split(':')).to eq(['1', 'admin,user'])
     end

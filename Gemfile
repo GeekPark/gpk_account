@@ -76,6 +76,9 @@ gem 'active_type'
 # Authentication
 gem 'cant_cant_cant', github: 'shouya/cant_cant_cant'
 
+# Redis for account key exchange
+gem 'redis'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'

@@ -434,6 +434,7 @@ DEPENDENCIES
   rack-utf8_sanitizer
   rails (~> 4.2.7, >= 4.2.7.1)
   rails-api
+  redis
   redis-rails
   rqrcode
   rspec-rails (~> 3.0)
