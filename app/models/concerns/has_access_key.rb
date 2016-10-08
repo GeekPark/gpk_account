@@ -20,7 +20,7 @@ module HasAccessKey
 
   class_methods do
     def from_access_key(key)
-      info = local_redis.read("access_key:#{key}")
+      info = local_redis.fetch("access_key:#{key}")
       return if info.blank?
 
       user_id, = info.split(':')
@@ -38,7 +38,11 @@ module HasAccessKey
       )
       @access_key_redis.singleton_class.class_eval do
         alias_method :read, :get
-        alias_method :write, :set
+        alias_method :fetch, :get
+        define_method :write do |key, val, opts = {}|
+          opts[:ex] = opts[:expires_in].to_i if opts[:expires_in]
+          set(key, val, opts)
+        end
       end
       @access_key_redis
     end
