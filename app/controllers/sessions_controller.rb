@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :create
+
   def new
     (redirect_to user_url) && return if current_user
 
