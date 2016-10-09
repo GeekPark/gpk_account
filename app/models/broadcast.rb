@@ -8,6 +8,14 @@ class Broadcast < ActiveRecord::Base
 
   enum content_type: [:activity_type, :topic_type]
 
+  scope :of_type, lambda { |type|
+    if type && type.intern.in?(Broadcast.content_types)
+      public_send(type)
+    else
+      all
+    end
+  }
+
   def push_broadcast
     if send_at
       delay = send_at - Time.now.getlocal

@@ -1,6 +1,6 @@
 class Admin::BroadcastsController < Admin::BaseController
   def index
-    @broadcasts = Broadcast.public_send(check_type(params[:type]))
+    @broadcasts = Broadcast.of_type(params[:type])
                            .order(created_at: :desc)
                            .page(params[:page] || 1)
                            .per(params[:per] || 10)
@@ -19,7 +19,7 @@ class Admin::BroadcastsController < Admin::BaseController
   end
 
   def create
-    broadcast_params[user_id] = current_user.id
+    broadcast_params[:user_id] = current_user.id
     @broadcast = Broadcast.new(broadcast_params)
 
     if @broadcast.save
@@ -33,9 +33,5 @@ class Admin::BroadcastsController < Admin::BaseController
 
   def broadcast_params
     params.permit(:content_type, :content, :send_at, :redirect)
-  end
-
-  def check_type(type)
-    Broadcast.content_types.keys.include?(type) ? type : :all
   end
 end
