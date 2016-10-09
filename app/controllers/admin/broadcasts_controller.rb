@@ -1,8 +1,13 @@
 class Admin::BroadcastsController < Admin::BaseController
   def index
     @broadcasts = Broadcast.public_send(check_type(params[:type]))
-                           .order(created_at: :desc).page(params[:page] || 1).per(params[:per] || 10)
-    @data = { broadcasts: @broadcasts, broadcasts_count: Broadcast.all.count }
+                           .order(created_at: :desc)
+                           .page(params[:page] || 1)
+                           .per(params[:per] || 10)
+    @data = {
+      broadcasts: @broadcasts,
+      broadcasts_count: Broadcast.count
+    }
 
     respond_to do |format|
       format.html
@@ -14,7 +19,9 @@ class Admin::BroadcastsController < Admin::BaseController
   end
 
   def create
-    @broadcast = Broadcast.new(broadcast_params.merge(user_id: current_user.id))
+    broadcast_params[user_id] = current_user.id
+    @broadcast = Broadcast.new(broadcast_params)
+
     if @broadcast.save
       render json: { redirect: admin_broadcasts_path }
     else
