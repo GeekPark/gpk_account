@@ -25,18 +25,6 @@ class Broadcast < ActiveRecord::Base
     end
   end
 
-  def send_to_devices
-    devices = Device.all.to_a
-    begin
-      send_message(devices.shift, yield) while devices.present?
-    rescue Errno::EPIPE, OpenSSL::SSL::SSLError
-      sleep 3
-      retry
-    end
-  end
-
-  private
-
   def send_message(device, connection)
     BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
     notification = to_notificaiton device

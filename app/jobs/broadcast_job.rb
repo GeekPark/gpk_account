@@ -6,10 +6,17 @@ class BroadcastJob
 
     ActiveRecord::Base.connection_pool.with_connection do
       @broadcast = Broadcast.find(broadcast_id)
-      @broadcast.send_to_devices { connection }
+      devices = Device.all.to_a
+      begin
+        @broadcast.send_message(devices.shift, connection) while devices.present?
+      rescue Errno::EPIPE, OpenSSL::SSL::SSLError
+        reset_connection
+        sleep 3
+        retry
+      ensure
+        disconnect
+      end
     end
-  ensure
-    disconnect
   end
 
   private
@@ -19,6 +26,10 @@ class BroadcastJob
     @connection = Houston::Connection.new(::APNGETEWAY, ::CERTIFICATE, ::PASSPHRASE)
     @connection.open
     @connection
+  end
+
+  def reset_connection
+    @connection = nil
   end
 
   def disconnect
