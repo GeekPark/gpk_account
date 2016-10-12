@@ -7,19 +7,21 @@ class BroadcastJob
     ActiveRecord::Base.connection_pool.with_connection do
       @broadcast = Broadcast.find(broadcast_id)
       devices = Device.all.to_a
-      begin
-        @broadcast.send_message(devices.shift, connection) while devices.present?
-      rescue Errno::EPIPE, OpenSSL::SSL::SSLError
-        reset_connection
-        sleep 3
-        retry
-      ensure
-        disconnect
-      end
+      send_to(devices)
     end
   end
 
   private
+
+  def send_to(devices)
+    @broadcast.send_message(devices.shift, connection) while devices.present?
+  rescue Errno::EPIPE, OpenSSL::SSL::SSLError
+    reset_connection
+    sleep 3
+    retry
+  ensure
+    disconnect
+  end
 
   def connection
     return @connection if @connection && @connection.open?
