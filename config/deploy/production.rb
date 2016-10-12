@@ -3,11 +3,17 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server '192.168.100.4', user: 'www', roles: %w(app db web), primary: true,
-       ssh_options: {
-         forward_agent: true,
-         proxy: Net::SSH::Proxy::Command.new('ssh geekpark.net -W %h:%p')
-       }
+geekpark_proxy = Net::SSH::Proxy::Command.new('ssh geekpark -W %h:%p')
+
+server('192.168.100.4', user: 'www',
+                        port: 8899,
+                        roles: %w(app db web),
+                        primary: true,
+                        ssh_options: {
+                          forward_agent: true,
+                          proxy: geekpark_proxy
+                        })
+
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
