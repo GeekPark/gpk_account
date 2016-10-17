@@ -14,27 +14,6 @@ class BroadcastJob
   private
 
   def send_to(devices)
-    @broadcast.send_message(devices.shift, connection) while devices.present?
-  rescue Errno::EPIPE, OpenSSL::SSL::SSLError
-    reset_connection
-    sleep 3
-    retry
-  ensure
-    disconnect
-  end
-
-  def connection
-    return @connection if @connection && @connection.open?
-    @connection = Houston::Connection.new(::APNGETEWAY, ::CERTIFICATE, ::PASSPHRASE)
-    @connection.open
-    @connection
-  end
-
-  def reset_connection
-    @connection = nil
-  end
-
-  def disconnect
-    @connection&.close
+    @broadcast.send_message(devices.shift) while devices.present?
   end
 end
