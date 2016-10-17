@@ -25,10 +25,10 @@ class Broadcast < ActiveRecord::Base
     end
   end
 
-  def send_message(device, connection)
+  def send_message(device)
     BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
     notification = to_notificaiton device
-    connection.write notification.message
+    APN.push(notification.message)
   end
 
   def to_notificaiton(device)
