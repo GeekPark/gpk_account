@@ -27,11 +27,11 @@ class Broadcast < ActiveRecord::Base
 
   def send_message(device)
     BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
-    notification = to_notificaiton device
-    APN.push(notification.message)
+    notification = to_notification(device)
+    APN.push(notification)
   end
 
-  def to_notificaiton(device)
+  def to_notification(device)
     Houston::Notification.new(device: device.id).tap do |msg|
       msg.alert = content
       msg.badge = device.unread_message_count
