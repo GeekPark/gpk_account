@@ -59,9 +59,7 @@ Rails.application.routes.draw do
         patch 'read_all', on: :collection
       end
 
-      resource 'device', only: :create do
-        post 'create_without_user'
-      end
+      resource 'device', only: :create
 
       resources 'notifications', only: [:index, :create] do
         post 'read', on: :member
