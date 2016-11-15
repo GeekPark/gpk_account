@@ -49,7 +49,7 @@ Warden::Strategies.add(:omniauth) do
   def authenticate!
     auth = request.env['omniauth.auth']
     authorization = Authorization.find_by_provider_and_uid(Authorization.providers[auth['provider']], auth['uid'])
-    user = authorization.try(:user) || User.create_with_omniauth(auth)
+    user = authorization.user || User.create_with_omniauth(auth)
     if user.two_factor_enable?
       session[:user_need_verify] = { 'id' => user.id,
                                      'remember_me' => params[:remember_me] }
