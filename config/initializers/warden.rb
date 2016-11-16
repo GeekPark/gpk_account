@@ -44,7 +44,8 @@ end
 Warden::Strategies.add(:omniauth) do
   def valid?
     auth = request.env['omniauth.auth']
-    [auth, auth['provider'], auth['uid']].all(&:present?)
+    auth.present? &&
+      [auth['provider'], auth['uid']].all?(&:present?)
   end
 
   def authenticate!
