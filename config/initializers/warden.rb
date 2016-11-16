@@ -10,7 +10,7 @@ end
 Warden::Manager.serialize_into_session(&:id)
 
 Warden::Manager.serialize_from_session do |id|
-  User.find(id)
+  User.find_by_id(id)
 end
 
 Warden::Manager.before_logout do |user, auth, _opts|
