@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password validations: false
   has_one  :preference
-  has_many :authorizations
+  has_many :authorizations, dependent: :destroy
   has_many :devices
   has_many :notifications
   has_many :direct_messages
