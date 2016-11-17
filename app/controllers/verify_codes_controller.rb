@@ -1,6 +1,7 @@
 class VerifyCodesController < ApplicationController
   before_action :verify_rucaptcha!,
     unless: -> { login_or_unverified_user }
+  skip_before_action :verify_authenticity_token, only: :create
 
   def create
     build_verify_code
