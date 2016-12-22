@@ -9,7 +9,7 @@ cache:
     - frontend/node_modules
 
 before_install:
-  - sed -i 's#https://ruby.taobao.org#https://rubygems.org#' Gemfile Gemfile.lock
+  - sed -i 's#https://gems.ruby-china.org#https://rubygems.org#' Gemfile Gemfile.lock
 
 sudo: false
 
