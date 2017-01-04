@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   has_many :direct_messages
   has_many :access_tokens, -> { where revoked_at: nil }, class_name: 'Doorkeeper::AccessToken',
     foreign_key: 'resource_owner_id'
+  has_and_belongs_to_many :roles
 
   validates_absence_of :password, message: 'please set the email or mobile first',
                                   if: ->(user) { user.email.blank? && user.mobile.blank? }
@@ -30,6 +31,7 @@ class User < ActiveRecord::Base
   enum role: { admin: 1 }
   after_update :revoke_all, if: :password_digest_changed?
   after_create -> { Preference.create(user: self) }
+  before_create :set_default_role
 
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
@@ -82,6 +84,10 @@ class User < ActiveRecord::Base
     email.blank? && mobile.blank?
   end
 
+  def admin?
+    roles.pluck(:slug).include? 'admin'
+  end
+
   def two_factor_qr
     update_attribute(:otp_secret_key, ROTP::Base32.random_base32)
     key = email.presence || mobile.presence || nickname.presence || 'noname'
@@ -104,5 +110,10 @@ class User < ActiveRecord::Base
 
   def unread_dm_between(user_id)
     DirectMessage.where('user_id = ? and to_user_id = ?', user_id, id).unread
+  end
+
+  def set_default_role
+    return if roles.blank?
+    roles << Role.user
   end
 end

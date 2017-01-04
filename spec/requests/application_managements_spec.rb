@@ -18,7 +18,7 @@ RSpec.describe 'ApplicationManagements' do
     end
 
     it'success when user is admin' do
-      login_as create(:basic_user, role: 'admin')
+      login_as create(:basic_user, :admin)
       get oauth_applications_path
       expect(response).to be_success
     end
