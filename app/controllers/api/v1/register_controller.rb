@@ -1,7 +1,7 @@
 class Api::V1::RegisterController < Api::BaseController
   include Verifiable
-  before_action :verify_signature!, only: :register
-  before_action :verify_user_exist!, only: [:send_verify_code]
+  before_action :verify_signature!, only: [:register, :reset_password]
+  before_action :verify_user_exist!, only: [:send_verify_code], unless: -> { params[:no_check] }
   before_action :verify_rucaptcha!, only: :send_verify_code
 
   def captcha
@@ -19,7 +19,22 @@ class Api::V1::RegisterController < Api::BaseController
     render json: token
   end
 
+  def reset_password
+    reset_password = User::ResetPassword.new(reset_password_params)
+    if reset_password.save
+      token = Doorkeeper::AccessToken.find_or_create_for(@client, reset_password.user.id, @client.scopes, 7200, true)
+      render json: token
+    else
+      render json: { error: 'reset fail', message: reset_password.errors.full_messages }, status: 422
+    end
+  end
+
   private
+
+  def reset_password_params
+    login_name = params[:user][:email] || params[:user][:mobile]
+    params.require(:user).permit(:password, :verify_code).merge(login_name: login_name)
+  end
 
   def register_param
     params.require(:user).permit(:email, :mobile, :password)
