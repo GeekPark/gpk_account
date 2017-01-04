@@ -45,6 +45,7 @@ Rails.application.routes.draw do
       get 'captcha', to: 'register#captcha'
       post 'send_verify_code', to: 'register#send_verify_code'
       post 'register', to: 'register#register'
+      post 'reset_password', to: 'register#reset_password'
 
       resource 'user', only: [:show, :update] do
         post ':provider/login', action: 'third_part_login'
