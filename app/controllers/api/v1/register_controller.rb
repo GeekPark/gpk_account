@@ -1,7 +1,9 @@
 class Api::V1::RegisterController < Api::BaseController
   include Verifiable
   before_action :verify_signature!, only: [:register, :reset_password]
-  before_action :verify_user_exist!, only: [:send_verify_code], unless: -> { params[:no_check] }
+  before_action :find_user, only: [:send_verify_code]
+  before_action :verify_user_not_exist!, only: [:send_verify_code], if: -> { params[:reset_password].nil? }
+  before_action :verify_user_exist!, only: [:send_verify_code], if: -> { params[:reset_password] }
   before_action :verify_rucaptcha!, only: :send_verify_code
 
   def captcha
@@ -51,8 +53,15 @@ class Api::V1::RegisterController < Api::BaseController
     (render json: { error: t('errors.invalid_captcha') }, status: 422) && return unless right
   end
 
+  def find_user
+    @user = User.find_by_email(params[:email] || '') || User.find_by_mobile(params[:mobile] || '')
+  end
+
+  def verify_user_not_exist!
+    (render json: { error: 'send fail', message: t('errors.account_already_exist') }, status: 422) && return if @user
+  end
+
   def verify_user_exist!
-    user = User.find_by_email(params[:email] || '') || User.find_by_mobile(params[:mobile] || '')
-    (render json: { error: 'send fail', message: t('errors.account_already_exist') }, status: 422) && return if user
+    (render json: { error: 'send fail', message: t('errors.account_not_exist') }, status: 422) && return if @user.nil?
   end
 end
