@@ -11,3 +11,4 @@ zh-CN:
     already_enabled_two_factor: '您已开启两步验证, 请不要重复开启'
     user_not_allow_send_message: '当前用户拒绝接受消息'
     account_already_exist: '该账号已被注册'
+    account_not_exist: '该账号不存在'
