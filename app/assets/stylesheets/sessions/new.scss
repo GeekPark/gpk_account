@@ -198,6 +198,10 @@
       position: relative;
       top: -1px;
     }
+
+    &.center {
+      justify-content: center;
+    }
   }
 }
 

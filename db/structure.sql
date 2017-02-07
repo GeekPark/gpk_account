@@ -2,16 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.4
--- Dumped by pg_dump version 9.5.4
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -60,7 +56,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: authorizations; Type: TABLE; Schema: public; Owner: -
+-- Name: authorizations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE authorizations (
@@ -93,7 +89,7 @@ ALTER SEQUENCE authorizations_id_seq OWNED BY authorizations.id;
 
 
 --
--- Name: broadcasts; Type: TABLE; Schema: public; Owner: -
+-- Name: broadcasts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE broadcasts (
@@ -109,7 +105,7 @@ CREATE TABLE broadcasts (
 
 
 --
--- Name: broadcasts_devices_relations; Type: TABLE; Schema: public; Owner: -
+-- Name: broadcasts_devices_relations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE broadcasts_devices_relations (
@@ -123,7 +119,7 @@ CREATE TABLE broadcasts_devices_relations (
 
 
 --
--- Name: devices; Type: TABLE; Schema: public; Owner: -
+-- Name: devices; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE devices (
@@ -136,7 +132,7 @@ CREATE TABLE devices (
 
 
 --
--- Name: direct_messages; Type: TABLE; Schema: public; Owner: -
+-- Name: direct_messages; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE direct_messages (
@@ -153,7 +149,7 @@ CREATE TABLE direct_messages (
 
 
 --
--- Name: notifications; Type: TABLE; Schema: public; Owner: -
+-- Name: notifications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE notifications (
@@ -172,7 +168,7 @@ CREATE TABLE notifications (
 
 
 --
--- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -
+-- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE oauth_access_grants (
@@ -208,7 +204,7 @@ ALTER SEQUENCE oauth_access_grants_id_seq OWNED BY oauth_access_grants.id;
 
 
 --
--- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: -
+-- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE oauth_access_tokens (
@@ -244,7 +240,7 @@ ALTER SEQUENCE oauth_access_tokens_id_seq OWNED BY oauth_access_tokens.id;
 
 
 --
--- Name: oauth_applications; Type: TABLE; Schema: public; Owner: -
+-- Name: oauth_applications; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE oauth_applications (
@@ -279,7 +275,7 @@ ALTER SEQUENCE oauth_applications_id_seq OWNED BY oauth_applications.id;
 
 
 --
--- Name: preferences; Type: TABLE; Schema: public; Owner: -
+-- Name: preferences; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE preferences (
@@ -292,7 +288,7 @@ CREATE TABLE preferences (
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
@@ -301,7 +297,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -360,7 +356,7 @@ ALTER TABLE ONLY oauth_applications ALTER COLUMN id SET DEFAULT nextval('oauth_a
 
 
 --
--- Name: authorizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: authorizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY authorizations
@@ -368,7 +364,7 @@ ALTER TABLE ONLY authorizations
 
 
 --
--- Name: broadcasts_devices_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: broadcasts_devices_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY broadcasts_devices_relations
@@ -376,7 +372,7 @@ ALTER TABLE ONLY broadcasts_devices_relations
 
 
 --
--- Name: broadcasts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: broadcasts_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY broadcasts
@@ -384,7 +380,7 @@ ALTER TABLE ONLY broadcasts
 
 
 --
--- Name: devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: devices_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY devices
@@ -392,7 +388,7 @@ ALTER TABLE ONLY devices
 
 
 --
--- Name: direct_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: direct_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY direct_messages
@@ -400,7 +396,7 @@ ALTER TABLE ONLY direct_messages
 
 
 --
--- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY notifications
@@ -408,7 +404,7 @@ ALTER TABLE ONLY notifications
 
 
 --
--- Name: oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY oauth_access_grants
@@ -416,7 +412,7 @@ ALTER TABLE ONLY oauth_access_grants
 
 
 --
--- Name: oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY oauth_access_tokens
@@ -424,7 +420,7 @@ ALTER TABLE ONLY oauth_access_tokens
 
 
 --
--- Name: oauth_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY oauth_applications
@@ -432,7 +428,7 @@ ALTER TABLE ONLY oauth_applications
 
 
 --
--- Name: preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: preferences_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY preferences
@@ -440,7 +436,7 @@ ALTER TABLE ONLY preferences
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -448,126 +444,126 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: index_authorizations_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -
+-- Name: index_authorizations_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_authorizations_on_provider_and_uid ON authorizations USING btree (provider, uid);
 
 
 --
--- Name: index_authorizations_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_authorizations_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_authorizations_on_user_id ON authorizations USING btree (user_id);
 
 
 --
--- Name: index_broadcasts_devices_relations_on_broadcast_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_broadcasts_devices_relations_on_broadcast_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_broadcasts_devices_relations_on_broadcast_id ON broadcasts_devices_relations USING btree (broadcast_id);
 
 
 --
--- Name: index_broadcasts_devices_relations_on_device_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_broadcasts_devices_relations_on_device_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_broadcasts_devices_relations_on_device_id ON broadcasts_devices_relations USING btree (device_id);
 
 
 --
--- Name: index_direct_messages_on_created_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_direct_messages_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_direct_messages_on_created_at ON direct_messages USING btree (created_at);
 
 
 --
--- Name: index_direct_messages_on_to_user_id_and_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_direct_messages_on_to_user_id_and_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_direct_messages_on_to_user_id_and_user_id ON direct_messages USING btree (to_user_id, user_id);
 
 
 --
--- Name: index_direct_messages_on_user_id_and_to_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_direct_messages_on_user_id_and_to_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_direct_messages_on_user_id_and_to_user_id ON direct_messages USING btree (user_id, to_user_id);
 
 
 --
--- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_notifications_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_notifications_on_user_id ON notifications USING btree (user_id);
 
 
 --
--- Name: index_oauth_access_grants_on_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_oauth_access_grants_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_oauth_access_grants_on_token ON oauth_access_grants USING btree (token);
 
 
 --
--- Name: index_oauth_access_tokens_on_refresh_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_oauth_access_tokens_on_refresh_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_oauth_access_tokens_on_refresh_token ON oauth_access_tokens USING btree (refresh_token);
 
 
 --
--- Name: index_oauth_access_tokens_on_resource_owner_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_oauth_access_tokens_on_resource_owner_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_oauth_access_tokens_on_resource_owner_id ON oauth_access_tokens USING btree (resource_owner_id);
 
 
 --
--- Name: index_oauth_access_tokens_on_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_oauth_access_tokens_on_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_oauth_access_tokens_on_token ON oauth_access_tokens USING btree (token);
 
 
 --
--- Name: index_oauth_applications_on_uid; Type: INDEX; Schema: public; Owner: -
+-- Name: index_oauth_applications_on_uid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_oauth_applications_on_uid ON oauth_applications USING btree (uid);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_mobile; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_mobile; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_mobile ON users USING btree (mobile);
 
 
 --
--- Name: index_users_on_nickname; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_nickname; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_nickname ON users USING btree (nickname);
 
 
 --
--- Name: index_users_on_remember_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_remember_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_users_on_remember_token ON users USING btree (remember_token);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -577,7 +573,7 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20151217093303');
 
