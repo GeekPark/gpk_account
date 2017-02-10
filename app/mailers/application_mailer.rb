@@ -1,8 +1,9 @@
 class ApplicationMailer < ActionMailer::Base
   after_action :diff_tencent_email
-  default from: 'notification@mg.geekpark.net'
+  default from: '极客公园 <notification@mg.geekpark.net>'
   layout 'mailer'
 
+  # tencent recognizes our emails as spam
   def diff_tencent_email
     mail_to = mail.to.first
     return unless tencent?(mail_to)
