@@ -14,9 +14,6 @@ class Api::BaseController < ActionController::API
   rescue_from(VerifyCodeInvalid) do
     render json: { error: t('errors.invalid_verify_code') }, status: 422
   end
-  rescue_from(CheckVerifyCodeTimeInvalid) do
-    render json: { error: 'TimesLimit', message: t('errors.verify_code_change_times_limit') }, status: 422
-  end
 
   rescue_from(OAuth2::Error) do
     render json: { error: 'Oauth2Error', message: 'Authorize failed' }, status: 400

@@ -4,8 +4,6 @@ class Unauthorized < StandardError; end
 
 class VerifyCodeInvalid < StandardError; end
 
-class CheckVerifyCodeTimeInvalid < StandardError; end
-
 class ParameterValueNotAllowed < ActionController::ParameterMissing
   def initialize(param)
     @param = param

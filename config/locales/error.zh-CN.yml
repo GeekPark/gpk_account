@@ -12,4 +12,3 @@ zh-CN:
     user_not_allow_send_message: '当前用户拒绝接受消息'
     account_already_exist: '该账号已被注册'
     account_not_exist: '该账号不存在'
-    verify_code_change_times_limit: '重试过多，请重新发送验证码'

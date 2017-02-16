@@ -12,7 +12,6 @@ module Verifiable
   end
 
   def verify_code?(key)
-    in_valid_times(key)
     code = Rails.cache.fetch "verify_code:#{key}"
     raise VerifyCodeInvalid unless code.present? && code == params[:verify_code]
   end
@@ -23,12 +22,6 @@ module Verifiable
 
   private
 
-  def in_valid_times(key)
-    times = Rails.cache.fetch "check_time:#{key}"
-    raise CheckVerifyCodeTimeInvalid if times <= 0
-    Rails.cache.write "check_time:#{key}", times - 1, expires_in: 30.minutes
-  end
-
   def send_to_email(email)
     UserMailer.send_verify_code(email, generate_verify_code(email)).deliver_later
   end
@@ -38,7 +31,6 @@ module Verifiable
   end
 
   def generate_verify_code(key)
-    Rails.cache.write "check_time:#{key}", 10, expires_in: 30.minutes
     Rails.cache.fetch "verify_code:#{key}", expires_in: 30.minutes do
       rand(100_000..999_999).to_s
     end
