@@ -15,10 +15,17 @@ class Api::V1::RegisterController < Api::BaseController
   end
 
   def register
-    verify_code?(params[:user][:mobile] || params[:user][:email])
+    key = params[:user][:mobile] || params[:user][:email]
+    verify_code?(key)
     user = User.create! register_param
+    delete_cache_code(key)
     token = Doorkeeper::AccessToken.find_or_create_for(@client, user.id, @client.scopes, 7200, true)
     render json: token
+  end
+
+  def check_verify_code
+    verify_code?(params[:mobile] || params[:email])
+    render json: { message: 'success' }
   end
 
   def reset_password
