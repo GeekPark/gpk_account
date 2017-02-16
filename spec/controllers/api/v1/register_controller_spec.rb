@@ -23,6 +23,31 @@ RSpec.describe Api::V1::RegisterController, type: :controller do
     end
   end
 
+  describe 'GET#check_verify_code' do
+    include_context 'prepare verify code' do
+      let(:key) { user_attr[:mobile] }
+    end
+
+    let(:user_attr) { attributes_for(:user, :with_mobile) }
+    let(:origin_hash) do
+      {
+        mobile: user_attr[:mobile],
+        verify_code: @code
+      }
+    end
+
+    it 'should return code right' do
+      get :check_verify_code, origin_hash
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should return error when try to many times' do
+      10.times { get :check_verify_code, origin_hash }
+      get :check_verify_code, origin_hash
+      expect(JSON.parse(response.body)['error']).to eq 'TimesLimit'
+    end
+  end
+
   describe 'POST#register' do
     include_context 'prepare api signature'
     include_context 'prepare verify code' do
