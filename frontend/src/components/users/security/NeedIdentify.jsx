@@ -37,7 +37,7 @@ class NeedIdentify extends React.Component {
   }
   render() {
     let result = null;
-    if (this.state.loaded && this.state.showIdentify) result = <Identify { ...this.props } />;
+    if (this.state.loaded && this.state.showIdentify) result = <Identify {...this.props} />;
     if (this.state.loaded && this.state.showIdentify === false) result = React.cloneElement(this.props.children, { ...this.props });
     return result;
   }

@@ -13,6 +13,9 @@ AllCops:
 Rails:
   Enabled: true
 
+Rails/HttpPositionalArguments:
+  Enabled: false
+
 Metrics/AbcSize:
   Max: 20
 
