@@ -101,8 +101,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    commander (4.4.0)
-      highline (~> 1.7.2)
     concurrent-ruby (1.0.2)
     counter_culture (0.2.0)
       activerecord (>= 3.0.0)
@@ -152,10 +150,6 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     hashie (3.4.4)
-    highline (1.7.8)
-    houston (2.2.3)
-      commander (~> 4.1)
-      json
     i18n (0.7.0)
     iniparse (1.4.2)
     jpush (4.0.6)
@@ -410,7 +404,6 @@ DEPENDENCIES
   factory_girl_rails
   gibbon
   guard-rspec
-  houston
   jpush
   jquery-rails
   kaminari

@@ -27,13 +27,8 @@ class Broadcast < ActiveRecord::Base
     end
   end
 
-  def send_message(device)
-    BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
-    notification = to_notification(device)
-    APN.push(notification)
-  end
-
   def push_notification
+    BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
     set_notification_info(content, as_json, 'all').jpush
   end
 end

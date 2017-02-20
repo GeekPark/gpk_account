@@ -40,7 +40,6 @@ gem 'mini_magick'
 gem 'china_sms'
 
 # Apple push notification
-gem 'houston'
 gem 'jpush'
 
 # Asynchronous processing
