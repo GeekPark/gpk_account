@@ -23,24 +23,31 @@ module Pushable
   end
 
   def jpush_at(time)
+    check_target_and_env
+    return if @target.blank?
     single = JPush::Schedule::Trigger.new.set_single(time)
     payload = JPush::Schedule::SchedulePayload.new('test_task', single, generate_payload)
     JPush::Schedule.create(payload)
   end
 
   def jpush
+    check_target_and_env
+    return if @target.blank?
     JPush::JPushClientPusher.push(generate_payload)
   end
 
   private
 
   def generate_payload
+    options = {
+      apns_production: Rails.env.production?
+    }
     JPush::Push::PushPayload.new(
       platform:     'ios',
       audience:     generate_target_audience,
       notification: to_jpush_notification,
       message:      'hello'
-    )
+    ).set_options(options)
   end
 
   def to_jpush_notification
@@ -58,11 +65,16 @@ module Pushable
 
   def generate_target_audience
     return @target if @target == 'all'
+    audience = JPush::Push::Audience.new
+    audience.set_registration_id(@target)
+  end
+
+  def check_target_and_env
+    @target = [] if Rails.env.test?
+    return unless @target.is_a?(Array)
     @target = @target.map do |user|
       user.devices.order(:last_actived_time).first&.registration_id
     end.compact
-    audience = JPush::Push::Audience.new
-    audience.set_registration_id(@target)
   end
 
   class_methods do

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :broadcast do
     content '当前测试已经通过'
-    send_at Time.now.getlocal
+    send_at Time.now.getlocal + 1.minute
     redirect 'just string'
   end
 
