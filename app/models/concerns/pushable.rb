@@ -52,21 +52,23 @@ module Pushable
       contentavailable: false,
       mutablecontent:   nil,
       category:         nil,
-      extras: { data: @extra_info, type: self.class.notification_type }
+      extras: { data: @extra_info, type: self.class.notifi_type }
     )
   end
 
   def generate_target_audience
     return @target if @target == 'all'
-    @target = @target.map { |u| u.id.to_s } if @target.is_a?(Array)
+    @target = @target.map do |user|
+      user.devices.order(:last_actived_time).first&.registration_id
+    end.compact
     audience = JPush::Push::Audience.new
-    audience.set_alias(@target)
+    audience.set_registration_id(@target)
   end
 
   class_methods do
-    attr_reader :notification_type
+    attr_reader :notifi_type
     def notification_type(type)
-      @notification_type = type if %w(broadcast notification).include?(type)
+      @notifi_type = type if %w(broadcast notification).include?(type)
     end
   end
 end
