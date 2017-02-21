@@ -1,4 +1,7 @@
 class Notification < ActiveRecord::Base
+  include Pushable
+  notification_type 'notification'
+
   belongs_to :user
   belongs_to :from_user, class_name: 'User'
   validates :user_id, presence: true
@@ -21,8 +24,6 @@ class Notification < ActiveRecord::Base
   end
 
   def push_notification
-    user.devices.each do |device|
-      NotificationJob.perform_async(id, device.device_id)
-    end
+    set_notification_info(content, as_json, [user]).jpush
   end
 end

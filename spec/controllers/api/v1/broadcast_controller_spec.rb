@@ -34,7 +34,7 @@ RSpec.describe Api::V1::BroadcastsController, type: :controller do
 
   describe 'GET#index' do
     before do
-      create(:broadcast, :activity, content: 'activity')
+      create(:broadcast, :activity, content: 'activity', send_at: Time.now.getlocal)
       create(:broadcast, :topic, content: 'topic')
     end
     context 'when get request from app' do
