@@ -21,7 +21,7 @@ class ApplicationMailer < ActionMailer::Base
     content = {
       api_user: ENV['SENDCLOUD_USER'],
       api_key: ENV['SENDCLOUD_KEY'],
-      from: mail.from.first,
+      from: mail.header.first.value,
       subject: mail.subject,
       html: mail.body.raw_source,
       to: mail.to.first
