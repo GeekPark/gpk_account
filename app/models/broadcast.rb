@@ -10,6 +10,13 @@ class Broadcast < ActiveRecord::Base
   validates :content, presence: true, length: { maximum: 140 }
 
   enum content_type: [:activity_type, :topic_type]
+  scope :sent, lambda {
+    where(
+      'send_at <= :now or ' \
+      '(send_at is NULL and created_at <= :now)',
+      now: Time.now.getlocal
+    )
+  }
 
   scope :of_type, lambda { |type|
     if type && type.intern.in?(Broadcast.content_types)

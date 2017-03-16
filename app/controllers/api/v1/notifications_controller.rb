@@ -4,7 +4,9 @@ class Api::V1::NotificationsController < Api::BaseController
 
   def index
     requires! :scope, values: Notification.content_types.keys
-    notifications = current_user.notifications.where(content_type: Notification.content_types[params[:scope]])
+    content_type = Notification.content_types[params[:scope]]
+    notifications = current_user.notifications
+                                .where(content_type: content_type)
     headers['unread_count'] = notifications.where(unread: true).count
     paginate json: notifications, per_page: 10
   end
@@ -27,6 +29,13 @@ class Api::V1::NotificationsController < Api::BaseController
   end
 
   def notification_params
-    params.require(:notification).permit(:title, :from_user_id, :direct_id, :content_type, :content, :parent_id)
+    params.require(:notification).permit(
+      :title,
+      :from_user_id,
+      :direct_id,
+      :content_type,
+      :content,
+      :parent_id
+    )
   end
 end
