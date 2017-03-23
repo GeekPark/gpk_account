@@ -27,11 +27,9 @@ class Broadcast < ActiveRecord::Base
   }
 
   def push_broadcast
-    if send_at
-      set_notification_info(content, as_json, 'all').jpush_at(send_at)
-    else
-      set_notification_info(content, as_json, 'all').jpush
-    end
+    set_notification_info(title: content, extra_info: as_json, to: 'all')
+      .quietly
+      .jpush_notification(at: sent_at || :now)
   end
 
   def push_notification

@@ -1,66 +1,68 @@
 module Pushable
   extend ActiveSupport::Concern
   included do
-    @title = ''
+    @title      = ''
     @extra_info = {}
-    @target = []
+    @target     = []
+    @quiet      = false
   end
 
-  # target is 'all' or user_array
-  def set_target
-    target = yield if block_given?
-    return if target.blank?
-    @target = @target.map { |u| u.id.to_s } if @target.is_a?(Array)
-    @target = target
-    self
-  end
-
-  def set_notification_info(title, extra_info, target = [])
+  def set_notification_info(title: '', extra_info: {}, to: [])
     @title      = title
     @extra_info = extra_info
-    @target     = target
+    @target     = to
     self
   end
 
-  def jpush_at(time)
-    check_target_and_env
-    return if @target.blank?
-    single = JPush::Schedule::Trigger.new.set_single(time)
-    payload = JPush::Schedule::SchedulePayload.new('test_task', single, generate_payload)
-    JPush::Schedule.create(payload)
+  def quietly(quiet = true)
+    @quiet = quiet
+    self
   end
 
-  def jpush
+  def jpush_notification(at: :now)
     check_target_and_env
     return if @target.blank?
-    JPush::JPushClientPusher.push(generate_payload)
+
+    payload = generate_payload
+
+    case at
+    when :now
+      JPush::JPushClientPusher.push(payload)
+    else
+      scheduled_payload = JPush::Schedule::SchedulePayload.new(
+        'test_task',
+        JPush::Schedule::Trigger.new.set_single(at),
+        payload
+      )
+      JPush::Schedule.create(scheduled_payload)
+    end
   end
 
   private
 
   def generate_payload
-    options = {
-      apns_production: Rails.env.production?
-    }
     JPush::Push::PushPayload.new(
       platform:     'ios',
       audience:     generate_target_audience,
       notification: to_jpush_notification,
       message:      'hello'
-    ).set_options(options)
+    ).set_options(apns_production: Rails.env.production?)
   end
 
   def to_jpush_notification
     notification = JPush::Push::Notification.new
-    notification.set_ios(
-      alert:            content,
-      sound:            'sosumi.aiff',
-      badge:            1,
+    options = {
+      alert:            @title,
       contentavailable: false,
       mutablecontent:   nil,
       category:         nil,
       extras: { data: @extra_info, type: self.class.notifi_type }
-    )
+    }
+    unless @quietly
+      options[:sound] = 'sosumi.aiff'
+      options[:badge] = 1
+    end
+    notification.set_ios(**options)
   end
 
   def generate_target_audience
