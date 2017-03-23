@@ -75,7 +75,7 @@ module Pushable
     @target = [] if Rails.env.test?
     return unless @target.is_a?(Array)
     @target = @target.map do |user|
-      user.devices.order(:last_actived_time).first&.registration_id
+      user.devices.order(last_actived_time: :desc).first&.registration_id
     end.compact
   end
 
