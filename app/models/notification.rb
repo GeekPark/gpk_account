@@ -25,6 +25,6 @@ class Notification < ActiveRecord::Base
 
   def push_notification
     set_notification_info(title: content, extra_info: as_json, to: [user])
-      .jpush_notification(:now)
+      .jpush_notification(at: :now)
   end
 end

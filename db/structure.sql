@@ -325,10 +325,10 @@ CREATE TABLE users (
     remember_token character varying,
     remember_token_created_at timestamp without time zone,
     is_old boolean DEFAULT false,
+    role integer,
     otp_secret_key character varying,
     two_factor_enable boolean,
-    unread_notifications_count integer DEFAULT 0 NOT NULL,
-    roles character varying[] DEFAULT '{}'::character varying[]
+    unread_notifications_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -617,8 +617,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160629115311');
 INSERT INTO schema_migrations (version) VALUES ('20160822041506');
 
 INSERT INTO schema_migrations (version) VALUES ('20160822070805');
-
-INSERT INTO schema_migrations (version) VALUES ('20160921083103');
 
 INSERT INTO schema_migrations (version) VALUES ('20170220023841');
 
