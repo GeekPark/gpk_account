@@ -20,7 +20,11 @@ class Notification < ActiveRecord::Base
   end
 
   def as_json
-    super(only: [:content_type, :content, :parent_id])
+    super(only: [:content_type,
+                 :content,
+                 :parent_id,
+                 :direct_id,
+                 :from_user_id])
   end
 
   def push_notification
