@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
 
   def login_name
-    params[:user][:email] || params[:user][:mobile]
+    params[:user] && (params[:user][:email] || params[:user][:mobile])
   end
 
   def warden
