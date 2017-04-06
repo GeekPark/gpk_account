@@ -1,12 +1,5 @@
 module Pushable
   extend ActiveSupport::Concern
-  included do
-    @title      = ''
-    @extra_info = {}
-    @target     = []
-    @quiet      = false
-    @development_only = nil
-  end
 
   def set_notification_info(title: '', extra_info: {}, to: [])
     @title      = title

@@ -20,6 +20,7 @@ class Admin::BroadcastsController < Admin::BaseController
 
   def create
     @broadcast = Broadcast.new(broadcast_params.merge(user_id: current_user.id))
+    @broadcast.development_only if params[:development_only].present?
 
     if @broadcast.save
       render json: { redirect: admin_broadcasts_path }
