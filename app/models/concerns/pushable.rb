@@ -70,7 +70,7 @@ module Pushable
       alert: @title,
       extras: { data: @extra_info, type: self.class.notifi_type }
     }
-    options[:alert_type] = 0 if @quitely
+    options[:alert_type] = 0 if @quietly
     options
   end
 
