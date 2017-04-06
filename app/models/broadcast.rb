@@ -27,13 +27,14 @@ class Broadcast < ActiveRecord::Base
   }
 
   def push_broadcast
-    set_notification_info(title: content, extra_info: as_json, to: 'all')
+    set_notification_info(title: content, extra_info: as_json, to: :all)
       .quietly
       .jpush_notification(at: send_at || :now)
   end
 
   def push_notification
     BroadcastsDevicesRelation.create(device_id: device.id, broadcast_id: id)
-    set_notification_info(content, as_json, 'all').jpush
+    set_notification_info(title: content, extra_info: as_json, to: :all)
+      .jpush
   end
 end

@@ -5,6 +5,7 @@ module Pushable
     @extra_info = {}
     @target     = []
     @quiet      = false
+    @development_only = nil
   end
 
   def set_notification_info(title: '', extra_info: {}, to: [])
@@ -19,11 +20,15 @@ module Pushable
     self
   end
 
-  def jpush_notification(at: :now)
-    check_target_and_env
-    return if @target.blank?
+  def development_only(dev_only = true)
+    @development_only = dev_only
+    self
+  end
 
+  def jpush_notification(at: :now)
     payload = generate_payload
+
+    return if Rails.env.test?
 
     case at
     when :now
@@ -41,16 +46,16 @@ module Pushable
   private
 
   def generate_payload
+    apns_prod = @development_only || Rails.env.production?
     JPush::Push::PushPayload.new(
-      platform:     'ios',
-      audience:     generate_target_audience,
+      platform:     %w(ios android),
+      audience:     target_audience,
       notification: to_jpush_notification,
       message:      'hello'
-    ).set_options(apns_production: Rails.env.production?)
+    ).set_options(apns_production: apns_prod)
   end
 
-  def to_jpush_notification
-    notification = JPush::Push::Notification.new
+  def ios_options
     options = {
       alert:            @title,
       contentavailable: false,
@@ -58,25 +63,42 @@ module Pushable
       category:         nil,
       extras: { data: @extra_info, type: self.class.notifi_type }
     }
+
     unless @quietly
       options[:sound] = 'sosumi.aiff'
       options[:badge] = 1
     end
-    notification.set_ios(**options)
+
+    options
   end
 
-  def generate_target_audience
-    return @target if @target == 'all'
+  def android_options
+    options = {
+      alert: @title,
+      extras: { data: @extra_info, type: self.class.notifi_type }
+    }
+    options[:alert_type] = 0 if @quitely
+    options
+  end
+
+  def to_jpush_notification
+    notification = JPush::Push::Notification.new
+    notification.set_ios     ios_options
+    notification.set_android android_options
+  end
+
+  def target_audience
+    reg_ids =
+      if @target == :all || @target == 'all'
+        'all'
+      elsif Rails.env.test? || !@target.is_a?(Array)
+        []
+      else
+        @target.map { |u| u.devices.most_recent.registration_id }.compact
+      end
+
     audience = JPush::Push::Audience.new
-    audience.set_registration_id(@target)
-  end
-
-  def check_target_and_env
-    @target = [] if Rails.env.test?
-    return unless @target.is_a?(Array)
-    @target = @target.map do |user|
-      user.devices.order(last_actived_time: :desc).first&.registration_id
-    end.compact
+    audience.set_registration_id(reg_ids)
   end
 
   class_methods do
