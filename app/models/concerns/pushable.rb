@@ -18,6 +18,16 @@ module Pushable
     self
   end
 
+  def without_android(x = true)
+    @without_android = x
+    self
+  end
+
+  def without_ios(x = true)
+    @without_ios = x
+    self
+  end
+
   def jpush_notification(at: :now)
     payload = generate_payload
 
@@ -38,10 +48,17 @@ module Pushable
 
   private
 
+  def notification_platform
+    platform = %(ios android)
+    platform.delete('android') if @without_android
+    platform.delete('ios')     if @without_ios
+    platform
+  end
+
   def generate_payload
     apns_prod = @development_only || Rails.env.production?
     JPush::Push::PushPayload.new(
-      platform:     %w(ios android),
+      platform:     notification_platform,
       audience:     target_audience,
       notification: to_jpush_notification,
       message:      'hello'
@@ -81,14 +98,15 @@ module Pushable
   end
 
   def target_audience
-    reg_ids =
-      if @target == :all || @target == 'all'
-        'all'
-      elsif Rails.env.test? || !@target.is_a?(Array)
-        []
-      else
-        @target.map { |u| u.devices.most_recent.registration_id }.compact
-      end
+    return 'all' if @target == :all || @target == 'all'
+
+    reg_ids = if Rails.env.test? || !@target.is_a?(Array)
+                []
+              else
+                @target.map do |u|
+                  u.devices.most_recent.registration_id
+                end.compact
+              end
 
     audience = JPush::Push::Audience.new
     audience.set_registration_id(reg_ids)
