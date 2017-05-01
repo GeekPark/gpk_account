@@ -11,7 +11,7 @@ const columns = [
   { title: '操作', dataIndex: 'action', key: 'delete' },
 ];
 
-const format = str => moment(str).format('YYYY-MM-DD HH:mm');
+const format = str => moment.unix(str).format('YYYY-MM-DD HH:mm');
 
 const i18n = str => ({
   topic_type: '文章',

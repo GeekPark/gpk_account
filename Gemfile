@@ -40,7 +40,7 @@ gem 'mini_magick'
 gem 'china_sms'
 
 # Apple push notification
-gem 'houston'
+gem 'jpush'
 
 # Asynchronous processing
 gem 'sucker_punch'
@@ -57,7 +57,7 @@ gem 'omniauth-geekpark', '1.0.6'
 # API
 gem 'rails-api'
 gem 'active_model_serializers', '~> 0.9.5'
-gem 'doorkeeper'
+gem 'doorkeeper', '>= 4.2.0'
 gem 'china_city'
 
 # Pagination
@@ -78,6 +78,9 @@ gem 'cant_cant_cant', github: 'shouya/cant_cant_cant'
 
 # Redis for account key exchange
 gem 'redis'
+
+# Error reporting & analysis
+gem 'rollbar'
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console

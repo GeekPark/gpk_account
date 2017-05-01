@@ -34,7 +34,7 @@ RSpec.describe Api::V1::BroadcastsController, type: :controller do
 
   describe 'GET#index' do
     before do
-      create(:broadcast, :activity, content: 'activity')
+      create(:broadcast, :activity, content: 'activity', send_at: Time.now.getlocal)
       create(:broadcast, :topic, content: 'topic')
     end
     context 'when get request from app' do
@@ -51,7 +51,7 @@ RSpec.describe Api::V1::BroadcastsController, type: :controller do
     it 'will read all broadcast on this device' do
       expect(device.broadcasts_devices_relations.where(read: true).size).to eq 0
       patch :read_all, device_id: device.id
-      expect(device.broadcasts_devices_relations.where(read: true).size).to eq 2
+      expect(device.broadcasts_devices_relations.where(read: true).size).to eq device.broadcasts_devices_relations.count
     end
   end
 end

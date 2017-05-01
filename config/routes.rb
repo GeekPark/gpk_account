@@ -43,8 +43,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       # Register
       get 'captcha', to: 'register#captcha'
+      get 'check_verify_code', to: 'register#check_verify_code'
       post 'send_verify_code', to: 'register#send_verify_code'
       post 'register', to: 'register#register'
+      post 'reset_password', to: 'register#reset_password'
 
       resource 'user', only: [:show, :update] do
         post ':provider/login', action: 'third_part_login'
@@ -61,6 +63,7 @@ Rails.application.routes.draw do
       end
 
       resource 'device', only: :create
+
       resources 'notifications', only: [:index, :create] do
         post 'read', on: :member
         post 'read_all', on: :collection

@@ -11,6 +11,18 @@ class Rack::Attack
     req.ip if req.path == '/login' && req.post?
   end
 
+  throttle('/api/v1/check_verify_code/email_or_mobile', limit: 10, period: 10.minutes) do |req|
+    if req.path == '/api/v1/check_verify_code'
+      req.params['email'].presence || req.params['mobile'].presence
+    end
+  end
+
+  throttle('/api/v1/register/email_or_mobile', limit: 10, period: 10.minutes) do |req|
+    if req.path == '/api/v1/register'
+      req.params['user']['email'].presence || req.params['user']['mobile'].presence
+    end
+  end
+
   %w(/send_verify_code /api/v1/send_verify_code).each do |key|
     throttle("#{key}/ip", limit: 15, period: 1.hour) do |req|
       req.ip if req.path == key && req.post?
@@ -27,7 +39,7 @@ class Rack::Attack
     [
       429,
       { 'Retry-After' => env['rack.attack.match_data'][:period] },
-      [{ errors: ['请求次数过多, 请稍后尝试'] }.to_json]
+      [{ errors: ['请求次数过多, 请稍后尝试'], message: '请求次数过多, 请稍后尝试' }.to_json]
     ]
   end
 end

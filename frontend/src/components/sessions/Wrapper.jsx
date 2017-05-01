@@ -8,7 +8,7 @@ const Wrapper = props => (
   <div>
     <div className="page-container">
       <div className="page-container-style" style={props.style}>
-        <Header { ...permit(props, ['avatarURL', 'dispatch', 'server']) } />
+        <Header {...permit(props, ['avatarURL', 'dispatch', 'server'])} />
         {React.cloneElement(props.children, { ...props })}
       </div>
     </div>

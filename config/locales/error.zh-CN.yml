@@ -12,3 +12,4 @@ zh-CN:
     user_not_allow_send_message: '当前用户拒绝接受消息'
     account_already_exist: '该账号已被注册'
     invalid_access_key: '非法的访问密匙'
+    account_not_exist: '该账号不存在'

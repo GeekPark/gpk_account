@@ -4,8 +4,8 @@ class AddRolesToUsers < ActiveRecord::Migration
 
     reversible do |dir|
       dir.up do
-        User.where(role: 1).update_all(roles: [:admin, :users])
-        User.where(role: nil).update_all(roles: [:users])
+        User.where(role: 1).update_all(roles: [:admin, :user])
+        User.where(role: nil).update_all(roles: [:user])
       end
 
       dir.down do

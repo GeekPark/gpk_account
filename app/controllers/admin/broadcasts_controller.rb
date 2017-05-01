@@ -1,8 +1,13 @@
 class Admin::BroadcastsController < Admin::BaseController
   def index
-    @broadcasts = Broadcast.public_send(check_type(params[:type]))
-                           .order(created_at: :desc).page(params[:page] || 1).per(params[:per] || 10)
-    @data = { broadcasts: @broadcasts, broadcasts_count: Broadcast.all.count }
+    @broadcasts = Broadcast.of_type(params[:type])
+                           .order(created_at: :desc)
+                           .page(params[:page] || 1)
+                           .per(params[:per] || 10)
+    @data = {
+      broadcasts: @broadcasts,
+      broadcasts_count: Broadcast.count
+    }
 
     respond_to do |format|
       format.html
@@ -15,6 +20,8 @@ class Admin::BroadcastsController < Admin::BaseController
 
   def create
     @broadcast = Broadcast.new(broadcast_params.merge(user_id: current_user.id))
+    @broadcast.development_only if params[:development_only].present?
+
     if @broadcast.save
       render json: { redirect: admin_broadcasts_path }
     else
@@ -26,9 +33,5 @@ class Admin::BroadcastsController < Admin::BaseController
 
   def broadcast_params
     params.permit(:content_type, :content, :send_at, :redirect)
-  end
-
-  def check_type(type)
-    Broadcast.content_types.keys.include?(type) ? type : :all
   end
 end

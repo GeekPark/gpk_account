@@ -5,6 +5,10 @@ class Device < ActiveRecord::Base
 
   validates :device_id, presence: true, uniqueness: true
 
+  def self.most_recent
+    all.order(last_actived_time: :desc).first
+  end
+
   def unread_message_count
     broadcast_count = BroadcastsDevicesRelation.activity_type.where(device_id: id, read: false).count
     notification_count = user&.unread_notifications_count || 0

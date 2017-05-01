@@ -131,7 +131,8 @@ CREATE TABLE devices (
     user_id uuid,
     last_actived_time timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    registration_id character varying
 );
 
 
@@ -618,4 +619,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160822041506');
 INSERT INTO schema_migrations (version) VALUES ('20160822070805');
 
 INSERT INTO schema_migrations (version) VALUES ('20160921083103');
+
+INSERT INTO schema_migrations (version) VALUES ('20170220023841');
 

@@ -22,5 +22,6 @@
   <%= webpack_javascript_include_tag 'common' %>
   <%= webpack_javascript_include_tag 'user' if controller_name == 'users' && action_name == 'show'%>
   <%= webpack_javascript_include_tag 'sessions' if controller_name == 'sessions' || (controller_name == 'signup' && action_name == 'new') || (controller_name == 'reset_password' && action_name == 'new')%>
+  <%= render 'shared/growingio' if Rails.env.production? %>
 </body>
 </html>

@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   end
 
   def unverified_user_from_session
-    User.find(session[:user_need_verify]['id']) if session[:user_need_verify].present?
+    User.find_by_id(session[:user_need_verify]['id']) if session[:user_need_verify].present?
   end
 
   def user_from_cookie
@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
 
   def login_name
-    params[:user][:email] || params[:user][:mobile]
+    params[:user] && (params[:user][:email] || params[:user][:mobile])
   end
 
   def warden

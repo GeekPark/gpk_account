@@ -11,10 +11,10 @@ class Api::V1::BroadcastsController < Api::BaseController
   end
 
   def index
-    broadcasts = Broadcast.activity_type
-                          .where('send_at <= ? or (send_at is NULL and created_at <= ?)'\
-                          , Time.now.getlocal, Time.now.getlocal)
-                          .order(send_at: :desc, created_at: :desc)
+    broadcasts = Broadcast
+                 .activity_type
+                 .sent
+                 .order(send_at: :desc, created_at: :desc)
     paginate json: broadcasts, per_page: 20
   end
 

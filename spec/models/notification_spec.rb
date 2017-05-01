@@ -16,7 +16,7 @@ RSpec.describe Notification, type: :model do
 
   it 'as_json work correct' do
     notification = create(:notification)
-    expect(notification.as_json.keys).to eq %w(content_type content parent_id)
+    expect(notification.as_json.keys).to include(*%w(content_type content parent_id))
   end
 
   it 'orders created at desc' do
