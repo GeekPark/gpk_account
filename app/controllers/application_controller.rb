@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ActiveRecord::RecordInvalid, with: :invalid_error
-  rescue_from ::VerifyCodeInvalid, with: :invalid_verify_code
+  rescue_from VerifyCodeInvalid, with: :invalid_verify_code
   rescue_from Unauthorized do
     respond_to do |format|
       format.html { redirect_to login_url, alert: t('errors.need_login') }

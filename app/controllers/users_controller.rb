@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_login, only: [:show, :update]
+
   def show
     user = UserSerializer.new(current_user)
     @data = { user: user, city: get_city_list(user.city) }

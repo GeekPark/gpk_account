@@ -1,5 +1,5 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes(:id,
+  attributes :id,
              :email,
              :nickname,
              :mobile,
@@ -14,16 +14,16 @@ class UserSerializer < ActiveModel::Serializer
              :is_old,
              :two_factor_enable,
              :preference,
-             :roles)
+             :roles
 
   has_many :authorizations
   has_one :preference
 
   def mobile
-    object.mobile&.gsub(/(?<=\d{3})\d(?=\d{4})/, '*')
+    object.mobile&.sub(/(?<=\d{3})\d(?=\d{4})/, '*')
   end
 
   def email
-    object.email&.gsub(/(?!\A).+(?=@)/, '****')
+    object.email&.sub(/(?!\A).+(?=@)/, '****')
   end
 end
