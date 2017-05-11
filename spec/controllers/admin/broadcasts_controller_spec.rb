@@ -7,6 +7,7 @@ RSpec.describe Admin::BroadcastsController, type: :controller do
   describe 'without login or not admin' do
     context 'not login' do
       it 'raise error' do
+        get :index
         expect { get :index }.to raise_error(ActionController::RoutingError)
       end
     end

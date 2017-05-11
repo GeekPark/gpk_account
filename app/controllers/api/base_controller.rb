@@ -19,6 +19,14 @@ class Api::BaseController < ActionController::API
     render json: { error: 'Oauth2Error', message: 'Authorize failed' }, status: 400
   end
 
+  rescue_from CantCantCant::PermissionDenied do
+    render json: { error: 'permission denied' }, status: 403
+  end
+
+  rescue_from CantCantCant::UnfilledAction do
+    render json: { error: 'unfilled action, contact developer' }, status: 501
+  end
+
   def requires!(name, opts = {})
     raise(ActionController::ParameterMissing, name) if params[name].blank?
 
@@ -35,6 +43,13 @@ class Api::BaseController < ActionController::API
 
   def doorkeeper_unauthorized_render_options(*)
     { json: { error: 'Invalid token' } }
+  end
+
+  def current_roles
+    return [] unless defined? current_user
+    return [] if current_user.empty?
+
+    current_user.roles
   end
 
   private

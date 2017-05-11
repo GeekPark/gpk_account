@@ -48,7 +48,9 @@ Rails.application.routes.draw do
       post 'register', to: 'register#register'
       post 'reset_password', to: 'register#reset_password'
 
-      resource 'user', only: [:show, :update] do
+      resource 'user', only: [:show, :update, :index] do
+        get 'brief_info'
+        get 'filter_role'
         post ':provider/login', action: 'third_part_login'
         get 'recommends'
         get 'extra_info'

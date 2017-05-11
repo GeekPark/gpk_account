@@ -36,9 +36,6 @@ Metrics/PerceivedComplexity:
 Style/AlignHash:
   Enabled: false
 
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 

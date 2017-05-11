@@ -8,13 +8,16 @@ class User < ActiveRecord::Base
   has_many :devices
   has_many :notifications
   has_many :direct_messages
-  has_many :access_tokens, -> { where revoked_at: nil }, class_name: 'Doorkeeper::AccessToken',
+  has_many :access_tokens, -> { where revoked_at: nil },
+           class_name: 'Doorkeeper::AccessToken',
     foreign_key: 'resource_owner_id'
 
-  validates_absence_of :password, message: 'please set the email or mobile first',
-                                  if: ->(user) { user.email.blank? && user.mobile.blank? }
+  validates_absence_of :password,
+                       message: 'please set the email or mobile first',
+                       if: ->(user) { user.email.blank? && user.mobile.blank? }
   validates :mobile, uniqueness: true,
-            format: { with: /\A\d{11}\z/, message: 'only 11 numbers china mobile' },
+            format: { with: /\A\d{11}\z/,
+                      message: 'only 11 numbers china mobile' },
             allow_nil: true
   validates :email, uniqueness: { case_sensitive: false },
             format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ },
@@ -45,9 +48,11 @@ class User < ActiveRecord::Base
 
     def create_with_omniauth(auth)
       ActiveRecord::Base.transaction do
-        user = User.new(nickname: auth['info']['nickname'], remote_avatar_url: auth['info']['avatar'])
+        user = User.new(nickname: auth['info']['nickname'],
+                        remote_avatar_url: auth['info']['avatar'])
         user.save(validate: false)
-        user.authorizations.create!(provider: auth['provider'], uid: auth['uid'])
+        user.authorizations.create!(provider: auth['provider'],
+                                    uid: auth['uid'])
         user
       end
     rescue ActiveRecord::RecordInvalid
@@ -77,7 +82,9 @@ class User < ActiveRecord::Base
   end
 
   def identified?(token)
-    (token.present? && token == Rails.cache.fetch("identify_token:#{id}")) || is_old? || sns_user?
+    (token.present? && token == Rails.cache.fetch("identify_token:#{id}")) ||
+      is_old? ||
+      sns_user?
   end
 
   def sns_user?
