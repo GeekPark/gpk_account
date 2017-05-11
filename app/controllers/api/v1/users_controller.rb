@@ -1,5 +1,7 @@
+
 class Api::V1::UsersController < Api::BaseController
-  include Api::V1::UsersController::Login
+  require_relative 'user_login'
+  include Api::V1::UsersController::UserLogin
 
   before_action -> { doorkeeper_authorize! :public, :write, :admin },
                 only: [:show, :logout]

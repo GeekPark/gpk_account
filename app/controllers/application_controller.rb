@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordInvalid, with: :invalid_error
   rescue_from ::VerifyCodeInvalid, with: :invalid_verify_code
-  rescue_from CantCantCant::PermissionDenied do
+  rescue_from Unauthorized do
     respond_to do |format|
       format.html { redirect_to login_url, alert: t('errors.need_login') }
       format.json { render json: { errors: [t('errors.need_login')] }, status: :unauthorized }
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def require_login
-    raise CantCantCant::PermissionDenied unless current_user
+    raise Unauthorized unless current_user
   end
 
   def require_identify
@@ -65,13 +65,5 @@ class ApplicationController < ActionController::Base
 
   def render_404
     raise ActionController::RoutingError, 'Not Found'
-  end
-
-  def current_roles
-    return [Role.default] unless defined? current_user
-    return [Role.default] unless current_user.present?
-    return [Role.default] unless current_user.roles.present?
-
-    current_user.roles
   end
 end

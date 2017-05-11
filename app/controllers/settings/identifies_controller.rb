@@ -32,6 +32,6 @@ class Settings::IdentifiesController < ApplicationController
 
   def require_login_or_unverified_user_from_session
     @user = unverified_user_from_session || current_user
-    raise CantCantCant::PermissionDenied unless @user
+    raise Unauthorized unless @user
   end
 end

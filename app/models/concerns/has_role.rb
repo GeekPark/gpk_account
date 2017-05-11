@@ -8,6 +8,10 @@ module HasRole
     scope :filter_role, ->(x) { where('? in roles', x) }
   end
 
+  def admin?
+    'admin'.in? roles
+  end
+
   def ensure_roles_existing
     return if roles.present?
     roles << Role.default

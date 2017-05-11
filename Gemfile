@@ -73,9 +73,6 @@ gem 'rack-cors', require: 'rack/cors'
 # Make Ruby object like ActiveRecord
 gem 'active_type'
 
-# Authentication
-gem 'cant_cant_cant', github: 'shouya/cant_cant_cant'
-
 # Redis for account key exchange
 gem 'redis'
 
