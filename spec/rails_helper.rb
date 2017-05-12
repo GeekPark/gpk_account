@@ -39,6 +39,7 @@ RSpec.configure do |config|
 
   config.include Warden::Test::ControllerHelpers, type: :controller
   config.include OmniauthMacros
+  config.include APIHelper
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and

@@ -6,14 +6,13 @@ class Api::V1::UsersController
       before_action -> { doorkeeper_authorize! :admin },
                     only: [:management_show,
                            :management_index,
-                           :management_update,
-                           :management_show_state]
+                           :management_update]
 
       before_action :find_user,
                     only: [:management_show,
                            :show_user_brief,
-                           :management_index,
-                           :management_update]
+                           :management_update,
+                           :management_show_state]
 
       before_action :verify_csrs!, only: :management_show_state
     end
@@ -61,7 +60,7 @@ class Api::V1::UsersController
         :company,
         :title,
         :bio,
-        :roles
+        roles: []
       )
     end
   end
