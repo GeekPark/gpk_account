@@ -1,23 +1,25 @@
-
 class Api::V1::UsersController < Api::BaseController
   require_relative 'user_login'
-  include Api::V1::UsersController::UserLogin
+  require_relative 'user_management'
 
   before_action -> { doorkeeper_authorize! :public, :write, :admin },
-                only: [:show, :logout]
+                only: :show
   before_action -> { doorkeeper_authorize! :admin, :write },
                 only: [:update, :update_preference]
   before_action -> { doorkeeper_authorize! :admin },
                 only: [:extra_info, :filter_role]
-  before_action :verify_signature!, only: :third_part_login
+
+  include Api::V1::UsersController::UserLogin
+  include Api::V1::UsersController::UserManagement
 
   def show
     render json: current_user, serializer: UserBasicSerializer
   end
 
-  def brief_info
-    render json: User.find(params[:id]),
-           serializer: UserBriefSerializer
+  def update
+    user = current_user
+    user.update!(user_params)
+    render json: user
   end
 
   def extra_info
@@ -25,19 +27,6 @@ class Api::V1::UsersController < Api::BaseController
     querys = white_list & params[:query].collect(&:to_s)
     querys << 'is_old'
     render json: current_user.attributes.slice(*querys)
-  end
-
-  def index
-    users = User.all
-    paginate json: users,
-             per_page: 20,
-             each_serializer: UserAdminBriefSerializer
-  end
-
-  def update
-    user = current_user
-    user.update!(user_params)
-    render json: user
   end
 
   def update_preference
@@ -66,11 +55,6 @@ class Api::V1::UsersController < Api::BaseController
     end
 
     render json: { error: t('errors.user_not_identified') }
-  end
-
-  def filter_role
-    render json: Users.filter_role(param[:role]),
-           serializer: UserBriefSerialize
   end
 
   private

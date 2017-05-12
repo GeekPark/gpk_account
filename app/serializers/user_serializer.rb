@@ -13,8 +13,7 @@ class UserSerializer < ActiveModel::Serializer
              :bio,
              :is_old,
              :two_factor_enable,
-             :preference,
-             :roles
+             :preference
 
   has_many :authorizations
   has_one :preference

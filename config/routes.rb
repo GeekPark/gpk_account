@@ -48,9 +48,7 @@ Rails.application.routes.draw do
       post 'register', to: 'register#register'
       post 'reset_password', to: 'register#reset_password'
 
-      resource 'user', only: [:show, :update, :index] do
-        get 'brief_info'
-        get 'filter_role'
+      resource 'user', only: [:show, :update] do
         post ':provider/login', action: 'third_part_login'
         get 'recommends'
         get 'extra_info'
@@ -58,6 +56,15 @@ Rails.application.routes.draw do
         post 'logout'
         patch 'update_preference'
         get 'access_key'
+      end
+
+      resources :users, only: [] do
+        root        action: 'management_index'
+        get '/',    action: 'management_show'
+        patch '/',  action: 'management_update'
+        put '/',    action: 'management_update'
+        get :brief, action: 'show_user_breif'
+        get :state, action: 'management_show_state'
       end
 
       resources 'broadcasts', only: [:create, :index] do

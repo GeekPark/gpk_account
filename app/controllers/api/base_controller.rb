@@ -46,13 +46,28 @@ class Api::BaseController < ActionController::API
   def verify_signature!
     @client = Doorkeeper::Application.find_by!(uid: params[:client_id])
     unless params[:signature] == sign(@client.secret) && verify_timestamp
-      (render json: { error: 'Signature verify failed.' }, status: 422) && return
+      render json: { error: 'Signature verify failed.' }, status: 422
+    end
+  end
+
+  # verify Cross-Site Request Signature
+  def verify_csrs!
+    if (-1..1).all? { |i| csrs_signature(i) != params[:csrs] }
+      render json: { error: 'CSRS verification failed.' }, status: 422
     end
   end
 
   def sign(secret)
     flatted_hash = params.except(*request.path_parameters.keys, :signature).flatten_nested
     Digest::SHA256.hexdigest(flatted_hash.sort.flatten.join + secret)
+  end
+
+  def csrs_signature(error_tolerance_offset)
+    timestamp_id = Time.now.to_i / 300
+    timestamp = (timestamp_id + error_tolerance_offset).to_s(2)
+
+    cross_site_key = ENV['CROSS_SITE_REQUEST_KEY']
+    Digest::SHA256.hexdigest(timestamp + cross_site_key)
   end
 
   def verify_timestamp

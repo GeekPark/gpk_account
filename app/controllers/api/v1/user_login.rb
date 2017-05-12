@@ -1,5 +1,13 @@
 class Api::V1::UsersController
   module UserLogin
+    extend ActiveSupport::Concern
+
+    included do
+      before_action -> { doorkeeper_authorize! :public, :write, :admin },
+                    only: :logout
+      before_action :verify_signature!, only: :third_part_login
+    end
+
     def logout
       current_user.devices.find_by(device_id: params[:device_id])&.destroy
       doorkeeper_token.revoke
@@ -17,8 +25,6 @@ class Api::V1::UsersController
           @client, user.id, @client.scopes, 7200, true
         )
         render json: token
-      else
-        render json: { error: 'Login Failed!' }, status: 404
       end
     end
 
