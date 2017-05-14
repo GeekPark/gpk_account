@@ -19,6 +19,13 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
+  describe 'access_key' do
+    it 'gets access key' do
+      get :access_key
+      expect(response).to be_success
+    end
+  end
+
   describe 'extra_info' do
     it 'return queried attributes' do
       get :extra_info, access_token: admin_token.token, query: %w(email mobile)
@@ -197,6 +204,16 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(result[0]).not_to be_nil
       expect(result[0][:roles]).not_to be_nil
     end
+
+    it 'list by roles' do
+      get :management_index,
+          access_token: admin_token.token,
+          mode: 'filter',
+          role: 'admin'
+      expect(response).to be_success
+      expect(result).to be_kind_of(Array)
+      expect(result.all? { |x| 'admin'.in? x.roles }).to be_truthy
+    end
   end
 
   describe 'management_update' do
@@ -230,8 +247,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe 'management_show_state' do
     it 'requires signature' do
-      get :management_show_state,
-          user_id: user.id
+      get :management_show_state, user_id: user.id
       expect(response).to be_unprocessable
     end
     it 'show user state' do

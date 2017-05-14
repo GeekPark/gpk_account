@@ -5,8 +5,8 @@ module HasRole
     before_save :ensure_roles_existing
     before_save :ensure_roles_unique
 
-    scope :filter_role,  ->(x) { where('? in roles', x)     }
-    scope :exclude_role, ->(x) { where('? not in roles', x) }
+    scope :filter_role,  ->(x) { where('? = ANY(roles)', x)  }
+    scope :exclude_role, ->(x) { where('? <> ALL(roles)', x) }
   end
 
   def admin?

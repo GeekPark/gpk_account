@@ -28,8 +28,8 @@ class Api::V1::UsersController
     def management_index
       users = User.all
 
-      users = users.filter_role(param[:role])  if params[:filter_mode]
-      users = users.exclude_role(param[:role]) if params[:exclude_mode]
+      users = users.filter_role(params[:role])  if params[:mode] == 'filter'
+      users = users.exclude_role(params[:role]) if params[:mode] == 'exclude'
 
       paginate json: users,
                per_page: 20,
