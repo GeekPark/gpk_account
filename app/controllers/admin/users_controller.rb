@@ -17,9 +17,10 @@ class Admin::UsersController < Admin::BaseController
     users = users.filter_role(params[:role])  if params[:mode] == 'filter'
     users = users.exclude_role(params[:role]) if params[:mode] == 'exclude'
 
-    paginate json: users,
-             per_page: 20,
-             each_serializer: UserAdminBriefSerializer
+    render json: {
+      users: users.page(params[:page]).per(20),
+      meta: { total: users.count }
+    }, each_serializer: UserAdminBriefSerializer
   end
 
   def update
