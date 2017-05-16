@@ -295,6 +295,9 @@ GEM
       redis-store (~> 1.1.0)
     redis-store (1.1.7)
       redis (>= 2.2)
+    responders (2.4.0)
+      actionpack (>= 4.2.0, < 5.3)
+      railties (>= 4.2.0, < 5.3)
     rollbar (2.13.2)
       multi_json
     rotp (3.0.1)
@@ -425,6 +428,7 @@ DEPENDENCIES
   rails-api
   redis
   redis-rails
+  responders (~> 2.0)
   rollbar
   rqrcode
   rspec-rails (~> 3.0)

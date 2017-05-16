@@ -19,13 +19,6 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
-  describe 'access_key' do
-    it 'gets access key' do
-      get :access_key
-      expect(response).to be_success
-    end
-  end
-
   describe 'extra_info' do
     it 'return queried attributes' do
       get :extra_info, access_token: admin_token.token, query: %w(email mobile)
@@ -159,99 +152,13 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 
-  describe 'GET #access_key' do
-    it 'should return an access key for logged in user' do
-      get :access_key, access_token: public_token.token
-      expect(response).to be_success
-      result = JSON.parse(response.body)
-      expect(result).not_to include('error')
-      expect(result).to include('access_key')
-    end
-
-    it 'should return an access key' do
-      get :access_key
-      expect(response).to be_success
-      result = JSON.parse(response.body)
-      expect(result).to include('error')
-      expect(result).not_to include('access_key')
-    end
-  end
-
-  describe 'management_show' do
-    it 'requires admin permission' do
-      get :management_show, user_id: user.id
-      expect(response.status).to eq(401)
-    end
-
-    it 'returns user details' do
-      get :management_show, user_id: user.id, access_token: admin_token.token
-      expect(response).to be_success
-      expect(JSON.parse(response.body)['id']).to eq(user.id)
-      expect(JSON.parse(response.body)['roles']).to match_array(user.roles)
-    end
-  end
-
-  describe 'management_index' do
-    it 'requires admin permission' do
-      get :management_index
-      expect(response.status).to eq(401)
-    end
-
-    it 'list users' do
-      get :management_index, access_token: admin_token.token
-      expect(response).to be_success
-      expect(result).to be_kind_of(Array)
-      expect(result[0]).not_to be_nil
-      expect(result[0][:roles]).not_to be_nil
-    end
-
-    it 'list by roles' do
-      get :management_index,
-          access_token: admin_token.token,
-          mode: 'filter',
-          role: 'admin'
-      expect(response).to be_success
-      expect(result).to be_kind_of(Array)
-      expect(result.all? { |x| 'admin'.in? x.roles }).to be_truthy
-    end
-  end
-
-  describe 'management_update' do
-    it 'requires admin permission' do
-      patch :management_update, user_id: user.id
-      expect(response.status).to eq(401)
-    end
-
-    it 'update user roles' do
-      expect {
-        patch :management_update,
-              user_id: user.id,
-              access_token: admin_token.token,
-              roles: ['user', 'admin']
-        expect(response).to be_success
-      }.to change {
-        user.reload.roles
-      }.to match_array ['user', 'admin']
-    end
-
-    it 'doesn\'t touch other props' do
-      expect {
-        patch :management_update,
-              user_id: user.id,
-              access_token: admin_token.token,
-              roles: ['user', 'admin']
-        expect(response).to be_success
-      }.not_to change { user.reload.nickname }
-    end
-  end
-
-  describe 'management_show_state' do
+  describe 'show_state' do
     it 'requires signature' do
-      get :management_show_state, user_id: user.id
+      get :show_state, user_id: user.id
       expect(response).to be_unprocessable
     end
     it 'show user state' do
-      get :management_show_state,
+      get :show_state,
           user_id: user.id,
           csrs: Api::BaseController.new.send(:csrs_signature, 0)
       expect(response).to be_success

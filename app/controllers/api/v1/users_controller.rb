@@ -1,6 +1,5 @@
 class Api::V1::UsersController < Api::BaseController
   require_relative 'user_login'
-  require_relative 'user_management'
 
   before_action -> { doorkeeper_authorize! :public, :write, :admin },
                 only: :show
@@ -9,11 +8,17 @@ class Api::V1::UsersController < Api::BaseController
   before_action -> { doorkeeper_authorize! :admin },
                 only: [:extra_info, :filter_role]
 
+  before_action :find_user, only: [:show_state, :show_brief]
+  before_action :verify_csrs!, only: :show_state
+
   include Api::V1::UsersController::UserLogin
-  include Api::V1::UsersController::UserManagement
 
   def show
     render json: current_user, serializer: UserBasicSerializer
+  end
+
+  def show_brief
+    render json: @user, serializer: UserBriefSerializer
   end
 
   def update
@@ -48,16 +53,11 @@ class Api::V1::UsersController < Api::BaseController
     render json: { error: 'Invalid parameter value(s)' }, status: 400
   end
 
-  private
-
-  def find_user
-    if params[:user_id] == 'from_access_key'
-      @user = User.from_access_key(params[:access_key])
-      return
-    end
-
-    @user = User.find(params[:id] || params[:user_id])
+  def show_state
+    render json: { roles: @user.roles }
   end
+
+  private
 
   def preference_params
     params.permit(:receive_message,
@@ -66,5 +66,15 @@ class Api::V1::UsersController < Api::BaseController
 
   def user_params
     params.permit(:avatar, :realname, :nickname, :city, :company, :title, :bio)
+  end
+
+  def find_user
+    user_id = params[:id] || params[:user_id]
+    if user_id == 'from_access_key'
+      @user = User.from_access_key(params[:access_key])
+      return
+    end
+
+    @user = User.find(user_id)
   end
 end

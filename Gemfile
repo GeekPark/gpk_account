@@ -79,6 +79,9 @@ gem 'redis'
 # Error reporting & analysis
 gem 'rollbar'
 
+# set default respond to
+gem 'responders', '~> 2.0'
+
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
