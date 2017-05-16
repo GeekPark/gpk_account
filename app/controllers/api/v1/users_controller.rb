@@ -48,16 +48,16 @@ class Api::V1::UsersController < Api::BaseController
     render json: { error: 'Invalid parameter value(s)' }, status: 400
   end
 
-  def access_key
-    if current_user
-      render json: { access_key: current_user.access_key }
+  private
+
+  def find_user
+    if params[:user_id] == 'from_access_key'
+      @user = User.from_access_key(params[:access_key])
       return
     end
 
-    render json: { error: t('errors.user_not_identified') }
+    @user = User.find(params[:id] || params[:user_id])
   end
-
-  private
 
   def preference_params
     params.permit(:receive_message,

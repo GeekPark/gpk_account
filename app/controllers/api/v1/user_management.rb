@@ -47,10 +47,6 @@ class Api::V1::UsersController
 
     private
 
-    def find_user
-      @user = User.find(params[:id] || params[:user_id])
-    end
-
     def admin_user_params
       params.permit(
         :avatar,
