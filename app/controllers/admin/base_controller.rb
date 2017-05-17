@@ -1,7 +1,7 @@
 class Admin::BaseController < ApplicationController
-　include ApiControllerHelper
-
   before_action :require_admin
+
+  include ApiControllerHelper
 
   rescue_from PermissionError do
     respond_to do |format|

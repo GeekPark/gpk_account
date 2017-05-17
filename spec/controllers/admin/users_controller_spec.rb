@@ -29,9 +29,9 @@ RSpec.describe Admin::UsersController, type: :controller do
       warden.set_user(admin)
       get :index
       expect(response).to be_success
-      expect(result).to be_kind_of(Array)
-      expect(result[0]).not_to be_nil
-      expect(result[0][:roles]).not_to be_nil
+      expect(result[:json]).to be_kind_of(Array)
+      expect(result[:json][0]).not_to be_nil
+      expect(result[:json][0][:roles]).not_to be_nil
     end
 
     it 'list by roles' do
@@ -40,8 +40,8 @@ RSpec.describe Admin::UsersController, type: :controller do
           mode: 'filter',
           role: 'admin'
       expect(response).to be_success
-      expect(result).to be_kind_of(Array)
-      expect(result.all? { |x| 'admin'.in? x[:roles] }).to be_truthy
+      expect(result[:json]).to be_kind_of(Array)
+      expect(result[:json].all? { |x| 'admin'.in? x[:roles] }).to be_truthy
     end
   end
 

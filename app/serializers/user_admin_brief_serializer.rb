@@ -5,5 +5,7 @@ class UserAdminBriefSerializer < ActiveModel::Serializer
              :mobile,
              :avatar_url,
              :realname,
-             :roles
+             :roles,
+             :wechat_enabled,
+             :weibo_enabled
 end

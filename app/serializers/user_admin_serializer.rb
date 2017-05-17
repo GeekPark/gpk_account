@@ -1,3 +1,3 @@
 class UserAdminSerializer < UserSerializer
-  attributes :roles
+  attributes :roles, :wechat_enabled, :weibo_enabled
 end
