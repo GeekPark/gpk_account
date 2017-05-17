@@ -54,7 +54,8 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def show_state
-    render json: { roles: @user.roles }
+    return render status: 404 unless @user
+    render json: { id: @user.id, roles: @user.roles }
   end
 
   private
