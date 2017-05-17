@@ -12,15 +12,14 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def index
-    users = User.all
+    users = User.smart_filter(params.permit(:email, :nickname, :mobile))
 
     users = users.filter_role(params[:role])  if params[:mode] == 'filter'
     users = users.exclude_role(params[:role]) if params[:mode] == 'exclude'
 
-    render json: {
-      users: users.page(params[:page]).per(20),
-      meta: { total: users.count }
-    }, each_serializer: UserAdminBriefSerializer
+    success(each_serializer: UserAdminBriefSerializer) do
+      paginated_with_meta users, 20
+    end
   end
 
   def update

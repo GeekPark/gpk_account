@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   include HasRole
   include HasAccessKey
+  include SmartFilterable
 
   has_secure_password validations: false
   has_one  :preference
@@ -114,4 +115,13 @@ class User < ActiveRecord::Base
   def unread_dm_between(user_id)
     DirectMessage.where('user_id = ? and to_user_id = ?', user_id, id).unread
   end
+
+  def wechat_enabled
+    authorizations.any? {|auth| auth.provider == "wechat" }
+  end
+
+  def weibo_enabled
+    authorizations.any? {|auth| auth.provider == "weibo" }
+  end
+
 end
