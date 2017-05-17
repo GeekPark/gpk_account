@@ -117,11 +117,15 @@ class User < ActiveRecord::Base
   end
 
   def wechat_enabled
-    authorizations.any? {|auth| auth.provider == "wechat" }
+    authorizations.any? { |auth| auth.provider == 'wechat' }
   end
 
   def weibo_enabled
-    authorizations.any? {|auth| auth.provider == "weibo" }
+    authorizations.any? { |auth| auth.provider == 'weibo' }
   end
 
+  def attributes
+    super.merge('weibo_enabled': weibo_enabled,
+                 'wechat_enabled': wechat_enabled)
+  end
 end

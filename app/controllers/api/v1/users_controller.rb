@@ -58,6 +58,10 @@ class Api::V1::UsersController < Api::BaseController
     render json: { id: @user.id, roles: @user.roles }
   end
 
+  def possible_roles
+    render json: Role.roles
+  end
+
   private
 
   def preference_params

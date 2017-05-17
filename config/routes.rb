@@ -61,6 +61,7 @@ Rails.application.routes.draw do
         get 'count'
         post 'logout'
         patch 'update_preference'
+        get 'possible_roles', action: 'possible_roles'
       end
 
       resources :users, only: [] do
