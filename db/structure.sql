@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.4
--- Dumped by pg_dump version 9.5.4
+-- Dumped from database version 9.5.7
+-- Dumped by pg_dump version 9.5.7
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -328,7 +328,8 @@ CREATE TABLE users (
     otp_secret_key character varying,
     two_factor_enable boolean,
     unread_notifications_count integer DEFAULT 0 NOT NULL,
-    roles character varying[] DEFAULT '{}'::character varying[]
+    roles character varying[] DEFAULT '{}'::character varying[],
+    banned boolean DEFAULT false
 );
 
 
@@ -621,4 +622,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160822070805');
 INSERT INTO schema_migrations (version) VALUES ('20160921083103');
 
 INSERT INTO schema_migrations (version) VALUES ('20170220023841');
+
+INSERT INTO schema_migrations (version) VALUES ('20170518054725');
 

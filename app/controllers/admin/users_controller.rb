@@ -6,7 +6,9 @@ class Admin::UsersController < Admin::BaseController
                 only: [:show,
                        :show_user_brief,
                        :update,
-                       :show_state]
+                       :show_state,
+                       :ban,
+                       :unban]
 
   def show
     render json: @user, serializer: UserAdminSerializer
@@ -30,6 +32,24 @@ class Admin::UsersController < Admin::BaseController
 
   def show_state
     render json: { roles: @user.roles }
+  end
+
+  def ban
+    if @user.banned
+      render json: { error: 'this user is already banned' }
+      return
+    end
+    @user.update!(is_ban: true)
+    render json: { message: 'success' }
+  end
+
+  def unban
+    unless @user.banned
+      render json: { error: 'this user is already unbanned' }
+      return
+    end
+    @user.update!(is_ban: false)
+    render json: { message: 'success' }
   end
 
   private

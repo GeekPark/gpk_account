@@ -42,6 +42,8 @@ Rails.application.routes.draw do
 
     resources :users, only: [:index, :show, :update] do
       get :brief, action: 'show_user_breif'
+      post :ban, action: 'ban'
+      post :unban, action: 'unban'
     end
   end
 
@@ -61,11 +63,13 @@ Rails.application.routes.draw do
         get 'count'
         post 'logout'
         patch 'update_preference'
-        get 'possible_roles', action: 'possible_roles'
       end
 
       resources :users, only: [] do
         get 'state', action: 'show_state'
+        collection do
+          get 'possible_roles', action: 'possible_roles'
+        end
       end
 
       resources 'broadcasts', only: [:create, :index] do
