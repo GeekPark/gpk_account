@@ -1,4 +1,5 @@
 class Admin::UsersController < Admin::BaseController
+  skip_before_action :verify_authenticity_token
   skip_before_action :require_admin, only: :show_state
 
   before_action :find_user,
