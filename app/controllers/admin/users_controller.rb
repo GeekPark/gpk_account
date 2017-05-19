@@ -39,7 +39,7 @@ class Admin::UsersController < Admin::BaseController
       render json: { error: 'this user is already banned' }
       return
     end
-    @user.update!(is_ban: true)
+    @user.update!(banned: true)
     render json: { message: 'success' }
   end
 
@@ -48,7 +48,7 @@ class Admin::UsersController < Admin::BaseController
       render json: { error: 'this user is already unbanned' }
       return
     end
-    @user.update!(is_ban: false)
+    @user.update!(banned: false)
     render json: { message: 'success' }
   end
 

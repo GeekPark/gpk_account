@@ -1,5 +1,5 @@
 class UserBasicSerializer < ActiveModel::Serializer
-  attributes :id, :nickname, :city, :realname, :gender, :birthday, :company, :title, :bio, :avatar_url
+  attributes :id, :nickname, :city, :realname, :gender, :birthday, :company, :title, :bio, :avatar_url, :banned
 
   def city
     ChinaCity.get(object.city.to_s, prepend_parent: true)
