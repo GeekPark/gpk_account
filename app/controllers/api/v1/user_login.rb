@@ -1,4 +1,4 @@
-class Api::V1::UsersController
+class Api::V1::UsersController < Api::BaseController
   module UserLogin
     extend ActiveSupport::Concern
 
