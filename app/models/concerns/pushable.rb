@@ -49,7 +49,7 @@ module Pushable
   private
 
   def notification_platform
-    platform = %(ios android)
+    platform = %w(ios android)
     platform.delete('android') if @without_android
     platform.delete('ios')     if @without_ios
     platform

@@ -5,6 +5,7 @@ AllCops:
     - config/initializers/forbidden_yaml.rb
     - !ruby/regexp /(vendor|bundle|bin|db)\/.*/
     - spec/support/warden.rb
+    - spec/**/*
     - frontend/**/*
   DisplayCopNames: true
   DisplayStyleGuide: true
@@ -36,9 +37,6 @@ Metrics/PerceivedComplexity:
 Style/AlignHash:
   Enabled: false
 
-Style/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
@@ -49,4 +47,10 @@ Style/MultilineOperationIndentation:
   EnforcedStyle: indented
 
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Rails/Validation:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
   Enabled: false

@@ -95,4 +95,17 @@ RSpec.describe User, type: :model do
       expect(authorization.user).to eq(user)
     end
   end
+
+  describe 'roles' do
+    let(:user) { create(:basic_user) }
+
+    it 'should always has at least one role' do
+      expect(user.roles.length).to eq(1)
+    end
+
+    it 'merge duplicated roles' do
+      user.update_attribute(:roles, %w(admin admin))
+      expect(user.roles.grep('admin').length).to eq(1)
+    end
+  end
 end

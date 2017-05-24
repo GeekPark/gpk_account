@@ -23,7 +23,7 @@ Doorkeeper.configure do
   # If you want to restrict access to the web interface for adding oauth authorized applications,
   # you need to declare the block below.
   admin_authenticator do
-    env['warden'].user&.admin? || redirect_to(root_path)
+    redirect_to(root_path) unless env['warden'].user&.roles&.include? 'admin'
   end
 
   # Authorization Code expiration time (default 10 minutes).

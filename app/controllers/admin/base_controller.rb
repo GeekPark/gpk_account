@@ -1,10 +1,15 @@
 class Admin::BaseController < ApplicationController
   before_action :require_admin
 
+  include ApiControllerHelper
+
   rescue_from PermissionError do
     respond_to do |format|
       format.html { render_404 }
-      format.json { render json: { errors: ['permission denial'] }, status: 404 }
+      format.json do
+        render json: { errors: ['permission denial'] },
+               status: 404
+      end
     end
   end
 

@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   get 'reset_password', to: 'users/reset_password#new'
   post 'reset_password', to: 'users/reset_password#create'
 
-  resource 'user', path: 'my', except: [:edit, :destroy]
+  resource 'user', path: 'my', except: [:edit, :destroy] do
+    get 'access_key'
+  end
 
   # User settings
   get 'settings', to: 'users#show'
@@ -37,6 +39,12 @@ Rails.application.routes.draw do
   namespace :admin do
     root 'broadcasts#index'
     resources 'broadcasts', only: [:index, :new, :create]
+
+    resources :users, only: [:index, :show, :update] do
+      get :brief, action: 'show_user_breif'
+      post :ban, action: 'ban'
+      post :unban, action: 'unban'
+    end
   end
 
   namespace :api do
@@ -55,6 +63,13 @@ Rails.application.routes.draw do
         get 'count'
         post 'logout'
         patch 'update_preference'
+      end
+
+      resources :users, only: [] do
+        get 'state', action: 'show_state'
+        collection do
+          get 'possible_roles', action: 'possible_roles'
+        end
       end
 
       resources 'broadcasts', only: [:create, :index] do

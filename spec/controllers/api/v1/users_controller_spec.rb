@@ -151,4 +151,18 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       expect(reload_user.preference.receive_message).to eq false
     end
   end
+
+  describe 'show_state' do
+    it 'requires signature' do
+      get :show_state, user_id: user.id
+      expect(response).to be_unprocessable
+    end
+    it 'show user state' do
+      get :show_state,
+          user_id: user.id,
+          csrs: Api::BaseController.new.send(:csrs_signature, 0)
+      expect(response).to be_success
+      expect(result[:roles]).to match_array(user.roles)
+    end
+  end
 end

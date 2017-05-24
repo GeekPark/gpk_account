@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:show, :update]
+  before_action :require_login, only: [:show, :update, :access_key]
 
   def show
     user = UserSerializer.new(current_user)
@@ -18,6 +18,10 @@ class UsersController < ApplicationController
   def check_exist
     user = User.find_by_email_or_mobile(login_name)
     render json: { exist: user.present?, avatar_url: user&.avatar_url }
+  end
+
+  def access_key
+    render json: { access_key: current_user.access_key }
   end
 
   private

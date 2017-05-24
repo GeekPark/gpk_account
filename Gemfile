@@ -73,8 +73,14 @@ gem 'rack-cors', require: 'rack/cors'
 # Make Ruby object like ActiveRecord
 gem 'active_type'
 
+# Redis for account key exchange
+gem 'redis'
+
 # Error reporting & analysis
 gem 'rollbar'
+
+# set default respond to
+gem 'responders', '~> 2.0'
 
 group :development, :test do
   # Call 'binding.pry' anywhere in the code to stop execution and get a debugger console

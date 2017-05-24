@@ -79,4 +79,15 @@ RSpec.describe UsersController, type: :controller do
       expect(subject['avatar_url']).to eq(user_with_avatar.avatar_url)
     end
   end
+
+  describe 'GET #access_key' do
+    it 'should return an access key for logged in user' do
+      warden.set_user(user)
+      get :access_key
+      expect(response).to be_success
+      result = JSON.parse(response.body)
+      expect(result).not_to include('error')
+      expect(result).to include('access_key')
+    end
+  end
 end
