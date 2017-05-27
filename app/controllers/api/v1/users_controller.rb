@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::BaseController
-  require_relative 'user_login'
+  require_dependency 'api/v1/user_login'
 
   before_action -> { doorkeeper_authorize! :public, :write, :admin },
                 only: :show
@@ -55,7 +55,7 @@ class Api::V1::UsersController < Api::BaseController
 
   def show_state
     return render status: 404 unless @user
-    render json: { id: @user.id, roles: @user.roles, banned: @user.banned }
+    render json: @user, serializer: UserAdminBriefSerializer
   end
 
   def possible_roles
