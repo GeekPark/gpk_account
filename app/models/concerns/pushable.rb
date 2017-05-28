@@ -104,7 +104,7 @@ module Pushable
                 []
               else
                 @target.map do |u|
-                  u.devices.most_recent.registration_id
+                  u.devices.most_recent&.registration_id
                 end.compact
               end
 
