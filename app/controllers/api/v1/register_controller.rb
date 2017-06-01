@@ -4,7 +4,7 @@ class Api::V1::RegisterController < Api::BaseController
   before_action :find_user, only: [:send_verify_code]
   before_action :verify_user_not_exist!, only: [:send_verify_code], if: -> { params[:reset_password].nil? }
   before_action :verify_user_exist!, only: [:send_verify_code], if: -> { params[:reset_password] }
-  before_action :verify_rucaptcha!, only: :send_verify_code
+  # before_action :verify_rucaptcha!, only: :send_verify_code
 
   def captcha
     hex = SecureRandom.hex
