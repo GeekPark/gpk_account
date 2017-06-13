@@ -29,7 +29,7 @@ class SocialLogin extends React.Component {
           </span>
         </div>
         <div className={`social-button ${isWechat() || !isMobileUA() ? '' : 'center'}`}>
-          {wechatContent}
+          {/*wechatContent*/}
           <a className="social-button-style weibo" href="/auth/weibo">
             <i className="iconfont icon-weibo social-icon"></i>
             <span>微博登录</span>
