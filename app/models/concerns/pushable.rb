@@ -31,6 +31,8 @@ module Pushable
   def jpush_notification(at: :now)
     payload = generate_payload
 
+    return if @target.map {|t| t.devices.most_recent&.registration_id }.compact.blank?
+
     return if Rails.env.test?
 
     case at
