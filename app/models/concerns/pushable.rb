@@ -81,6 +81,9 @@ module Pushable
       options[:badge] = 1
     end
 
+    # 文章类型的推送不显示角标
+    options[:badge] = 0 if content_type == 'topic_type'
+
     options
   end
 
