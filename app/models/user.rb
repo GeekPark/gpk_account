@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
     end
 
     def create_with_omniauth(auth)
+      skip_callback(:create, :after, :set_default_nickname)
       ActiveRecord::Base.transaction do
         user = User.new(nickname: auth['info']['nickname'],
                         remote_avatar_url: auth['info']['avatar'])
@@ -59,6 +60,8 @@ class User < ActiveRecord::Base
       end
     rescue ActiveRecord::RecordInvalid
       nil
+    ensure
+      set_callback(:create, :after, :set_default_nickname)
     end
   end
 
@@ -131,6 +134,6 @@ class User < ActiveRecord::Base
   end
 
   def set_default_nickname
-    update(nickname: "极客#{SecureRandom.random_number(9_999_999)}")
+    update_columns(nickname: "极客#{SecureRandom.random_number(9_999_999)}")
   end
 end
