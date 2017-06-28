@@ -36,6 +36,7 @@ class User < ActiveRecord::Base
 
   after_update :revoke_all, if: :password_digest_changed?
   after_create -> { Preference.create(user: self) }
+  after_create :set_default_nickname
 
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
@@ -127,5 +128,9 @@ class User < ActiveRecord::Base
   def attributes
     super.merge('weibo_enabled': weibo_enabled,
                  'wechat_enabled': wechat_enabled)
+  end
+
+  def set_default_nickname
+    update(nickname: "极客#{SecureRandom.random_number(9_999_999)}")
   end
 end
