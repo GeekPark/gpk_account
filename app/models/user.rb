@@ -134,6 +134,6 @@ class User < ActiveRecord::Base
   end
 
   def set_default_nickname
-    update_columns(nickname: "极客#{SecureRandom.random_number(9_999_999)}")
+    update_columns(nickname: "极客#{SecureRandom.random_number(9_999_999).to_s.rjust(7,'0')}")
   end
 end
