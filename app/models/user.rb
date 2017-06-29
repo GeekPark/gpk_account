@@ -36,6 +36,7 @@ class User < ActiveRecord::Base
 
   after_update :revoke_all, if: :password_digest_changed?
   after_create -> { Preference.create(user: self) }
+  after_create :set_default_nickname
 
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
@@ -48,6 +49,7 @@ class User < ActiveRecord::Base
     end
 
     def create_with_omniauth(auth)
+      skip_callback(:create, :after, :set_default_nickname)
       ActiveRecord::Base.transaction do
         user = User.new(nickname: auth['info']['nickname'],
                         remote_avatar_url: auth['info']['avatar'])
@@ -58,6 +60,8 @@ class User < ActiveRecord::Base
       end
     rescue ActiveRecord::RecordInvalid
       nil
+    ensure
+      set_callback(:create, :after, :set_default_nickname)
     end
   end
 
@@ -127,5 +131,9 @@ class User < ActiveRecord::Base
   def attributes
     super.merge('weibo_enabled': weibo_enabled,
                  'wechat_enabled': wechat_enabled)
+  end
+
+  def set_default_nickname
+    update_columns(nickname: "极客#{SecureRandom.random_number(9_999_999).to_s.rjust(7,'0')}")
   end
 end
