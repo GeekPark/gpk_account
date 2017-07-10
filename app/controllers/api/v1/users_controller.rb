@@ -18,7 +18,7 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def show_brief
-    render json: @user, serializer: UserBriefSerializer
+    render json: @user, each_serializer: UserBriefSerializer
   end
 
   def update
@@ -74,7 +74,7 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def find_user
-    user_id = params[:id] || params[:user_id]
+    user_id = params[:id] || params[:user_id] || params[:user_ids].split(',')
     if user_id == 'from_access_key'
       @user = User.from_access_key(params[:access_key])
       return

@@ -69,6 +69,7 @@ Rails.application.routes.draw do
         get 'state', action: 'show_state'
         collection do
           get 'possible_roles', action: 'possible_roles'
+          get 'brief', action: 'show_brief'
         end
       end
 
