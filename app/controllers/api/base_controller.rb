@@ -37,10 +37,10 @@ class Api::BaseController < ActionController::API
     { json: { error: 'Invalid token' } }
   end
 
-  private
+  protected
 
   def current_user
-    User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+    User.find_by_id(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
 
   def verify_signature!

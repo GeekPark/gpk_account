@@ -1,9 +1,9 @@
 class SessionsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: :create
+  skip_before_action :verify_authenticity_token, only: [:create, :destroy]
 
   def new
     return (redirect_to user_url) if current_user
-
+    cookies[:callback_url] = params[:callback_url]
     login_name = session.delete(:unauthorized_user)
     if login_name.present?
       @data = { login_name: login_name }
@@ -20,7 +20,11 @@ class SessionsController < ApplicationController
       render status: 400, text: 'invalid redirection location'
     else
       warden.authenticate!
-      redirect_to callback_url
+      if cookies[:callback_url]
+        redirect_url = cookies[:callback_url]
+        cookies.delete(:callback_url)
+      end
+      redirect_to (redirect_url || callback_url)
     end
   end
 

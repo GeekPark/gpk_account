@@ -57,6 +57,9 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
+    bullet (5.6.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     byebug (9.0.5)
     callsite (0.0.11)
     capistrano (3.5.0)
@@ -373,6 +376,7 @@ GEM
     uglifier (3.0.0)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.0.5)
+    uniform_notifier (1.10.0)
     warden (1.2.6)
       rack (>= 1.0)
     web-console (2.3.0)
@@ -391,6 +395,7 @@ DEPENDENCIES
   api-pagination
   awesome_print
   bcrypt (~> 3.1.7)
+  bullet
   capistrano
   capistrano-bundler
   capistrano-rails
@@ -445,4 +450,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.13.6
+   1.14.6

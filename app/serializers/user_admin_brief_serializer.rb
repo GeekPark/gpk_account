@@ -7,5 +7,7 @@ class UserAdminBriefSerializer < ActiveModel::Serializer
              :realname,
              :roles,
              :wechat_enabled,
-             :weibo_enabled
+             :weibo_enabled,
+             :bio,
+             :banned
 end

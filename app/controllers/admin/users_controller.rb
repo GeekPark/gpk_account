@@ -52,6 +52,12 @@ class Admin::UsersController < Admin::BaseController
     render json: { message: 'success' }
   end
 
+  def yesterday
+    success(each_serializer: UserAdminBriefSerializer) do
+      paginated_with_meta User.yesterday, 20
+    end
+  end
+
   private
 
   def user_params

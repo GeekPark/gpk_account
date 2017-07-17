@@ -1,5 +1,5 @@
 class Authorization < ActiveRecord::Base
-  belongs_to :user
+  belongs_to   :user,  touch:    true
   validates :user_id,  presence: true
   validates :provider, presence: true, uniqueness: { scope: :user_id }
   validates :uid,      presence: true, uniqueness: { scope: :provider }

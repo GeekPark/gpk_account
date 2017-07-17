@@ -1,3 +1,3 @@
 CarrierWave.configure do |config|
-  config.asset_host = ActionController::Base.asset_host
+  config.asset_host = 'http://account_test.geekpark.net'
 end

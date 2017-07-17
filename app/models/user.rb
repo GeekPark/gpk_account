@@ -3,11 +3,15 @@ class User < ActiveRecord::Base
   include HasAccessKey
   include SmartFilterable
 
+  scope :yesterday, -> { where(created_at: Date.yesterday) }
+
   has_secure_password validations: false
   has_one  :preference
   has_many :authorizations, dependent: :destroy
+  # has_many :cached_authorizations, class_name: "Authorization"
   has_many :devices
   has_many :notifications
+  has_many :notifies, class_name: "Notification", foreign_key: "from_user_id"
   has_many :direct_messages
   has_many :access_tokens, -> { where revoked_at: nil },
            class_name: 'Doorkeeper::AccessToken',
@@ -37,6 +41,7 @@ class User < ActiveRecord::Base
   after_update :revoke_all, if: :password_digest_changed?
   after_create -> { Preference.create(user: self) }
   after_create :set_default_nickname
+  # after_commit :flush_cache
 
   mount_uploader :avatar, AvatarUploader
   has_one_time_password
@@ -62,6 +67,10 @@ class User < ActiveRecord::Base
       nil
     ensure
       set_callback(:create, :after, :set_default_nickname)
+    end
+
+    def cached_find(id)
+      Rails.cache.fetch(['user', id], expires_in: 5.minutes) { find_by_id(id) }
     end
   end
 
@@ -136,4 +145,16 @@ class User < ActiveRecord::Base
   def set_default_nickname
     update_columns(nickname: "极客#{SecureRandom.random_number(9_999_999).to_s.rjust(7,'0')}")
   end
+
+  def cached_authorizations
+    Rails.cache.fetch(['User', id, 'Authorization', updated_at.to_i]) do
+      super.to_a
+    end
+  end
+
+  private
+
+    def flush_cache
+      Rails.cache.delete(['user', id])
+    end
 end

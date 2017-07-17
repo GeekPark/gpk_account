@@ -1,6 +1,6 @@
 class Api::V1::NotificationsController < Api::BaseController
   before_action -> { verify_signature! }, only: :create
-  before_action -> { doorkeeper_authorize! :write }, except: :create
+  before_action -> { doorkeeper_authorize! :write, :public }, except: :create
 
   def index
     requires! :scope, values: Notification.content_types.keys
@@ -11,11 +11,22 @@ class Api::V1::NotificationsController < Api::BaseController
     paginate json: notifications, per_page: 10
   end
 
+  def all
+    notifications = current_user.notifications
+    paginate json: notifications, per_page: 10
+  end
+
   def create
     requires! :id
     current_user = User.find(params[:id])
     current_user.notifications.create(notification_params)
     render json: { count: current_user.reload.unread_notifications_count }
+  end
+
+  def create_notification
+    user = User.find_by_id(params["notification"]["user_id"])
+    user.notifications.create(notification_params)
+    render json: { count: user.reload.unread_notifications_count }
   end
 
   def read
@@ -35,7 +46,9 @@ class Api::V1::NotificationsController < Api::BaseController
       :direct_id,
       :content_type,
       :content,
-      :parent_id
+      :parent_id,
+      :user_id,
+      :comment
     )
   end
 end

@@ -44,6 +44,9 @@ Rails.application.routes.draw do
       get :brief, action: 'show_user_breif'
       post :ban, action: 'ban'
       post :unban, action: 'unban'
+      collection do
+        get :yesterday, action: 'yesterday'
+      end
     end
   end
 
@@ -82,6 +85,8 @@ Rails.application.routes.draw do
       resources 'notifications', only: [:index, :create] do
         post 'read', on: :member
         post 'read_all', on: :collection
+        get 'all', on: :collection
+        post 'create_notification', on: :collection
       end
 
       resources 'direct_messages', only: [:index, :create] do

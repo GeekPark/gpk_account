@@ -3,7 +3,7 @@ class Api::V1::UsersController < Api::BaseController
 
   before_action -> { doorkeeper_authorize! :public, :write, :admin },
                 only: :show
-  before_action -> { doorkeeper_authorize! :admin, :write },
+  before_action -> { doorkeeper_authorize! :public, :admin, :write },
                 only: [:update, :update_preference]
   before_action -> { doorkeeper_authorize! :admin },
                 only: [:extra_info, :filter_role]
@@ -55,7 +55,7 @@ class Api::V1::UsersController < Api::BaseController
 
   def show_state
     return render status: 404 unless @user
-    render json: @user, serializer: UserAdminBriefSerializer
+    render json: @user, each_serializer: UserAdminBriefSerializer
   end
 
   def possible_roles
@@ -74,12 +74,18 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def find_user
-    user_id = params[:id] || params[:user_id] || params[:user_ids].split(',')
+    user_id = params[:id] || params[:user_id]
     if user_id == 'from_access_key'
       @user = User.from_access_key(params[:access_key])
       return
     end
 
-    @user = User.find(user_id)
+    if user_id == "token"
+      doorkeeper_authorize!
+      @user = current_user
+      return
+    end
+
+    @user = User.where(id: params[:user_id].split(','))
   end
 end

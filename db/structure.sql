@@ -168,7 +168,8 @@ CREATE TABLE notifications (
     updated_at timestamp without time zone NOT NULL,
     from_user_id uuid,
     direct_id character varying,
-    title character varying
+    title character varying,
+    comment character varying
 );
 
 
@@ -624,4 +625,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160921083103');
 INSERT INTO schema_migrations (version) VALUES ('20170220023841');
 
 INSERT INTO schema_migrations (version) VALUES ('20170518054725');
+
+INSERT INTO schema_migrations (version) VALUES ('20170723105550');
 
