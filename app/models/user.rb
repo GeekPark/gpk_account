@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   include HasAccessKey
   include SmartFilterable
 
-  scope :yesterday, -> { where(created_at: Date.yesterday) }
+  scope :yesterday, -> { where("DATE(created_at) = ?", Date.yesterday) }
 
   has_secure_password validations: false
   has_one  :preference

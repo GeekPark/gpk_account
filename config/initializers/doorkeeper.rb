@@ -104,4 +104,7 @@ Doorkeeper.configure do
 
   # WWW-Authenticate Realm (default "Doorkeeper").
   # realm "Doorkeeper"
+  #authorization_code_expires_in 2.days
+
+  access_token_expires_in 3.days
 end

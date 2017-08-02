@@ -2,6 +2,9 @@ module Pushable
   extend ActiveSupport::Concern
 
   def set_notification_info(title: '', extra_info: {}, to: [])
+    Rails.logger.info("title是")
+    Rails.logger.info(title)
+    Rails.logger.info(@title)
     @title      = title
     @extra_info = extra_info
     @target     = to
@@ -68,6 +71,9 @@ module Pushable
   end
 
   def ios_options
+    Rails.logger.info("title是")
+    Rails.logger.info(instance_variables.map {|a| [a, instance_variable_get(:@a)]})
+
     options = {
       alert:            @title,
       contentavailable: false,
@@ -77,12 +83,20 @@ module Pushable
     }
 
     unless @quietly
+      # options[:sound] = 'Sounds.mp3'
       options[:sound] = 'sosumi.aiff'
       options[:badge] = 1
+      Rails.logger.info("声音")
+      Rails.logger.info(options.inspect)
     end
 
     # 文章类型的推送不显示角标
     options[:badge] = 0 if content_type == 'topic_type'
+
+    set_post_type(options)
+
+    Rails.logger.info("title是")
+    Rails.logger.info(options)
 
     options
   end
@@ -93,7 +107,17 @@ module Pushable
       extras: { data: @extra_info, type: self.class.notifi_type }
     }
     options[:alert_type] = 0 if @quietly
+
+    set_post_type(options)
+
     options
+  end
+
+  def set_post_type(options)
+    if content_type == 'topic_type'
+      post = JSON.parse(Faraday.get(ENV["MAIN_BASE"] + "posts/#{redirect}").body)
+      options[:extras].merge!(post_type: post["post"]["post_type"])
+    end
   end
 
   def to_jpush_notification

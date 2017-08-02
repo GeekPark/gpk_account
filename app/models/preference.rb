@@ -1,5 +1,5 @@
 class Preference < ActiveRecord::Base
-  belongs_to :user
+  belongs_to :user, touch: true
   serialize :email, CustomHashSerializer
   store_accessor :email, :subscriptions
 

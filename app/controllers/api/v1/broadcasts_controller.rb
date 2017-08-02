@@ -1,21 +1,27 @@
 class Api::V1::BroadcastsController < Api::BaseController
-  before_action -> { verify_signature! }, only: :create
+  # before_action -> { verify_signature! }, only: :create
+  include ApiControllerHelper
 
   def create
+    Rails.logger.info("create broadcast")
+    Rails.logger.info(broadcast_params.inspect)
     broadcast = Broadcast.new(broadcast_params)
     if broadcast.save
+      Rails.logger.info("broadcast create success")
       render json: { message: 'success' }
     else
+      Rails.logger.info("broadcast create failed")
       render json: { errors: broadcast.errors.full_messages }, status: 422
     end
   end
 
   def index
     broadcasts = Broadcast
-                 .activity_type
+                 .topic_type
                  .sent
-                 .order(send_at: :desc, created_at: :desc)
-    paginate json: broadcasts, per_page: 20
+                 .order(created_at: :desc)
+    # paginate json: broadcasts, per_page: 20
+    render json: paginated_with_meta(broadcasts, 20)
   end
 
   def read_all

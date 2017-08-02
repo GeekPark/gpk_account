@@ -8,8 +8,8 @@ class Api::V1::UsersController < Api::BaseController
   before_action -> { doorkeeper_authorize! :admin },
                 only: [:extra_info, :filter_role]
 
-  before_action :find_user, only: [:show_state, :show_brief]
-  before_action :verify_csrs!, only: :show_state
+  before_action :find_user, only: [:show_state, :show_brief, :token]
+  before_action :verify_csrs!, only: [:show_state, :token]
 
   include Api::V1::UsersController::UserLogin
 
@@ -54,12 +54,19 @@ class Api::V1::UsersController < Api::BaseController
   end
 
   def show_state
-    return render status: 404 unless @user
+    Rails.logger.info("user is blank") unless @user
+    return render json: { error: 'can not find user' }, status: 404 unless @user
     render json: @user, each_serializer: UserAdminBriefSerializer
   end
 
   def possible_roles
     render json: Role.roles
+  end
+
+  def token
+    @client = Doorkeeper::Application.find_by_uid_and_secret(params[:key], params[:secret])
+    token = Doorkeeper::AccessToken.find_or_create_for(@client, @user.id, @client.scopes, 7200, true)
+    render json: { token: token.token }
   end
 
   private

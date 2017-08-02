@@ -1,15 +1,15 @@
 class Rack::Attack
   whitelist('allow from localhost') do |req|
-    '127.0.0.1' == req.ip || '::1' == req.ip
+    '127.0.0.1' == req.ip || '::1' == req.ip || '192.168.100.2' == req.ip
   end
 
-  throttle('req/ip', limit: 400, period: 5.minutes) do |req|
-    req.ip unless req.path.start_with?('/assets', '/static')
-  end
+  # throttle('req/ip', limit: 400, period: 5.minutes) do |req|
+  #   req.ip unless req.path.start_with?('/assets', '/static')
+  # end
 
-  throttle('logins/ip', limit: 10, period: 5.minutes) do |req|
-    req.ip if req.path == '/login' && req.post?
-  end
+  # throttle('logins/ip', limit: 10, period: 5.minutes) do |req|
+  #   req.ip if req.path == '/login' && req.post?
+  # end
 
   throttle('/api/v1/check_verify_code/email_or_mobile', limit: 10, period: 10.minutes) do |req|
     if req.path == '/api/v1/check_verify_code'

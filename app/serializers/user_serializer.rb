@@ -13,7 +13,9 @@ class UserSerializer < ActiveModel::Serializer
              :bio,
              :is_old,
              :two_factor_enable,
-             :preference
+             :preference,
+             :roles,
+             :banned
 
   has_many :authorizations
   has_one :preference
@@ -24,5 +26,9 @@ class UserSerializer < ActiveModel::Serializer
 
   def email
     object.email&.sub(/(?!\A).+(?=@)/, '****')
+  end
+
+  def serializable_hash
+    Rails.cache.fetch(cache_key, expires_in: 2.hours) { super }
   end
 end

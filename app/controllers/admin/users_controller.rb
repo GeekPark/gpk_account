@@ -15,7 +15,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def index
-    users = User.smart_filter(params.permit(:email, :nickname, :mobile))
+    users = User.smart_filter(params.permit(:email, :nickname, :mobile)).order("created_at desc")
 
     users = users.filter_role(params[:role])  if params[:mode] == 'filter'
     users = users.exclude_role(params[:role]) if params[:mode] == 'exclude'
@@ -40,6 +40,7 @@ class Admin::UsersController < Admin::BaseController
       return
     end
     @user.update!(banned: true)
+    del_cache(@user)
     render json: { message: 'success' }
   end
 
@@ -49,6 +50,7 @@ class Admin::UsersController < Admin::BaseController
       return
     end
     @user.update!(banned: false)
+    del_cache(@user)
     render json: { message: 'success' }
   end
 
@@ -87,5 +89,10 @@ class Admin::UsersController < Admin::BaseController
   def require_admin
     return if current_user && current_user.admin?
     render json: { error: 'access denied' }, status: 401
+  end
+
+  def del_cache(user)
+    @redis = Redis.new :url => "redis://192.168.100.111:6379/1"
+    @redis.del("commenter:#{user.id}")
   end
 end

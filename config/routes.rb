@@ -58,6 +58,7 @@ Rails.application.routes.draw do
       post 'send_verify_code', to: 'register#send_verify_code'
       post 'register', to: 'register#register'
       post 'reset_password', to: 'register#reset_password'
+      get 'verify_rucaptcha', to: 'register#verify_rucaptcha'
 
       resource 'user', only: [:show, :update] do
         post ':provider/login', action: 'third_part_login'
@@ -70,6 +71,7 @@ Rails.application.routes.draw do
 
       resources :users, only: [] do
         get 'state', action: 'show_state'
+        get 'token', action: 'token'
         collection do
           get 'possible_roles', action: 'possible_roles'
           get 'brief', action: 'show_brief'

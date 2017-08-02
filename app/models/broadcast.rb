@@ -27,11 +27,13 @@ class Broadcast < ActiveRecord::Base
   }
 
   def push_broadcast
+    Rails.logger.info("title是")
+    Rails.logger.info(content)
     set_notification_info(
       title: content,
       extra_info: as_json,
       to: :all
-    ).quietly.jpush_notification(at: send_at || :now)
+    ).jpush_notification(at: send_at || :now)
   end
 
   def push_notification

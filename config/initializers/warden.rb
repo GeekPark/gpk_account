@@ -104,7 +104,7 @@ end
 
 class Warden::Strategies::Base
   def store_cookie(user)
-    cookies[:remember_user] = user.id
-    cookies[:remember_token] = user.generate_remember_token
+    cookies.permanent[:remember_user] = user.id
+    cookies.permanent[:remember_token] = user.generate_remember_token
   end
 end

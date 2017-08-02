@@ -9,6 +9,9 @@ class Api::V1::UsersController < Api::BaseController
     end
 
     def logout
+      Rails.logger.info("退出")
+      Rails.logger.info(params.inspect)
+      Rails.logger.info(current_user.inspect)
       current_user.devices.find_by(device_id: params[:device_id])&.destroy
       doorkeeper_token.revoke
       render json: { message: 'success' }

@@ -38,6 +38,18 @@ class Api::V1::RegisterController < Api::BaseController
     end
   end
 
+  def verify_rucaptcha
+    if params[:captcha_key].present?
+      (captcha = Rails.cache.read "captcha_key:#{params[:captcha_key]}") &&
+        Rails.cache.delete("captcha_key:#{params[:captcha_key]}")
+    end
+
+    right = params[:captcha].present? && captcha == params[:captcha]
+
+    (render json: {} , status: 422) && return unless right
+    render json: {}, status: 200
+  end
+
   private
 
   def reset_password_params
@@ -47,17 +59,6 @@ class Api::V1::RegisterController < Api::BaseController
 
   def register_param
     params.require(:user).permit(:email, :mobile, :password)
-  end
-
-  def verify_rucaptcha!
-    if params[:captcha_key].present?
-      (captcha = Rails.cache.read "captcha_key:#{params[:captcha_key]}") &&
-        Rails.cache.delete("captcha_key:#{params[:captcha_key]}")
-    end
-
-    right = params[:captcha].present? && captcha == params[:captcha]
-
-    (render json: { error: t('errors.invalid_captcha') }, status: 422) && return unless right
   end
 
   def find_user

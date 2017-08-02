@@ -19,6 +19,8 @@ class Admin::BroadcastsController < Admin::BaseController
   end
 
   def create
+    Rails.logger.info("title是")
+    Rails.logger.info(broadcast_params.merge(user_id: current_user.id))
     @broadcast = Broadcast.new(broadcast_params.merge(user_id: current_user.id))
     @broadcast.development_only if params[:development_only].present?
 

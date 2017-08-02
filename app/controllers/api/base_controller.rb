@@ -40,6 +40,11 @@ class Api::BaseController < ActionController::API
   protected
 
   def current_user
+    if params[:access_key]
+      return User.from_access_key(params[:access_key])
+    end
+    Rails.logger.info("当前用户")
+    Rails.logger.info(doorkeeper_token)
     User.find_by_id(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
 
