@@ -52,7 +52,8 @@ gem 'puma'
 gem 'gibbon'
 
 # Omniauth
-gem 'omniauth-geekpark', '1.0.6'
+# gem 'omniauth-geekpark', '1.0.6'
+gem 'omniauth-geekpark', git: 'https://github.com/GeekPark/omniauth-geekpark.git'
 
 # API
 gem 'rails-api'
