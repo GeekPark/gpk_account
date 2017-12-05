@@ -17,7 +17,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
   def default_url
-    "http://account_test.geekpark.net/assets/anonymous/#{model.created_at.to_i % 4 + 1}.png"
+    "http://o7h2xtq3g.qnssl.com/assets/anonymous/#{model.created_at.to_i % 4 + 1}.png"
   end
 
   # Process files as they are uploaded:
