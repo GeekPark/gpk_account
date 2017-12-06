@@ -110,6 +110,8 @@ module Pushable
 
     set_post_type(options)
 
+    set_parent_type(options) if content_type == 'comment'
+
     options
   end
 
@@ -118,6 +120,14 @@ module Pushable
       post = JSON.parse(Faraday.get(ENV["MAIN_BASE"] + "posts/#{redirect}").body)
       options[:extras].merge!(post_type: post["post"]["post_type"])
     end
+  end
+
+  def set_parent_type(options)
+      if Faraday.get(ENV["MAIN_BASE"] + "posts/#{direct_id}").success?
+        options[:extras][:data].merge!(parent_type: "post")
+      else
+        options[:extras][:data].merge!(parent_type: "question")
+      end
   end
 
   def to_jpush_notification
