@@ -35,6 +35,7 @@ class SocialLogin extends React.Component {
             <span>微博登录</span>
           </a>
         </div>
+        {!wechatContent && <div className="tal" style={{color: '#777', marginTop: '50px'}}>手机浏览器内暂不支持微信登录，请前往桌面端登录或复制链接在微信内打开。</div>}
       </div>
     );
   }
