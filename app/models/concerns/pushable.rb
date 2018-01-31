@@ -90,6 +90,8 @@ module Pushable
       Rails.logger.info(options.inspect)
     end
 
+    options[:mutablecontent] = true if content_type == 'topic_type'
+
     # 文章类型的推送不显示角标
     options[:badge] = 0 if content_type == 'topic_type'
 
@@ -109,6 +111,8 @@ module Pushable
     options[:alert_type] = 0 if @quietly
 
     set_post_type(options)
+    
+    options[:builder_id] = 2 if content_type == 'topic_type'
 
     set_parent_type(options) if content_type == 'comment'
 
@@ -119,6 +123,7 @@ module Pushable
     if content_type == 'topic_type'
       post = JSON.parse(Faraday.get(ENV["MAIN_BASE"] + "posts/#{redirect}").body)
       options[:extras].merge!(post_type: post["post"]["post_type"])
+      options[:extras].merge!(attachment: post["post"]["cover_url"])
     end
   end
 
