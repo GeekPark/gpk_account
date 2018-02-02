@@ -5,7 +5,7 @@ class Notification < ActiveRecord::Base
   belongs_to :user
   belongs_to :from_user, class_name: 'User'
   validates :user_id, presence: true
-  validates :content_type, inclusion: { in: %w(event dm comment timeline_comment like comment_post) }
+  validates :content_type, inclusion: { in: %w(event dm comment timeline_comment like comment_post comment_question) }
   validates :content, presence: true
   delegate :unread_notifications_count, to: :user
   after_create :push_notification
@@ -16,7 +16,8 @@ class Notification < ActiveRecord::Base
     comment: 3,
     timeline_comment: 4,
     like: 5,
-    comment_post: 6
+    comment_post: 6,
+    comment_question: 7
   }
   counter_culture :user, column_name: proc { |model| model.unread? ? 'unread_notifications_count' : nil }
 

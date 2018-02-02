@@ -46,6 +46,7 @@ class Api::V1::NotificationsController < Api::BaseController
       :from_user_id,
       :direct_id,
       :content_type,
+      :comment_id,
       :content,
       :parent_id,
       :user_id,

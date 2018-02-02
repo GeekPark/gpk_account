@@ -1,5 +1,5 @@
 class NotificationSerializer < ActiveModel::Serializer
-  attributes :id, :content_type, :content, :parent_id, :unread, :created_at, :time_created_at, :title, :direct_id, :comment, :parent_type
+  attributes :id, :content_type, :content, :parent_id, :unread, :created_at, :time_created_at, :title, :direct_id, :comment, :parent_type, :comment_id
 
   has_one :from_user, serializer: UserBasicSerializer
 

@@ -140,3 +140,5 @@ group :production do
   gem 'exception_notification'
   gem 'oneapm_rpm'
 end
+
+gem 'puma_worker_killer'
