@@ -13,6 +13,7 @@ import Tooltip from '../share/Tooltip';
 import VerifyCode from '../share/VerifyCode';
 
 import Welcome from '../welcome/Index';
+import intl from 'react-intl-universal';
 
 const overlayStyle = {
   overlay: { backgroundColor: 'rgba(37, 37, 37, 0.7)' },
@@ -45,7 +46,7 @@ class Register extends React.Component {
       const v = this.refs.firstInput.value;
       if (!this.isValidFirstInput()) return;
       notExist(v).then(this.getCodeLogic, () => {
-        this.refs.firstInputTip.postErr('用户已存在');
+        this.refs.firstInputTip.postErr(intl.get('用户已存在'));
       });
     };
 
@@ -80,7 +81,7 @@ class Register extends React.Component {
   }
 
   componentWillMount() {
-    changeTitle('注册');
+    changeTitle(intl.get('注册'));
   }
 
   getPwd() {
@@ -92,7 +93,7 @@ class Register extends React.Component {
   }
 
   typeStr() {
-    return this.state.isEmail ? '邮箱' : '手机号';
+    return this.state.isEmail ? intl.get('邮箱') : intl.get('手机号');
   }
 
   clearInput() {
@@ -107,12 +108,12 @@ class Register extends React.Component {
     const v = firstInput.value;
     const typeStr = this.typeStr();
     if (isEmpty(v)) {
-      this.refs.firstInputTip.postErr(`${typeStr}不能为空`);
+      this.refs.firstInputTip.postErr(`${typeStr + intl.get('不能为空')}`);
       focus(firstInput);
       return false;
     }
     if ((isEmail && !isValidEmail(v)) || (!isEmail && !isPhoneNumber(v))) {
-      this.refs.firstInputTip.postErr(`${typeStr}格式不对`);
+      this.refs.firstInputTip.postErr(`${typeStr + intl.get('格式不对')}`);
       focus(firstInput);
       return false;
     }
@@ -122,7 +123,7 @@ class Register extends React.Component {
   check() {
     if (!this.isValidFirstInput()) return false;
     if (!this.props.user.isValidated) {
-      this.getVerifyCodeInstance().postErr('请获取校验码并输入');
+      this.getVerifyCodeInstance().postErr(intl.get('请获取校验码并输入'));
       return false;
     }
     if (!this.getVerifyCodeInstance().getValue()) return false;
@@ -138,17 +139,17 @@ class Register extends React.Component {
         <Tooltip className="mb-input" ref="firstInputTip">
           <input
             type="text" autoFocus ref="firstInput"
-            placeholder={isEmail ? '邮箱' : '手机号码（仅支持中国大陆）'}
+            placeholder={isEmail ? intl.get('邮箱') : intl.get('手机号码（仅支持中国大陆）')}
             maxLength={isEmail ? '100' : '11'}
             onChange={this.clearTip('firstInputTip')}
           />
         </Tooltip>
         <VerifyCode ref="verifyCode" onGetCode={this.getCode} isEmail={isEmail} />
-        <PasswordInput placeholder="密码" ref="password" className="mb-input" />
-        <button className="btn btn-large">立即注册</button>
+        <PasswordInput placeholder={intl.get('密码')} ref="password" className="mb-input" />
+        <button className="btn btn-large">{intl.get('立即注册')}</button>
         <div className="tar extra-info">
           <a className="link" href="javascript:;" onClick={this.toggleType} >
-            {isEmail ? '使用手机注册' : '使用邮箱注册'}
+            {isEmail ? intl.get('使用手机注册') : intl.get('使用邮箱注册')}
           </a>
         </div>
         <SocialLogin {...this.props} />

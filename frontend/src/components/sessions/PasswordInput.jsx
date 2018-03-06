@@ -3,6 +3,7 @@ import Tooltip from '../share/Tooltip';
 
 import { isEmpty, isValidPassword } from '../../share/validator';
 import { focus } from '../../share/utils';
+import intl from 'react-intl-universal';
 
 class PasswordInput extends React.Component {
   constructor() {
@@ -21,12 +22,12 @@ class PasswordInput extends React.Component {
       const v = this.refs.input.value;
       const { tip, input } = this.refs;
       if (isEmpty(v)) {
-        tip.postErr('请填写密码');
+        tip.postErr(intl.get('请填写密码'));
         focus(input);
         return false;
       }
       if (!isValidPassword(v)) {
-        tip.postErr('密码必须在 6-32 位');
+        tip.postErr(intl.get('密码必须在 6-32 位'));
         focus(input);
         return false;
       }

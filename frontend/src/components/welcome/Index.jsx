@@ -12,6 +12,7 @@ import { showSuccessMessage } from '../../actions';
 import { updateUser } from '../../share/server';
 import { showXHRError } from '../../share/utils';
 import { isValidNickname, isEmpty } from '../../share/validator';
+import intl from 'react-intl-universal';
 
 class Welcome extends React.Component {
   constructor() {
@@ -24,12 +25,12 @@ class Welcome extends React.Component {
 
       const { nickname } = this.refs;
       if (isEmpty(nickname.value)) {
-        this.refs.nicknameTip.postErr('昵称不能为空');
+        this.refs.nicknameTip.postErr(intl.get('昵称不能为空'));
         return;
       }
 
       if (!isValidNickname(nickname.value)) {
-        this.refs.nicknameTip.postErr('昵称必须在 2-20 个字符喔');
+        this.refs.nicknameTip.postErr(intl.get('昵称必须在 2-20 个字符喔'));
         return;
       }
 
@@ -38,7 +39,7 @@ class Welcome extends React.Component {
           nickname: nickname.value,
         },
       }).done(() => {
-        this.props.dispatch(showSuccessMessage('更新成功, 自动跳转中...'));
+        this.props.dispatch(showSuccessMessage(intl.get('更新成功, 自动跳转中...')));
         setTimeout(() => {
           window.location.href = this.props.data.callback_url;
         }, 3000);
@@ -55,24 +56,20 @@ class Welcome extends React.Component {
           <form className="w100p" onSubmit={this.submit}>
             <div className="success-tip">
               <i className="iconfont icon-success"></i>
-              <span className="tip-text">
-                恭喜你成功注册极客公园帐号！
-              </span>
+              <span className="tip-text">{intl.get('恭喜你成功注册极客公园帐号！')}</span>
             </div>
-            <div className="welcome-desc">
-              快来为你的帐号起个响亮的名字，配个帅气的头像吧！
-            </div>
+            <div className="welcome-desc">{intl.get('快来为你的帐号起个响亮的名字，配个帅气的头像吧！')}</div>
             <div className="user-info">
               <div className="avatar-wrapper">
                 <Avatar editable />
               </div>
               <div className="info-wrapper">
                 <Tooltip ref="nicknameTip" className="mb-input">
-                  <input type="text" placeholder="请输入你的昵称" onChange={this.clearTip} ref="nickname" />
+                  <input type="text" placeholder={intl.get('请输入你的昵称')} onChange={this.clearTip} ref="nickname" />
                 </Tooltip>
-                <button className="btn btn-large">提交</button>
+                <button className="btn btn-large">{intl.get('提交')}</button>
                 <div className="tar go-setting">
-                  <a href={callback_url}>跳过，稍后去帐号中心设置</a>
+                  <a href={callback_url}>{intl.get('跳过，稍后去帐号中心设置')}</a>
                 </div>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 import { changeAvatar } from '../../actions';
 import { tryKey } from '../../share/utils';
+import intl from 'react-intl-universal';
 
 const PRESET = presets.wobbly;
 const BLUR = '?imageMogr2/blur/50x8';
@@ -73,8 +74,8 @@ class Header extends React.Component {
         {
           this.hideSwitch() ? null :
             <div className="form-wrapper switch-button">
-              <Link to="login" onClick={this.resetAvatar} activeClassName="active">登录</Link>
-              <Link to="signup" onClick={this.resetAvatar} activeClassName="active">注册</Link>
+              <Link to="login" onClick={this.resetAvatar} activeClassName="active">{intl.get('登录')}</Link>
+              <Link to="signup" onClick={this.resetAvatar} activeClassName="active">{intl.get('注册')}</Link>
             </div>
         }
       </div>

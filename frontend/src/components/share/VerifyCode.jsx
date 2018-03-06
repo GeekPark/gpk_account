@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Tooltip from './Tooltip';
 
 import { isEmpty, isValidVerifyCode } from '../../share/validator';
+import intl from 'react-intl-universal';
 
 // NOTE: this component wrap by redux connect
 // You should get ref by below code (eg: <VerifyCode ref="verifyCode">)
@@ -22,7 +23,7 @@ class VerifyCode extends React.Component {
         return false;
       }
       if (!isValidVerifyCode(v)) {
-        tip.postErr('校验码必须为6位数数字');
+        tip.postErr(intl.get('校验码必须为6位数数字'));
         return false;
       }
       return v;
@@ -39,16 +40,16 @@ class VerifyCode extends React.Component {
   }
 
   typeStr() {
-    return this.props.isEmail ? '邮箱' : '手机号';
+    return this.props.isEmail ? intl.get('邮箱') : intl.get('手机号');
   }
 
   render() {
-    let verifyButtonText = '获取校验码';
+    let verifyButtonText = intl.get('获取校验码');
     const { verify_code } = this.props;
-    if (this.isPending()) verifyButtonText = `重新发送(${verify_code.countdown}s)`;
-    else if (!verify_code.isFirst) verifyButtonText = '重新发送';
+    if (this.isPending()) verifyButtonText = `${intl.get('重新发送')}(${verify_code.countdown}s)`;
+    else if (!verify_code.isFirst) verifyButtonText = intl.get('重新发送');
 
-    const placeholder = this.props.isEmail ? '邮箱校验码' : '手机校验码';
+    const placeholder = this.props.isEmail ? intl.get('邮箱校验码') : intl.get('手机校验码');
 
     return (
       <Tooltip className="form-group mb-input" ref="tip">

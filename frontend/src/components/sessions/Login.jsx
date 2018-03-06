@@ -10,6 +10,7 @@ import Tooltip from '../share/Tooltip';
 
 import { changeAvatar } from '../../actions';
 import { notExist } from '../../share/server';
+import intl from 'react-intl-universal';
 
 class Login extends React.Component {
   constructor() {
@@ -20,7 +21,7 @@ class Login extends React.Component {
         e.preventDefault();
         return;
       }
-      this.refs.loginBtn.innerText = '登录中...';
+      this.refs.loginBtn.innerText = intl.get('登录中') + '...';
     };
 
     this.clearTip = tipName => () => this.refs[tipName].clear();
@@ -37,7 +38,7 @@ class Login extends React.Component {
       }
       notExist(v)
         .then(() => {
-          this.refs.loginNameTip.postErr('用户不存在');
+          this.refs.loginNameTip.postErr(intl.get('用户不存在'));
           this.props.dispatch(changeAvatar(null));
         })
         .catch(d => {
@@ -48,18 +49,18 @@ class Login extends React.Component {
 
   componentWillMount() {
     this.props.dispatch(changeAvatar(null));
-    changeTitle('登录');
+    changeTitle(intl.get('登录'));
   }
 
   checkID() {
     const { loginName, loginNameTip } = this.refs;
     const v = loginName.value;
     if (isEmpty(v)) {
-      loginNameTip.postErr('用户名不能为空');
+      loginNameTip.postErr(intl.get('用户名不能为空'));
       return false;
     }
     if (!isValidID(v)) {
-      loginNameTip.postErr('用户名必须为邮箱或手机号');
+      loginNameTip.postErr(intl.get('用户名必须为邮箱或手机号'));
       return false;
     }
     return v;
@@ -69,11 +70,11 @@ class Login extends React.Component {
     const { password, passwordTip } = this.refs;
     const v = password.value;
     if (isEmpty(v)) {
-      passwordTip.postErr('密码不能为空');
+      passwordTip.postErr(intl.get('密码不能为空'));
       return false;
     }
     if (!isValidPassword(v)) {
-      passwordTip.postErr('密码格式不对');
+      passwordTip.postErr(intl.get('密码格式不对'));
       return false;
     }
     return v;
@@ -85,21 +86,21 @@ class Login extends React.Component {
         <input type="hidden" className="hidden" name="authenticity_token" value={getCSRFToken()} />
         <Tooltip className="mb-input" ref="loginNameTip">
           <input
-            type="text" name="login_name" placeholder="手机号码/邮箱"
+            type="text" name="login_name" placeholder={intl.get('手机号码/邮箱')}
             autoFocus ref="loginName" onChange={this.clearTip('loginNameTip')} onBlur={this.onIDBlur}
             defaultValue={this.props.server.login_name}
           />
         </Tooltip>
         <Tooltip className="mb-input" ref="passwordTip">
-          <input type="password" placeholder="密码" ref="password" name="password" onChange={this.clearTip('passwordTip')} />
+          <input type="password" placeholder={intl.get('密码')} ref="password" name="password" onChange={this.clearTip('passwordTip')} />
         </Tooltip>
-        <button className="btn btn-large" onClick={this.submit} ref="loginBtn">立即登录</button>
+        <button className="btn btn-large" onClick={this.submit} ref="loginBtn">{intl.get('立即登录')}</button>
         <div className="space-between extra-info">
           <div className="rember-me">
             <input type="checkbox" id="rember-me-check" name="remember_me" />
-            <label htmlFor="rember-me-check" className="cursor-pointer">记住我</label>
+            <label htmlFor="rember-me-check" className="cursor-pointer">{intl.get('记住我')}</label>
           </div>
-          <Link className="link" to="reset_password">忘记密码？</Link>
+          <Link className="link" to="reset_password">{intl.get('忘记密码？')}</Link>
         </div>
         <SocialLogin {...this.props} />
       </form>

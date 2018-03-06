@@ -3,6 +3,7 @@ import clickAtOutside from 'click-at-outside';
 import { isMobileView } from 'mdetect';
 
 import Avatar from './Avatar';
+import intl from 'react-intl-universal';
 
 const IS_MOBILE = isMobileView();
 
@@ -27,13 +28,13 @@ class Header extends React.Component {
         <div className="logo-container">
           <a href="http://www.geekpark.net" className="dib-middle logo hover-link"></a>
           <div className="dib-middle split"></div>
-          <a href="/" className="dib-middle account-home hover-link">帐号中心</a>
+          <a href="/" className="dib-middle account-home hover-link">{intl.get('帐号中心')}</a>
         </div>
         <div className="dropdown-side" onClick={this.dropmenu} id="dropmenu">
           <Avatar size={35} />
           <div className="dropdown">
-            <a href="/">帐号中心</a>
-            <a href="/logout" data-method="delete">退出登录</a>
+            <a href="/">{intl.get('帐号中心')}</a>
+            <a href="/logout" data-method="delete">{intl.get('退出登录')}</a>
           </div>
         </div>
       </div>

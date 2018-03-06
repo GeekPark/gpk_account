@@ -4,6 +4,7 @@ import Captcha from '../share/Captcha';
 
 import { sendVerify } from '../../share/server';
 import { parseErr } from '../../share/utils';
+import intl from 'react-intl-universal';
 
 class ValidatorIMG extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class ValidatorIMG extends React.Component {
           this.props.onClose();
           this.props.sendVerifyCode();
           this.props.validateUser();
-          this.props.showMessage({ type: 'success', msg: '验证码发送成功' });
+          this.props.showMessage({ type: 'success', msg: intl.get('验证码发送成功') });
         })
         .fail(xhr => {
           const errStr = parseErr(xhr.responseText);
@@ -39,12 +40,12 @@ class ValidatorIMG extends React.Component {
     return (
       <div>
         <div className="modal-title">
-          请输入下面的图形验证码
+          {intl.get('请输入下面的图形验证码')}
         </div>
         <i className="iconfont icon-close modal-close" onClick={this.props.onClose}></i>
         <form ref="form">
           <Captcha className="mb-input" ref="captcha" />
-          <button className="btn btn-large">提交</button>
+          <button className="btn btn-large">{intl.get('提交')}</button>
         </form>
       </div>
     );
